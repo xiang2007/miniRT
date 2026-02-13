@@ -18,7 +18,7 @@ typedef struct	s_tuple
 	t_d	x;
 	t_d	y;
 	t_d	z;
-	int	flag;
+	t_d	w;
 }				t_tuple;
 
 #endif
