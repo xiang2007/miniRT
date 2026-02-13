@@ -6,13 +6,13 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/02/13 18:25:25 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/02/14 00:36:14 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g -I./includes
-LIB = -Lmlx_Linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm
+LIB = -Lmlx_Linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -Llibft -lft
 RM = rm -rf
 
 MAINDIR = src
@@ -27,7 +27,11 @@ MLXDIR = src/mlx
 MLXFILE = mlx_init.c
 MLX = $(addprefix $(MLXDIR)/,$(MLXFILE))
 
-SRC = $(MAIN) $(MATH) $(MLX)
+MATRIXDIR= src/matrix
+MATRIXFILE = matrix.c matrix_utils.c
+MTX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
+
+SRC = $(MAIN) $(MATH) $(MLX) $(MTX)
 
 OBJDIR = obj
 OBJS = $(SRC:%.c=$(OBJDIR)/%.o)

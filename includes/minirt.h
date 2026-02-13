@@ -29,6 +29,13 @@ typedef struct	s_color
 	t_d	blue;
 }				t_color;
 
+typedef struct s_matrix
+{
+	int	**matrix;
+	int	col;
+	int	row;
+}				t_matrix;
+
 typedef struct	s_mlx
 {
 	void	*img;
@@ -61,5 +68,11 @@ void	init_mlx(t_mlx *m);
 void	mlx_put_pixel(t_mlx *m, int x, int y, int color);
 void	mlx_put_to_window(t_mlx *m);
 int		close_all(t_mlx *data);
+
+//Matrix function
+int			matrix_len(int **matrix);
+int			compare_matrix(t_matrix *m1, t_matrix *m2);
+t_matrix	*create_matrix(int row, int col);
+void		free_matrix(t_matrix *m);
 
 #endif
