@@ -57,7 +57,7 @@ t_d		dot_product(t_tuple *t1, t_tuple *t2);
 t_tuple	*cross(t_tuple *t1, t_tuple *t2);
 
 //Mlx functions
-t_mlx	init_mlx(t_mlx *ml);
+void	init_mlx(t_mlx *m);
 void	mlx_put_pixel(t_mlx *m, int x, int y, int color);
 void	mlx_put_to_window(t_mlx *m);
 int		close_all(t_mlx *data);
