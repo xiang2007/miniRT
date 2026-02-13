@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 23:45:47 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/13 06:44:41 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:51:08 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_tuple	*create_vector(t_d x, t_d y, t_d z)
 		return (NULL);
 	tuple->x = x;
 	tuple->y = y;
-	tuple->z = x;
-	tuple->flag = 0;
+	tuple->z = z;
+	tuple->w = 0;
 	return (tuple);
 }
 
@@ -35,7 +35,7 @@ t_tuple	*create_point(t_d x, t_d y, t_d z)
 		return (NULL);
 	tuple->x = x;
 	tuple->y = y;
-	tuple->z = x;
-	tuple->flag = 1;
+	tuple->z = z;
+	tuple->w = 1;
 	return (tuple);
 }
