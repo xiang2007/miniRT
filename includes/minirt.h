@@ -31,7 +31,7 @@ typedef struct	s_color
 
 typedef struct s_matrix
 {
-	int	**matrix;
+	t_d	**matrix;
 	int	col;
 	int	row;
 }				t_matrix;
@@ -70,9 +70,25 @@ void	mlx_put_to_window(t_mlx *m);
 int		close_all(t_mlx *data);
 
 //Matrix function
-int			matrix_len(int **matrix);
+t_matrix	*mult_matrix(t_matrix *m1, t_matrix *m2);
 int			compare_matrix(t_matrix *m1, t_matrix *m2);
 t_matrix	*create_matrix(int row, int col);
 void		free_matrix(t_matrix *m);
+void		identity_matrix(t_matrix **m);
+void		print_mat(t_matrix *m);
+t_matrix	*transpose_matrix(t_matrix *m1);
+int			determinant(t_matrix *m);
+t_matrix	*sub_matrix(t_matrix *m, int row, int col);
+t_matrix	*dup_matrix(t_matrix *m);
+int			minor_matrix(t_matrix *m, int row, int col);
+void		negate(t_matrix *m);
+int			cofactor(t_matrix *m1, int row, int col);
+t_matrix	*inverse_matrix(t_matrix *m);
+void		set_identity_matrix(t_matrix *identity);
+t_matrix	*mult_matrix_w_tuple(t_matrix *m1, t_tuple *t);
+t_matrix	*mult_translate_matrix(t_tuple *point, int x, int y, int z);
+t_matrix	*dynamic_mult_matrix(t_matrix *m1, t_matrix *m2);
+t_matrix	*tuple_to_matrix(t_tuple *t);
+t_matrix	*mult_inv_translate_matrix(t_tuple *point, int x, int y, int z);
 
 #endif

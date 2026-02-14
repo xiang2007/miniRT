@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/02/14 00:36:14 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/02/15 00:41:06 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ MLXFILE = mlx_init.c
 MLX = $(addprefix $(MLXDIR)/,$(MLXFILE))
 
 MATRIXDIR= src/matrix
-MATRIXFILE = matrix.c matrix_utils.c
+MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c sub_matrix.c cofactor.c inverse.c translation.c multiplication.c
 MTX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
 
 SRC = $(MAIN) $(MATH) $(MLX) $(MTX)

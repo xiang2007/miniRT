@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 23:28:11 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/14 00:39:42 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/14 12:56:16 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ t_matrix *create_matrix(int row, int col)
 	if (row < 0 || col < 0)
 		return (NULL);
 	t = malloc(sizeof(t_matrix));
-	t->matrix = ft_calloc(row + 1, sizeof(int *));
+	t->matrix = ft_calloc(row + 1, sizeof(t_d *));
 	if (!t->matrix)
 		return (NULL);
 	i = 0;
 	while (i < row)
 	{
-		t->matrix[i] = ft_calloc(col, sizeof(int));
+		t->matrix[i] = ft_calloc(col, sizeof(t_d));
 		i++;
 	}
 	t->matrix[row] = NULL;
