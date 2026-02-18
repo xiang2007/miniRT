@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/02/15 00:41:06 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/02/16 08:32:00 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,18 +20,25 @@ MAINFILE = main.c
 MAIN = $(addprefix $(MAINDIR)/,$(MAINFILE))
 
 MATHDIR = src/math
-MATHFILE = tuple_math.c tuple_math2.c tuple.c
+MATHFILE = tuple_math.c tuple_math2.c tuple.c tuple_math3.c
 MATH = $(addprefix $(MATHDIR)/,$(MATHFILE))
 
 MLXDIR = src/mlx
 MLXFILE = mlx_init.c
 MLX = $(addprefix $(MLXDIR)/,$(MLXFILE))
 
+RAYDIR = src/ray
+RAYFILE = ray.c
+RAY = $(addprefix $(RAYDIR)/,$(RAYFILE))
+
 MATRIXDIR= src/matrix
-MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c sub_matrix.c cofactor.c inverse.c translation.c multiplication.c
+MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c sub_matrix.c cofactor.c \
+				inverse.c translation.c multiplication.c scaling.c rotation.c \
+				rotation2.c
+				
 MTX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
 
-SRC = $(MAIN) $(MATH) $(MLX) $(MTX)
+SRC = $(MAIN) $(MATH) $(MLX) $(MTX) $(RAY)
 
 OBJDIR = obj
 OBJS = $(SRC:%.c=$(OBJDIR)/%.o)

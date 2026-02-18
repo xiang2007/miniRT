@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 23:52:27 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/15 00:56:25 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/15 23:19:30 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,20 @@ t_matrix	*mult_matrix(t_matrix *m1, t_matrix *m2)
 
 void	print_mat(t_matrix *m)
 {
+	int	i;
+	int	j;
+	
 	printf("\n");
-	for (int i = 0; i < m->row; i++) {
-		for (int j = 0; j < m->col; j++)
+	i = 0;
+	while (i < m->row)
+	{
+		j = 0;
+		while (j < m->col)
+		{
 			printf("%4f ", m->matrix[i][j]);
+			j++;
+		}
 		printf("\n");
-	}
+		i++;
+	}	
 }

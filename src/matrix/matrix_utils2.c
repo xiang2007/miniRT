@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:56:03 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/15 00:51:00 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/15 09:36:36 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	minor_matrix(t_matrix *m, int row, int col)
 	return (d);
 }
 
-t_matrix	*tuple_to_matrix(t_tuple *t)
+t_matrix	*point_to_matrix(t_tuple *t)
 {
 	t_matrix	*m;
 

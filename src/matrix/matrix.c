@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 23:28:11 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/14 12:56:16 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/15 09:38:20 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,20 @@ int	compare_matrix(t_matrix *m1, t_matrix *m2)
 		i++;
 	}
 	return (1);
+}
+
+t_matrix	*vector_to_matrix(t_tuple *t)
+{
+	t_matrix	*m;
+
+	if (!t)
+		return (NULL);
+	m = create_matrix(4, 1);
+	if (!m)
+		return (NULL);
+	m->matrix[0][0] = t->x;
+	m->matrix[1][0] = t->y;
+	m->matrix[2][0] = t->z;
+	m->matrix[3][0] = t->w;
+	return (m);
 }

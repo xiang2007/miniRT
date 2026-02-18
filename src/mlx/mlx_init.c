@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:38:20 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/13 22:05:08 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:56:46 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	mlx_put_pixel(t_mlx *m, int x, int y, int color)
 	*(unsigned int*)dest = color;
 }
 
-void	mlx_put_to_window(t_mlx *m)
+void	 mlx_put_to_window(t_mlx *m)
 {
 	t_mlx	temp;
 

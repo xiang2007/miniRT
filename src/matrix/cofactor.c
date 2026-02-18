@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 21:00:50 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/15 01:05:17 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/15 09:13:44 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ int	cofactor(t_matrix *m1, int row, int col)
 	if ((row + col) % 2 == 0)
 		n = 1;
 	else
-		n = 0;
+		n = -1;
 	return (n * minor);
 }

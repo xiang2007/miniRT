@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 22:31:12 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/15 00:57:34 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/15 09:40:30 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_matrix	*mult_translate_matrix(t_tuple *point, int x, int y, int z)
 	t_matrix	*tuple;
 
 	m = translation(x, y, z);
-	tuple = tuple_to_matrix(point);
+	tuple = point_to_matrix(point);
 	m2 = dynamic_mult_matrix(m, tuple);
 	if (!m2)
 	{
@@ -55,8 +55,7 @@ t_matrix	*mult_inv_translate_matrix(t_tuple *point, int x, int y, int z)
 
 	m = translation(x, y, z);
 	inv = inverse_matrix(m);
-	print_mat(inv);
-	tuple = tuple_to_matrix(point);
+	tuple = point_to_matrix(point);
 	m2 = dynamic_mult_matrix(inv, tuple);
 	if (!m2)
 	{
@@ -69,4 +68,26 @@ t_matrix	*mult_inv_translate_matrix(t_tuple *point, int x, int y, int z)
 	free_matrix(inv);
 	free_matrix(tuple);
 	return(m2);
+}
+
+t_matrix	*mult_translation_vector(t_tuple *v, int x, int y, int z)
+{
+	t_matrix	*m;
+	t_matrix	*m2;
+	t_matrix	*res;
+
+	if (!v)
+		return (NULL);
+	m = translation(x, y, z);
+	m2 = vector_to_matrix(v);
+	res = dynamic_mult_matrix(m, m2);
+	if (!res)
+	{
+		free_matrix(m2);
+		free_matrix(m);
+		return (NULL);
+	}
+	free_matrix(m2);
+	free_matrix(m);
+	return (res);
 }
