@@ -54,51 +54,53 @@ typedef struct	s_ray
 
 typedef struct s_cylinder
 {
-	t_d			x;
-	t_d			y;
-	t_d			z;
-	t_d			dia;
-	t_d			height;
-	t_color		*c;
-	t_tuple		*norm;
-	t_cylinder	*next;
+	t_d					x;
+	t_d					y;
+	t_d					z;
+	t_d					dia;
+	t_d					height;
+	t_color				*c;
+	t_tuple				*norm;
+	t_matrix			*transform;
+	struct s_cylinder	*next;
 }				t_cylinder;
 
 typedef struct	s_plane
 {
-	t_d			x;
-	t_d			y;
-	t_d			z;
-	t_color		*c;
-	t_tuple		*norm;
-	t_plane		*next;
+	t_d					x;
+	t_d					y;
+	t_d					z;
+	t_color				*c;
+	t_tuple				*norm;
+	t_matrix			*transform;
+	struct s_plane		*next;
 }				t_plane;
 
 typedef struct	s_light
 {
-	t_d			x;
-	t_d			y;
-	t_d			z;
-	int			fov;
-	t_matrix	*norm;
-	t_light		*next;
+	t_d					x;
+	t_d					y;
+	t_d					z;
+	int					fov;
+	t_matrix			*norm;
+	t_matrix			*transform;
+	struct s_light		*next;
 }				t_light;
 
 typedef struct	s_sp
 {
-	t_d			x;
-	t_d			y;
-	t_d			z;
 	t_d			diameter;
+	t_tuple		*origin;
 	t_color		*c;
-	t_sp		*next;
+	t_matrix	*transform;
+	struct s_sp	*next;
 }				t_sp;
 
 typedef struct	s_al
 {
 	t_d		ratio;
 	t_color	*c;
-	t_al	*next;
+	struct s_al	*next;
 }				t_al;
 
 typedef struct	s_cam
@@ -108,6 +110,7 @@ typedef struct	s_cam
 	t_d			y;
 	t_d			z;
 	t_tuple		*norm;
+	t_matrix	*transform;
 }				t_cam;
 
 typedef struct	s_obj
@@ -121,6 +124,13 @@ typedef struct	s_obj
 	t_object	type;
 
 }				t_obj;
+
+typedef struct	s_intersect
+{
+	t_d					t;
+	t_sp				*object;
+	struct s_intersect	*next;
+}				t_intersect;
 
 typedef struct	s_mlx
 {
@@ -150,6 +160,7 @@ t_d		dot_product(t_tuple *t1, t_tuple *t2);
 t_tuple	*cross(t_tuple *t1, t_tuple *t2);
 t_tuple	*mult_2_tuple(t_tuple *t1, t_tuple *t2);
 void	print_tuple(t_tuple *t);
+t_tuple	*sub_free_s2(t_tuple *t1, t_tuple *t2);
 
 //Mlx functions
 void	init_mlx(t_mlx *m);
@@ -174,6 +185,9 @@ int			cofactor(t_matrix *m1, int row, int col);
 t_matrix	*inverse_matrix(t_matrix *m);
 void		set_identity_matrix(t_matrix *identity);
 t_matrix	*mult_matrix_w_tuple(t_matrix *m1, t_tuple *t);
+t_matrix	*mult_free_s2(t_matrix *s1, t_matrix *s2);
+t_matrix	*inv_and_free(t_matrix *m);
+t_matrix	*dy_mult_free_s2(t_matrix *s1, t_matrix *s2);
 
 // Matrix Translation
 t_matrix	*mult_translate_matrix(t_tuple *point, int x, int y, int z);
@@ -198,8 +212,39 @@ t_tuple		*rot_y(t_tuple *p, t_d radian);
 t_tuple		*rot_z(t_tuple *p, t_d radian);
 
 // Ray
-t_tuple	*postition(t_ray *ray, t_d t);
-t_ray	*create_ray(t_tuple *origin_point, t_tuple *direction_vector);
-void	free_ray(t_ray *r);
+t_tuple		*postition(t_ray *ray, t_d t);
+t_ray		*create_ray(t_tuple *origin_point, t_tuple *direction_vector);
+void		free_ray(t_ray *r);
+t_intersect	*intersect(t_sp *s, t_ray *ray);
+t_intersect	*hit(t_intersect *it);
+t_intersect	*intersection(t_d t, t_sp *s);
+void		add_intersect(t_intersect *src, t_intersect **dest);
+void		print_ray(t_ray *r);
+void		print_intersect(t_intersect *t);
+
+
+// Objects
+t_sp	*create_sphere(t_tuple *origin, t_d diameter);
+void		set_sphere_color(t_sp *sphere, t_color *color);
+t_plane		*create_plane(t_d x, t_d y, t_d z, t_color *c);
+void		add_plane_next(t_plane *src, t_plane **dest);
+t_obj		*create_object(void);
+t_cylinder	*create_cylinder(t_d x, t_d y, t_d z);
+void		set_cylinder_argument(t_cylinder *cy, t_d diameter, t_d height, t_color *c);
+t_cam		*create_camera(int fov, t_d x, t_d y, t_d z);
+t_al		*create_ambient_lightning(t_d ratio, t_color *color);
+void		add_ambient_lightning(t_al *src, t_al  **dest);
+void		add_cylinder_next(t_cylinder *src, t_cylinder **dest);
+void		add_sphere_back(t_sp *src, t_sp **dest);
+void		print_sphere(t_sp *s);
+
+// Transformation
+t_ray	*transform_ray(t_ray *r, t_matrix *m);
+t_ray	*scale_ray(t_ray *r, t_d x, t_d y, t_d z);
+t_sp	*sphere_transform(t_sp *s, t_d x, t_d y, t_d z);
+
+// Tuple conversion
+t_tuple	*matrix_to_point(t_matrix *m);
+t_tuple	*matrix_to_vector(t_matrix *m);
 
 #endif

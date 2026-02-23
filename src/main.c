@@ -6,11 +6,61 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:50:02 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/16 08:56:22 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/23 11:37:02 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+// t_d	intersect(t_ray *ray, t_sp *sphere)
+// {
+// 	t_d	a;
+// 	t_d	b;
+// 	t_d	c;
+// 	t_d	d;
+// 	t_tuple	*str;
+
+// 	(void)sphere;
+// 	str = subtract_tuple(ray->origin, create_point(0, 0, 0));
+// 	a = dot_product(ray->direction, ray->direction);
+// 	b = 2 * (dot_product(ray->direction, str));
+// 	c = dot_product(str, str) - 1;
+// 	d = (sq(b)) - (4 * (a * c));
+// 	if (d < 0)
+// 		return (0);
+// 	return (2);
+// }
+
+void	test_ray_transform()
+{
+	t_ray	*r;
+	t_sp	*sp;
+	t_intersect	*t;
+
+	r = create_ray(create_point(0, 0, -5), create_vector(0, 0, 1));
+	sp = sphere_transform(create_sphere(0, 0, 0, 1), 5, 0, 0);
+	t = intersect(sp , r);
+	print_intersect(t);
+	free_ray(r);
+	free(sp);
+	free(t);
+}
+
+void	*test_intersect()
+{
+	t_sp	*sphere;
+	t_intersect	*i1;
+	t_intersect	*i2;
+	t_intersect	*temp;
+
+	sphere = create_sphere(0, 0, 0, 1);
+	i1 = intersection(-1, sphere);
+	i2 = intersection(1, sphere);
+	add_intersect(i2, &i1);
+	temp = hit(i1);
+	printf("i1: %f i2: %f temp: %f\n", i1->t, i2->t, temp->t);
+	return (NULL);
+}
 
 void	test_ray()
 {
@@ -111,6 +161,7 @@ int	main(void)
 	// mlx_put_to_window(&m);
 	// mlx_hook(m.mlx_win, 17, 1L << 17, close_all, &m);
 	// mlx_loop(m.mlx);
-	test_ray();
+	// test_ray();
+	test_ray_transform();
 	return 0;
 }

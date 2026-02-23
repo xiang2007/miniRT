@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 00:27:33 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/15 00:46:29 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/20 12:36:44 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,53 @@ t_matrix	*dynamic_mult_matrix(t_matrix *m1, t_matrix *m2)
 		row++;
 	}
 	return (m);
+}
+
+t_matrix	*mult_matrix(t_matrix *m1, t_matrix *m2)
+{
+	t_matrix	*m;
+	int			row;
+	int			col;
+
+	if (!m1 || !m2)
+		return (NULL);
+	row = 0;
+	m = create_matrix(4, 4);
+	while (row < m->row)
+	{
+		col = 0;
+		while (col < m->col)
+		{
+			m->matrix[row][col]
+				= (m1->matrix[row][0] * m2->matrix[0][col]
+					+ m1->matrix[row][1] * m2->matrix[1][col]
+					+ m1->matrix[row][2] * m2->matrix[2][col]
+					+ m1->matrix[row][3] * m2->matrix[3][col]);
+			col++;
+		}
+		row++;
+	}
+	return (m);
+}
+
+t_matrix	*mult_free_s2(t_matrix *s1, t_matrix *s2)
+{
+	t_matrix	*res;
+
+	if (!s1 || !s2)
+		return (NULL);
+	res = mult_matrix(s1, s2);
+	free_matrix(s2);
+	return (res);
+}
+
+t_matrix	*dy_mult_free_s2(t_matrix *s1, t_matrix *s2)
+{
+	t_matrix	*res;
+
+	if (!s1 || !s2)
+		return (NULL);
+	res = dynamic_mult_matrix(s1, s2);
+	free(s2);
+	return (res);
 }

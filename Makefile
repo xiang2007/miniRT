@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/02/16 08:32:00 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/02/23 11:07:41 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,25 +28,28 @@ MLXFILE = mlx_init.c
 MLX = $(addprefix $(MLXDIR)/,$(MLXFILE))
 
 RAYDIR = src/ray
-RAYFILE = ray.c
+RAYFILE = ray.c intersect.c transform_ray.c transform_sphere.c
 RAY = $(addprefix $(RAYDIR)/,$(RAYFILE))
 
 MATRIXDIR= src/matrix
 MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c sub_matrix.c cofactor.c \
 				inverse.c translation.c multiplication.c scaling.c rotation.c \
 				rotation2.c
-				
 MTX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
 
-SRC = $(MAIN) $(MATH) $(MLX) $(MTX) $(RAY)
+OBJDIR = src/objects
+OBJFILE = ambient_lightning.c camera.c cylinder.c objects.c plane.c sphere.c
+OBJ = $(addprefix $(OBJDIR)/,$(OBJFILE))
 
-OBJDIR = obj
-OBJS = $(SRC:%.c=$(OBJDIR)/%.o)
+SRC = $(MAIN) $(MATH) $(MLX) $(MTX) $(RAY) $(OBJ)
+
+OBJSDIR = obj
+OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)
 NAME = miniRT
 
-$(OBJDIR)/%.o: %.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJSDIR)/%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C libft

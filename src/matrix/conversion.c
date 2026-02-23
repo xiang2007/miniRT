@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ambient_lightning.c                                :+:      :+:    :+:   */
+/*   conversion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/18 10:43:25 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/20 00:15:15 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/02/23 12:54:45 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/02/23 12:58:27 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_al	*create_ambient_lightning(t_d ratio, t_color *color)
+t_tuple	*matrix_to_point(t_matrix *m)
 {
-	t_al	*res;
+	t_tuple	*t;
 
-	res = malloc(sizeof(t_al));
-	if (!res)
+	if (!m)
 		return (NULL);
-	res->ratio = ratio;
-	res->c = color;
-	res->next = NULL;
-	return (NULL);
+	t = create_point(m->matrix[0][0], m->matrix[1][0], m->matrix[2][0]);
+	if (!t)
+		return (NULL);
+	return (t);
 }
 
-void	add_ambient_lightning(t_al *src, t_al **dest)
+t_tuple	*matrix_to_vector(t_matrix *m)
 {
-	if (!src || !dest)
-		return ;
-	(*dest)->next = src;
+	t_tuple	*t;
+
+	if (!m)
+		return (NULL);
+	t = create_vector(m->matrix[0][0], m->matrix[1][0], m->matrix[2][0]);
+	if (!t)
+		return (NULL);
+	return (t);
 }

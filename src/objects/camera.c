@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:47:04 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/18 10:52:34 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/23 12:08:29 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cam	*create_camera(int fov, t_d x, t_d y, t_d z)
 	res->z = z;
 	t = create_point(x, y, z);
 	res->norm = normalize(t);
+	identity_matrix(&res->transform);
 	free(t);
 	return (res);
 }

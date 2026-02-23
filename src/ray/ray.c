@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 08:32:02 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/16 22:58:11 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/23 10:50:10 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_ray(t_ray *r)
 		return ;
 	free(r->direction);
 	free(r->origin);
+	free(r);
 }
 
 t_ray	*create_ray(t_tuple *origin_point, t_tuple *direction_vector)
@@ -29,7 +30,7 @@ t_ray	*create_ray(t_tuple *origin_point, t_tuple *direction_vector)
 		return (NULL);
 	res->origin = create_point(origin_point->x, origin_point->y,
 								origin_point->z);
-	res->direction = create_vector(direction_vector->x, direction_vector->z,
+	res->direction = create_vector(direction_vector->x, direction_vector->y,
 									direction_vector->z);
 	return (res);
 }
@@ -45,3 +46,12 @@ t_tuple	*postition(t_ray *ray, t_d t)
 	return (res);
 }
 
+void	print_ray(t_ray *r)
+{
+	if (!r)
+		return ;
+	printf("Origin: \n");
+	print_tuple(r->origin);
+	printf("Direction: \n");
+	print_tuple(r->direction);
+}

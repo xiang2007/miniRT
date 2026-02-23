@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 23:06:14 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/16 08:47:26 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/22 23:20:36 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,13 @@ void	print_tuple(t_tuple *t)
 	printf("%4f\n", t->x);
 	printf("%4f\n", t->y);
 	printf("%4f\n\n", t->z);
+}
+
+t_tuple	*sub_free_s2(t_tuple *t1, t_tuple *t2)
+{
+	t_tuple	*temp;
+
+	temp = subtract_tuple(t1, t2);
+	free(t2);
+	return (temp);
 }

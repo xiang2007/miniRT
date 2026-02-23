@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:59:56 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/18 11:04:24 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/23 12:07:23 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ t_plane	*create_plane(t_d x, t_d y, t_d z, t_color *c)
 	t = create_point(x, y, z);
 	plane->norm = normalize(t);
 	free(t);
+	plane->c = c;
+	identity_matrix(&plane->transform);
 	plane->next = NULL;
 	return (plane);
 }
 
-void	add_plane_next(t_plane *src, t_plane *dest)
+void	add_plane_next(t_plane *src, t_plane **dest)
 {
 	if (!src || !dest)
 		return ;
-	dest->next = src;
+	(*dest)->next = src;
 }

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 21:55:01 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/15 00:59:53 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/20 12:33:20 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,15 @@ t_matrix	*inverse_matrix(t_matrix *m)
 		i++;
 	}
 	return (t);
+}
+
+t_matrix	*inv_and_free(t_matrix *m)
+{
+	t_matrix	*res;
+
+	if (!m)
+		return (NULL);
+	res = inverse_matrix(m);
+	free(m);
+	return (res);
 }
