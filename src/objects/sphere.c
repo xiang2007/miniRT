@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:41:46 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/23 11:57:41 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:11:49 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_sp	*create_sphere(t_tuple *origin, t_d diameter)
 	ft_memset(sphere, 0, sizeof(t_sp));
 	sphere->origin = origin;
 	sphere->diameter = diameter;
-	identity_matrix(&sphere->transform);
+	sphere->transform = create_transformation_matrix();
 	sphere->c = NULL;
 	sphere->next = NULL;
 	return (sphere);
@@ -43,5 +43,6 @@ void	add_sphere_back(t_sp *src, t_sp **dest)
 
 void	print_sphere(t_sp *s)
 {
-	printf("x: %f y: %f z: %f d: %f\n", s->x, s->y, s->z, s->diameter);
+	printf("x: %f y: %f z: %f d: %f\n", s->origin->x, s->origin->y,
+			s->origin->z, s->diameter);
 }

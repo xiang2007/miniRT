@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 21:55:01 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/20 12:33:20 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:22:55 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_invertible(t_matrix *m)
 {
-	int	n;
+	t_d	n;
 
 	if (!m)
 		return (0);
@@ -56,6 +56,6 @@ t_matrix	*inv_and_free(t_matrix *m)
 	if (!m)
 		return (NULL);
 	res = inverse_matrix(m);
-	free(m);
+	free_matrix(m);
 	return (res);
 }

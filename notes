@@ -1,0 +1,55 @@
+1. Cast ray to scene, and find where it land on
+2. Cast a ray from that point towards each light source to determine which light illuminates that point
+3. If the surface is reflective, cast a new ray in that direction to detemine what color is reflected there
+
+tuple
+w = 1 is a point
+w = 0 is a vector
+
+point - point = vector
+vector - point = point
+vector - vector = vector
+
+subtracting is determined by w value
+
+negating tuple is used if wanted to know the opposite of some vector
+
+multiplication and division
+-> To see what point lies nth time farther in that direction
+
+magnitude
+-> How far you would travel in a straight line, the distance represent by vector
+-> Vector with a magnitude of 1 is called a unit vector
+
+normalization
+-> Taking an arbitary vector and convert it into a unit vector (magnitude of 1)
+
+dot product (basically multiplication)
+-> takes 2 vector and returns a scalar value
+-> the smaller the product, the larger the angle between the vectors
+-> if the dot product of 2 vector is 1, they are identical
+-> if the dot product of 2 vector is -1, they point in opposite direction
+
+cross product
+-> Takes 2 vector and return another vector
+-> Get a new vector that perpendicular to both of the original vector
+
+identity matrix
+-> You'll get the same matrix when multiplied with the identity matrix
+-> Can use as the default transformation for any object
+
+transpose matrices
+-> Translation certain vector (normal vector) btw object space and world space
+-> Its column turned into row, row turned into column
+
+determinant
+-> Determinant is to determine whether or a system has a solution
+-> If determinant is 0, no solution
+
+submatrices
+-> submatrix is what left when one col and one row is removed
+-> reduced the size of matrix by 1, 4x4 -> 3x3 matrix
+
+manipulating minor matrices
+-> find the submatrix at the given locantion, then compute the determinant
+

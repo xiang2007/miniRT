@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 08:32:02 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/23 10:50:10 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:39:00 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ t_ray	*create_ray(t_tuple *origin_point, t_tuple *direction_vector)
 
 t_tuple	*postition(t_ray *ray, t_d t)
 {
-	t_tuple	*point;
+	t_tuple	*scaled;
 	t_tuple	*res;
 
-	point = add_tuple(ray->direction, ray->origin);
-	res = multiply_tuple(t, point);
-	free(point);
+	scaled = multiply_tuple(t, ray->direction);
+	res = add_tuple(ray->origin, scaled);
+	free(scaled);
 	return (res);
 }
 

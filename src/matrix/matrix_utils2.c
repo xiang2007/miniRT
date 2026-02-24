@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:56:03 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/15 09:36:36 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:36:10 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ t_matrix	*transpose_matrix(t_matrix *m1)
 	return (res);
 }
 
-int	determinant(t_matrix *m)
+t_d	determinant(t_matrix *m)
 {
-	int	res;
+	t_d	res;
 	int	i;
 	t_d	**t;
 

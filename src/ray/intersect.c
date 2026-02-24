@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 23:01:44 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/23 11:36:18 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:37:33 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,24 @@ t_intersect	*intersect(t_sp *s, t_ray *ray)
 	t_tuple		*str;
 	t_intersect	*i1;
 	t_intersect	*i2;
+	t_ray		*l_ray;
+	t_matrix	*inv;
 
-	str = sub_free_s2(ray->origin, create_point(0, 0, 0));
-	a = dot_product(ray->direction, ray->direction);
-	b = 2 * (dot_product(ray->direction, str));
+	inv = inverse_matrix(s->transform);
+	l_ray = transform_ray(ray, inv);
+	free_matrix(inv);
+	str = sub_free_s2(l_ray->origin, create_point(0, 0, 0));
+	a = dot_product(l_ray->direction, l_ray->direction);
+	b = 2 * (dot_product(l_ray->direction, str));
 	c = dot_product(str, str) - 1;
 	d = sq(b) - (4 * a * c);
 	free(str);
 	if (d < 0)
-		return (NULL);
+		return (free_ray(l_ray), NULL);
 	i1 = intersection(((-b) - sqrt(d)) / (2 * a), s);
 	i2 = intersection(((-b) + sqrt(d)) / (2 * a), s);
 	i1->next = i2;
-	return (i1);
+	return (free_ray(l_ray), i1);
 }
 
 t_intersect	*hit(t_intersect *it)
@@ -90,7 +95,7 @@ void	print_intersect(t_intersect *t)
 	tail = t;
 	while (tail)
 	{
-		printf("t: %f\n", t->t);
+		printf("t: %f\n", tail->t);
 		tail = tail->next;
 	}
 }

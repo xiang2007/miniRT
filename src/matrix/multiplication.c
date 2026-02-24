@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 00:27:33 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/20 12:36:44 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/24 11:07:55 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_matrix	*dynamic_mult_matrix(t_matrix *m1, t_matrix *m2)
 	return (m);
 }
 
+// 4x4 multiplication
 t_matrix	*mult_matrix(t_matrix *m1, t_matrix *m2)
 {
 	t_matrix	*m;

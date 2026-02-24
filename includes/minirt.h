@@ -161,6 +161,9 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2);
 t_tuple	*mult_2_tuple(t_tuple *t1, t_tuple *t2);
 void	print_tuple(t_tuple *t);
 t_tuple	*sub_free_s2(t_tuple *t1, t_tuple *t2);
+t_tuple	*dup_tuple(t_tuple *t);
+t_tuple	*create_tuple_w(t_tuple *t1);
+t_tuple	*mult_matrix_tuple(t_matrix *m1, t_tuple *t1);
 
 //Mlx functions
 void	init_mlx(t_mlx *m);
@@ -176,7 +179,7 @@ void		free_matrix(t_matrix *m);
 void		identity_matrix(t_matrix **m);
 void		print_mat(t_matrix *m);
 t_matrix	*transpose_matrix(t_matrix *m1);
-int			determinant(t_matrix *m);
+t_d			determinant(t_matrix *m);
 t_matrix	*sub_matrix(t_matrix *m, int row, int col);
 t_matrix	*dup_matrix(t_matrix *m);
 int			minor_matrix(t_matrix *m, int row, int col);
@@ -188,6 +191,10 @@ t_matrix	*mult_matrix_w_tuple(t_matrix *m1, t_tuple *t);
 t_matrix	*mult_free_s2(t_matrix *s1, t_matrix *s2);
 t_matrix	*inv_and_free(t_matrix *m);
 t_matrix	*dy_mult_free_s2(t_matrix *s1, t_matrix *s2);
+t_tuple		*matrix_to_point(t_matrix *m);
+t_tuple		*matrix_to_vector(t_matrix *m);
+t_tuple		*mult_matrix_tuple(t_matrix *m1, t_tuple *t1);
+t_matrix	*create_transformation_matrix(void);
 
 // Matrix Translation
 t_matrix	*mult_translate_matrix(t_tuple *point, int x, int y, int z);
@@ -196,12 +203,14 @@ t_matrix	*point_to_matrix(t_tuple *t);
 t_matrix	*mult_inv_translate_matrix(t_tuple *point, int x, int y, int z);
 t_matrix	*vector_to_matrix(t_tuple *t);
 t_matrix	*mult_translation_vector(t_tuple *v, int x, int y, int z);
+t_matrix	*translation(int x, int y, int z);
 
 // Matrix scaling
 t_matrix	*scale_to_point(t_tuple *p, int x, int y, int z);
 t_matrix	*scale_to_vec(t_tuple *v, int x, int y, int z);
 t_matrix	*inv_scale_to_vec(t_tuple *v, int x, int y, int z);
 t_matrix	*reflection(t_tuple *p, int x, int y, int z);
+t_matrix	*scaling(int x, int y, int z);
 
 // Matrix rotation
 t_matrix	*rotation_x(t_d	r);
@@ -240,8 +249,8 @@ void		print_sphere(t_sp *s);
 
 // Transformation
 t_ray	*transform_ray(t_ray *r, t_matrix *m);
-t_ray	*scale_ray(t_ray *r, t_d x, t_d y, t_d z);
-t_sp	*sphere_transform(t_sp *s, t_d x, t_d y, t_d z);
+t_ray	*scale_ray(t_ray *r, t_matrix *m);
+t_sp	*transform_sphere(t_sp *s, t_matrix *m);
 
 // Tuple conversion
 t_tuple	*matrix_to_point(t_matrix *m);

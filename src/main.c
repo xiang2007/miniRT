@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:50:02 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/23 11:37:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:40:54 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,32 +35,34 @@ void	test_ray_transform()
 {
 	t_ray	*r;
 	t_sp	*sp;
+	t_sp	*temp;
 	t_intersect	*t;
 
 	r = create_ray(create_point(0, 0, -5), create_vector(0, 0, 1));
-	sp = sphere_transform(create_sphere(0, 0, 0, 1), 5, 0, 0);
-	t = intersect(sp , r);
+	temp = create_sphere(create_point(0, 0, 0), 1);
+	sp = transform_sphere(temp, translation(5, 0, 0));
+	t = intersect(sp, r);
 	print_intersect(t);
 	free_ray(r);
 	free(sp);
 	free(t);
 }
 
-void	*test_intersect()
-{
-	t_sp	*sphere;
-	t_intersect	*i1;
-	t_intersect	*i2;
-	t_intersect	*temp;
+// void	*test_intersect()
+// {
+// 	t_sp	*sphere;
+// 	t_intersect	*i1;
+// 	t_intersect	*i2;
+// 	t_intersect	*temp;
 
-	sphere = create_sphere(0, 0, 0, 1);
-	i1 = intersection(-1, sphere);
-	i2 = intersection(1, sphere);
-	add_intersect(i2, &i1);
-	temp = hit(i1);
-	printf("i1: %f i2: %f temp: %f\n", i1->t, i2->t, temp->t);
-	return (NULL);
-}
+// 	sphere = create_sphere(0, 0, 0, 1);
+// 	i1 = intersection(-1, sphere);
+// 	i2 = intersection(1, sphere);
+// 	add_intersect(i2, &i1);
+// 	temp = hit(i1);
+// 	printf("i1: %f i2: %f temp: %f\n", i1->t, i2->t, temp->t);
+// 	return (NULL);
+// }
 
 void	test_ray()
 {

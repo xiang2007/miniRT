@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/02/23 11:07:41 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/02/24 15:44:00 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ RAY = $(addprefix $(RAYDIR)/,$(RAYFILE))
 MATRIXDIR= src/matrix
 MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c sub_matrix.c cofactor.c \
 				inverse.c translation.c multiplication.c scaling.c rotation.c \
-				rotation2.c
+				rotation2.c conversion.c multiplication2.c
 MTX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
 
 OBJDIR = src/objects
