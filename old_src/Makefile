@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/03 18:51:26 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/02/24 15:44:00 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,29 @@ MAINDIR = src
 MAINFILE = main.c
 MAIN = $(addprefix $(MAINDIR)/,$(MAINFILE))
 
-MATHDIR = src/tuple
-MATHFILE = tuple_op.c tuple.c
+MATHDIR = src/math
+MATHFILE = tuple_math.c tuple_math2.c tuple.c tuple_math3.c
 MATH = $(addprefix $(MATHDIR)/,$(MATHFILE))
 
-SRC = $(MAIN) $(MATH)
+MLXDIR = src/mlx
+MLXFILE = mlx_init.c
+MLX = $(addprefix $(MLXDIR)/,$(MLXFILE))
+
+RAYDIR = src/ray
+RAYFILE = ray.c intersect.c transform_ray.c transform_sphere.c
+RAY = $(addprefix $(RAYDIR)/,$(RAYFILE))
+
+MATRIXDIR= src/matrix
+MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c sub_matrix.c cofactor.c \
+				inverse.c translation.c multiplication.c scaling.c rotation.c \
+				rotation2.c conversion.c multiplication2.c
+MTX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
+
+OBJDIR = src/objects
+OBJFILE = ambient_lightning.c camera.c cylinder.c objects.c plane.c sphere.c
+OBJ = $(addprefix $(OBJDIR)/,$(OBJFILE))
+
+SRC = $(MAIN) $(MATH) $(MLX) $(MTX) $(RAY) $(OBJ)
 
 OBJSDIR = obj
 OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)

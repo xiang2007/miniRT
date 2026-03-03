@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   math_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/03 17:57:08 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/03 18:47:46 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/03/03 16:15:18 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/03/03 16:16:18 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	main()
+int	compare_double(double x, double y)
 {
-	t_tuple	*temp;
-	t_tuple	*a;
-
-	a = create_point(1 ,1 ,1);
-	temp = add_tuple(a, create_temp_tuple(1, 1, 1, 1));
-	
+	if (abs(x - y) < EP)
+		return (1);
+	return (0);
 }
