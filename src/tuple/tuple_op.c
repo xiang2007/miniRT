@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:18:17 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/03 18:51:57 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:49:04 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_tuple	*add_tuple(t_tuple *t1, t_tuple *t2)
 						(t1->z + t2->z), (t1->w + t2->w));
 	if (!res)
 		return (NULL);
+	free_temp_tuple(t1);
+	free_temp_tuple(t2);
 	return (res);
 }
 
@@ -35,6 +37,8 @@ t_tuple	*subtract_tuple(t_tuple *t1, t_tuple *t2)
 						(t1->z - t2->z), fabs(t1->w - t2->w));
 	if (!res)
 		return (NULL);
+	free_temp_tuple(t1);
+	free_temp_tuple(t2);
 	return (res);
 }
 
@@ -47,6 +51,7 @@ t_tuple	*negate_tuple(t_tuple *t1)
 	res = create_tuple(-(t1->x), -(t1->y), -(t1->z), -(t1->w));
 	if (!res)
 		return (NULL);
+	free_temp_tuple(t1);
 	return (res);
 }
 

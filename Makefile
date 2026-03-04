@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/03 18:51:26 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/05 00:25:32 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,14 +16,18 @@ LIB = -Lmlx_Linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -Llibft -l
 RM = rm -rf
 
 MAINDIR = src
-MAINFILE = main.c
+MAINFILE = main.c math_functions.c
 MAIN = $(addprefix $(MAINDIR)/,$(MAINFILE))
 
-MATHDIR = src/tuple
-MATHFILE = tuple_op.c tuple.c
-MATH = $(addprefix $(MATHDIR)/,$(MATHFILE))
+TDIR = src/tuple
+TFILE = tuple_op.c tuple_op2.c tuple_op3.c tuple.c
+T = $(addprefix $(TDIR)/,$(TFILE))
 
-SRC = $(MAIN) $(MATH)
+MATRIXDIR = src/matrix
+MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c
+MATRIX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
+
+SRC = $(MAIN) $(T) $(MATRIX)
 
 OBJSDIR = obj
 OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)

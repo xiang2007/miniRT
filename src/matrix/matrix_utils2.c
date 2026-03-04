@@ -1,27 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sub_matrix.c                                       :+:      :+:    :+:   */
+/*   matrix_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/14 16:11:38 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/05 00:30:33 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/03/05 00:16:28 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/03/05 00:32:42 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_matrix	*create_sub_matrix(t_matrix *m)
+static void	copy_valid(t_matrix *m, t_matrix *res, int row, int col);
+
+double	determinant(t_matrix *m)
 {
-	t_matrix	*t;
+	double	res;
+	double	**r;
+
+	if (!m)
+		return (-1);
+	r = m->matrix;
+	res = (r[0][0] * r[1][1]) - (r[0][1] * r[1][0]);
+	return (res);
+}
+
+t_matrix	*submatrix(t_matrix *m, int row, int col)
+{
+	t_matrix	*r;
 	int			size;
 
-	size = ((m->col + m->row) / 2) - 1;
-	t = create_matrix(size, size);
-	if (!t)
+	if (!m)
 		return (NULL);
-	return (t);
+	size = ((m->row + m->col) / 2) -1;
+	r = create_matrix(size, size);
+	if (!r)
+		return (NULL);
+	copy_valid(m, r, row, col);
+	return (r);
 }
 
 static void	copy_valid(t_matrix *m, t_matrix *res, int row, int col)
@@ -50,17 +67,4 @@ static void	copy_valid(t_matrix *m, t_matrix *res, int row, int col)
 		k++;
 		i++;
 	}
-}
-
-t_matrix	*sub_matrix(t_matrix *m, int row, int col)
-{
-	t_matrix	*res;
-
-	if (!m)
-		return (NULL);
-	if (row > m->row || col > m->col)
-		return (NULL);
-	res = create_sub_matrix(m);
-	copy_valid(m, res, row, col);
-	return (res);
 }

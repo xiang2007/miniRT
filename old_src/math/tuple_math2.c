@@ -58,7 +58,7 @@ t_d	dot_product(t_tuple *t1, t_tuple *t2)
 		+ (t1->z * t2->z));
 }
 
-t_tuple	*cross(t_tuple *t1, t_tuple *t2)
+t_tuple	*tuplecross(t_tuple *t1, t_tuple *t2)
 {
 	t_tuple	*t;
 

@@ -6,21 +6,31 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:34 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/03 18:52:09 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/04 17:49:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+void	free_temp_tuple(t_tuple *t)
+{
+	if (!t)
+		return ;
+	if (t->free == 1)
+		free(t);
+}
+
 t_tuple	*create_temp_tuple(double x, double y, double z, double w)
 {
-	t_tuple	tuple;
+	t_tuple	*tuple;
 
-	tuple.x = x;
-	tuple.y = y;
-	tuple.z = z;
-	tuple.w = w;
-	return (&tuple);
+	tuple = malloc(sizeof(t_tuple));
+	tuple->x = x;
+	tuple->y = y;
+	tuple->z = z;
+	tuple->w = w;
+	tuple->free = 1;
+	return (tuple);
 }
 
 t_tuple	*create_tuple(double x, double y, double z, double w)
@@ -34,6 +44,7 @@ t_tuple	*create_tuple(double x, double y, double z, double w)
 	res->y = y;
 	res->z = z;
 	res->w = w;
+	res->free = 0;
 	return (res);
 }
 
