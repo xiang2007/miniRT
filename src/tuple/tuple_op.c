@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:18:17 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/04 13:49:04 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/07 16:53:54 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,14 @@ void	print_tuple(t_tuple *t)
 	printf("x:%f y:%f z:%f w:%f\n", t->x, t->y , t->z, t->w);
 }
 
+t_tuple	*tuple_dup(t_tuple *t)
+{
+	t_tuple	*res;
+
+	if (!t)
+		return (NULL);
+	res = create_tuple(t->x, t->y, t->z, t->w);
+	if (!res)
+		return (NULL);
+	return (res);
+}

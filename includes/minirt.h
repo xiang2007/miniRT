@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:41 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/05 00:25:50 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/07 17:26:23 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define WIDTH 800
 # define HEIGHT 800
 # define PI 3.14159265358979323846
+# define POINT 1
+# define VECTOR 0
 
 typedef struct s_tuple
 {
@@ -50,6 +52,7 @@ t_tuple	*add_tuple(t_tuple *t1, t_tuple *t2);
 t_tuple	*subtract_tuple(t_tuple *t1, t_tuple *t2);
 t_tuple	*negate_tuple(t_tuple *t1);
 void	print_tuple(t_tuple *t);
+t_tuple	*tuple_dup(t_tuple *t);
 void	free_temp_tuple(t_tuple *t);
 double	magnitde(t_tuple *t);
 t_tuple	*tuple_normalize(t_tuple *t);
@@ -67,6 +70,13 @@ t_tuple		*mult_tuple_matrix(t_tuple *t, t_matrix *mt);
 t_matrix	*create_identity_matrix();
 t_matrix	*transpose_matrix(t_matrix *m);
 t_matrix	*submatrix(t_matrix *m, int row, int col);
+double		matrix_cofactor(t_matrix *mt, int row, int col);
+double		matrix_determinant(t_matrix *m);
+double		matrix_minor(t_matrix *m, int row, int col);
+t_matrix	*matrix_inverse(t_matrix *m);
+
+t_tuple	*matrix_translation(t_tuple *p, double x, double y, double z);
+t_tuple	*matrix_translation_inv(t_tuple *p, double x, double y, double z);
 
 int		compare_double(double x, double y);
 double	sq(double n);

@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/05 00:25:32 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/07 17:28:23 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,14 @@ TFILE = tuple_op.c tuple_op2.c tuple_op3.c tuple.c
 T = $(addprefix $(TDIR)/,$(TFILE))
 
 MATRIXDIR = src/matrix
-MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c
+MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c matrix_utils3.c
 MATRIX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
 
-SRC = $(MAIN) $(T) $(MATRIX)
+TRANSDIR = src/transformation
+TRANSFILE = translate.c
+TRANS = $(addprefix $(TRANSDIR)/,$(TRANSFILE))
+
+SRC = $(MAIN) $(T) $(MATRIX) $(TRANS)
 
 OBJSDIR = obj
 OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)

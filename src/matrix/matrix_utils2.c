@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 00:16:28 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/05 00:32:42 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/07 17:32:54 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,13 @@
 
 static void	copy_valid(t_matrix *m, t_matrix *res, int row, int col);
 
-double	determinant(t_matrix *m)
-{
-	double	res;
-	double	**r;
-
-	if (!m)
-		return (-1);
-	r = m->matrix;
-	res = (r[0][0] * r[1][1]) - (r[0][1] * r[1][0]);
-	return (res);
-}
-
 t_matrix	*submatrix(t_matrix *m, int row, int col)
 {
 	t_matrix	*r;
-	int			size;
 
 	if (!m)
 		return (NULL);
-	size = ((m->row + m->col) / 2) -1;
-	r = create_matrix(size, size);
+	r = create_matrix(m->row - 1, m->col - 1);
 	if (!r)
 		return (NULL);
 	copy_valid(m, r, row, col);
@@ -67,4 +53,37 @@ static void	copy_valid(t_matrix *m, t_matrix *res, int row, int col)
 		k++;
 		i++;
 	}
+}
+
+double	matrix_minor(t_matrix *m, int row, int col)
+{
+	t_matrix	*mt;
+	double		res;
+
+	if (!m)
+		return (-1);
+	if ((row >= m->row) || (col >= m->col))
+		return (-1);
+	mt = submatrix(m, row, col);
+	if (!mt)
+		return (-1);
+	res = matrix_determinant(mt);
+	free_matrix(mt);
+	return (res);
+}
+
+double	matrix_cofactor(t_matrix *mt, int row, int col)
+{
+	double		sign;
+	double		res;
+
+	sign = 1;
+	if (!mt)
+		return (-1);
+	if ((row > mt->row) || (col > mt->col))
+		return (-1);
+	if ((row + col) % 2 != 0)
+		sign = -1;
+	res = matrix_minor(mt, row, col);
+	return (res * sign);
 }
