@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 11:51:28 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/08 15:43:03 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:53:48 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ t_tuple	*matrix_reflection(t_tuple *t)
 
 	if (!t)
 		return (NULL);
-	res = matrix_scaling(t, -1, 1, 1); 
+	res = matrix_scaling(t, -1, 1, 1);
 	return (res);
 }

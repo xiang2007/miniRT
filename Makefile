@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/08 13:02:52 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/09 17:45:51 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,14 @@ MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c matrix_utils3.c
 MATRIX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
 
 TRANSDIR = src/transformation
-TRANSFILE = translate.c scaling.c
+TRANSFILE = translate.c scaling.c rotation.c
 TRANS = $(addprefix $(TRANSDIR)/,$(TRANSFILE))
 
-SRC = $(MAIN) $(T) $(MATRIX) $(TRANS)
+INTDIR = src/intersection
+INTFILE = ray.c
+INT = $(addprefix $(INTDIR)/,$(INTFILE))
+
+SRC = $(MAIN) $(T) $(MATRIX) $(TRANS) $(INT)
 
 OBJSDIR = obj
 OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)

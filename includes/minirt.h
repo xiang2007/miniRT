@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:41 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/08 13:05:30 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:37:02 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ typedef struct	s_matrix
 	int		row;
 	int		col;
 }				t_matrix;
+
+typedef struct	s_ray
+{
+	t_tuple	*point;
+	t_tuple	*direction;
+}				t_ray;
 
 t_tuple	*create_tuple(double x, double y, double z, double w);
 t_tuple	*create_point(double x, double y, double z);
@@ -79,6 +85,13 @@ t_tuple	*matrix_translation(t_tuple *p, double x, double y, double z);
 t_tuple	*matrix_translation_inv(t_tuple *p, double x, double y, double z);
 t_tuple	*matrix_scaling(t_tuple *p, double x, double y, double z);
 t_tuple	*matrix_scaling_inv(t_tuple *p, double x, double y, double z);
+t_tuple	*matrix_reflection(t_tuple *t);
+t_tuple	*matrix_rotation_x(t_tuple *p, double deg);
+t_tuple	*matrix_rotation_y(t_tuple *p, double deg);
+t_tuple	*matrix_rotation_z(t_tuple *p, double deg);
+
+t_ray	*create_ray(t_tuple *point, t_tuple *dir);
+void	free_ray(t_ray *r);
 
 int		compare_double(double x, double y);
 double	sq(double n);

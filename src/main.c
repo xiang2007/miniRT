@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:08 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/08 15:26:23 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:37:09 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,39 @@
 
 int	main()
 {
-	t_tuple	*t;
-	t_tuple	*res;
+	t_ray	*res;
 
-	t = create_point(-4, 6, 8);
-	res = matrix_scaling(t, 2, 3, 4);
-	print_tuple(res);
-	free(t);
-	free(res);
-	return (0);
+	res = create_ray(create_temp_tuple(1, 2, 3, 1), create_temp_tuple(4, 5, 6, 0));
+	print_tuple(res->point);
+	print_tuple(res->direction);
+	free_ray(res);
 }
+
+// int	main()
+// {
+// 	t_tuple	*point;
+// 	t_tuple	*res;
+
+// 	point = create_point(0, 1, 0);
+// 	res = matrix_rotation_z(point, 90);
+// 	print_tuple(res);
+// 	free(point);
+// 	free(res);
+// 	return (0);
+// }
+
+// int	main()
+// {
+// 	t_tuple	*t;
+// 	t_tuple	*res;
+
+// 	t = create_point(2, 3, 4);
+// 	res = matrix_reflection(t);
+// 	print_tuple(res);
+// 	free(t);
+// 	free(res);
+// 	return (0);
+// }
 
 // int	main()
 // {
