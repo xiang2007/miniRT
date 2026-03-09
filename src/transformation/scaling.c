@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   translate.c                                        :+:      :+:    :+:   */
+/*   scaling.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/07 14:28:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/08 12:55:40 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/03/08 11:51:28 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/03/08 15:43:03 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_matrix	*matrix_translation_inv_mat(double x, double y, double z)
+static t_matrix	*matrix_scaling_inv_calc(double x, double y, double z)
 {
 	t_matrix	*m;
-	t_matrix	*res;
+	t_matrix	*inv;
 	double		**mt;
 
 	m = create_identity_matrix();
+	if (!m)
+		return (NULL);
 	mt = m->matrix;
-	mt[0][3] = (x);
-	mt[1][3] = (y);
-	mt[2][3] = (z);
-	res = matrix_inverse(m);
-	print_mat(res);
+	mt[0][0] = x;
+	mt[1][1] = y;
+	mt[2][2] = z;
+	print_mat(m);
+	inv = matrix_inverse(m);
+	print_mat(inv);
 	free_matrix(m);
-	return (res);
+	return (inv);
 }
 
-static t_matrix	*matrix_translation_mat(double x, double y, double z)
+static t_matrix	*matrix_scaling_calc(double x, double y, double z)
 {
 	t_matrix	*m;
 	double		**mt;
@@ -38,42 +41,52 @@ static t_matrix	*matrix_translation_mat(double x, double y, double z)
 	if (!m)
 		return (NULL);
 	mt = m->matrix;
-	mt[0][3] = (x);
-	mt[1][3] = (y);
-	mt[2][3] = (z);
+	mt[0][0] = x;
+	mt[1][1] = y;
+	mt[2][2] = z;
 	return (m);
 }
 
-t_tuple	* matrix_translation(t_tuple *p, double x, double y, double z)
+t_tuple	*matrix_scaling(t_tuple *p, double x, double y, double z)
 {
 	t_tuple		*res;
 	t_matrix	*m;
 
 	if (!p)
-		return (free_temp_tuple(p), NULL);
-	m = matrix_translation_mat(x, y, z);
+		return (NULL);
+	m = matrix_scaling_calc(x, y, z);
 	if (!m)
 		return (free_temp_tuple(p), NULL);
 	res = mult_tuple_matrix(p, m);
-	free_matrix(m);
 	if (!res)
 		return (free_temp_tuple(p), NULL);
+	free_matrix(m);
 	return (res);
 }
 
-t_tuple	*matrix_translation_inv(t_tuple *p, double x, double y, double z)
+t_tuple	*matrix_scaling_inv(t_tuple *p, double x, double y, double z)
 {
 	t_tuple		*res;
 	t_matrix	*m;
 
 	if (!p)
-		return (free_temp_tuple(p), NULL);
-	m = matrix_translation_inv_mat(x, y, z);
+		return (NULL);
+	m = matrix_scaling_inv_calc(x, y, z);
 	if (!m)
 		return (free_temp_tuple(p), NULL);
 	res = mult_tuple_matrix(p, m);
-	free_matrix(m);
 	if (!res)
 		return (free_temp_tuple(p), NULL);
+	free_matrix(m);
+	return (res);
+}
+
+t_tuple	*matrix_reflection(t_tuple *t)
+{
+	t_tuple		*res;
+
+	if (!t)
+		return (NULL);
+	res = matrix_scaling(t, -1, 1, 1); 
 	return (res);
 }

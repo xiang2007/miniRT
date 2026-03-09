@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:41 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/07 17:26:23 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/08 13:05:30 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ t_matrix	*matrix_inverse(t_matrix *m);
 
 t_tuple	*matrix_translation(t_tuple *p, double x, double y, double z);
 t_tuple	*matrix_translation_inv(t_tuple *p, double x, double y, double z);
+t_tuple	*matrix_scaling(t_tuple *p, double x, double y, double z);
+t_tuple	*matrix_scaling_inv(t_tuple *p, double x, double y, double z);
 
 int		compare_double(double x, double y);
 double	sq(double n);
