@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:24:18 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/10 15:52:14 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/10 22:45:06 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	free_disct(t_dis *d)
 	free(d);
 }
 
-t_intersect	*create_intersect(double t1, double t2)
+t_intersect	*create_intersect(double t1, double t2, t_object_type type,
+		void *obj)
 {
 	t_intersect	*res;
 
@@ -46,6 +47,8 @@ t_intersect	*create_intersect(double t1, double t2)
 	res->intersects = malloc(sizeof(double) * 2);
 	res->intersects[0] = t1;
 	res->intersects[1] = t2;
+	res->type = type;
+	res->object = obj;
 	res->next = NULL;
 	return (res);
 }
@@ -72,7 +75,9 @@ t_intersect	*intersect(t_ray *r, t_sphere *sp)
 		return (free_disct(dis), NULL);
 	t1 = ((-(dis->b) - sqrt(dis->res)) / (2 * dis->a));
 	t2 = ((-(dis->b) + sqrt(dis->res)) / (2 * dis->a));
-	i = create_intersect(t1, t2);
+	i = create_intersect(t1, t2, SPHERE, sp);
 	free_disct(dis);
+	free_ray(r);
+	free_sphere(sp);
 	return (i);
 }

@@ -6,42 +6,55 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:08 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/10 16:30:08 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/10 23:04:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_intersect	*intersect_loop()
-{
-	t_intersect	*head;
-	int			i = 0;
-
-	head = malloc(sizeof(t_intersect));
-	head = intersect(create_ray(create_temp_tuple(0, 0, i, 1),
-			create_temp_tuple(0, 0, 1, 0)), create_sphere());
-	while (i < 10)
-	{
-		add_intersect_back(intersect(create_ray(create_temp_tuple(0, 0, i, 1),
-			create_temp_tuple(0, 0, 1, 0)), create_sphere()), &head);
-		i++;
-	}
-	return (head);
-}
-
 int	main()
 {
-	t_intersect	*head;
-	t_intersect	*pointer;
+	t_ray	*ori;
+	t_ray	*new;
 
-	head = intersect_loop();
-	pointer = head;
-	while (pointer)
-	{
-		print_intersect(pointer);
-		pointer = pointer->next;
-	}
+	ori = create_ray(create_temp_tuple(1, 2, 3, 1), create_temp_tuple(0, 1, 0, 0));
+	new = scale_ray(ori, 2, 3, 4);
+	print_tuple(new->direction);
+	print_tuple(new->point);
+	free_ray(ori);
+	free_ray(new);
 }
+
+// t_intersect	*intersect_loop()
+// {
+// 	t_intersect	*head;
+// 	int			i = 0;
+
+// 	head = intersect(create_ray(create_temp_tuple(0, 0, i, 1),
+// 			create_temp_tuple(0, 0, 1, 0)), create_sphere(1));
+// 	while (i < 20)
+// 	{
+// 		add_intersect_back(intersect(create_ray(create_temp_tuple(0, 0, -i - 1, 1),
+// 			create_temp_tuple(0, 0, 1, 0)), create_sphere(i + 2)), &head);
+// 		i++;
+// 	}
+// 	return (head);
+// }
+
+// int	main()
+// {
+// 	t_intersect	*head;
+// 	t_intersect	*pointer;
+
+// 	head = intersect_loop();
+// 	pointer = head;
+// 	while (pointer)
+// 	{
+// 		print_intersect(pointer);
+// 		pointer = pointer->next;
+// 	}
+// 	free_intersect_list(head);
+// }
 
 // int	main()
 // {

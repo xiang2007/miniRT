@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:41 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/10 15:56:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/10 22:56:40 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,32 @@ typedef struct	s_dis
 	double	res;
 }				t_dis;
 
+typedef struct	s_sphere
+{
+	int		id;
+	double	size;
+	t_tuple	*point;
+}				t_sphere;
+
+typedef enum	e_object_type
+{
+	SPHERE
+}				t_object_type;
+
+typedef struct	s_object
+{
+	t_object_type	type;
+	t_sphere		*sp;
+}				t_object;
+
 typedef struct	s_intersect
 {
 	int					intersect_count;
 	double				*intersects;
+	t_object_type		type;
+	void				*object;
 	struct s_intersect	*next;
 }				t_intersect;
-
-typedef struct	s_sphere
-{
-	double	size;
-	t_tuple	*point;
-}				t_sphere;
 
 t_tuple	*create_tuple(double x, double y, double z, double w);
 t_tuple	*create_point(double x, double y, double z);
@@ -112,7 +126,7 @@ t_tuple	*matrix_rotation_x(t_tuple *p, double deg);
 t_tuple	*matrix_rotation_y(t_tuple *p, double deg);
 t_tuple	*matrix_rotation_z(t_tuple *p, double deg);
 
-t_sphere	*create_sphere(void);
+t_sphere	*create_sphere(int id);
 void		free_sphere(t_sphere *s);
 
 t_ray		*create_ray(t_tuple *point, t_tuple *dir);
@@ -121,6 +135,9 @@ t_intersect	*intersect(t_ray *r, t_sphere *sp);
 void		free_intersect(t_intersect *i);
 void		print_intersect(t_intersect *i);
 void		add_intersect_back(t_intersect *src, t_intersect **list);
+void		free_intersect_list(t_intersect *i);
+t_ray		*translate_ray(t_ray *r, double x, double y, double z);
+t_ray		*scale_ray(t_ray *r, double x, double y, double z);
 
 int		compare_double(double x, double y);
 double	sq(double n);
