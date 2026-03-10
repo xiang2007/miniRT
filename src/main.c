@@ -6,21 +6,65 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:08 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/09 17:37:09 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:30:08 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+t_intersect	*intersect_loop()
+{
+	t_intersect	*head;
+	int			i = 0;
+
+	head = malloc(sizeof(t_intersect));
+	head = intersect(create_ray(create_temp_tuple(0, 0, i, 1),
+			create_temp_tuple(0, 0, 1, 0)), create_sphere());
+	while (i < 10)
+	{
+		add_intersect_back(intersect(create_ray(create_temp_tuple(0, 0, i, 1),
+			create_temp_tuple(0, 0, 1, 0)), create_sphere()), &head);
+		i++;
+	}
+	return (head);
+}
+
 int	main()
 {
-	t_ray	*res;
+	t_intersect	*head;
+	t_intersect	*pointer;
 
-	res = create_ray(create_temp_tuple(1, 2, 3, 1), create_temp_tuple(4, 5, 6, 0));
-	print_tuple(res->point);
-	print_tuple(res->direction);
-	free_ray(res);
+	head = intersect_loop();
+	pointer = head;
+	while (pointer)
+	{
+		print_intersect(pointer);
+		pointer = pointer->next;
+	}
 }
+
+// int	main()
+// {
+// 	t_ray	*res;
+// 	t_ray	*res1;
+// 	t_intersect	*i2;
+// 	t_intersect	*i;
+// 	t_sphere	*sp;
+
+// 	res = create_ray(create_temp_tuple(0, 0, 1, 1), create_temp_tuple(0, 0, 1, 0));
+// 	res1 = create_ray(create_temp_tuple(0, 0, 2, 1), create_temp_tuple(0, 0, 1, 0));
+// 	sp = create_sphere();
+// 	i = intersect(res, sp);
+// 	i2 = intersect(res1, sp);
+// 	add_intersect_back(i2, &i);
+// 	print_intersect(i);
+// 	print_intersect(i->next);
+// 	free_sphere(sp);
+// 	free_intersect(i);
+// 	free_intersect(i2);
+// 	free_ray(res);
+// 	free_ray(res1);
+// }
 
 // int	main()
 // {

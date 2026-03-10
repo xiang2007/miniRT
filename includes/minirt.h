@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:41 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/09 17:37:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:56:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,28 @@ typedef struct	s_ray
 	t_tuple	*direction;
 }				t_ray;
 
+typedef struct	s_dis
+{
+	t_tuple	*sphere_to_ray;
+	double	a;
+	double	b;
+	double	c;
+	double	res;
+}				t_dis;
+
+typedef struct	s_intersect
+{
+	int					intersect_count;
+	double				*intersects;
+	struct s_intersect	*next;
+}				t_intersect;
+
+typedef struct	s_sphere
+{
+	double	size;
+	t_tuple	*point;
+}				t_sphere;
+
 t_tuple	*create_tuple(double x, double y, double z, double w);
 t_tuple	*create_point(double x, double y, double z);
 t_tuple	*create_vector(double x, double y, double z);
@@ -90,8 +112,15 @@ t_tuple	*matrix_rotation_x(t_tuple *p, double deg);
 t_tuple	*matrix_rotation_y(t_tuple *p, double deg);
 t_tuple	*matrix_rotation_z(t_tuple *p, double deg);
 
-t_ray	*create_ray(t_tuple *point, t_tuple *dir);
-void	free_ray(t_ray *r);
+t_sphere	*create_sphere(void);
+void		free_sphere(t_sphere *s);
+
+t_ray		*create_ray(t_tuple *point, t_tuple *dir);
+void		free_ray(t_ray *r);
+t_intersect	*intersect(t_ray *r, t_sphere *sp);
+void		free_intersect(t_intersect *i);
+void		print_intersect(t_intersect *i);
+void		add_intersect_back(t_intersect *src, t_intersect **list);
 
 int		compare_double(double x, double y);
 double	sq(double n);

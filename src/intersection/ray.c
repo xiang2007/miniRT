@@ -6,13 +6,11 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 17:31:57 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/09 17:48:39 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/10 11:44:22 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-
 
 t_ray	*create_ray(t_tuple *point, t_tuple *dir)
 {
@@ -35,5 +33,14 @@ void	free_ray(t_ray *r)
 	free(r->direction);
 	free(r->point);
 	free(r);
+}
+
+void	print_intersect(t_intersect *i)
+{
+	if (!i)
+		return ;
+	printf("intersect count: %d\n", i->intersect_count);
+	printf("i[0] = %f\ni[1] = %f\n", i->intersects[0], i->intersects[1]);
+	return ;
 }
 

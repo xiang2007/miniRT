@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/09 17:45:51 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/10 15:56:48 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,14 @@ TRANSFILE = translate.c scaling.c rotation.c
 TRANS = $(addprefix $(TRANSDIR)/,$(TRANSFILE))
 
 INTDIR = src/intersection
-INTFILE = ray.c
+INTFILE = ray.c intersect.c intersect_utils.c
 INT = $(addprefix $(INTDIR)/,$(INTFILE))
 
-SRC = $(MAIN) $(T) $(MATRIX) $(TRANS) $(INT)
+OJDIR = src/objects
+OJFILE = sphere.c
+OJ = $(addprefix $(OJDIR)/,$(OJFILE))
+
+SRC = $(MAIN) $(T) $(MATRIX) $(TRANS) $(INT) $(OJ)
 
 OBJSDIR = obj
 OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)
