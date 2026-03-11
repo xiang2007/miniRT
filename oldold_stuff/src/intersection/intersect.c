@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:24:18 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/10 22:45:06 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:00:00 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,5 @@ t_intersect	*intersect(t_ray *r, t_sphere *sp)
 	t2 = ((-(dis->b) + sqrt(dis->res)) / (2 * dis->a));
 	i = create_intersect(t1, t2, SPHERE, sp);
 	free_disct(dis);
-	free_ray(r);
-	free_sphere(sp);
 	return (i);
 }

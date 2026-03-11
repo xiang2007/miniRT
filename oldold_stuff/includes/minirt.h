@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:41 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/11 10:12:46 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:09:10 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ typedef struct	s_dis
 
 typedef struct	s_sphere
 {
-	int		id;
-	double	size;
+	int			id;
+	double		size;
+	t_matrix	*transform_matrix;
 	t_tuple	*point;
 }				t_sphere;
 
@@ -139,6 +140,7 @@ void		free_intersect_list(t_intersect *i);
 t_ray		*translate_ray(t_ray *r, double x, double y, double z);
 t_ray		*scale_ray(t_ray *r, double x, double y, double z);
 t_sphere	*translate_sphere(t_sphere *s, double x, double y, double z);
+t_sphere	*scale_sphere(t_sphere *s, double x, double y, double z);
 
 int		compare_double(double x, double y);
 double	sq(double n);

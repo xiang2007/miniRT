@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:08 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/11 10:16:22 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:08:11 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@ int	main ()
 {
 	t_sphere	*sphere;
 	t_sphere	*res;
+	t_ray		*ray;
+	t_intersect	*i;
 
 	sphere = create_sphere(1);
-	res = translate_sphere(sphere, 2, 3, 4);
-	print_tuple(res->point);
+	res = scale_sphere(sphere, 2, 2, 2);
+	ray = create_ray(create_temp_tuple(0, 0, -5, 1), create_temp_tuple(0, 0, 1, 0));
+	i = intersect(ray, res);
+	print_intersect(i);
+	free_ray(ray);
+	free_intersect(i);
 	free_sphere(sphere);
 	free_sphere(res);
 	return (0);
