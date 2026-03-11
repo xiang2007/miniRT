@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/10 22:57:45 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/11 10:15:01 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ MATRIXFILE = matrix.c matrix_utils.c matrix_utils2.c matrix_utils3.c
 MATRIX = $(addprefix $(MATRIXDIR)/,$(MATRIXFILE))
 
 TRANSDIR = src/transformation
-TRANSFILE = translate.c scaling.c rotation.c translate_ray.c
+TRANSFILE = translate.c scaling.c rotation.c translate_ray.c translate_sphere.c
 TRANS = $(addprefix $(TRANSDIR)/,$(TRANSFILE))
 
 INTDIR = src/intersection

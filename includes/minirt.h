@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:05:41 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/10 22:56:40 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/11 10:12:46 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void		add_intersect_back(t_intersect *src, t_intersect **list);
 void		free_intersect_list(t_intersect *i);
 t_ray		*translate_ray(t_ray *r, double x, double y, double z);
 t_ray		*scale_ray(t_ray *r, double x, double y, double z);
+t_sphere	*translate_sphere(t_sphere *s, double x, double y, double z);
 
 int		compare_double(double x, double y);
 double	sq(double n);
