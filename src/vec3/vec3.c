@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 17:21:02 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/11 17:57:21 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:55:45 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ t_vec3	scale_vec(t_vec3 a, double t)
 t_vec3	div_vec(t_vec3 a, double t)
 {
 	t_vec3	res;
+	double	inv;
 
-	res.x = a.x / t;
-	res.y = a.y / t;
-	res.z = a.z / t;
+	inv = (1.0 / t);
+	res.x = a.x * inv;
+	res.y = a.y * inv;
+	res.z = a.z * inv;
 	return (res);
 }

@@ -6,17 +6,17 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:38:20 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/11 16:11:16 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:15:18 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	init_mlx(t_mlx *m)
+void	init_mlx(t_mlx *m, int image_height)
 {
 	m->mlx = mlx_init();
-	m->mlx_win = mlx_new_window(m->mlx, WIDTH, HEIGHT, "miniRT");
-	m->img = mlx_new_image(m->mlx, WIDTH, HEIGHT);
+	m->mlx_win = mlx_new_window(m->mlx, WIDTH, image_height, "miniRT");
+	m->img = mlx_new_image(m->mlx, WIDTH, image_height);
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->line_length, &m->endian);
 }
 

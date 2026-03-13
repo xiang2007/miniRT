@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/11 16:27:05 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/12 17:08:43 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,18 @@ LIB = -Lmlx_Linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -Llibft -l
 RM = rm -rf
 
 MAINDIR = src
-MAINFILE = main.c mlx_init.c
+MAINFILE = main.c mlx_init.c math.c color.c
 MAIN = $(addprefix $(MAINDIR)/,$(MAINFILE))
 
-SRC = $(MAIN)
+VECDIR = src/vec3
+VECFILE = vec3.c vec3_2.c vec3_3.c
+VEC = $(addprefix $(VECDIR)/,$(VECFILE))
+
+RAYDIR = src/ray
+RAYFILE = ray.c
+RAY = $(addprefix $(RAYDIR)/,$(RAYFILE))
+
+SRC = $(MAIN) $(VEC) $(RAY)
 
 OBJSDIR = obj
 OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)

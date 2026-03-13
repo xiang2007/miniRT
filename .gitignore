@@ -1,1 +1,6 @@
 *.o
+*.pdf
+*.json
+*.a
+miniRT
+mlx-test

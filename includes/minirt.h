@@ -9,10 +9,9 @@
 # include <math.h>
 # include <fcntl.h>
 # define EP 1e-9
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 800
 # define PI 3.14159265358979323846
-# define ASPECT_RATIO 16 / 9
+# define ASPECT_RATIO 1.7777777777777777777777777777778
 
 typedef struct	s_mlx
 {
@@ -27,10 +26,10 @@ typedef struct	s_mlx
 
 typedef struct	s_color
 {
-	int	r;
-	int	g;
-	int	b;
-	int	color;
+	double	r;
+	double	g;
+	double	b;
+	int		color;
 }				t_color;
 
 typedef struct	s_vec3
@@ -46,7 +45,7 @@ typedef struct	s_ray
 	t_vec3	vec;
 }				t_ray;
 
-void	init_mlx(t_mlx *m);
+void	init_mlx(t_mlx *m, int image_height);
 void	mlx_put_pixel(t_mlx *m, int x, int y, int color);
 void	mlx_put_to_window(t_mlx *m);
 int		close_all(t_mlx *data);
@@ -64,7 +63,14 @@ double	len_vec(t_vec3 a);
 t_vec3	cross_vec(t_vec3 a, t_vec3 b);
 double	dot_vec(t_vec3 a, t_vec3 b);
 t_vec3	unit_vec(t_vec3 a);
+t_vec3	create_vec3(double a, double b, double c);
+t_vec3	mult_vec3(t_vec3 a, t_vec3 b);
 
-double	ray_pos(t_ray r, double t);
+t_color	add_color(t_color a, t_color b);
+t_color	mult_color(t_color a, t_color b);
+t_color	mult_color_n(t_color c, double n);
+t_color	create_color(double r, double g, double b);
+int		rgb_to_hex(int r, int g, int b);
 
+t_vec3	ray_pos(t_ray r, double t);
 #endif
