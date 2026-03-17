@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/03/17 17:33:56 by wshou-xi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -13,7 +25,21 @@
 # define PI 3.14159265358979323846
 # define ASPECT_RATIO 1.7777777777777777777777777777778
 
-typedef struct	s_mlx
+typedef struct s_mrt
+{
+	double	image_height;
+	double	image_width;
+	double	viewport_height;
+	double	viewport_width;
+	t_mlx	*mlx;
+}				t_mrt;
+
+typedef struct s_cam
+{
+	t_vec3	center;
+}				t_cam;
+
+typedef struct s_mlx
 {
 	void	*img;
 	void	*addr;
@@ -24,7 +50,7 @@ typedef struct	s_mlx
 	int		endian;
 }				t_mlx;
 
-typedef struct	s_color
+typedef struct s_color
 {
 	double	r;
 	double	g;
@@ -32,26 +58,45 @@ typedef struct	s_color
 	int		color;
 }				t_color;
 
-typedef struct	s_vec3
+typedef struct s_vec3
 {
-	double	x;
-	double	y;
-	double	z;
-}				t_vec3;
+	union
+	{
+		struct
+		{
+			double	x;
+			double	y;
+			double	z;
+		};
+		struct
+		{
+			double	r;
+			double	g;
+			double	g;
+		};
+	};
+} t_vec3, t_color,	t_point3;
 
-typedef struct	s_ray
+// typedef struct s_vec3
+// {
+// 	double	x;
+// 	double	y;
+// 	double	z;
+// }			t_vec3,	t_point3;
+
+typedef struct s_ray
 {
-	t_vec3	point;
-	t_vec3	vec;
+	t_point3	point;
+	t_vec3		vec;
 }				t_ray;
 
-void	init_mlx(t_mlx *m, int image_height);
+t_mlx	*init_mlx(int image_height);
 void	mlx_put_pixel(t_mlx *m, int x, int y, int color);
 void	mlx_put_to_window(t_mlx *m);
 int		close_all(t_mlx *data);
 
 double	sq(double r);
-
+t_mrt	*init_mrt(void);
 
 t_vec3	add_vec(t_vec3 a, t_vec3 b);
 t_vec3	sub_vec(t_vec3 a, t_vec3 b);

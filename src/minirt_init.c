@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.c                                            :+:      :+:    :+:   */
+/*   minirt_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/18 10:59:56 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/02/23 12:07:23 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/03/16 15:37:57 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/03/16 16:11:43 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_plane	*create_plane(t_d x, t_d y, t_d z, t_color *c)
+t_mrt	*init_mrt(void)
 {
-	t_plane	*plane;
-	t_tuple	*t;
+	t_mrt	*res;
 
-	plane = malloc(sizeof(t_plane));
-	if (!plane)
+	res = malloc(sizeof(t_mrt));
+	if (!res)
 		return (NULL);
-	plane->x = x;
-	plane->y = y;
-	plane->z = z;
-	t = create_point(x, y, z);
-	plane->norm = normalize(t);
-	free(t);
-	plane->c = c;
-	identity_matrix(&plane->transform);
-	plane->next = NULL;
-	return (plane);
-}
-
-void	add_plane_next(t_plane *src, t_plane **dest)
-{
-	if (!src || !dest)
-		return ;
-	(*dest)->next = src;
+	res->image_width = WIDTH;
+	res->image_height = WIDTH / ASPECT_RATIO;
+	res->viewport_height = 2;
+	res->viewport_width = res->viewport_height
+					* ((double)(res->image_width / res->image_height));
+	res->mlx = init_mlx(res->image_height);
+	if (!res)
+	{
+		free(res);
+		return (NULL);
+	}
+	return (res);
 }

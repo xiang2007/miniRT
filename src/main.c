@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/12 17:08:00 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:33:40 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,54 +63,36 @@ int	hit_sphere(t_vec3 center, double radius, t_ray r)
 		return (-b - sqrt(d)) / (2 * a);
 }
 
+void	draw_sphere(t_mrt *m)
+{
+	int		x;
+	int		y;
+	double	u;
+	double	v;
+	t_vec3	t;
+	t_ray	r;
+
+	x = 0;
+	while (x < m->image_width)
+	{
+		y = 0;
+		while (y < m->image_height)
+		{
+			u = (double)x / (m->image_width - 1);
+			v = (double)(m->image_height -1 -y) / (m->image_height - 1);
+			r.point = create_vec3(0, 0, 0);
+		}
+	}
+}
+
 int	main()
 {
-	t_mlx	*mlx = malloc(sizeof(t_mlx));
-	// Image
-	int	image_height = (WIDTH / ASPECT_RATIO);
-	init_mlx(mlx, image_height);
+	t_mrt	*minirt;
 
-	// Camera
-	double	focal_len = 1;
-	double	viewport_height = 2;
-	double	viewport_width = viewport_height * ((double)WIDTH / image_height);
-	t_vec3	cam_center = {0, 0, 0};
-
-	// calculate the vector across the horizontaland down the vertical viewport edges
-	t_vec3	viewport_u = {viewport_width, 0, 0};
-	t_vec3	viewport_v = {0, -viewport_height, 0};
+	minirt = init_mrt();
+	if (!minirt)
+		return (1);
 	
-	// calculate delta u, delta v
-	t_vec3	delta_u = div_vec(viewport_u, WIDTH);
-	t_vec3	delta_v = div_vec(viewport_v, image_height);
-
-	// calculate the lcoation of the upper left pixel
-	t_vec3	viewport_upper_left = sub_vec(sub_vec(sub_vec(cam_center,
-			create_vec3(0, 0, focal_len)), (div_vec(viewport_u, 2))),
-				div_vec(viewport_v, 2));
-	t_vec3	pixel00_loc = add_vec((scale_vec((add_vec(delta_u, delta_v)), 0.5)),
-							viewport_upper_left);
-	
-	int	i = 0;
-	while (i < WIDTH)
-	{
-		int	j = 0;
-		while (j < image_height)
-		{
-			t_vec3	pixel_center = add_vec((add_vec(scale_vec(delta_u, i),
-									scale_vec(delta_v, j))), pixel00_loc);
-			t_vec3	ray_dir = sub_vec(pixel_center, cam_center);
-			t_ray	ray = {cam_center, ray_dir};
-			int	color = ray_color(ray);
-			mlx_put_pixel(mlx, i, j, color);
-			j++;
-		}
-		i++;
-	}
-	mlx_put_to_window(mlx);
-	mlx_loop(mlx->mlx);
-	close_all(mlx);
-	return (0);
 }
 
 
