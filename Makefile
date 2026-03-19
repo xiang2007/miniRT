@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/12 17:08:43 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/19 16:13:26 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIB = -Lmlx_Linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -Llibft -l
 RM = rm -rf
 
 MAINDIR = src
-MAINFILE = main.c mlx_init.c math.c color.c
+MAINFILE = main.c mlx_init.c math.c color.c camera.c minirt_init.c
 MAIN = $(addprefix $(MAINDIR)/,$(MAINFILE))
 
 VECDIR = src/vec3

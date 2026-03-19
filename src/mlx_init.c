@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:38:20 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/16 15:36:00 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:25:00 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,21 @@ void	mlx_put_to_window(t_mlx *m)
 	mlx_put_image_to_window(temp.mlx, temp.mlx_win, temp.img, 0, 0);
 }
 
+void	mlx_free_all(t_mlx *data)
+{
+	mlx_destroy_image(data->mlx, data->img);
+	mlx_destroy_window(data->mlx, data->mlx_win);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
+	free(data);
+}
+
 int	close_all(t_mlx *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
+	free(data);
 	exit(0);
 }

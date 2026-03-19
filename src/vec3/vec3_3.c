@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 14:36:32 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/12 15:27:59 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:59:54 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,9 @@ t_vec3	mult_vec3(t_vec3 a, t_vec3 b)
 	res.y = a.y * b.y;
 	res.z = a.z * b.z;
 	return (res);
+}
+
+void	print_vec3(t_vec3 v)
+{
+	printf("x: %f y: %f z: %f\n", v.x, v.y, v.z);
 }
