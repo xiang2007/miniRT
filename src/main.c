@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/19 18:01:23 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/20 13:31:56 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ double	hit_sphere(t_vec3 center, double radius, t_ray r)
 	double	d;
 
 	ori_center = sub_vec(center, r.point);
-	a = dot_vec(r.vec, r.vec);
-	b = -2 * dot_vec(r.vec, ori_center);
-	c = dot_vec(ori_center, ori_center) - (radius * radius);
-	d = b * b - 4 * a * c;
+	a = len_sq(r.vec);
+	b = dot_vec(r.vec, ori_center);
+	c = len_sq(ori_center) - sq(radius);
+	d = sq(b) - a * c;
 	if (d < 0)
 		return (-1);
 	else
-		return (-b - sqrt(d)) / (2 * a);
+		return ((b - sqrt(d)) / a);
 }
 
 // void	draw_sphere(t_mrt *m)

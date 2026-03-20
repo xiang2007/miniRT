@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/19 18:01:33 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/20 15:13:49 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,49 @@
 # define WIDTH 800
 # define PI 3.14159265358979323846
 # define ASPECT_RATIO 1.7777777777777777777777777777778
+
+typedef enum e_obj_type
+{
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER
+}			t_obj_type;
+
+typedef struct s_sphere
+{
+	t_point3	point;
+	double		radius;
+	int			color;
+}				t_sphere;
+
+typedef struct s_plane
+{
+	t_point3	center;
+	t_vec3		normal;
+	int			color;
+}				t_plane;
+
+typedef struct s_cylinder
+{
+	t_point3	center;
+	t_vec3		axis;
+	double		radius;
+	double		height;
+	int			color;
+}				t_cylinder;
+
+typedef struct s_objects
+{
+	t_sphere	sphere;
+	t_plane		plane;
+	t_cylinder	cylinder;
+}				t_objects;
+
+typedef struct s_interval
+{
+	double	min;
+	double	max;
+}				t_interval;
 
 typedef struct s_vec3
 {
