@@ -6,7 +6,7 @@
 #    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/19 16:13:26 by wshou-xi         ###   ########.fr        #
+#    Updated: 2026/03/24 15:03:51 by wshou-xi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,10 @@ VEC = $(addprefix $(VECDIR)/,$(VECFILE))
 RAYDIR = src/ray
 RAYFILE = ray.c
 RAY = $(addprefix $(RAYDIR)/,$(RAYFILE))
+
+OBJDIR = src/objs
+OBJFILE = objs.c
+OBJ = $(addprefix $(OBJSDIR)/,$(OBJSFILE))
 
 SRC = $(MAIN) $(VEC) $(RAY)
 

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/20 15:13:49 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/03/24 15:21:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <fcntl.h>
+# include <stdbool.h>
 # define EP 1e-9
 # define WIDTH 800
 # define PI 3.14159265358979323846
@@ -32,6 +33,27 @@ typedef enum e_obj_type
 	OBJ_CYLINDER
 }			t_obj_type;
 
+typedef struct s_vec3
+{
+	union
+	{
+		struct
+		{
+			double	x;
+			double	y;
+			double	z;
+		};
+		struct
+		{
+			double	r;
+			double	g;
+			double	b;
+			double	color;
+		};
+	};
+} t_vec3, t_color,	t_point3;
+
+/// @brief point is used as the center of the sphere
 typedef struct s_sphere
 {
 	t_point3	point;
@@ -67,26 +89,6 @@ typedef struct s_interval
 	double	min;
 	double	max;
 }				t_interval;
-
-typedef struct s_vec3
-{
-	union
-	{
-		struct
-		{
-			double	x;
-			double	y;
-			double	z;
-		};
-		struct
-		{
-			double	r;
-			double	g;
-			double	b;
-			double	color;
-		};
-	};
-} t_vec3, t_color,	t_point3;
 
 typedef struct s_mlx
 {
@@ -132,6 +134,12 @@ typedef struct s_ray
 	t_vec3		vec;
 }				t_ray;
 
+typedef struct s_ray_min_max
+{
+	double	r_min;
+	double	r_max;
+}				t_ray_min_max;
+
 t_mlx	*init_mlx(int image_height);
 void	mlx_put_pixel(t_mlx *m, int x, int y, int color);
 void	mlx_put_to_window(t_mlx *m);
@@ -168,7 +176,7 @@ void	render(t_mrt *m, t_cam c);
 
 t_vec3	ray_pos(t_ray r, double t);
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
-t_color	ray_color(t_ray r);
+t_color	ray_color(t_ray r, t_sphere sp);
 double	hit_sphere(t_vec3 center, double radius, t_ray r);
 
 #endif
