@@ -1,55 +1,72 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/02/12 22:30:05 by wshou-xi          #+#    #+#              #
-#    Updated: 2026/03/24 15:03:51 by wshou-xi         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME := miniRT
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra -g -I./includes
-LIB = -Lmlx_Linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -Llibft -lft
-RM = rm -rf
+# Disable Makefile printing 'Entering/Leaving directory' lines
+MAKEFLAGS += --no-print-directory
+MAKE := make
 
-MAINDIR = src
-MAINFILE = main.c mlx_init.c math.c color.c camera.c minirt_init.c
-MAIN = $(addprefix $(MAINDIR)/,$(MAINFILE))
+CC := cc
+RM := rm -rf
 
-VECDIR = src/vec3
-VECFILE = vec3.c vec3_2.c vec3_3.c
-VEC = $(addprefix $(VECDIR)/,$(VECFILE))
+# Compiler Flags
+CFLAGS := -Wall -Werror -Wextra -g3
 
-RAYDIR = src/ray
-RAYFILE = ray.c
-RAY = $(addprefix $(RAYDIR)/,$(RAYFILE))
+# Preprocessor flags
+CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
 
-OBJDIR = src/objs
-OBJFILE = objs.c
-OBJ = $(addprefix $(OBJSDIR)/,$(OBJSFILE))
+# Debug mode
+#CPPFLAGS += -DDEBUG=1
 
-SRC = $(MAIN) $(VEC) $(RAY)
+# Linker search path flags
+LDFLAGS := -Llibft -L/usr/lib -Lmlx_linux
 
-OBJSDIR = obj
-OBJS = $(SRC:%.c=$(OBJSDIR)/%.o)
-NAME = miniRT
+# Linker library flags. Order matters.
+LDLIBS := -lft -lmlx_Linux -lXext -lX11 -lm
 
-$(OBJSDIR)/%.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+# List out headers as dependencies and ensures the compiler will recompile if the header files are modified
+HEADERS := includes/minirt.h
 
-$(NAME): $(OBJS)
-	@$(MAKE) -C libft
-	@$(MAKE) -C mlx_Linux
-	@$(CC) $(CFLAGS) $(SRC) $(LIB) -o $(NAME)
+MAINDIR := src
+MAINFILE := main.c \
+		   mlx_init.c \
+		   math.c \
+		   color.c \
+		   camera.c \
+		   minirt_init.c
+MAIN := $(addprefix $(MAINDIR)/,$(MAINFILE))
+
+VECDIR := src/vec3
+VECFILE := vec3.c \
+		  vec3_2.c \
+		  vec3_3.c
+VEC := $(addprefix $(VECDIR)/,$(VECFILE))
+
+RAYDIR := src/ray
+RAYFILE := ray.c
+RAY := $(addprefix $(RAYDIR)/,$(RAYFILE))
+
+OBJDIR := src/objects
+OBJFILE := sphere.c
+OBJ := $(addprefix $(OBJDIR)/,$(OBJFILE))
+
+SRC := $(MAIN) $(VEC) $(RAY) $(OBJ)
+
+OBJSDIR := obj
+OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)
 
 all: $(NAME)
 
+$(NAME): $(OBJS) $(HEADERS)
+	@$(MAKE) -C libft
+	@$(MAKE) -C mlx_Linux
+	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
+
+$(OBJSDIR)/%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
 clean:
 	$(RM) $(NAME)
+	$(RM) $(OBJSDIR)
 	$(MAKE) -C mlx_Linux clean
 	$(MAKE) -C libft clean
 
