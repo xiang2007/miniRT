@@ -78,7 +78,7 @@ void	render(t_mrt *m, t_cam c)
 						scale_vec(c.pixel_delta_v, j)));
 			r_dir = sub_vec(p_center, c.cam_center);
 			r = ray(c.cam_center, r_dir);
-			cl = ray_color(r);
+			cl = ray_color(r, sphere(create_vec3(0, 0, -1), 0.5, cl));
 			mlx_put_pixel(m->mlx, i, j, cl.color);
 			i++;
 		}

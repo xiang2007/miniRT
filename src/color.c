@@ -72,7 +72,7 @@ t_color	ray_color(t_ray r, t_sphere sp)
 	t_vec3	u_dir;
 	t_vec3	n;
 
-	t = hit_sphere(create_vec3(0, 0, -1), 0.5, r);
+	t = hit_sphere(sp, r);
 	if (t > 0.0)
 	{
 		n = unit_vec(sub_vec(ray_pos(r, t), sp.point));

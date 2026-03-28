@@ -177,6 +177,7 @@ void	render(t_mrt *m, t_cam c);
 t_vec3	ray_pos(t_ray r, double t);
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray r, t_sphere sp);
-double	hit_sphere(t_vec3 center, double radius, t_ray r);
+double	hit_sphere(t_sphere sphere, t_ray r);
+t_sphere	sphere(t_point3 center, double radius, t_color col);
 
 #endif
