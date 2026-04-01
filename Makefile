@@ -65,12 +65,12 @@ $(OBJSDIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(NAME)
 	$(RM) $(OBJSDIR)
 	$(MAKE) -C mlx_Linux clean
 	$(MAKE) -C libft clean
 
 fclean: clean
+	$(RM) $(NAME)
 	$(MAKE) -C libft fclean
 
 re: fclean all
