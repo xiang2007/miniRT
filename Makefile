@@ -28,9 +28,6 @@ HEADERS := includes/minirt.h
 MAINDIR := src
 MAINFILE := main.c \
 		   mlx_init.c \
-		   math.c \
-		   color.c \
-		   camera.c \
 		   minirt_init.c
 MAIN := $(addprefix $(MAINDIR)/,$(MAINFILE))
 
@@ -48,21 +45,38 @@ OBJDIR := src/objects
 OBJFILE := sphere.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJFILE))
 
-SRC := $(MAIN) $(VEC) $(RAY) $(OBJ)
+COLDIR := src/color
+COLFILE := color.c \
+		   color_util.c
+COL := $(addprefix $(COLDIR)/,$(COLFILE))
+
+CAMDIR := src/camera
+CAMFILE := camera.c
+CAM := $(addprefix $(CAMDIR)/,$(CAMFILE))
+
+MAHDIR := src/math
+MAHFILE := math.c
+MAH := $(addprefix $(MAHDIR)/,$(MAHFILE))
+
+SRC := $(MAIN) $(VEC) $(RAY) $(OBJ) $(COL) $(CAM) $(MAH)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(HEADERS)
-	@$(MAKE) -C libft
-	@$(MAKE) -C mlx_Linux
-	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
+$(NAME): mlx_Linux/libmlx_Linux.a libft/libft.a $(OBJS) $(HEADERS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
 
 $(OBJSDIR)/%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+mlx_Linux/libmlx_Linux.a:
+	@$(MAKE) -C mlx_Linux
+
+libft/libft.a:
+	@$(MAKE) -C libft
 
 clean:
 	$(RM) $(OBJSDIR)
