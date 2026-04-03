@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-
+#include <time.h>
 static void	init_cam(t_cam *cam, t_mrt m)
 {
 	cam->aspect_ratio = ASPECT_RATIO;
@@ -66,8 +66,9 @@ void	render(t_mrt *m, t_cam c)
 	t_color	cl;
 	t_vec3	p_center;
 	t_vec3	r_dir;
-
+	clock_t	start, end;
 	j = 0;
+	start = clock();
 	while (j < m->image_height)
 	{
 		i = 0;
@@ -84,6 +85,8 @@ void	render(t_mrt *m, t_cam c)
 		}
 		j++;
 	}
+	end = clock();
+	printf("Render took %f seconds to execute \n", ((double) (end - start)) / CLOCKS_PER_SEC);
 	mlx_put_to_window(m->mlx);
 }
 
