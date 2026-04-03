@@ -34,22 +34,21 @@ void	render(t_rt *rt_dat, t_cam *c)
 	t_sphere	sp;
 
 	h = 0;
-	w = 0;
 	sp = sphere(create_vec3(0, 0, -1), 0.5);
 	start = clock();
 	while (h < rt_dat->img_h)
 	{
-		if (rt_dat->img_w == w) // not sure if it's faster or not yet
+		w = 0;
+		while (w < rt_dat->img_w)
 		{
-			w = 0;
-			h++;
+			px_center = vec_add(c->px00_loc, vec_add(vec_mul(c->px_delta_u, w), vec_mul(c->px_delta_v, h)));
+			r_dir = vec_sub(px_center, c->cam_center);
+			r = ray(c->cam_center, r_dir);
+			cl = ray_color(&r, &sp);
+			mlx_put_pixel(rt_dat->mlx_dat, w, h, color_get_hex(cl));
+			w++;
 		}
-		px_center = vec_add(c->px00_loc, vec_add(vec_mul(c->px_delta_u, w), vec_mul(c->px_delta_v, h)));
-		r_dir = vec_sub(px_center, c->cam_center);
-		r = ray(c->cam_center, r_dir);
-		cl = ray_color(&r, &sp);
-		mlx_put_pixel(rt_dat->mlx_dat, w, h, color_get_hex(cl));
-		w++;
+		h++;
 	}
 	end = clock();
 	printf("Render took %f seconds to execute \n", ((double) (end - start)) / CLOCKS_PER_SEC);
