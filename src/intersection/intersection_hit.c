@@ -10,28 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "vec3.h"
+#include "sphere.h"
+#include "ray.h"
+#include <math.h>
 
-double	hit_sphere(t_sphere sphere, t_ray r)
+double	hit_sphere(t_sphere *sp, t_ray *r)
 {
 	t_vec3	ori_center;
-	t_vec3	center;
-	double	radius;
 	double	a;
-	double	b;
+	double	h;
 	double	c;
 	double	d;
 
-	center = sphere.point;
-	radius = sphere.radius;
-	ori_center = sub_vec(center, r.point);
-	a = len_sq(r.vec);
-	b = dot_vec(r.vec, ori_center);
-	c = len_sq(ori_center) - sq(radius);
-	d = sq(b) - a * c;
+	ori_center = vec_sub(sp->point, r->point);
+	a = vec_len_sq(r->vec);
+	h = vec_dot(r->vec, ori_center);
+	c = vec_len_sq(ori_center) - pow(sp->radius, 2.0);
+	d = pow(h, 2.0) - a * c;
 	if (d < 0)
 		return (-1);
-	else
-		return ((b - sqrt(d)) / a);
+	return ((h - sqrt(d)) / a);
 }
 

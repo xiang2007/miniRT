@@ -12,9 +12,6 @@
 
 #include "vec3.h"
 #include "sphere.h"
-#include "ray.h"
-#include "objects.h"
-#include "math.h"
 
 t_sphere	sphere(t_point3 center, double radius)
 {
@@ -25,14 +22,14 @@ t_sphere	sphere(t_point3 center, double radius)
 	return (sphere);
 }
 
-bool front_face(t_cylinder c, t_ray ray, double t)
-{
-	bool		front;
-	t_point3	hit_point;
-	t_vec3		out;
-
-	hit_point = add_vec(ray.point, scale_vec(ray.vec, t));
-	out = unit_vec(sub_vec(hit_point, c.center));
-	front = (dot_vec(ray.vec, out) < 0);
-	return (front);
-}
+// bool front_face(t_cylinder c, t_ray ray, double t)
+// {
+// 	bool		front;
+// 	t_point3	hit_point;
+// 	t_vec3		out;
+//
+// 	hit_point = add_vec(ray.point, scale_vec(ray.vec, t));
+// 	out = unit_vec(sub_vec(hit_point, c.center));
+// 	front = (dot_vec(ray.vec, out) < 0);
+// 	return (front);
+// }

@@ -63,10 +63,14 @@ CAMSRC := camera.c
 CAM := $(addprefix $(CAMDIR)/,$(CAMSRC))
 
 OBJDIR := src/objects
-OBJFILE := sphere.c
-OBJ := $(addprefix $(OBJDIR)/,$(OBJFILE))
+OBJSRC := sphere.c
+OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ)
+INTDIR := src/intersection
+INTSRC := intersection_hit.c
+INT := $(addprefix $(INTDIR)/,$(INTSRC))
+
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)
