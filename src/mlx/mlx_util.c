@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_util.c                                       :+:      :+:    :+:   */
+/*   mlx_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 13:23:47 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/02 13:23:47 by ydylan-k         ###   ########.fr       */
+/*   Created: 2026/04/02 22:31:56 by ydylan-k          #+#    #+#             */
+/*   Updated: 2026/04/02 22:31:56 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	rgb_to_hex(int r, int g, int b)
+#include "minirt.h"
+#include "mlx.h"
+
+void	mlx_put_pixel(t_mlx *m, int x, int y, int color)
 {
-	r = r & 0xFF;
-	g = g & 0xFF;
-	b = b & 0xFF;
-	return ((r << 16) | (g << 8) | b);
+	char	*dest;
+
+	dest = m->addr + (y * m->line_length + x * (m->bpp / 8));
+	*(unsigned int *)dest = color;
+}
+
+void	mlx_put_to_window(t_mlx *m)
+{
+	t_mlx	temp;
+
+	temp = *m;
+	mlx_put_image_to_window(temp.mlx, temp.mlx_win, temp.img, 0, 0);
 }

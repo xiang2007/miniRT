@@ -11,109 +11,54 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdbool.h>
+#include "vec3.h"
+#include "camera.h"
+#include "render.h"
+#include "mlx_dat.h"
+#include <mlx.h>
+#include <stdlib.h>
 
-// int	hit_sphere(t_vec3 center, double radius, t_ray r);
-
-int	rgb_to_hex(int r, int g, int b)
+t_rt	*rt_dat_init(t_rt **rt_dat)
 {
-	r = r & 0xFF;
-	g = g & 0xFF;
-	b = b & 0xFF;
-	return ((r << 16) | (g << 8) | b);
+	t_rt	*r;
+
+	r = malloc(sizeof(t_rt));
+	if (!r)
+		return (NULL);
+	r->aspect_ratio = (double)16 / 9;
+	r->img_w = WIDTH;
+	r->img_h = WIDTH / r->aspect_ratio;
+	if (r->img_h < 1)
+		r->img_h = 1;
+	*rt_dat = r;
+	if (!mlx_dat_init(&(*rt_dat)->mlx_dat))
+	{
+		free(*rt_dat);
+		return (NULL);
+	}
+	return (*rt_dat);
 }
 
-// int	ray_color(t_ray r)
-// {
-// 	t_vec3	unit_dir;
-// 	t_vec3	n;
-// 	t_color	res;
-// 	double	t;
-// 	double	a;
-
-// 	t = hit_sphere(create_vec3(0, 0, -1), 0.5, r);
-// 	if (t > 0)
-// 	{
-// 		n = unit_vec(sub_vec(ray_pos(r, t), create_vec3(0, 0, -1)));
-// 		return (0.5 * (rgb_to_hex(n.x + 1, n.y + 1, n.z + 1)));
-// 	}
-// 	unit_dir = unit_vec(r.vec);
-// 	a = 0.5 * (unit_dir.y + 1);
-// 	res = add_color((mult_color_n(create_color(1, 1, 1), (1 - a))),
-// 				(mult_color_n(create_color(0.5, 0.7, 1), a)));
-// 	return (res.color);
-// }
-
-// void	draw_sphere(t_mrt *m)
-// {
-// 	int		x;
-// 	int		y;
-// 	double	u;
-// 	double	v;
-// 	t_vec3	t;
-// 	t_ray	r;
-
-// 	x = 0;
-// 	while (x < m->image_width)
-// 	{
-// 		y = 0;
-// 		while (y < m->image_height)
-// 		{
-// 			u = (double)x / (m->image_width - 1);
-// 			v = (double)(m->image_height -1 -y) / (m->image_height - 1);
-// 			r.point = create_vec3(0, 0, 0);
-// 		}
-// 	}
-// }
-
-int	main()
+void	rt_dat_free(t_rt *rt_dat)
 {
-	t_mrt	*minirt;
-	t_cam	c;
+	mlx_dat_free(rt_dat->mlx_dat);
+	free(rt_dat);
+}
 
-	minirt = init_mrt();
-	minirt->cam_center = create_vec3(0, 0, 0);
-	c = cam(*minirt);
-	render(minirt, c);
-	mlx_loop(minirt->mlx->mlx);
-	free_mrt(minirt);
+int	main(int argc, char **argv)
+{
+	t_cam	cam;
+	t_rt	*rt_dat; // TODO: should be malloc or not?
+
+	(void)argc;
+	(void)argv;
+	// TODO: .rt parser
+	if (!rt_dat_init(&rt_dat))
+		return (1); // TODO: error msg: malloc failure
+	cam_init(&cam, rt_dat);
+	render(rt_dat, &cam);
+	// TODO: renderer
+	mlx_loop(rt_dat->mlx_dat->mlx);
+	rt_dat_free(rt_dat);
 	return (0);
 }
-
-
-// int	main()
-// {
-// 	t_mlx	*mlx;
-// 	t_color	c;
-// 	int		x;
-// 	int		y;
-// 	int		image_height;
-// 	int		viewport_height;
-// 	int		viewport_width;
-
-// 	mlx = malloc(sizeof(t_mlx));
-// 	image_height = (int)(WIDTH / (ASPECT_RATIO));
-// 	init_mlx(mlx, image_height);
-// 	x = 0;
-// 	while (x < WIDTH)
-// 	{
-// 		y = 0;
-// 		while (y < image_height)
-// 		{
-// 			c.r = (double)x / (WIDTH - 1);
-// 			c.g = (double)y / (image_height - 1);
-// 			c.b = 0;
-// 			c.color = rgb_to_hex(
-// 						((int)(c.r * 255.999)),
-// 						((int)(c.g * 255.999)),
-// 						((int)(c.b * 255.999)));
-// 			mlx_put_pixel(mlx, x, y, c.color);
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// 	mlx_put_to_window(mlx);
-// 	mlx_loop(mlx->mlx);
-// 	close_all(mlx);
-// 	free(mlx);
-// }

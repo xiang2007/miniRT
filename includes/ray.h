@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_util.c                                       :+:      :+:    :+:   */
+/*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 13:23:47 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/02 13:23:47 by ydylan-k         ###   ########.fr       */
+/*   Created: 2026/04/03 12:15:34 by ydylan-k          #+#    #+#             */
+/*   Updated: 2026/04/03 12:15:34 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	rgb_to_hex(int r, int g, int b)
+#ifndef RAY_H
+# define RAY_H
+
+typedef struct s_ray
 {
-	r = r & 0xFF;
-	g = g & 0xFF;
-	b = b & 0xFF;
-	return ((r << 16) | (g << 8) | b);
-}
+	t_point3	point;
+	t_vec3		vec;
+}				t_ray;
+
+t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
+t_color	ray_color(t_ray *r, t_sphere *sp);
+
+#endif

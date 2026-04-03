@@ -23,42 +23,50 @@ LDFLAGS := -Llibft -L/usr/lib -Lmlx_linux
 LDLIBS := -lft -lmlx_Linux -lXext -lX11 -lm
 
 # List out headers as dependencies and ensures the compiler will recompile if the header files are modified
-HEADERS := includes/minirt.h
+HEADERS := includes/minirt.h \
+		   includes/mlx_dat.h \
+		   includes/vec3.h \
+		   includes/color.h \
+		   includes/camera.h \
+		   includes/ray.h \
+		   includes/render.h \
+		   includes/objects.h \
+		   includes/sphere.h
 
-MAINDIR := src
-MAINFILE := main.c \
-		   mlx_init.c \
-		   minirt_init.c
-MAIN := $(addprefix $(MAINDIR)/,$(MAINFILE))
+MAIN := src/main.c
+
+MLXDIR := src/mlx
+MLXSRC := mlx_dat.c \
+		  mlx_util.c
+MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
+
+RDRDIR := src/render
+RDRSRC := render.c
+RDR := $(addprefix $(RDRDIR)/,$(RDRSRC))
 
 VECDIR := src/vec3
-VECFILE := vec3.c \
-		  vec3_2.c \
-		  vec3_3.c
-VEC := $(addprefix $(VECDIR)/,$(VECFILE))
+VECSRC := vec3_op.c \
+		  vec3_util.c
+VEC := $(addprefix $(VECDIR)/,$(VECSRC))
+
+COLDIR := src/color
+COLSRC := color.c \
+		  color_util.c
+COL := $(addprefix $(COLDIR)/,$(COLSRC))
 
 RAYDIR := src/ray
-RAYFILE := ray.c
-RAY := $(addprefix $(RAYDIR)/,$(RAYFILE))
+RAYSRC := ray.c
+RAY := $(addprefix $(RAYDIR)/,$(RAYSRC))
+
+CAMDIR := src/camera
+CAMSRC := camera.c
+CAM := $(addprefix $(CAMDIR)/,$(CAMSRC))
 
 OBJDIR := src/objects
 OBJFILE := sphere.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJFILE))
 
-COLDIR := src/color
-COLFILE := color.c \
-		   color_util.c
-COL := $(addprefix $(COLDIR)/,$(COLFILE))
-
-CAMDIR := src/camera
-CAMFILE := camera.c
-CAM := $(addprefix $(CAMDIR)/,$(CAMFILE))
-
-MAHDIR := src/math
-MAHFILE := math.c
-MAH := $(addprefix $(MAHDIR)/,$(MAHFILE))
-
-SRC := $(MAIN) $(VEC) $(RAY) $(OBJ) $(COL) $(CAM) $(MAH)
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)

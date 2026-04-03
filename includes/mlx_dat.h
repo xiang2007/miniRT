@@ -1,15 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cam.c                                              :+:      :+:    :+:   */
+/*   mlx_dat.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/16 16:13:01 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/16 16:13:07 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/04/02 18:16:06 by ydylan-k          #+#    #+#             */
+/*   Updated: 2026/04/02 18:16:06 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef MLX_DAT_H
+# define MLX_DAT_H
 
-t_c
+t_mlx	*mlx_dat_init(t_mlx **mlx_dat);
+void	mlx_dat_free(t_mlx *mlx_dat);
+
+void	mlx_put_pixel(t_mlx *m, int x, int y, int color);
+void	mlx_put_to_window(t_mlx *m);
+
+#endif

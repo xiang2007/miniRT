@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_util.c                                       :+:      :+:    :+:   */
+/*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 13:23:47 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/02 13:23:47 by ydylan-k         ###   ########.fr       */
+/*   Created: 2026/04/03 13:19:00 by ydylan-k          #+#    #+#             */
+/*   Updated: 2026/04/03 13:19:00 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	rgb_to_hex(int r, int g, int b)
-{
-	r = r & 0xFF;
-	g = g & 0xFF;
-	b = b & 0xFF;
-	return ((r << 16) | (g << 8) | b);
-}
+#ifndef RENDER_H
+# define RENDER_H
+
+void	render(t_rt *rt_dat, t_cam *c);
+
+#endif
