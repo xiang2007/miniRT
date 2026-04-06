@@ -12,9 +12,8 @@
 
 #include "minirt.h"
 #include "vec3.h"
-#include "sphere.h"
-#include "ray.h"
 #include "objects.h"
+#include "ray.h"
 #include "camera.h"
 #include "color.h"
 #include "mlx_dat.h"

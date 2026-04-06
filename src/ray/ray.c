@@ -12,9 +12,8 @@
 
 #include "vec3.h"
 #include "color.h"
-#include "sphere.h"
-#include "ray.h"
 #include "objects.h"
+#include "ray.h"
 
 t_vec3	ray_pos(t_ray *r, double t)
 {

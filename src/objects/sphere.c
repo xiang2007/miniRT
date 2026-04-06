@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "vec3.h"
-#include "sphere.h"
+#include "objects.h"
 
 t_sphere	sphere(t_point3 center, double radius)
 {

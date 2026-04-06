@@ -13,7 +13,15 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
+/**
+ * @brief point is used as the center of the sphere
+ */
+typedef struct s_sphere
+{
+	t_point3	point;
+	double		radius;
+}				t_sphere;
+
 t_sphere	sphere(t_point3 center, double radius);
-double		hit_sphere(t_sphere *sp, t_ray *r);
 
 #endif

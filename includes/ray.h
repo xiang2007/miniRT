@@ -22,4 +22,6 @@ typedef struct s_ray
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray *r, t_sphere *sp);
 
+double		hit_sphere(t_sphere *sp, t_ray *r);
+
 #endif

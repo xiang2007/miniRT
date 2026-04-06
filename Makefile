@@ -30,8 +30,7 @@ HEADERS := includes/minirt.h \
 		   includes/camera.h \
 		   includes/ray.h \
 		   includes/render.h \
-		   includes/objects.h \
-		   includes/sphere.h
+		   includes/objects.h
 
 MAIN := src/main.c
 
