@@ -19,9 +19,16 @@ typedef struct s_ray
 	t_vec3		vec;
 }				t_ray;
 
-t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
-t_color	ray_color(t_ray *r, t_sphere *sp);
+typedef struct s_hit_dat
+{
+	double		t;
+	t_vec3	normal;
+}	t_hit_dat;
 
-double		hit_sphere(t_sphere *sp, t_ray *r);
+t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
+t_color	ray_color(t_ray *r, t_world *world);
+t_vec3	ray_pos(t_ray *r, double t);
+
+double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec);
 
 #endif

@@ -13,6 +13,6 @@
 #ifndef RENDER_H
 # define RENDER_H
 
-void	render(t_rt *rt_dat, t_cam *c);
+void	render(t_rt *rt_dat, t_cam *c, t_world *world);
 
 #endif

@@ -21,7 +21,7 @@
 #include <time.h>
 #include <stdio.h>
 
-void	render(t_rt *rt_dat, t_cam *c)
+void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 {
 	clock_t	start, end;
 	int		w;
@@ -30,10 +30,8 @@ void	render(t_rt *rt_dat, t_cam *c)
 	t_color	cl;
 	t_vec3	px_center;
 	t_vec3	r_dir;
-	t_sphere	sp;
 
 	h = 0;
-	sp = sphere(create_vec3(0, 0, -1), 0.5);
 	start = clock();
 	while (h < rt_dat->img_h)
 	{
@@ -43,7 +41,7 @@ void	render(t_rt *rt_dat, t_cam *c)
 			px_center = vec_add(c->px00_loc, vec_add(vec_mul(c->px_delta_u, w), vec_mul(c->px_delta_v, h)));
 			r_dir = vec_sub(px_center, c->cam_center);
 			r = ray(c->cam_center, r_dir);
-			cl = ray_color(&r, &sp);
+			cl = ray_color(&r, world);
 			mlx_put_pixel(rt_dat->mlx_dat, w, h, color_get_hex(cl));
 			w++;
 		}

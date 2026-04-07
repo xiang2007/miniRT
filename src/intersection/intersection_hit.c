@@ -15,13 +15,14 @@
 #include "ray.h"
 #include <math.h>
 
-double	hit_sphere(t_sphere *sp, t_ray *r)
+double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 {
 	t_vec3	ori_center;
 	double	a;
 	double	h;
 	double	c;
 	double	d;
+	double	root;
 
 	ori_center = vec_sub(sp->point, r->point);
 	a = vec_len_sq(r->vec);
@@ -30,6 +31,14 @@ double	hit_sphere(t_sphere *sp, t_ray *r)
 	d = pow(h, 2.0) - a * c;
 	if (d < 0)
 		return (-1);
-	return ((h - sqrt(d)) / a);
+	root = (h - sqrt(d)) / a;
+	if (root <= 0 || r_max <= root) // less than zero or larger than the current smallest root not acceptable
+	{
+		root = (h + sqrt(d)) / a;
+		if (root <= 0 || r_max <= root)
+			return (0);
+	}
+	rec->t = root;
+	rec->normal = unit_vec(vec_sub(ray_pos(r, root), sp->point)); // calculates the normal in unit length
+	return (root);
 }
-

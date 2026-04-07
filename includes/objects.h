@@ -13,6 +13,13 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
+typedef enum e_obj_type
+{
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER
+}			t_obj_type;
+
 /**
  * @brief point is used as the center of the sphere
  */
@@ -21,13 +28,6 @@ typedef struct s_sphere
 	t_point3	point;
 	double		radius;
 }				t_sphere;
-
-typedef enum e_obj_type
-{
-	OBJ_SPHERE,
-	OBJ_PLANE,
-	OBJ_CYLINDER
-}			t_obj_type;
 
 typedef struct s_plane
 {
@@ -56,6 +56,11 @@ typedef struct s_objects
 	};
 	struct s_objects	*next;
 }				t_objects;
+
+typedef struct s_world
+{
+	t_objects	*objs;
+}	t_world;
 
 t_sphere	sphere(t_point3 center, double radius);
 
