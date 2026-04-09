@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec3_2.c                                           :+:      :+:    :+:   */
+/*   vec3_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,19 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "vec3.h"
+#include <math.h>
 
-double	len_sq(t_vec3 a)
+double	vec_len_sq(t_vec3 a)
 {
-	return (sq(a.x) + sq(a.y) + sq(a.z));
+	return (pow(a.x, 2.0) + pow(a.y, 2.0) + pow(a.z, 2.0));
 }
 
-double	len_vec(t_vec3 a)
+double	vec_len(t_vec3 a)
 {
-	return (sqrt(len_sq(a)));
+	return (sqrt(vec_len_sq(a)));
 }
 
-t_vec3	cross_vec(t_vec3 a, t_vec3 b)
+t_vec3	vec_cross(t_vec3 a, t_vec3 b)
 {
 	t_vec3	res;
 
@@ -32,12 +33,12 @@ t_vec3	cross_vec(t_vec3 a, t_vec3 b)
 	return (res);
 }
 
-double	dot_vec(t_vec3 a, t_vec3 b)
+double	vec_dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
 t_vec3	unit_vec(t_vec3 a)
 {
-	return (div_vec(a, len_vec(a)));
+	return (vec_div(a, vec_len(a)));
 }

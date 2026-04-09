@@ -11,109 +11,80 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdbool.h>
+#include "vec3.h"
+#include "camera.h"
+#include "objects.h"
+#include "render.h"
+#include "mlx_dat.h"
+#include <mlx.h>
+#include <stdlib.h>
 
-// int	hit_sphere(t_vec3 center, double radius, t_ray r);
-
-int	rgb_to_hex(int r, int g, int b)
+void	rt_dat_init(t_rt *rt_dat)
 {
-	r = r & 0xFF;
-	g = g & 0xFF;
-	b = b & 0xFF;
-	return ((r << 16) | (g << 8) | b);
+	rt_dat->aspect_ratio = (double)16 / 9;
+	rt_dat->img_w = WIDTH;
+	rt_dat->img_h = WIDTH / rt_dat->aspect_ratio;
+	if (rt_dat->img_h < 1)
+		rt_dat->img_h = 1;
 }
 
-// int	ray_color(t_ray r)
-// {
-// 	t_vec3	unit_dir;
-// 	t_vec3	n;
-// 	t_color	res;
-// 	double	t;
-// 	double	a;
-
-// 	t = hit_sphere(create_vec3(0, 0, -1), 0.5, r);
-// 	if (t > 0)
-// 	{
-// 		n = unit_vec(sub_vec(ray_pos(r, t), create_vec3(0, 0, -1)));
-// 		return (0.5 * (rgb_to_hex(n.x + 1, n.y + 1, n.z + 1)));
-// 	}
-// 	unit_dir = unit_vec(r.vec);
-// 	a = 0.5 * (unit_dir.y + 1);
-// 	res = add_color((mult_color_n(create_color(1, 1, 1), (1 - a))),
-// 				(mult_color_n(create_color(0.5, 0.7, 1), a)));
-// 	return (res.color);
-// }
-
-// void	draw_sphere(t_mrt *m)
-// {
-// 	int		x;
-// 	int		y;
-// 	double	u;
-// 	double	v;
-// 	t_vec3	t;
-// 	t_ray	r;
-
-// 	x = 0;
-// 	while (x < m->image_width)
-// 	{
-// 		y = 0;
-// 		while (y < m->image_height)
-// 		{
-// 			u = (double)x / (m->image_width - 1);
-// 			v = (double)(m->image_height -1 -y) / (m->image_height - 1);
-// 			r.point = create_vec3(0, 0, 0);
-// 		}
-// 	}
-// }
-
-int	main()
+void	rt_dat_free(t_rt *rt_dat)
 {
-	t_mrt	*minirt;
-	t_cam	c;
+	mlx_dat_free(rt_dat->mlx_dat);
+	free(rt_dat);
+}
 
-	minirt = init_mrt();
-	minirt->cam_center = create_vec3(0, 0, 0);
-	c = cam(*minirt);
-	render(minirt, c);
-	mlx_loop(minirt->mlx->mlx);
-	free_mrt(minirt);
+t_world	*world_init(t_world *world)
+{
+	t_objects	*tmp;
+
+	tmp = malloc(sizeof(t_objects));
+	if (!tmp)
+		return (NULL);
+	world->objs = tmp;
+	world->objs->type = OBJ_SPHERE;
+	world->objs->sphere = sphere(create_vec3(0.5, 0, -1.0), 0.45);
+	tmp = malloc(sizeof(t_objects));
+	if (!tmp)
+		return (NULL);
+	world->objs->next = tmp;
+	world->objs->next->type = OBJ_SPHERE;
+	world->objs->next->sphere = sphere(create_vec3(-0.5, 0.0, -1.0), 0.45);
+	world->objs->next->next = NULL;
+	return (world);
+}
+
+void	world_free(t_world *world)
+{
+	t_objects	*tmp;
+
+	while (world->objs)
+	{
+		tmp = world->objs;
+		world->objs = world->objs->next;
+		free(tmp);
+	}
+}
+
+int	main(int argc, char **argv)
+{
+	t_cam	cam;
+	t_rt	rt_dat;
+	t_world	world;
+
+	(void)argc;
+	(void)argv;
+	// TODO: .rt parser
+	rt_dat_init(&rt_dat);
+	if (!mlx_dat_init(&rt_dat.mlx_dat))
+		return (0); // TODO: malloc failure msg
+	if (!world_init(&world))
+		return (0); // TODO: malloc failure msg
+	cam_init(&cam, &rt_dat);
+	render(&rt_dat, &cam, &world);
+	// TODO: renderer
+	mlx_loop(rt_dat.mlx_dat->mlx);
+	rt_dat_free(&rt_dat);
+	world_free(&world);
 	return (0);
 }
-
-
-// int	main()
-// {
-// 	t_mlx	*mlx;
-// 	t_color	c;
-// 	int		x;
-// 	int		y;
-// 	int		image_height;
-// 	int		viewport_height;
-// 	int		viewport_width;
-
-// 	mlx = malloc(sizeof(t_mlx));
-// 	image_height = (int)(WIDTH / (ASPECT_RATIO));
-// 	init_mlx(mlx, image_height);
-// 	x = 0;
-// 	while (x < WIDTH)
-// 	{
-// 		y = 0;
-// 		while (y < image_height)
-// 		{
-// 			c.r = (double)x / (WIDTH - 1);
-// 			c.g = (double)y / (image_height - 1);
-// 			c.b = 0;
-// 			c.color = rgb_to_hex(
-// 						((int)(c.r * 255.999)),
-// 						((int)(c.g * 255.999)),
-// 						((int)(c.b * 255.999)));
-// 			mlx_put_pixel(mlx, x, y, c.color);
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// 	mlx_put_to_window(mlx);
-// 	mlx_loop(mlx->mlx);
-// 	close_all(mlx);
-// 	free(mlx);
-// }

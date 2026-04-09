@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math.c                                             :+:      :+:    :+:   */
+/*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/11 17:41:52 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/11 17:42:11 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/04/03 13:19:00 by ydylan-k          #+#    #+#             */
+/*   Updated: 2026/04/03 13:19:00 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef RENDER_H
+# define RENDER_H
 
-double	sq(double r)
-{
-	return (r * r);
-}
+void	render(t_rt *rt_dat, t_cam *c, t_world *world);
+
+#endif
