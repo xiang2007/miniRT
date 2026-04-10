@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/10 09:54:01 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/10 12:07:35 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "../includes/objects.h"
 #include "../includes/render.h"
 #include "../includes/mlx_dat.h"
+#include "../libft/libft.h"
 #include <../mlx_Linux/mlx.h>
 #include <stdlib.h>
 
@@ -65,6 +66,7 @@ void	world_free(t_world *world)
 		free(tmp);
 	}
 }
+
 
 int	main(int argc, char **argv)
 {
