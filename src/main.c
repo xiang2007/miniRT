@@ -6,17 +6,17 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/24 14:34:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/10 09:54:01 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "vec3.h"
-#include "camera.h"
-#include "objects.h"
-#include "render.h"
-#include "mlx_dat.h"
-#include <mlx.h>
+#include "../includes/minirt.h"
+#include "../includes/vec3.h"
+#include "../includes/camera.h"
+#include "../includes/objects.h"
+#include "../includes/render.h"
+#include "../includes/mlx_dat.h"
+#include <../mlx_Linux/mlx.h>
 #include <stdlib.h>
 
 void	rt_dat_init(t_rt *rt_dat)

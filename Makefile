@@ -17,7 +17,7 @@ CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
 #CPPFLAGS += -DDEBUG=1
 
 # Linker search path flags
-LDFLAGS := -Llibft -L/usr/lib -Lmlx_linux
+LDFLAGS := -Llibft -L/usr/lib -Lmlx_Linux
 
 # Linker library flags. Order matters.
 LDLIBS := -lft -lmlx_Linux -lXext -lX11 -lm

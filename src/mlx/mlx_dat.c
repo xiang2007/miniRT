@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mlx.h"
+#include "../mlx_Linux/mlx.h"
 #include <stdlib.h>
 
 t_mlx	*mlx_dat_init(t_mlx **mlx_dat)

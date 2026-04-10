@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 22:31:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/02 22:31:56 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/04/10 09:54:29 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mlx.h"
+#include "../mlx_Linux/mlx.h"
 
 void	mlx_put_pixel(t_mlx *m, int x, int y, int color)
 {
