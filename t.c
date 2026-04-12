@@ -83,30 +83,29 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 double	ft_atof(char *str)
 {
 	int		dot;
-	int		depth;
+	int		neg;
 	double	res1;
-	double	res2;
 	char	*s1;
 	char	*s2;
 
 	dot = 0;
 	while (str[dot] && str[dot] != '.')
-	{
-		if (str[dot] == 32 || str[dot] == '\t')
-			dot++;
 		dot++;
+	if (dot == (int)ft_strlen(str))
+		return (ft_atoi(str));
+	neg = 1;
+	if (str[0] == '-')
+	{
+		s1 = ft_substr(str, 1, dot - 1);
+		neg = -1;
 	}
-	s1 = ft_substr(str, 0, dot);
-	s2 = ft_substr(str, dot, (ft_strlen(str) - dot));
-	res1 = ft_atoi(s1);
-	res2 = ft_atoi(s2 + 1);
-	printf("s2: %s\n", s2);
-	printf("res2_1: %f\n", res2);
-	depth = ft_strlen(str) - dot;
-	while (--depth)
-		res2 /= 10;
-	printf("res2: %f\n", res2);
-	return (res1 + res2);
+	else
+		s1 = ft_substr(str, 0, dot);
+	s2 = ft_substr(str, dot + 1, (ft_strlen(str) - dot));
+	res1 = ft_atoi(s2);
+	while (ft_strlen(str) - (++dot))
+		res1 /= 10;
+	return ((double)(ft_atoi(s1) * neg) + (double)(res1 * neg));
 }
 
 int	main(int ac, char **av)
