@@ -6,63 +6,36 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:25:24 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/12 16:11:10 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 00:11:17 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static double	ft_atof_helper(char *s, int t)
+double	ft_atof(const char *str)
 {
-	int		i;
-	int		j;
-	int		d;
-	double	temp;
-	double	res;
-
-	i = t;
-	d = 1;
-	while(s[i])
-	{
-		if (!ft_isdigit(s[i]))
-			return (INT32_MAX);
-		j = 0;
-		temp = ft_atoi(s[i]);
-		while(j < d)
-		{
-			temp /= 10;
-			j++;
-		}
-		d++;
-		res += temp;
-		i++;
-	}
-	return (temp);
-}
-
-double	ft_atof(char *str)
-{
-	double	res;
+	int		dot;
 	int		neg;
-	int		i;
+	double	res1;
+	char	*s1;
+	char	*s2;
 
-	if (!str)
-		return (0);
-	i = 0;
+	dot = 0;
+	while (str[dot] && str[dot] != '.')
+		dot++;
+	if (dot == (int)ft_strlen(str))
+		return (ft_atoi(str));
 	neg = 1;
 	if (str[0] == '-')
-		neg = -1;
-	while(str[i])
 	{
-		while (str[i] != '.')
-		{
-			if (!ft_isdigit(str[i]))
-				return (0);
-			res += (double)ft_atoi(str[i]);
-			i++;
-		}
-		i++;
-		res += ft_atof_helper(str, i);
+		s1 = ft_substr(str, 1, dot - 1);
+		neg = -1;
 	}
-	return (res);
+	else
+		s1 = ft_substr(str, 0, dot);
+	s2 = ft_substr(str, dot + 1, (ft_strlen(str) - dot));
+	res1 = ft_atoi(s2);
+	while (ft_strlen(str) - (++dot))
+		res1 /= 10;
+	return ((double)(ft_atoi(s1) * neg) + (double)(res1 * neg));
 }
