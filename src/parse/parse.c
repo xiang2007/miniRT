@@ -9,5 +9,6 @@ t_parse	*parse(char *file)
 	file_content = read_rt_file(file);
 	if (file_content == NULL)
 		return (NULL);
+	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:40:34 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/10 21:47:16 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/11 17:25:47 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_toupper(int ch);
 int		ft_tolower(int ch);
+double	ft_atof(char *av);
 
 #endif

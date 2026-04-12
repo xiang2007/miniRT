@@ -12,35 +12,44 @@ int	check_rt_file(char *file_name)
 	t = file_name + i;
 	if (ft_strcmp(t, f) == FALSE)
 		return (FALSE);
-	return (FALSE);
+	return (TRUE);
 }
 
 char	*read_rt_file(char *filename)
 {
 	int		fd;
 	int		rd;
-	char	*buffer;
+	char	buffer[BUF_SIZE];
 	char	*res;
 
 	fd = open(filename, O_RDONLY);
+	res = NULL;
 	if (fd == -1)
 		return (NULL);
-	while ((rd = read(fd, buffer, 10)))
+	while ((rd = read(fd, buffer, BUF_SIZE)))
 	{
 		buffer[rd] = '\0';
-		res = ft_strjoin(buffer, res);
+		res = ft_strjoin(res, buffer);
 	}
 	return (res);
 }
 
-t_parse	count_object(char *fc)
+t_objects *parse_object(char *s)
 {
-	int	i;
+	int			i;
+	char		**res;
+	t_objects	*o_res;
 
+	res = ft_split(s, '\n');
+	o_res = malloc(sizeof(t_objects));
+	if (!o_res)
+		return (NULL);
 	i = 0;
-	while(fc[i] || fc[i] == ' ' || fc[i] == '\t')
+	while (res[i])
 	{
-		if (fc[i] == 'A' && fc[i + 1] == ' ')
-			
+		// if (res[i][1] == 'A' && res[i][0] == 32)
+		// 	parse_ambient(res[i], o_res);
 	}
+	free_str_arr(res);
+	return (NULL);
 }

@@ -39,6 +39,10 @@ MLXSRC := mlx_dat.c \
 		  mlx_util.c
 MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 
+PARSEDIR := src/parse
+PARSESRC := parse_file_objects.c parse_file.c parse_utils.c parse.c
+PARSE := $(addprefix $(PARSEDIR)/,$(PARSESRC))
+
 RDRDIR := src/render
 RDRSRC := render.c
 RDR := $(addprefix $(RDRDIR)/,$(RDRSRC))
@@ -69,7 +73,7 @@ INTDIR := src/intersection
 INTSRC := intersection_hit.c
 INT := $(addprefix $(INTDIR)/,$(INTSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT)
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)

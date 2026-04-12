@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/03 14:49:56 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/04/11 17:33:10 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
+# include "vec3.h"
 typedef enum e_obj_type
 {
+	OBJ_AMBIENT,
+	OBJ_CAMERA,
 	OBJ_SPHERE,
 	OBJ_PLANE,
 	OBJ_CYLINDER
@@ -45,6 +48,19 @@ typedef struct s_cylinder
 	int			color;
 }				t_cylinder;
 
+typedef struct s_ambient
+{
+	double	ratio;
+	t_color	color;
+}				t_ambient;
+
+typedef struct s_cam
+{
+	t_point3	cords;
+	t_vec3		normalized;
+	int			fov;
+}				t_cam;
+
 typedef struct s_objects
 {
 	t_obj_type	type;
@@ -53,6 +69,8 @@ typedef struct s_objects
 		t_sphere	sphere;
 		t_plane		plane;
 		t_cylinder	cylinder;
+		t_ambient	ambient;
+		t_cam		cam;
 	};
 	struct s_objects	*next;
 }				t_objects;

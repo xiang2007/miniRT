@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshou-xi <wshou-xi@student.42kl.edu.m      +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:33:45 by wshou-xi          #+#    #+#             */
-/*   Updated: 2025/06/04 16:33:48 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/11 16:53:48 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	size_t	len1;
-	size_t	len2;
-	size_t	i;
-	char	*dest;
+	char	*new;
+	int		len;
+	char	*temp;
 
-	i = 0;
-	if (!s1 || !s2)
+	if (!s1 && !s2)
 		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	dest = (char *)malloc(len1 + len2 + 1);
-	if (!dest)
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	new = malloc(len);
+	temp = new;
+	if (new == NULL)
 		return (NULL);
-	while (i < len1)
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	dest[i] = '\0';
-	ft_strlcat(dest, s2, len1 + len2 + 1);
-	return (dest);
+	while (*s1 != '\0')
+		*temp++ = *s1++;
+	while (*s2 != '\0')
+		*temp++ = *s2++;
+	*temp = '\0';
+	return (new);
 }
