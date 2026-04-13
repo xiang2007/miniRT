@@ -32,7 +32,7 @@ HEADERS := includes/minirt.h \
 		   includes/render.h \
 		   includes/objects.h
 
-MAIN := src/main.c
+MAIN := src/test.c
 
 MLXDIR := src/mlx
 MLXSRC := mlx_dat.c \
@@ -66,7 +66,7 @@ CAMSRC := camera.c
 CAM := $(addprefix $(CAMDIR)/,$(CAMSRC))
 
 OBJDIR := src/objects
-OBJSRC := sphere.c
+OBJSRC := sphere.c object_utils.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
 
 INTDIR := src/intersection

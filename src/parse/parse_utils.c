@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:29:58 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/13 09:42:09 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 15:09:46 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_float(char *s)
 		i++;
 	if (s[0] == '.' || (s[i - 1] == '.' && s[i] == '\0'))
 		return (FALSE);
-	while(s[i])
+	while (s[i])
 	{
 		if (!ft_isdigit(s[i]))
 			return (FALSE);
@@ -85,7 +85,7 @@ int	check_color(char *s)
 	while (color[i])
 	{
 		j = 0;
-		while(color[i][j])
+		while (color[i][j])
 		{
 			if (!ft_isdigit(color[i][j]))
 				return (FALSE);
@@ -93,7 +93,7 @@ int	check_color(char *s)
 		}
 		i++;
 	}
-	if (i != 2)
+	if (i != 3)
 		return (FALSE);
 	return (TRUE);
 }
@@ -104,17 +104,19 @@ t_color	parse_color(char *s)
 	int		size;
 	t_color	res;
 
-	res = (t_color){-1, -1, -1};
-	arr = ft_split(s, ",");
+	res = (t_color){.r = -1, .g = -1, .b = -1};
+	arr = ft_split(s, ',');
+	size = 0;
 	while (arr[size])
 		size++;
 	if ((size + 1) != 3)
 		return (free_str_arr(arr), res);
 	if (!(check_color(s)))
 		return (free_str_arr(arr), res);
-	res = (t_color){ft_atof(arr[1]), ft_atof(arr[2]), ft_atof(arr[3])};
+	res = (t_color){.r = ft_atof(arr[1]), .g = ft_atof(arr[2]),
+			.b = ft_atof(arr[3])};
 	if ((res.r < 0 || res.r > 255) || (res.g < 0 || res.g > 255)
 		|| (res.b < 0 || res.b > 255))
-		return (free_str_arr(arr), (t_color){-1, -1, -1});
+		return (free_str_arr(arr), ((t_color){.r = -1, .g = -1, .b = -1}));
 	return (free_str_arr(arr), res);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/04/13 14:53:02 by wshou-xi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/parse.h"
 
 int	check_rt_file(char *file_name)
@@ -37,6 +49,7 @@ char	*read_rt_file(char *filename)
 t_objects *parse_object(char *s)
 {
 	int			i;
+	int			flg;
 	char		**res;
 	t_objects	*o_res;
 
@@ -47,8 +60,8 @@ t_objects *parse_object(char *s)
 	i = 0;
 	while (res[i])
 	{
-		// if (res[i][1] == 'A' && res[i][0] == 32)
-		// 	parse_ambient(res[i], o_res);
+		if (res[i][1] == 'A' && res[i][0] == 32)
+			flg = parse_ambient(res[i], &o_res);
 	}
 	free_str_arr(res);
 	return (NULL);

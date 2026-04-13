@@ -6,17 +6,24 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/13 10:02:03 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 13:16:34 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parse.h"
 
-void	objects_add_back(t_objects *src, t_objects **dest)
+void	obj_add_back(t_objects *src, t_objects **dest)
 {
-	t_objects	*ori;
+	t_objects	*ptr;
 
-	ori = *dest;
-	while(ori)
-		ori = ori->next;
+	if (!dest || !*dest)
+		return ;
+	if (!src)
+		return ;
+	ptr = *dest;
+	while(ptr->next)
+		ptr = ptr->next;
+	ptr->next = src;
+	src->next = NULL;
 }
+

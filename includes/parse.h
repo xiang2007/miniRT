@@ -21,10 +21,13 @@ typedef struct s_parse
 }		t_parse;
 
 int			check_rt_file(char *file_name);
-char		*read_rt_file(char *filename);
+int			check_float(char *s);
+int			parse_ambient(char *res, t_objects **obj);
+int			check_ambient_lightning(char *s);
+int			check_color(char *s);
 void		print_str_arr(char **str_arr);
 void		free_str_arr(char **strarr);
-int			check_float(char *s);
+char		*read_rt_file(char *filename);
 t_color		parse_color(char *s);
 t_objects	*parse_object(char *s);
 

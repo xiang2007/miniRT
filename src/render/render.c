@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 21:07:24 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/02 21:07:24 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:51:47 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "vec3.h"
-#include "objects.h"
+#include "../includes/objects.h"
 #include "ray.h"
 #include "camera.h"
 #include "color.h"
