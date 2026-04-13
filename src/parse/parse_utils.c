@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:29:58 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/13 15:09:46 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 22:17:11 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,32 +69,6 @@ int	check_float(char *s)
 			return (FALSE);
 		i++;
 	}
-	return (TRUE);
-}
-
-int	check_color(char *s)
-{
-	char	**color;
-	int		i;
-	int		j;
-
-	if (!s)
-		return (FALSE);
-	color = ft_split(s, ',');
-	i = 0;
-	while (color[i])
-	{
-		j = 0;
-		while (color[i][j])
-		{
-			if (!ft_isdigit(color[i][j]))
-				return (FALSE);
-			j++;
-		}
-		i++;
-	}
-	if (i != 3)
-		return (FALSE);
 	return (TRUE);
 }
 

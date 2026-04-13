@@ -25,6 +25,8 @@ int			check_float(char *s);
 int			parse_ambient(char *res, t_objects **obj);
 int			check_ambient_lightning(char *s);
 int			check_color(char *s);
+int			check_cords(char *s);
+int			check_norm_vector(char *s);
 void		print_str_arr(char **str_arr);
 void		free_str_arr(char **strarr);
 char		*read_rt_file(char *filename);

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/13 14:53:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 21:35:48 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,24 @@ char	*read_rt_file(char *filename)
 	return (res);
 }
 
-t_objects *parse_object(char *s)
-{
-	int			i;
-	int			flg;
-	char		**res;
-	t_objects	*o_res;
+// t_objects *parse_object(char *s)
+// {
+// 	int			i;
+// 	int			flg;
+// 	char		**res;
+// 	t_objects	*o_res;
 
-	res = ft_split(s, '\n');
-	o_res = malloc(sizeof(t_objects));
-	if (!o_res)
-		return (NULL);
-	i = 0;
-	while (res[i])
-	{
-		if (res[i][1] == 'A' && res[i][0] == 32)
-			flg = parse_ambient(res[i], &o_res);
-	}
-	free_str_arr(res);
-	return (NULL);
-}
+// 	res = ft_split(s, '\n');
+// 	o_res = malloc(sizeof(t_objects));
+// 	if (!o_res)
+// 		return (NULL);
+// 	i = 0;
+// 	while (res[i])
+// 	{
+// 		if (res[i][1] == 'A' && res[i][0] == 32)
+// 			flg = parse_ambient(res[i], &o_res);
+// 	}
+// 	free_str_arr(res);
+// 	return (NULL);
+// }
+
