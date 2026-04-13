@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/12 16:19:20 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 13:09:17 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,30 +68,25 @@ void	world_free(t_world *world)
 	}
 }
 
-// int	main(int argc, char **argv)
-// {
-// 	t_cam	cam;
-// 	t_rt	rt_dat;
-// 	t_world	world;
-
-// 	(void)argc;
-// 	(void)argv;
-// 	// TODO: .rt parser
-// 	rt_dat_init(&rt_dat);
-// 	if (!mlx_dat_init(&rt_dat.mlx_dat))
-// 		return (0); // TODO: malloc failure msg
-// 	if (!world_init(&world))
-// 		return (0); // TODO: malloc failure msg
-// 	cam_init(&cam, &rt_dat);
-// 	render(&rt_dat, &cam, &world);
-// 	// TODO: renderer
-// 	mlx_loop(rt_dat.mlx_dat->mlx);
-// 	rt_dat_free(&rt_dat);
-// 	world_free(&world);
-// 	return (0);
-// }
-
-int	main()
+int	main(int argc, char **argv)
 {
+	t_cam	cam;
+	t_rt	rt_dat;
+	t_world	world;
+
+	(void)argc;
+	(void)argv;
+	// TODO: .rt parser
+	rt_dat_init(&rt_dat);
+	if (!mlx_dat_init(&rt_dat.mlx_dat))
+		return (0); // TODO: malloc failure msg
+	if (!world_init(&world))
+		return (0); // TODO: malloc failure msg
+	cam_init(&cam, &rt_dat);
+	render(&rt_dat, &cam, &world);
+	// TODO: renderer
+	mlx_loop(rt_dat.mlx_dat->mlx);
+	rt_dat_free(&rt_dat);
+	world_free(&world);
 	return (0);
 }
