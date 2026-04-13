@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:25:24 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/13 00:11:17 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 09:26:10 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ double	ft_atof(const char *str)
 	res1 = ft_atoi(s2);
 	while (ft_strlen(str) - (++dot))
 		res1 /= 10;
-	return ((double)(ft_atoi(s1) * neg) + (double)(res1 * neg));
+	res1 += (double)ft_atoi(s1);
+	return (free(s1), free(s2), (res1 * neg));
 }

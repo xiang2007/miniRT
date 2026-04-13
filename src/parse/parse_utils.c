@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:29:58 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/12 13:54:48 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/13 09:42:09 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ int	check_float(char *s)
 		i++;
 	while (s[i] && s[i] != '.')
 	{
-		if (!ft_isdigit(s[i]))
+		if (!ft_isdigit(s[i]) || s[0] == '.')
 			return (FALSE);
 		i++;
 	}
 	if (s[i] == '.')
 		i++;
+	if (s[0] == '.' || (s[i - 1] == '.' && s[i] == '\0'))
+		return (FALSE);
 	while(s[i])
 	{
 		if (!ft_isdigit(s[i]))

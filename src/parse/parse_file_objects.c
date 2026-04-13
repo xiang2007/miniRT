@@ -23,4 +23,5 @@ int	parse_ambient(char *res, t_objects **obj)
 	a->color = parse_color(s_arr[2]);
 	if (a->color.r == -1 || a->color.g == -1 || a->color.b == -1)
 		return (free_str_arr(s_arr), free(a), FALSE);
+	
 }
