@@ -30,6 +30,8 @@ int			check_norm_vector(char *s);
 void		print_str_arr(char **str_arr);
 void		free_str_arr(char **strarr);
 char		*read_rt_file(char *filename);
+int			parse_light(char *s, t_objects **obj);
+t_point3	parse_cords(char *s);
 t_color		parse_color(char *s);
 t_objects	*parse_object(char *s);
 

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/13 14:52:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 12:32:33 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ typedef enum e_obj_type
 	OBJ_CAMERA,
 	OBJ_SPHERE,
 	OBJ_PLANE,
-	OBJ_CYLINDER
+	OBJ_CYLINDER,
+	OBJ_LIGHT
 }			t_obj_type;
 
 /**
@@ -29,6 +30,7 @@ typedef enum e_obj_type
 typedef struct s_sphere
 {
 	t_point3	point;
+	t_color		color;
 	double		radius;
 }				t_sphere;
 
@@ -36,7 +38,7 @@ typedef struct s_plane
 {
 	t_point3	center;
 	t_vec3		normal;
-	int			color;
+	t_color		color;
 }				t_plane;
 
 typedef struct s_cylinder
@@ -53,6 +55,12 @@ typedef struct s_ambient
 	double	ratio;
 	t_color	color;
 }				t_ambient;
+
+typedef struct s_light
+{
+	double		brightness_ratio;
+	t_point3	cords;
+}				t_light;
 
 typedef struct s_cam
 {
@@ -78,6 +86,7 @@ typedef struct s_objects
 		t_cylinder	cylinder;
 		t_ambient	ambient;
 		t_cam		cam;
+		t_light		light;
 	};
 	struct s_objects	*next;
 }				t_objects;
