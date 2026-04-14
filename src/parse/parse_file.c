@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 12:03:41 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:43:13 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 int	check_rt_file(char *file_name)
 {
 	int			i;
-	char*		t;
-	const char*	f = ".rt";
+	char		*t;
+	const char	*f;
 
 	i = 0;
+	f = ".rt";
 	while (file_name[i] && file_name[i] != '.')
 		i++;
 	t = file_name + i;
@@ -38,10 +39,12 @@ char	*read_rt_file(char *filename)
 	res = NULL;
 	if (fd == -1)
 		return (NULL);
-	while ((rd = read(fd, buffer, BUF_SIZE)))
+	rd = read(fd, buffer, BUF_SIZE);
+	while (rd > 0)
 	{
 		buffer[rd] = '\0';
 		res = ft_strjoin(res, buffer);
+		rd = read(fd, buffer, BUF_SIZE);
 	}
 	return (res);
 }
@@ -66,4 +69,3 @@ char	*read_rt_file(char *filename)
 // 	free_str_arr(res);
 // 	return (NULL);
 // }
-

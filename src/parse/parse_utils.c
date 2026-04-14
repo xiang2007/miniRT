@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:29:58 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 11:43:32 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:43:29 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_color	parse_color(char *s)
 	if (!(check_color(s)))
 		return (free_str_arr(arr), res);
 	res = (t_color){.r = ft_atof(arr[1]), .g = ft_atof(arr[2]),
-			.b = ft_atof(arr[3])};
+		.b = ft_atof(arr[3])};
 	if ((res.r < 0 || res.r > 255) || (res.g < 0 || res.g > 255)
 		|| (res.b < 0 || res.b > 255))
 		return (free_str_arr(arr), ((t_color){.r = -1, .g = -1, .b = -1}));
@@ -107,7 +107,7 @@ t_point3	parse_cords(char *s)
 		return (point);
 	res = ft_split(s, ',');
 	point = (t_point3){.x = ft_atof(res[0]),
-				.y = ft_atof(res[1]), .z = ft_atof(res[2])};
+		.y = ft_atof(res[1]), .z = ft_atof(res[2])};
 	free_str_arr(res);
 	return (point);
 }

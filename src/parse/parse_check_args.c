@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 13:47:03 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/13 22:23:30 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:38:03 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	check_cords(char *s)
 		return (FALSE);
 	cords = ft_split(s, ',');
 	i = 0;
-	while(cords[i])
+	while (cords[i])
 	{
 		if (!check_float(cords[i]))
-			return(free_str_arr(cords), FALSE);
+			return (free_str_arr(cords), FALSE);
 		i++;
 	}
 	if (i != 3)
@@ -43,7 +43,7 @@ int	check_norm_vector(char *s)
 		return (FALSE);
 	norm = ft_split(s, ',');
 	i = 0;
-	while(norm[i])
+	while (norm[i])
 	{
 		if (!check_float(norm[i]))
 			return (free_str_arr(norm), FALSE);
@@ -81,5 +81,5 @@ int	check_color(char *s)
 	}
 	if (i != 3)
 		return (free_str_arr(color), FALSE);
-	return (free_str_arr(color) ,TRUE);
+	return (free_str_arr(color), TRUE);
 }
