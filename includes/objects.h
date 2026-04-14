@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/14 12:32:33 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:18:55 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_cylinder
 	t_vec3		axis;
 	double		radius;
 	double		height;
-	int			color;
+	t_color		color;
 }				t_cylinder;
 
 typedef struct s_ambient

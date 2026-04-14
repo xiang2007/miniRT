@@ -27,6 +27,7 @@ int			check_ambient_lightning(char *s);
 int			check_color(char *s);
 int			check_cords(char *s);
 int			check_norm_vector(char *s);
+int			parse_arg_count(char **arg);
 void		print_str_arr(char **str_arr);
 void		free_str_arr(char **strarr);
 char		*read_rt_file(char *filename);

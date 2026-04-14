@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:23:49 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/13 23:39:20 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:19:26 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,48 @@ int	check_cam(char *s)
 	if (i < 0 || i > 180)
 		return (free_str_arr(res), FALSE);
 	return (free_str_arr(res), TRUE);
+}
+
+int	parse_arg_count(char **arg)
+{
+	int	size;
+
+	size = 0;
+	if (!arg || !*arg)
+		return (-1);
+	while (arg[size])
+	{
+		if (!arg[size][0])
+			return (-1);
+		size++;
+	}
+	return (size + 1);
+}
+
+int	parse_cylinder(char *s, t_objects **obj)
+{
+	char		**res;
+	t_objects	*o;
+
+	if (!s || !obj)
+		return (FALSE);
+	if (!ft_strncmp(s, "cy", 2) || s[2] != 32)
+		return (FALSE);
+	res = ft_split(s, ' ');
+	if (parse_arg_count(res) != 6)
+		return (free_str_arr(res), FALSE);
+	if (!check_cords(res[1]) || !check_norm_vector(res[2])
+			|| !check_float(res[3]) || !check_float(res[4])
+			|| !check_color(res[5]))
+		return (free_str_arr(res), FALSE);
+	o = malloc(sizeof(t_objects));
+	o->type = OBJ_CYLINDER;
+	o->cylinder.center = parse_cords(res[1]);
+	o->cylinder.axis = parse_cords(res[2]);
+	o->cylinder.radius = ft_atof(res[3]);
+	o->cylinder.height = ft_atof(res[4]);
+	o->cylinder.color = parse_color(res[5]);
+	free_str_arr(res);
+	obj_add_back(o, obj);
+	return (TRUE);
 }
