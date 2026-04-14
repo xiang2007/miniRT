@@ -7,6 +7,9 @@
 int	main(int ac, char **av)
 {
 	(void)ac;
-	printf("flag: %d\n", ft_strncmp(av[1], "pl", 2));
+	int	i = 0;
+	while(av[i + 1])
+		i++;
+	printf("%d\n", i);
 	return (0);
 }

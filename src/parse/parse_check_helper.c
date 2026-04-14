@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_check_args.c                                 :+:      :+:    :+:   */
+/*   parse_check_helper.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 13:47:03 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 14:38:03 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/15 00:07:17 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,31 @@ int	check_color(char *s)
 	if (i != 3)
 		return (free_str_arr(color), FALSE);
 	return (free_str_arr(color), TRUE);
+}
+
+int	check_cylinder(char *s)
+{
+	char	**res;
+	double	t;
+
+	if (!s)
+		return (FALSE);
+	if ((ft_strncmp(s, "cy", 2) != 0) || s[2] != ' ')
+		return (FALSE);
+	res = ft_split(s, ' ');
+	if(parse_arg_count(res) != 6)
+		return (free_str_arr(res), FALSE);
+	if (!check_cords(res[1]))
+		return (free_str_arr(res), FALSE);
+	if (!check_norm_vector(res[2]))
+		return (free_str_arr(res), FALSE);
+	t = ft_atof(res[3]);
+	if (t < 0)
+		return (free_str_arr(res), FALSE);
+	t = ft_atof(res[4]);
+	if (t < 0)
+		return (free_str_arr(res), FALSE);
+	if (!check_color(res[5]))
+		return (free_str_arr(res), FALSE);
+	return (free_str_arr(res), TRUE);
 }

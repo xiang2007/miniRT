@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:29:58 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 14:43:29 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/15 00:03:56 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ t_color	parse_color(char *s)
 	size = 0;
 	while (arr[size])
 		size++;
-	if ((size + 1) != 3)
+	if ((size) != 3)
 		return (free_str_arr(arr), res);
 	if (!(check_color(s)))
 		return (free_str_arr(arr), res);
-	res = (t_color){.r = ft_atof(arr[1]), .g = ft_atof(arr[2]),
-		.b = ft_atof(arr[3])};
+	res = (t_color){.r = ft_atof(arr[0]), .g = ft_atof(arr[1]),
+		.b = ft_atof(arr[2])};
 	if ((res.r < 0 || res.r > 255) || (res.g < 0 || res.g > 255)
 		|| (res.b < 0 || res.b > 255))
 		return (free_str_arr(arr), ((t_color){.r = -1, .g = -1, .b = -1}));

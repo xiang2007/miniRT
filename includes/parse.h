@@ -20,24 +20,39 @@ typedef struct s_parse
 	int	plane;
 }		t_parse;
 
-int			check_rt_file(char *file_name);
-int			check_float(char *s);
-int			check_ambient_lightning(char *s);
-int			check_color(char *s);
-int			check_cords(char *s);
-int			check_norm_vector(char *s);
-int			parse_arg_count(char **arg);
-void		print_str_arr(char **str_arr);
-void		free_str_arr(char **strarr);
-char		*read_rt_file(char *filename);
-int			parse_light(char *s, t_objects **obj);
-int			parse_cam(char *s, t_objects **obj);
-int			parse_ambient(char *res, t_objects **obj);
-int			parse_sphere(char *s, t_objects **obj);
-int			parse_plane(char *s, t_objects **obj);
-int			parse_cylinder(char *s, t_objects **obj);
+// Object checking function
+int	check_sphere(char *s);
+int	check_plane(char *s);
+int	check_light(char *s);
+int	check_cam(char *s);
+int	check_ambient_lightning(char *s);
+int	check_cylinder(char *s);
+
+// Object checking function helper
+int	check_float(char *s);
+int	check_color(char *s);
+int	check_cords(char *s);
+int	check_norm_vector(char *s);
+
+// Parsing functions
+int	parse_light(char *s, t_objects **obj);
+int	parse_cam(char *s, t_objects **obj);
+int	parse_ambient(char *res, t_objects **obj);
+int	parse_sphere(char *s, t_objects **obj);
+int	parse_plane(char *s, t_objects **obj);
+int	parse_cylinder(char *s, t_objects **obj);
+
+// Parsing helper functions
+int		check_rt_file(char *file_name);
+int		parse_arg_count(char **arg);
+void	print_str_arr(char **str_arr);
+void	free_str_arr(char **strarr);
+char	*read_rt_file(char *filename);
 t_point3	parse_cords(char *s);
 t_color		parse_color(char *s);
 t_objects	*parse_object(char **res);
+
+// Parsing cleaning function
+void	parse_free_objects(t_objects *o);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 16:08:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/15 00:35:12 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ char	*read_rt_file(char *filename)
 {
 	int		fd;
 	int		rd;
-	char	buffer[BUF_SIZE];
+	char	buffer[BUF_SIZE + 1];
 	char	*res;
+	char	*line;
 
 	fd = open(filename, O_RDONLY);
 	res = NULL;
@@ -43,9 +44,12 @@ char	*read_rt_file(char *filename)
 	while (rd > 0)
 	{
 		buffer[rd] = '\0';
-		res = ft_strjoin(res, buffer);
+		line = ft_strjoin(res, buffer);
+		res = ft_strjoin(res, line);
+		free(line);
 		rd = read(fd, buffer, BUF_SIZE);
 	}
+	close(fd);
 	return (res);
 }
 
@@ -56,7 +60,7 @@ t_obj_type	parse_check_type(char *s)
 	if (s[0] == 'A')
 		return (OBJ_AMBIENT);
 	else if (s[0] == 'C')
-		return (OBJ_CYLINDER);
+		return (OBJ_CAMERA);
 	else if (s[0] == 'L')
 		return (OBJ_LIGHT);
 	else if (!ft_strncmp(s, "sp", 2))
@@ -91,19 +95,26 @@ int	parse_object_switch(char *s, t_objects **o)
 t_objects *parse_object(char **res)
 {
 	int			i;
-	t_obj_type	type;
 	t_objects	*o_res;
 
+	if (!res)
+		return (NULL);
 	o_res = malloc(sizeof(t_objects));
+	o_res = NULL;
+	o_res->next = NULL;
 	if (!o_res)
 		return (NULL);
 	i = 0;
 	while (res[i])
 	{
-		type = parse_check_type(res[i]);
-		if (parse_object_switch(res[i], type) == FALSE)
-			return ()
+		if (parse_object_switch(res[i], &o_res) == FALSE)
+		{
+			parse_free_objects(o_res);
+			free_str_arr(res);
+			return (NULL);
+		}
+		i++;
 	}
 	free_str_arr(res);
-	return (NULL);
+	return (o_res);
 }
