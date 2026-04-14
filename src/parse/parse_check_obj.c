@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:23:49 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 14:41:50 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 16:03:47 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,12 @@ int	check_cam(char *s)
 	char	**res;
 
 	if (!s)
-		return (NULL);
+		return (FALSE);
 	i = 1;
 	res = ft_split(s, ' ');
-	while (res[i])
-	{
-		if (check_cords(res[0][i]) == FALSE)
-			return (free_str_arr(res), FALSE);
-		i++;
-	}
-	if (check_norm_vector(res[1]) == FALSE)
+	if (!check_cords(res[0]))
+		return (free_str_arr(res), FALSE);
+	if (!check_norm_vector(res[1]))
 		return (free_str_arr(res), FALSE);
 	i = ft_atoi(res[2]);
 	if (i < 0 || i > 180)
@@ -85,7 +81,7 @@ int	parse_cylinder(char *s, t_objects **obj)
 
 	if (!s || !obj)
 		return (FALSE);
-	if (!ft_strncmp(s, "cy", 2) || s[2] != 32)
+	if (ft_strncmp(s, "cy", 2) || s[2] != 32)
 		return (FALSE);
 	res = ft_split(s, ' ');
 	if (parse_arg_count(res) != 6)

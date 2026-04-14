@@ -7,6 +7,6 @@
 int	main(int ac, char **av)
 {
 	(void)ac;
-	printf("flag: %d\n", check_norm_vector(av[1]));
+	printf("flag: %d\n", ft_strncmp(av[1], "pl", 2));
 	return (0);
 }

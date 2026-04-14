@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 14:43:13 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/14 16:08:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,61 @@ char	*read_rt_file(char *filename)
 	return (res);
 }
 
-// t_objects *parse_object(char *s)
-// {
-// 	int			i;
-// 	int			flg;
-// 	char		**res;
-// 	t_objects	*o_res;
+t_obj_type	parse_check_type(char *s)
+{
+	if (!s || !s[0])
+		return (-1);
+	if (s[0] == 'A')
+		return (OBJ_AMBIENT);
+	else if (s[0] == 'C')
+		return (OBJ_CYLINDER);
+	else if (s[0] == 'L')
+		return (OBJ_LIGHT);
+	else if (!ft_strncmp(s, "sp", 2))
+		return (OBJ_SPHERE);
+	else if (!ft_strncmp(s, "pl", 2))
+		return (OBJ_PLANE);
+	else if (!ft_strncmp(s, "cy", 2))
+		return (OBJ_CYLINDER);
+	return (-1);
+}
 
-// 	res = ft_split(s, '\n');
-// 	o_res = malloc(sizeof(t_objects));
-// 	if (!o_res)
-// 		return (NULL);
-// 	i = 0;
-// 	while (res[i])
-// 	{
-// 		if (res[i][1] == 'A' && res[i][0] == 32)
-// 			flg = parse_ambient(res[i], &o_res);
-// 	}
-// 	free_str_arr(res);
-// 	return (NULL);
-// }
+int	parse_object_switch(char *s, t_objects **o)
+{
+	t_obj_type	type;
+
+	type = parse_check_type(s);
+	if (type == OBJ_AMBIENT)
+		return (parse_ambient(s, o));
+	else if (type == OBJ_CAMERA)
+		return (parse_cam(s, o));
+	else if (type == OBJ_CYLINDER)
+		return (parse_cylinder(s, o));
+	else if (type == OBJ_LIGHT)
+		return (parse_light(s, o));
+	else if (type == OBJ_PLANE)
+		return (parse_plane(s, o));
+	else if (type == OBJ_SPHERE)
+		return (parse_sphere(s, o));
+	return (FALSE);
+}
+
+t_objects *parse_object(char **res)
+{
+	int			i;
+	t_obj_type	type;
+	t_objects	*o_res;
+
+	o_res = malloc(sizeof(t_objects));
+	if (!o_res)
+		return (NULL);
+	i = 0;
+	while (res[i])
+	{
+		type = parse_check_type(res[i]);
+		if (parse_object_switch(res[i], type) == FALSE)
+			return ()
+	}
+	free_str_arr(res);
+	return (NULL);
+}
