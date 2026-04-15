@@ -6,16 +6,63 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/14 15:17:45 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/15 17:31:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parse.h"
 
-t_parse	*parse(char *file)
+t_parse	parse_object_count(t_objects *o)
 {
-	char	*file_content;
-	char	**temp;
+	t_parse		c;
+	t_objects	*p;
+
+	p = o;
+	ft_memset(&c, 0, sizeof(t_parse));
+	while (p)
+	{
+		if (p->type == OBJ_AMBIENT)
+			c.ambient++;
+		else if (p->type == OBJ_LIGHT)
+			c.light++;
+		else if (p->type == OBJ_CAMERA)
+			c.camera++;
+		else if (p->type == OBJ_CYLINDER)
+			c.cylinder++;
+		else if (p->type == OBJ_PLANE)
+			c.plane++;
+		else if (p->type == OBJ_SPHERE)
+			c.sphere++;
+		p = p->next;
+	}
+	c.object = c.ambient + c.light + c.cylinder + c.sphere;
+	return (c);
+}
+
+int	parse_check_object_count(t_objects *o)
+{
+	t_parse	p;
+	int		total;
+
+	p = parse_object_count(o);
+	total = p.ambient + p.camera + p.cylinder + p.light + p.plane + p.sphere;
+	if (total < 1)
+		return (FALSE);
+	if (p.object < 1)
+		return (FALSE);
+	if (p.camera < 1 || p.camera > 1)
+		return (FALSE);
+	if (p.plane < 1 || p.plane > 1)
+		return (FALSE);
+	return (TRUE);
+}
+
+t_objects	*parse(char *file)
+{
+	int			i;
+	char		*file_content;
+	char		**temp;
+	t_objects	*o;
 
 	if (check_rt_file(file) == FALSE)
 		return (NULL);
@@ -23,6 +70,14 @@ t_parse	*parse(char *file)
 	if (file_content == NULL)
 		return (NULL);
 	temp = ft_split(file_content, '\n');
-	(void)temp;
-	return (NULL);
+	i = 0;
+	o = parse_object(temp);
+	if (o == NULL)
+		return (free(file_content), free_str_arr(temp), NULL);
+	if (!parse_check_object_count(o))
+		return (free(file_content), free_str_arr(temp),
+			parse_free_objects(o), NULL);
+	free_str_arr(temp);
+	free(file_content);
+	return (o);
 }

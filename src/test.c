@@ -6,10 +6,13 @@
 
 int	main(int ac, char **av)
 {
+	t_objects	*o;
+
 	(void)ac;
-	int	i = 0;
-	while(av[i + 1])
-		i++;
-	printf("%d\n", i);
+	o = parse(av[1]);
+	if (!o)
+		return (1);
+	print_objects(o);
+	parse_free_objects(o);
 	return (0);
 }

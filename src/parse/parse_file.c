@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/15 00:35:12 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:51:45 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*read_rt_file(char *filename)
 	char	*line;
 
 	fd = open(filename, O_RDONLY);
-	res = NULL;
+	res = ft_strdup("");
 	if (fd == -1)
 		return (NULL);
 	rd = read(fd, buffer, BUF_SIZE);
@@ -45,8 +45,8 @@ char	*read_rt_file(char *filename)
 	{
 		buffer[rd] = '\0';
 		line = ft_strjoin(res, buffer);
-		res = ft_strjoin(res, line);
-		free(line);
+		free(res);
+		res = line;
 		rd = read(fd, buffer, BUF_SIZE);
 	}
 	close(fd);
@@ -99,22 +99,16 @@ t_objects *parse_object(char **res)
 
 	if (!res)
 		return (NULL);
-	o_res = malloc(sizeof(t_objects));
 	o_res = NULL;
-	o_res->next = NULL;
-	if (!o_res)
-		return (NULL);
 	i = 0;
 	while (res[i])
 	{
 		if (parse_object_switch(res[i], &o_res) == FALSE)
 		{
 			parse_free_objects(o_res);
-			free_str_arr(res);
 			return (NULL);
 		}
 		i++;
 	}
-	free_str_arr(res);
 	return (o_res);
 }
