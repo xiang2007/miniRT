@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 12:27:46 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/16 12:07:40 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/04/16 16:15:22 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/04/16 16:33:51 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#include "parse.h"
 
-#include "objects.h"
 
-// typedef struct s_cam
-// {
-// 	double	foc_len;
-// 	double	vp_h;
-// 	double	vp_w;
-// 	t_vec3	cam_center;
-// 	t_vec3	vp_u;
-// 	t_vec3	vp_v;
-// 	t_vec3	px_delta_u;
-// 	t_vec3	px_delta_v;
-// 	t_vec3	vp_upper_left;
-// 	t_vec3	px00_loc;
-// }				t_cam;
+typedef enum e_error_type
+{
+	ERR_NO_INPUT,
+	ERR_INVALID_FILE,
+	ERR_INVALID_RATIO,
+	ERR_INVALID_RGB,
+	ERR_INVALID_CORDS,
+	ERR_INVALID_FOV,
+	ERR_INVALID_DIA,
+	ERR_INVALID_HEIGHT,
+	ERR_INVALID_VECTOR
+}			t_error_type;
 
-void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s);
+typedef struct s_error
+{
+	t_error_type	type;
+	char			*err_line;
+	struct t_error	*next;
+}				t_error;
 
-#endif

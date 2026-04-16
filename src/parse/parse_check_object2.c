@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:23:49 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/15 16:12:04 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/16 11:47:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,16 @@ int	parse_cylinder(char *s, t_objects **obj)
 
 void	print_objects(t_objects *o)
 {
+	const char	*objs[] = {"Ambient", "Camera", "Sphere", "Plane",
+		"Cylinder", "Light", "Cam_setup"};
 	t_objects	*p;
 
 	if (!o)
 		return ;
 	p = o;
-	while(p)
+	while (p)
 	{
-		printf("type: %d\n", p->type);
+		printf("%s\n", objs[p->type]);
 		p = p->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/15 17:31:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/16 12:10:16 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ t_parse	parse_object_count(t_objects *o)
 			c.ambient++;
 		else if (p->type == OBJ_LIGHT)
 			c.light++;
-		else if (p->type == OBJ_CAMERA)
-			c.camera++;
 		else if (p->type == OBJ_CYLINDER)
 			c.cylinder++;
 		else if (p->type == OBJ_PLANE)
 			c.plane++;
 		else if (p->type == OBJ_SPHERE)
 			c.sphere++;
+		else if (p->type == OBJ_SETUP_CAM)
+			c.camera++;
 		p = p->next;
 	}
 	c.object = c.ambient + c.light + c.cylinder + c.sphere;

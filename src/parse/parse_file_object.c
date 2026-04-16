@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 12:04:38 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/15 16:13:03 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/16 11:41:20 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,32 @@ int	parse_ambient(char *s, t_objects **obj)
 	return (free_str_arr(res), TRUE);
 }
 
-// Not complete, need to make it compatible with t_cam struct
 int	parse_cam(char *s, t_objects **obj)
 {
+	double		temp;
 	char		**res;
+	t_objects	*o;
 
-	if (s[0] == 'C' && s[1] != 'C')
+	if (s[0] == 'C' && s[1] != ' ')
 		return (FALSE);
 	res = ft_split(s, ' ');
+	if (parse_arg_count(res) != 4)
+		return (free_str_arr(res), FALSE);
 	if (!check_cords(res[1]))
 		return (free_str_arr(res), FALSE);
-	(void)obj;
-	return (TRUE);
+	if (!check_norm_vector(res[2]))
+		return (free_str_arr(res), FALSE);
+	temp = ft_atof(res[3]);
+	if (temp < 0 || temp > 180)
+		return (free_str_arr(res), FALSE);
+	o = malloc(sizeof(t_objects));
+	if (!o)
+		return (free_str_arr(res), FALSE);
+	o->cam_setup.center = parse_cords(res[1]);
+	o->cam_setup.norm_vector = parse_cords(res[2]);
+	o->cam_setup.fov = temp;
+	o->type = OBJ_SETUP_CAM;
+	return (obj_add_back(o, obj), free_str_arr(res), TRUE);
 }
 
 int	parse_light(char *s, t_objects **obj)

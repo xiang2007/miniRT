@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/14 14:18:55 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/16 12:10:32 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define OBJECTS_H
 
 # include "vec3.h"
+
 typedef enum e_obj_type
 {
 	OBJ_AMBIENT,
@@ -21,7 +22,8 @@ typedef enum e_obj_type
 	OBJ_SPHERE,
 	OBJ_PLANE,
 	OBJ_CYLINDER,
-	OBJ_LIGHT
+	OBJ_LIGHT,
+	OBJ_SETUP_CAM
 }			t_obj_type;
 
 /**
@@ -62,8 +64,16 @@ typedef struct s_light
 	t_point3	cords;
 }				t_light;
 
+typedef struct s_setup_cam
+{
+	int			fov;
+	t_point3	center;
+	t_vec3		norm_vector;
+}				t_setup_cam;
+
 typedef struct s_cam
 {
+	int		fov;
 	double	foc_len;
 	double	vp_h;
 	double	vp_w;
@@ -87,6 +97,7 @@ typedef struct s_objects
 		t_ambient	ambient;
 		t_cam		cam;
 		t_light		light;
+		t_setup_cam	cam_setup;
 	};
 	struct s_objects	*next;
 }				t_objects;
