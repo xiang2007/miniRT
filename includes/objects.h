@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/16 12:10:32 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/21 00:58:39 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ typedef struct s_world
 
 t_sphere	sphere(t_point3 center, double radius);
 void		obj_add_back(t_objects *src, t_objects **dest);
+t_objects	*create_object(void *obj, t_obj_type type);
 
 #endif
