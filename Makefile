@@ -32,7 +32,7 @@ HEADERS := includes/minirt.h \
 		   includes/render.h \
 		   includes/objects.h
 
-MAIN := src/test.c
+MAIN := src/main.c
 
 MLXDIR := src/mlx
 MLXSRC := mlx_dat.c \
