@@ -75,7 +75,11 @@ INTDIR := src/intersection
 INTSRC := intersection_hit.c
 INT := $(addprefix $(INTDIR)/,$(INTSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE)
+WORLDDIR := src/world
+WORLDSRC := world_op.c
+WORLD := $(addprefix $(WORLDDIR)/,$(WORLDSRC))
+
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE) $(WORLD)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)
