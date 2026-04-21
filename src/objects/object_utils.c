@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/21 00:54:07 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/21 15:31:01 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,20 @@ t_objects	*create_object(void *obj, t_obj_type type)
 	else if (type == OBJ_PLANE)
 		res->plane = *(t_plane *)obj;
 	return (res);
+}
+
+void	print_object_list(t_objects *o)
+{
+	const char *t[7] =
+		{"AMBIENT", "CAMERA", "SPHERE", "PLANE", "CYLINDER", "LIGHT", "S_CAM"};
+	t_objects	*p;
+
+	if (!o)
+		return ;
+	p = o;
+	while(p)
+	{
+		printf("Object: %s\n", t[p->type]);
+		p = p->next;
+	}
 }

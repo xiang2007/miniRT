@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/24 15:21:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/21 17:10:27 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # define WIDTH 800
 # define ASPECT_RATIO 1.7777777777777777777777777777778
 // # define PI 3.14159265358979323846
+
+#include "objects.h"
 
 /**
  * @brief Mlx data
@@ -45,8 +47,9 @@ typedef struct s_rt
 {
 	int		img_h;
 	int		img_w;
-	t_mlx	*mlx_dat;
 	double	aspect_ratio;
+	t_mlx	*mlx_dat;
+	t_world	world;
 }				t_rt;
 
 // typedef struct s_interval

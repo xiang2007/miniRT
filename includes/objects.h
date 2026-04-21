@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/21 11:26:43 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:31:01 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,12 @@ typedef struct s_world
 
 // Objects function
 void		obj_add_back(t_objects *src, t_objects **dest);
+void		print_object_list(t_objects *o);
 t_sphere	sphere(t_point3 center, double radius);
 t_objects	*create_object(void *obj, t_obj_type type);
 
+
 // World function
-t_world	*world_init(void);
-t_world	*world_add_back(t_world *world, t_objects *obj, t_obj_type type);
+void	world_add_back(t_world *world, t_objects *obj, t_obj_type type);
 
 #endif

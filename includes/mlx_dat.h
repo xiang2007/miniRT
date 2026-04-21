@@ -13,6 +13,8 @@
 #ifndef MLX_DAT_H
 # define MLX_DAT_H
 
+# define CLOSE 0xCE0E4D0
+
 t_mlx	*mlx_dat_init(t_mlx **mlx_dat);
 void	mlx_dat_free(t_mlx *mlx_dat);
 

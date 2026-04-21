@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/21 12:28:21 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/21 17:37:39 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../libft/libft.h"
 #include <../mlx_Linux/mlx.h>
 #include <stdlib.h>
+#include <X11/keysym.h>
 
 void	rt_dat_init(t_rt *rt_dat)
 {
@@ -36,23 +37,25 @@ void	rt_dat_free(t_rt *rt_dat)
 	free(rt_dat);
 }
 
-void	multilple_object(t_world *w)
+void	parse_world(t_world *w, t_objects *o)
 {
-	t_sphere	t;
-	t_objects	*r;
+	t_objects	*p;
+	t_objects	*t;
 
-	t = sphere(create_vec3(0.5, 0, -1.0), 0.45);
-	r = create_object(&t, OBJ_SPHERE);
-	world_add_back(w, r, OBJ_SPHERE);
-	t = sphere(create_vec3(-0.5, 0, -1.0), 0.45);
-	r = create_object(&t, OBJ_SPHERE);
-	world_add_back(w, r, OBJ_SPHERE);
-	t = sphere(create_vec3(0, 0.7, -1.0), 0.5);
-	r = create_object(&t, OBJ_SPHERE);
-	world_add_back(w, r, OBJ_SPHERE);
-	t = sphere(create_vec3(0, -100.5, -1.0), 100);
-	r = create_object(&t, OBJ_SPHERE);
-	world_add_back(w, r, OBJ_SPHERE);
+	if (!o)
+		return ;
+	p = o;
+	while(p)
+	{
+		if (p->type == OBJ_SPHERE)
+		{
+			t = create_object(&p->sphere, OBJ_SPHERE);
+			world_add_back(w, t, OBJ_SPHERE);
+			printf("World added\n");
+		}
+		p = p->next;
+	}
+	parse_free_objects(o);
 }
 
 void	world_free(t_world *world)
@@ -67,11 +70,30 @@ void	world_free(t_world *world)
 	}
 }
 
+int	handle_key(int key, t_rt *win)
+{
+	if (key == XK_Escape)
+	{
+		world_free(&win->world);
+		mlx_dat_free(win->mlx_dat);
+		exit(0);
+	}
+	return (0);
+}
+
+int	close_all(t_rt *win)
+{
+	world_free(&win->world);
+	mlx_dat_free(win->mlx_dat);
+	exit(0);
+}
+
 int	main(int argc, char **argv)
 {
-	t_cam	cam;
-	t_rt	rt_dat;
-	t_world	world = {0};
+	t_cam		cam;
+	t_rt		rt_dat;
+	t_objects	*objs;
+	t_world		world = {0};
 	t_setup_cam	s;
 
 	(void)argc;
@@ -85,12 +107,16 @@ int	main(int argc, char **argv)
 		return (0); // TODO: malloc failure msg
 	// if (!world_init())
 	// 	return (0); // TODO: malloc failure msg
-	multilple_object(&world);
+	objs = parse("test.rt");
+	if (!objs)
+		return (1);
+	parse_world(&world, objs);
+	rt_dat.world = world;
 	cam_init(&cam, &rt_dat, &s);
 	render(&rt_dat, &cam, &world);
 	// TODO: renderer
+	mlx_hook(rt_dat.mlx_dat->mlx_win, 2, 1L << 0, handle_key, &rt_dat);
+	mlx_hook(rt_dat.mlx_dat->mlx_win, 17, 1L << 17, close_all, &rt_dat);
 	mlx_loop(rt_dat.mlx_dat->mlx);
-	rt_dat_free(&rt_dat);
-	world_free(&world);
 	return (0);
 }
