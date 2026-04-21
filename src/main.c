@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/20 14:54:58 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/04/21 11:01:23 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_world	*world_init(t_world *world)
 		return (NULL);
 	world->objs->next = tmp;
 	world->objs->next->type = OBJ_SPHERE;
-	world->objs->next->sphere = sphere(create_vec3(-0.5, 0.0, -1.0), 0.45);
+	world->objs->next->sphere = sphere(create_vec3(-0.5, 0, -1.0), 0.45);
 	world->objs->next->next = NULL;
 	return (world);
 }
