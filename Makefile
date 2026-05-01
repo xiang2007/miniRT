@@ -8,7 +8,8 @@ CC := cc
 RM := rm -rf
 
 # Compiler Flags
-CFLAGS := -Wall -Werror -Wextra -g3
+# -Ofast: equivalent to -O3 -ffast-math, enables compiler optimizations and overrides standard math compliance to IEE 754
+CFLAGS := -Wall -Werror -Wextra -Ofast #-g3
 
 # Preprocessor flags
 CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
