@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/05/11 17:34:50 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/05/12 00:18:02 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,20 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	return (root);
 }
 
-bool intersect_plane(t_plane *p, t_ray *ray)
+double hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 {
 	float		t;
 	float		d;
 	t_point3	p0;
-	t_vec3		temp;
 
-	temp = (t_vec3){1};
-	d = vec_dot(p->normal, temp);
-	if (d > 1e-6)
-	{
-		p0 = sub_point(p->center, ray->point);
-		t = vec_dot((t_vec3)p0, p->normal) / d;
-		return (t >= 0);
-	}
-	return(false);
+	d = vec_dot(p->normal, ray->vec);
+	if (fabs(d) <= __DBL_EPSILON__)
+		return (-1);
+	p0 = vec_sub(p->center, ray->point);
+	t = vec_dot(p0, p->normal) / d;
+	if (t <= 0.0 || t >= r_max)
+		return (-1);
+	rec->t = t;
+	rec->normal = unit_vec(p->normal);
+	return (t);
 }

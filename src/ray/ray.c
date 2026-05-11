@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/03/19 18:01:54 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/05/12 00:16:20 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	while (tmp)
 	{
 		if (hit_sphere(&tmp->sphere, r, closest_so_far, &tmp_rec) > 0)
+		{
+			hit_anything = true;
+			closest_so_far = tmp_rec.t;
+			*rec = tmp_rec;
+		}
+		else if (hit_plane(&tmp->plane, r, closest_so_far, &tmp_rec) > 0)
 		{
 			hit_anything = true;
 			closest_so_far = tmp_rec.t;

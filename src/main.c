@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/21 17:37:39 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/05/12 00:15:26 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void	parse_world(t_world *w, t_objects *o)
 		{
 			t = create_object(&p->sphere, OBJ_SPHERE);
 			world_add_back(w, t, OBJ_SPHERE);
-			printf("World added\n");
+		}
+		if (p->type == OBJ_PLANE)
+		{
+			t = create_object(&p->plane, OBJ_PLANE);
+			world_add_back(w, t, OBJ_PLANE);
 		}
 		p = p->next;
 	}
