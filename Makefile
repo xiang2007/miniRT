@@ -52,7 +52,7 @@ RDR := $(addprefix $(RDRDIR)/,$(RDRSRC))
 
 VECDIR := src/vec3
 VECSRC := vec3_op.c \
-		  vec3_util.c
+		  vec3_util.c point_op.c
 VEC := $(addprefix $(VECDIR)/,$(VECSRC))
 
 COLDIR := src/color

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 21:39:18 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/20 14:52:38 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/05/11 17:29:17 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ double	vec_len(t_vec3 a);
 t_vec3	vec_cross(t_vec3 a, t_vec3 b);
 double	vec_dot(t_vec3 a, t_vec3 b);
 t_vec3	unit_vec(t_vec3 a);
+
+t_point3 sub_point(t_point3 p1, t_point3 p2);
 
 #endif

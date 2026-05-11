@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/20 17:55:46 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/05/11 17:34:50 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "objects.h"
 #include "ray.h"
 #include <math.h>
+#include <stdbool.h>
 
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 {
@@ -41,4 +42,22 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	rec->t = root;
 	rec->normal = unit_vec(vec_sub(ray_pos(r, root), sp->point)); // calculates the normal in unit length
 	return (root);
+}
+
+bool intersect_plane(t_plane *p, t_ray *ray)
+{
+	float		t;
+	float		d;
+	t_point3	p0;
+	t_vec3		temp;
+
+	temp = (t_vec3){1};
+	d = vec_dot(p->normal, temp);
+	if (d > 1e-6)
+	{
+		p0 = sub_point(p->center, ray->point);
+		t = vec_dot((t_vec3)p0, p->normal) / d;
+		return (t >= 0);
+	}
+	return(false);
 }
