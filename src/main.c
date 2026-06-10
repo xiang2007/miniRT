@@ -22,6 +22,11 @@
 #include <stdlib.h>
 #include <X11/keysym.h>
 
+/**
+ * @brief Setup ray tracer config data like aspect ratio, image height & width
+ *
+ * @param rt_dat pointer to the data struct
+ */
 void	rt_dat_init(t_rt *rt_dat)
 {
 	rt_dat->aspect_ratio = (double)16 / 9;
@@ -31,12 +36,23 @@ void	rt_dat_init(t_rt *rt_dat)
 		rt_dat->img_h = 1;
 }
 
+/**
+ * @brief Frees the ray tracer data struct
+ *
+ * @param rt_dat pointer to the data struct
+ */
 void	rt_dat_free(t_rt *rt_dat)
 {
 	mlx_dat_free(rt_dat->mlx_dat);
 	free(rt_dat);
 }
 
+/**
+ * @brief Iterates through the t_objects linked list and adds it to the t_world struct
+ *
+ * @param w world struct
+ * @param o object linked list
+ */
 void	parse_world(t_world *w, t_objects *o)
 {
 	t_objects	*p;
@@ -62,6 +78,11 @@ void	parse_world(t_world *w, t_objects *o)
 	parse_free_objects(o);
 }
 
+/**
+ * @brief Frees all obj structs in world
+ *
+ * @param world world struct
+ */
 void	world_free(t_world *world)
 {
 	t_objects	*tmp;
@@ -74,6 +95,14 @@ void	world_free(t_world *world)
 	}
 }
 
+/**
+ * @brief Checks if a key pressed
+ * - If Escape Key is pressed, all malloced data are freed and exit with 0
+ *
+ * @param key key pressed
+ * @param win window data
+ * @return returns 0
+ */
 int	handle_key(int key, t_rt *win)
 {
 	if (key == XK_Escape)
@@ -85,6 +114,12 @@ int	handle_key(int key, t_rt *win)
 	return (0);
 }
 
+/**
+ * @brief Frees all malloced data
+ *
+ * @param win window data
+ * @return returns nothing
+ */
 int	close_all(t_rt *win)
 {
 	world_free(&win->world);
@@ -92,6 +127,13 @@ int	close_all(t_rt *win)
 	exit(0);
 }
 
+/**
+ * @brief The orchestrator
+ *
+ * @param argc cli argument count
+ * @param argv array of cli arguments
+ * @return 1 on error, and 0 on normal exit
+ */
 int	main(int argc, char **argv)
 {
 	t_cam		cam;

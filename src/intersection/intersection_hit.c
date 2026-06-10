@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/05/12 00:18:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/06/11 02:51:52 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 #include <math.h>
 #include <stdbool.h>
 
+// TODO: might need more description
+
+/**
+ * @brief Calculates whether the ray hits the sphere
+ *
+ * @param sp sphere struct
+ * @param r ray struct
+ * @param r_max closest hit point I think
+ * @param rec record hit struct
+ * @return root value
+ */
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 {
 	t_vec3	ori_center;
@@ -44,6 +55,15 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	return (root);
 }
 
+/**
+ * @brief Calculates whether the ray hits the plane
+ *
+ * @param p the plane struct
+ * @param ray the ray struct
+ * @param r_max closest hit I think
+ * @param rec the record hit struct
+ * @return the root value
+ */
 double hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 {
 	float		t;

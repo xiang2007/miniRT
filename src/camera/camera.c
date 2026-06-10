@@ -13,8 +13,14 @@
 #include "minirt.h"
 #include "vec3.h"
 #include "camera.h"
-#include "parse.h"
 
+/**
+ * @brief Setup camera viewport size, px delta, fov, and focal length.
+ *
+ * @param cam camera struct
+ * @param m ray tracer data struct
+ * @param s pre-camera setup struct
+ */
 void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 {
 	cam->fov = s->fov;

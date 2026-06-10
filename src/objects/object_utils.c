@@ -12,6 +12,12 @@
 
 #include "../includes/parse.h"
 
+/**
+ * @brief Adds the object to the back of the 'dest' struct
+ *
+ * @param src node to append to the back
+ * @param dest linked list
+ */
 void	obj_add_back(t_objects *src, t_objects **dest)
 {
 	t_objects	*ptr;
@@ -31,6 +37,13 @@ void	obj_add_back(t_objects *src, t_objects **dest)
 	src->next = NULL;
 }
 
+/**
+ * @brief Creates object struct and assigns the type with the obj data
+ *
+ * @param obj the object data
+ * @param type the object type
+ * @return the node or NULL if malloc fail
+ */
 t_objects	*create_object(void *obj, t_obj_type type)
 {
 	t_objects	*res;
@@ -51,6 +64,11 @@ t_objects	*create_object(void *obj, t_obj_type type)
 	return (res);
 }
 
+/**
+ * @brief Prints the name of all the objects in the linked list
+ *
+ * @param o the linked list
+ */
 void	print_object_list(t_objects *o)
 {
 	const char *t[7] =

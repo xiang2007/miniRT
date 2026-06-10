@@ -6,10 +6,18 @@
 /*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 13:23:47 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/02 13:23:47 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/06/11 02:44:46 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @brief RGB to Hex
+ *
+ * @param r red
+ * @param g green
+ * @param b blue
+ * @return the hex value in integer
+ */
 int	rgb_to_hex(int r, int g, int b)
 {
 	r = r & 0xFF;

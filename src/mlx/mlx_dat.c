@@ -1,6 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   mlx_dat.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/10 02:13:45 by ydylan-k          #+#    #+#             */
+/*   Updated: 2026/06/11 02:53:47 by ydylan-k         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   mlx_dat.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
@@ -14,6 +26,12 @@
 #include "../mlx_Linux/mlx.h"
 #include <stdlib.h>
 
+/**
+ * @brief Initiates the mlx data
+ *
+ * @param mlx_dat the reference to struct pointer
+ * @return the pointer to the struct
+ */
 t_mlx	*mlx_dat_init(t_mlx **mlx_dat)
 {
 	t_mlx	*m;
@@ -29,6 +47,11 @@ t_mlx	*mlx_dat_init(t_mlx **mlx_dat)
 	return (m);
 }
 
+/**
+ * @brief Cleanup function for mlx
+ *
+ * @param mlx_dat the pointer to the mlx dat struct
+ */
 void	mlx_dat_free(t_mlx *mlx_dat)
 {
 	mlx_destroy_image(mlx_dat->mlx, mlx_dat->img);

@@ -18,6 +18,14 @@
 #include <float.h>
 #include <stdbool.h>
 
+/**
+ * @brief Calculates the ray position in terms of distance (t)
+ * Hit Point = Origin + (t * Direction)
+ *
+ * @param r the ray
+ * @param t the distance
+ * @return the position of the ray at 't' distance
+ */
 t_vec3	ray_pos(t_ray *r, double t)
 {
 	t_vec3		scaled_dir;
@@ -28,6 +36,13 @@ t_vec3	ray_pos(t_ray *r, double t)
 	return (res);
 }
 
+/**
+ * @brief Create a ray struct on stack memory
+ *
+ * @param cam_center camera position
+ * @param ray_dir ray direction
+ * @return the ray struct
+ */
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir)
 {
 	t_ray	r;
@@ -40,10 +55,10 @@ t_ray	ray(t_point3 cam_center, t_vec3 ray_dir)
 /**
  * @brief Iterates through all the objects and returns true if hit obj or false if not
  *
- * @param r
- * @param world
- * @param rec
- * @return
+ * @param r the ray
+ * @param world world data struct
+ * @param rec data struct when ray hits object
+ * @return true if hit any objects or false if not
  */
 bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 {
@@ -74,6 +89,13 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	return (hit_anything);
 }
 
+/**
+ * @brief Calculates the hit data from hit_list and calculates the colour from it.
+ *
+ * @param r the ray
+ * @param world the world data
+ * @return the colour struct
+ */
 t_color	ray_color(t_ray *r, t_world *world)
 {
 	double		t;

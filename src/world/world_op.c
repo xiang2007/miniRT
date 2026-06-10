@@ -14,6 +14,13 @@
 
 #define NULL ((void *)0)
 
+/**
+ * @brief TODO: look into this another time
+ *
+ * @param world
+ * @param obj
+ * @param type
+ */
 void	world_add_back(t_world *world, t_objects *obj, t_obj_type type)
 {
 	t_objects	*p;

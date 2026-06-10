@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 21:07:24 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/04/20 14:55:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/06/11 02:56:54 by ydylan-k         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 #include <time.h>
 #include <stdio.h>
 
+/**
+ * @brief Main component where rendering happens TODO: more info here
+ *
+ * @param rt_dat the ray tracer struct
+ * @param c the camera struct
+ * @param world the world struct
+ */
 void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 {
 	clock_t	start, end;

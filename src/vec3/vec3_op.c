@@ -12,6 +12,14 @@
 
 #include "vec3.h"
 
+/**
+ * @brief Adds both vector
+ * The differences are calculated for each independent dimension
+ *
+ * @param a the first vector
+ * @param b the second vector
+ * @return the resultant vector
+ */
 t_vec3	vec_add(t_vec3 a, t_vec3 b)
 {
 	t_vec3	res;
@@ -22,6 +30,14 @@ t_vec3	vec_add(t_vec3 a, t_vec3 b)
 	return (res);
 }
 
+/**
+ * @brief Subtracts both vector
+ * - The differences are calculated for each independent dimension
+ *
+ * @param a the first vector
+ * @param b the second vector
+ * @return the resultant vector
+ */
 t_vec3	vec_sub(t_vec3 a, t_vec3 b)
 {
 	t_vec3	res;
@@ -32,6 +48,13 @@ t_vec3	vec_sub(t_vec3 a, t_vec3 b)
 	return (res);
 }
 
+/**
+ * @brief Multiplies a vector with a scalar
+ *
+ * @param a the vector
+ * @param t the scalar
+ * @return the resultant vector
+ */
 t_vec3	vec_mul(t_vec3 a, double t)
 {
 	t_vec3	res;
@@ -42,6 +65,13 @@ t_vec3	vec_mul(t_vec3 a, double t)
 	return (res);
 }
 
+/**
+ * @brief Divides a vector with a scalar
+ *
+ * @param a the vector
+ * @param t the scalar
+ * @return the resultant vector
+ */
 t_vec3	vec_div(t_vec3 a, double t)
 {
 	t_vec3	res;
@@ -54,6 +84,14 @@ t_vec3	vec_div(t_vec3 a, double t)
 	return (res);
 }
 
+/**
+ * @brief Creates a vector struct with numbers from the parameter
+ *
+ * @param a the x coordinate
+ * @param b the y coordinate
+ * @param c the z coordinate
+ * @return the vector
+ */
 t_vec3	create_vec3(double a, double b, double c)
 {
 	t_vec3	res;

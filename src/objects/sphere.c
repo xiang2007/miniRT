@@ -13,6 +13,13 @@
 #include "vec3.h"
 #include "objects.h"
 
+/**
+ * @brief Creates a sphere struct on stack memory
+ *
+ * @param center center point of the sphere
+ * @param radius radius of the sphere
+ * @return the struct
+ */
 t_sphere	sphere(t_point3 center, double radius)
 {
 	t_sphere	sphere;
