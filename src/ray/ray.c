@@ -72,13 +72,13 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	closest_so_far = DBL_MAX;
 	while (tmp)
 	{
-		if (hit_sphere(&tmp->sphere, r, closest_so_far, &tmp_rec) > 0)
+		if (tmp->type == OBJ_SPHERE && hit_sphere(&tmp->sphere, r, closest_so_far, &tmp_rec) > 0)
 		{
 			hit_anything = true;
 			closest_so_far = tmp_rec.t;
 			*rec = tmp_rec;
 		}
-		else if (hit_plane(&tmp->plane, r, closest_so_far, &tmp_rec) > 0)
+		else if (tmp->type == OBJ_PLANE && hit_plane(&tmp->plane, r, closest_so_far, &tmp_rec) > 0)
 		{
 			hit_anything = true;
 			closest_so_far = tmp_rec.t;
