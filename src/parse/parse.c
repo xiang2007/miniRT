@@ -52,7 +52,9 @@ int	parse_check_object_count(t_objects *o)
 		return (FALSE);
 	if (p.camera < 1 || p.camera > 1)
 		return (FALSE);
-	if (p.plane < 1 || p.plane > 1)
+	if (p.ambient < 1)
+		return (FALSE);
+	if (p.light < 1)
 		return (FALSE);
 	return (TRUE);
 }
