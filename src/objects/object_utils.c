@@ -44,13 +44,14 @@ void	obj_add_back(t_objects *src, t_objects **dest)
  * @param type the object type
  * @return the node or NULL if malloc fail
  */
-t_objects	*create_object(void *obj, t_obj_type type)
+t_objects	*create_object(void *obj, t_obj_type type, int id)
 {
 	t_objects	*res;
 
 	res = malloc(sizeof(t_objects));
 	if (!res)
 		return (NULL);
+	res->id = id;
 	res->type = type;
 	res->next = NULL;
 	if (type == OBJ_SPHERE)

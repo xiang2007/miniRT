@@ -67,12 +67,12 @@ void	parse_world(t_world *w, t_objects *o)
 	{
 		if (p->type == OBJ_SPHERE)
 		{
-			t = create_object(&p->sphere, OBJ_SPHERE);
+			t = create_object(&p->sphere, OBJ_SPHERE, p->id);
 			world_add_back(w, t, OBJ_SPHERE);
 		}
 		if (p->type == OBJ_PLANE)
 		{
-			t = create_object(&p->plane, OBJ_PLANE);
+			t = create_object(&p->plane, OBJ_PLANE, p->id);
 			world_add_back(w, t, OBJ_PLANE);
 		}
 		p = p->next;

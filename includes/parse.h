@@ -36,12 +36,12 @@ int	check_cords(char *s);
 int	check_norm_vector(char *s);
 
 // Parsing functions
-int	parse_light(char *s, t_objects **obj);
-int	parse_cam(char *s, t_objects **obj);
-int	parse_ambient(char *res, t_objects **obj);
-int	parse_sphere(char *s, t_objects **obj);
-int	parse_plane(char *s, t_objects **obj);
-int	parse_cylinder(char *s, t_objects **obj);
+int	parse_light(int id, char *s, t_objects **obj);
+int	parse_cam(int id, char *s, t_objects **obj);
+int	parse_ambient(int id, char *res, t_objects **obj);
+int	parse_sphere(int id, char *s, t_objects **obj);
+int	parse_plane(int id, char *s, t_objects **obj);
+int	parse_cylinder(int id, char *s, t_objects **obj);
 
 // Parsing helper functions
 int		check_rt_file(char *file_name);

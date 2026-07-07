@@ -12,7 +12,7 @@
 
 #include "parse.h"
 
-int	parse_ambient(char *s, t_objects **obj)
+int	parse_ambient(int id, char *s, t_objects **obj)
 {
 	double		ratio;
 	char		**res;
@@ -29,6 +29,7 @@ int	parse_ambient(char *s, t_objects **obj)
 	o = malloc(sizeof(t_objects));
 	if (!o)
 		return (free_str_arr(res), FALSE);
+	o->id = id;
 	o->type = OBJ_AMBIENT;
 	o->ambient.ratio = ratio;
 	o->ambient.color = parse_color(res[2]);
@@ -38,7 +39,7 @@ int	parse_ambient(char *s, t_objects **obj)
 	return (free_str_arr(res), TRUE);
 }
 
-int	parse_cam(char *s, t_objects **obj)
+int	parse_cam(int id, char *s, t_objects **obj)
 {
 	double		temp;
 	char		**res;
@@ -59,6 +60,7 @@ int	parse_cam(char *s, t_objects **obj)
 	o = malloc(sizeof(t_objects));
 	if (!o)
 		return (free_str_arr(res), FALSE);
+	o->id = id;
 	o->cam_setup.center = parse_cords(res[1]);
 	o->cam_setup.norm_vector = parse_cords(res[2]);
 	o->cam_setup.fov = temp;
@@ -66,7 +68,7 @@ int	parse_cam(char *s, t_objects **obj)
 	return (obj_add_back(o, obj), free_str_arr(res), TRUE);
 }
 
-int	parse_light(char *s, t_objects **obj)
+int	parse_light(int id, char *s, t_objects **obj)
 {
 	char		**res;
 	t_objects	*o;
@@ -81,6 +83,7 @@ int	parse_light(char *s, t_objects **obj)
 	o = malloc(sizeof(t_objects));
 	if (!o)
 		return (FALSE);
+	o->id = id;
 	o->light.cords = parse_cords(res[1]);
 	o->light.brightness_ratio = ft_atof(res[2]);
 	o->type = OBJ_LIGHT;
@@ -89,7 +92,7 @@ int	parse_light(char *s, t_objects **obj)
 	return (TRUE);
 }
 
-int	parse_sphere(char *s, t_objects **obj)
+int	parse_sphere(int id, char *s, t_objects **obj)
 {
 	char		**res;
 	t_objects	*o;
@@ -102,6 +105,7 @@ int	parse_sphere(char *s, t_objects **obj)
 	o = malloc(sizeof(t_objects));
 	if (!o)
 		return (FALSE);
+	o->id = id;
 	o->sphere.point = parse_cords(res[1]);
 	o->sphere.radius = ft_atof(res[2]);
 	o->sphere.color = parse_color(res[3]);
@@ -113,7 +117,7 @@ int	parse_sphere(char *s, t_objects **obj)
 	return (TRUE);
 }
 
-int	parse_plane(char *s, t_objects **obj)
+int	parse_plane(int id, char *s, t_objects **obj)
 {
 	char		**res;
 	t_objects	*o;
@@ -126,6 +130,7 @@ int	parse_plane(char *s, t_objects **obj)
 	o = malloc(sizeof(t_objects));
 	if (!o)
 		return (FALSE);
+	o->id = id;
 	o->type = OBJ_PLANE;
 	o->plane.center = parse_cords(res[1]);
 	o->plane.normal = parse_cords(res[2]);

@@ -88,6 +88,7 @@ typedef struct s_cam
 
 typedef struct s_objects
 {
+	int			id;
 	t_obj_type	type;
 	union
 	{
@@ -111,7 +112,7 @@ typedef struct s_world
 void		obj_add_back(t_objects *src, t_objects **dest);
 void		print_object_list(t_objects *o);
 t_sphere	sphere(t_point3 center, double radius);
-t_objects	*create_object(void *obj, t_obj_type type);
+t_objects	*create_object(void *obj, t_obj_type type, int id);
 
 
 // World function

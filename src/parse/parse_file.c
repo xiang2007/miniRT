@@ -72,23 +72,23 @@ t_obj_type	parse_check_type(char *s)
 	return (-1);
 }
 
-int	parse_object_switch(char *s, t_objects **o)
+int	parse_object_switch(int id, char *s, t_objects **o)
 {
 	t_obj_type	type;
 
 	type = parse_check_type(s);
 	if (type == OBJ_AMBIENT)
-		return (parse_ambient(s, o));
+		return (parse_ambient(id, s, o));
 	else if (type == OBJ_CAMERA)
-		return (parse_cam(s, o));
+		return (parse_cam(id, s, o));
 	else if (type == OBJ_CYLINDER)
-		return (parse_cylinder(s, o));
+		return (parse_cylinder(id, s, o));
 	else if (type == OBJ_LIGHT)
-		return (parse_light(s, o));
+		return (parse_light(id, s, o));
 	else if (type == OBJ_PLANE)
-		return (parse_plane(s, o));
+		return (parse_plane(id, s, o));
 	else if (type == OBJ_SPHERE)
-		return (parse_sphere(s, o));
+		return (parse_sphere(id, s, o));
 	return (FALSE);
 }
 
@@ -103,7 +103,7 @@ t_objects *parse_object(char **res)
 	i = 0;
 	while (res[i])
 	{
-		if (parse_object_switch(res[i], &o_res) == FALSE)
+		if (parse_object_switch(i, res[i], &o_res) == FALSE)
 		{
 			parse_free_objects(o_res);
 			return (NULL);

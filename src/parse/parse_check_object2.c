@@ -28,7 +28,7 @@ int	parse_arg_count(char **arg)
 	return (size);
 }
 
-int	parse_cylinder(char *s, t_objects **obj)
+int	parse_cylinder(int id, char *s, t_objects **obj)
 {
 	char		**res;
 	t_objects	*o;
@@ -41,6 +41,7 @@ int	parse_cylinder(char *s, t_objects **obj)
 	o = malloc(sizeof(t_objects));
 	if (!o)
 		return (FALSE);
+	o->id = id;
 	o->type = OBJ_CYLINDER;
 	o->cylinder.center = parse_cords(res[1]);
 	o->cylinder.axis = parse_cords(res[2]);
