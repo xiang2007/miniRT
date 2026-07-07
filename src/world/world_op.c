@@ -35,9 +35,9 @@ void	world_add_back(t_world *world, t_objects *obj, t_obj_type type)
 		return ;
 	}
 	p = world->objs;
-	while(p->next)
+	while (p->next)
 		p = p->next;
 	p->next = obj;
-	p->type = type;
+	obj->type = type;
 	obj->next = NULL;
 }

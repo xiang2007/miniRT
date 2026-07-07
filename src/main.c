@@ -49,7 +49,8 @@ void	rt_dat_free(t_rt *rt_dat)
 }
 
 /**
- * @brief Iterates through the t_objects linked list and adds it to the t_world struct
+ * @brief Iterates through the t_objects linked list and adds it to the
+ * t_world struct
  *
  * @param w world struct
  * @param o object linked list
@@ -62,7 +63,7 @@ void	parse_world(t_world *w, t_objects *o)
 	if (!o)
 		return ;
 	p = o;
-	while(p)
+	while (p)
 	{
 		if (p->type == OBJ_SPHERE)
 		{
@@ -96,6 +97,48 @@ void	world_free(t_world *world)
 	}
 }
 
+void	setup_cam_init(t_setup_cam *s)
+{
+	s->center = create_vec3(0, 0, 0);
+	s->fov = 0;
+	s->norm_vector = create_vec3(0, 0, 0);
+}
+
+void	get_setup_cam(t_setup_cam *s, t_objects *objs)
+{
+	while (objs)
+	{
+		if (objs->type == OBJ_SETUP_CAM)
+		{
+			s->center = objs->cam_setup.center;
+			s->norm_vector = objs->cam_setup.norm_vector;
+			s->fov = objs->cam_setup.fov;
+			return ;
+		}
+		objs = objs->next;
+	}
+}
+
+int	reload_scene(t_rt *win)
+{
+	t_objects	*objs;
+	t_setup_cam	s;
+	t_world		world;
+
+	world.objs = NULL;
+	setup_cam_init(&s);
+	objs = parse("test.rt");
+	if (!objs)
+		return (1);
+	get_setup_cam(&s, objs);
+	parse_world(&world, objs);
+	world_free(&win->world);
+	win->world = world;
+	cam_init(win->cam, win, &s);
+	render(win, win->cam, &win->world);
+	return (0);
+}
+
 /**
  * @brief Checks if a key pressed
  * - If Escape Key is pressed, all malloced data are freed and exit with 0
@@ -106,8 +149,6 @@ void	world_free(t_world *world)
  */
 int	handle_key(int key, t_rt *win)
 {
-	t_objects	*o;
-
 	if (key == XK_Escape)
 	{
 		world_free(&win->world);
@@ -117,9 +158,7 @@ int	handle_key(int key, t_rt *win)
 	}
 	if (key == XK_r)
 	{
-		o = parse("test.rt");
-		parse_world(&win->world, o);
-		render(win, win->cam, &win->world);
+		reload_scene(win);
 	}
 	return (0);
 }
@@ -134,39 +173,27 @@ int	close_all(t_rt *win)
 {
 	world_free(&win->world);
 	mlx_dat_free(win->mlx_dat);
+	free(win->cam);
 	exit(0);
 }
 
-int parse_and_render(t_rt *rt_dat)
+int	parse_and_render(t_rt *rt_dat)
 {
 	t_cam		*cam;
 	t_objects	*objs;
-	t_world		world = {0};
+	t_world		world;
 	t_setup_cam	s;
-	t_objects	*cam_node;
 
 	// rt_dat_init(rt_dat);
-	s.center = create_vec3(0, 0, 0);
-	s.fov = 0;
-	s.norm_vector = create_vec3(0, 0, 0);
+	world.objs = NULL;
+	setup_cam_init(&s);
 	// TODO: malloc failure msg
 	objs = parse("test.rt");
 	if (!objs)
 		return (1);
 	// Extract camera setup from parsed objects before populating the world
 	cam = malloc(sizeof(t_cam));
-	cam_node = objs;
-	while (cam_node)
-	{
-		if (cam_node->type == OBJ_SETUP_CAM)
-		{
-			s.center = cam_node->cam_setup.center;
-			s.norm_vector = cam_node->cam_setup.norm_vector;
-			s.fov = cam_node->cam_setup.fov;
-			break;
-		}
-		cam_node = cam_node->next;
-	}
+	get_setup_cam(&s, objs);
 	parse_world(&world, objs);
 	rt_dat->world = world;
 	cam_init(cam, rt_dat, &s);
@@ -184,46 +211,11 @@ int parse_and_render(t_rt *rt_dat)
  */
 int	main(int argc, char **argv)
 {
-	// t_cam		cam;
 	t_rt		rt_dat;
-	// t_objects	*objs;
-	// t_world		world = {0};
-	// t_setup_cam	s;
-	// t_objects	*cam_node;
+
 
 	(void)argc;
 	(void)argv;
-	// // TODO: .rt parser
-	// rt_dat_init(&rt_dat);
-	// s.center = create_vec3(0, 0, 0);
-	// s.fov = 0;
-	// s.norm_vector = create_vec3(0, 0, 0);
-	// if (!mlx_dat_init(&rt_dat.mlx_dat))
-	// 	return (0); // TODO: malloc failure msg
-	// // if (!world_init())
-	// // 	return (0); // TODO: malloc failure msg
-	// objs = parse("test.rt");
-	// if (!objs)
-	// 	return (1);
-	// // Extract camera setup from parsed objects before populating the world
-	// cam_node = objs;
-	// while (cam_node)
-	// {
-	// 	if (cam_node->type == OBJ_SETUP_CAM)
-	// 	{
-	// 		s.center = cam_node->cam_setup.center;
-	// 		s.norm_vector = cam_node->cam_setup.norm_vector;
-	// 		s.fov = cam_node->cam_setup.fov;
-	// 		break;
-	// 	}
-	// 	cam_node = cam_node->next;
-	// }
-	// parse_world(&world, objs);
-	// rt_dat.world = world;
-	// cam_init(&cam, &rt_dat, &s);
-	// rt_dat.cam = &cam;
-	// render(&rt_dat, &cam, &world);
-	// TODO: renderer
 	rt_dat_init(&rt_dat);
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0); 
