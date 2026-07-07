@@ -34,6 +34,7 @@ void	rt_dat_init(t_rt *rt_dat)
 	rt_dat->img_h = WIDTH / rt_dat->aspect_ratio;
 	if (rt_dat->img_h < 1)
 		rt_dat->img_h = 1;
+	rt_dat->init = 0;
 }
 
 /**
@@ -105,11 +106,20 @@ void	world_free(t_world *world)
  */
 int	handle_key(int key, t_rt *win)
 {
+	t_objects	*o;
+
 	if (key == XK_Escape)
 	{
 		world_free(&win->world);
 		mlx_dat_free(win->mlx_dat);
+		free(win->cam);
 		exit(0);
+	}
+	if (key == XK_r)
+	{
+		o = parse("test.rt");
+		parse_world(&win->world, o);
+		render(win, win->cam, &win->world);
 	}
 	return (0);
 }
@@ -127,6 +137,44 @@ int	close_all(t_rt *win)
 	exit(0);
 }
 
+int parse_and_render(t_rt *rt_dat)
+{
+	t_cam		*cam;
+	t_objects	*objs;
+	t_world		world = {0};
+	t_setup_cam	s;
+	t_objects	*cam_node;
+
+	// rt_dat_init(rt_dat);
+	s.center = create_vec3(0, 0, 0);
+	s.fov = 0;
+	s.norm_vector = create_vec3(0, 0, 0);
+	// TODO: malloc failure msg
+	objs = parse("test.rt");
+	if (!objs)
+		return (1);
+	// Extract camera setup from parsed objects before populating the world
+	cam = malloc(sizeof(t_cam));
+	cam_node = objs;
+	while (cam_node)
+	{
+		if (cam_node->type == OBJ_SETUP_CAM)
+		{
+			s.center = cam_node->cam_setup.center;
+			s.norm_vector = cam_node->cam_setup.norm_vector;
+			s.fov = cam_node->cam_setup.fov;
+			break;
+		}
+		cam_node = cam_node->next;
+	}
+	parse_world(&world, objs);
+	rt_dat->world = world;
+	cam_init(cam, rt_dat, &s);
+	rt_dat->cam = cam;
+	render(rt_dat, rt_dat->cam, &rt_dat->world);
+	return (0);
+}
+
 /**
  * @brief The orchestrator
  *
@@ -136,31 +184,51 @@ int	close_all(t_rt *win)
  */
 int	main(int argc, char **argv)
 {
-	t_cam		cam;
+	// t_cam		cam;
 	t_rt		rt_dat;
-	t_objects	*objs;
-	t_world		world = {0};
-	t_setup_cam	s;
+	// t_objects	*objs;
+	// t_world		world = {0};
+	// t_setup_cam	s;
+	// t_objects	*cam_node;
 
 	(void)argc;
 	(void)argv;
-	// TODO: .rt parser
-	rt_dat_init(&rt_dat);
-	s.center = create_vec3(0, 0, 0);
-	s.fov = 0;
-	s.norm_vector = create_vec3(0, 0, 0);
-	if (!mlx_dat_init(&rt_dat.mlx_dat))
-		return (0); // TODO: malloc failure msg
-	// if (!world_init())
+	// // TODO: .rt parser
+	// rt_dat_init(&rt_dat);
+	// s.center = create_vec3(0, 0, 0);
+	// s.fov = 0;
+	// s.norm_vector = create_vec3(0, 0, 0);
+	// if (!mlx_dat_init(&rt_dat.mlx_dat))
 	// 	return (0); // TODO: malloc failure msg
-	objs = parse("test.rt");
-	if (!objs)
-		return (1);
-	parse_world(&world, objs);
-	rt_dat.world = world;
-	cam_init(&cam, &rt_dat, &s);
-	render(&rt_dat, &cam, &world);
+	// // if (!world_init())
+	// // 	return (0); // TODO: malloc failure msg
+	// objs = parse("test.rt");
+	// if (!objs)
+	// 	return (1);
+	// // Extract camera setup from parsed objects before populating the world
+	// cam_node = objs;
+	// while (cam_node)
+	// {
+	// 	if (cam_node->type == OBJ_SETUP_CAM)
+	// 	{
+	// 		s.center = cam_node->cam_setup.center;
+	// 		s.norm_vector = cam_node->cam_setup.norm_vector;
+	// 		s.fov = cam_node->cam_setup.fov;
+	// 		break;
+	// 	}
+	// 	cam_node = cam_node->next;
+	// }
+	// parse_world(&world, objs);
+	// rt_dat.world = world;
+	// cam_init(&cam, &rt_dat, &s);
+	// rt_dat.cam = &cam;
+	// render(&rt_dat, &cam, &world);
 	// TODO: renderer
+	rt_dat_init(&rt_dat);
+	if (!mlx_dat_init(&rt_dat.mlx_dat))
+		return (0); 
+	if (parse_and_render(&rt_dat) == 1)
+		return (1);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 2, 1L << 0, handle_key, &rt_dat);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 17, 1L << 17, close_all, &rt_dat);
 	mlx_loop(rt_dat.mlx_dat->mlx);

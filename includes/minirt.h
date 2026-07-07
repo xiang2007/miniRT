@@ -45,11 +45,13 @@ typedef struct s_mlx
  */
 typedef struct s_rt
 {
-	int		img_h;
-	int		img_w;
-	double	aspect_ratio;
-	t_mlx	*mlx_dat;
-	t_world	world;
+	int			init;
+	int			img_h;
+	int			img_w;
+	double		aspect_ratio;
+	t_mlx		*mlx_dat;
+	t_cam		*cam;
+	t_world		world;
 }				t_rt;
 
 // typedef struct s_interval

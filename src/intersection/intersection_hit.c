@@ -66,18 +66,20 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
  */
 double hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 {
-	float		t;
-	float		d;
-	t_point3	p0;
+	double	t;
+	double	d;
+	t_vec3	p0;
+	t_vec3	normal;
 
-	d = vec_dot(p->normal, ray->vec);
-	if (fabs(d) <= __DBL_EPSILON__)
+	normal = unit_vec(p->normal);
+	d = vec_dot(normal, ray->vec);
+	if (fabs(d) < __DBL_EPSILON__)
 		return (-1);
 	p0 = vec_sub(p->center, ray->point);
-	t = vec_dot(p0, p->normal) / d;
-	if (t <= 0.0 || t >= r_max)
+	t = vec_dot(p0, normal) / d;
+	if (t <= __DBL_EPSILON__ || t >= r_max)
 		return (-1);
 	rec->t = t;
-	rec->normal = unit_vec(p->normal);
+	rec->normal = normal;
 	return (t);
 }
