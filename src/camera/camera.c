@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "vec3.h"
-#include "camera.h"
+#include "../../includes/minirt.h"
+#include "../../includes/vec3.h"
+#include "../../includes/camera.h"
 
 /**
  * @brief Setup camera viewport size, px delta, fov, and focal length.

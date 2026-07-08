@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "../../includes/parse.h"
 
 int	parse_ambient(int id, char *s, t_objects **obj)
 {

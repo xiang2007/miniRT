@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec3.h"
-#include "objects.h"
-#include "ray.h"
+#include "../../includes/vec3.h"
+#include "../../includes/objects.h"
+#include "../../includes/ray.h"
 #include <math.h>
 #include <stdbool.h>
 

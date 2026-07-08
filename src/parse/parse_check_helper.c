@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parse.h"
+#include "../../includes/parse.h"
 
 int	check_cords(char *s)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parse.h"
+#include "../../includes/parse.h"
 
 void	print_str_arr(char **str_arr)
 {

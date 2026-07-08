@@ -18,7 +18,7 @@
 #include "../includes/mlx_dat.h"
 #include "../includes/parse.h"
 #include "../libft/libft.h"
-#include <../mlx_Linux/mlx.h>
+#include "../mlx_Linux/mlx.h"
 #include <stdlib.h>
 #include <X11/keysym.h>
 
@@ -184,7 +184,6 @@ int	parse_and_render(t_rt *rt_dat)
 	t_world		world;
 	t_setup_cam	s;
 
-	// rt_dat_init(rt_dat);
 	world.objs = NULL;
 	setup_cam_init(&s);
 	// TODO: malloc failure msg

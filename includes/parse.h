@@ -4,7 +4,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include "minirt.h"
-# include "libft.h"
+# include "../libft/libft.h"
 # include "objects.h"
 # define TRUE 1
 # define FALSE 0

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec3.h"
-#include "objects.h"
+#include "../../includes/vec3.h"
+#include "../../includes/objects.h"
 
 /**
  * @brief Creates a sphere struct on stack memory

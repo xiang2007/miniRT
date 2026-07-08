@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec3.h"
-#include "color.h"
+#include "../../includes/vec3.h"
+#include "../../includes/color.h"
 
 /**
  * @brief Creates a colour struct filled with rgb parameter

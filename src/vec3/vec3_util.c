@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec3.h"
+#include "../../includes/vec3.h"
 #include <math.h>
 
 // TODO: change name from vec to vec3

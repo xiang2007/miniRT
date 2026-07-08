@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec3.h"
-#include "color.h"
-#include "objects.h"
-#include "ray.h"
+#include "../../includes/vec3.h"
+#include "../../includes/color.h"
+#include "../../includes/objects.h"
+#include "../../includes/ray.h"
 
 #include <float.h>
 #include <stdbool.h>

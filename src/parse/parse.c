@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parse.h"
+#include "../../includes/parse.h"
 
 t_parse	parse_object_count(t_objects *o)
 {

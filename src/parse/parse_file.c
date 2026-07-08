@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parse.h"
+#include "../../includes/parse.h"
 
 int	check_rt_file(char *file_name)
 {

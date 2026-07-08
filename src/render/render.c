@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "vec3.h"
-#include "../includes/objects.h"
-#include "ray.h"
-#include "camera.h"
-#include "color.h"
-#include "mlx_dat.h"
+#include "../../includes/minirt.h"
+#include "../../includes/vec3.h"
+#include "../../includes/objects.h"
+#include "../../includes/ray.h"
+#include "../../includes/camera.h"
+#include "../../includes/color.h"
+#include "../../includes/mlx_dat.h"
 
 #include <time.h>
 #include <stdio.h>
