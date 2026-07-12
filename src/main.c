@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/05/12 00:15:26 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/12 12:45:14 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,55 +46,6 @@ void	rt_dat_free(t_rt *rt_dat)
 {
 	mlx_dat_free(rt_dat->mlx_dat);
 	free(rt_dat);
-}
-
-/**
- * @brief Iterates through the t_objects linked list and adds it to the
- * t_world struct
- *
- * @param w world struct
- * @param o object linked list
- */
-void	parse_world(t_world *w, t_objects *o)
-{
-	t_objects	*p;
-	t_objects	*t;
-
-	if (!o)
-		return ;
-	p = o;
-	while (p)
-	{
-		if (p->type == OBJ_SPHERE)
-		{
-			t = create_object(&p->sphere, OBJ_SPHERE, p->id);
-			world_add_back(w, t, OBJ_SPHERE);
-		}
-		if (p->type == OBJ_PLANE)
-		{
-			t = create_object(&p->plane, OBJ_PLANE, p->id);
-			world_add_back(w, t, OBJ_PLANE);
-		}
-		p = p->next;
-	}
-	parse_free_objects(o);
-}
-
-/**
- * @brief Frees all obj structs in world
- *
- * @param world world struct
- */
-void	world_free(t_world *world)
-{
-	t_objects	*tmp;
-
-	while (world->objs)
-	{
-		tmp = world->objs;
-		world->objs = world->objs->next;
-		free(tmp);
-	}
 }
 
 void	setup_cam_init(t_setup_cam *s)
@@ -137,44 +88,6 @@ int	reload_scene(t_rt *win)
 	cam_init(win->cam, win, &s);
 	render(win, win->cam, &win->world);
 	return (0);
-}
-
-/**
- * @brief Checks if a key pressed
- * - If Escape Key is pressed, all malloced data are freed and exit with 0
- *
- * @param key key pressed
- * @param win window data
- * @return returns 0
- */
-int	handle_key(int key, t_rt *win)
-{
-	if (key == XK_Escape)
-	{
-		world_free(&win->world);
-		mlx_dat_free(win->mlx_dat);
-		free(win->cam);
-		exit(0);
-	}
-	if (key == XK_r)
-	{
-		reload_scene(win);
-	}
-	return (0);
-}
-
-/**
- * @brief Frees all malloced data
- *
- * @param win window data
- * @return returns nothing
- */
-int	close_all(t_rt *win)
-{
-	world_free(&win->world);
-	mlx_dat_free(win->mlx_dat);
-	free(win->cam);
-	exit(0);
 }
 
 int	parse_and_render(t_rt *rt_dat)

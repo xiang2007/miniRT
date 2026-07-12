@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:23:49 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/16 11:47:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/12 15:22:55 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,16 @@ void	print_objects(t_objects *o)
 		printf("%s\n", objs[p->type]);
 		p = p->next;
 	}
+}
+
+void	print_object(t_objects *o)
+{
+	const char	*objs[] = {"Ambient", "Camera", "Sphere", "Plane",
+		"Cylinder", "Light", "Cam_setup"};
+	t_objects	*p;
+
+	if (!o)
+		return ;
+	p = o;
+	printf("%s\n", objs[p->type]);
 }

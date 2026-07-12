@@ -50,6 +50,7 @@ char	*read_rt_file(char *filename);
 void	print_str_arr(char **str_arr);
 void	free_str_arr(char **strarr);
 void	print_objects(t_objects *o);
+void	print_object(t_objects *o);
 t_point3	parse_cords(char *s);
 t_color		parse_color(char *s);
 t_objects	*parse_object(char **res);
@@ -59,5 +60,6 @@ void	parse_free_objects(t_objects *o);
 
 // Main parsing function
 t_objects	*parse(char *file);
+void		parse_world(t_world *w, t_objects *o);
 
 #endif

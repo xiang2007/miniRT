@@ -6,11 +6,43 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/21 15:52:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/12 12:45:18 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parse.h"
+
+/**
+ * @brief Iterates through the t_objects linked list and adds it to the
+ * t_world struct
+ *
+ * @param w world struct
+ * @param o object linked list
+ */
+void	parse_world(t_world *w, t_objects *o)
+{
+	t_objects	*p;
+	t_objects	*t;
+
+	if (!o)
+		return ;
+	p = o;
+	while (p)
+	{
+		if (p->type == OBJ_SPHERE)
+		{
+			t = create_object(&p->sphere, OBJ_SPHERE, p->id);
+			world_add_back(w, t, OBJ_SPHERE);
+		}
+		if (p->type == OBJ_PLANE)
+		{
+			t = create_object(&p->plane, OBJ_PLANE, p->id);
+			world_add_back(w, t, OBJ_PLANE);
+		}
+		p = p->next;
+	}
+	parse_free_objects(o);
+}
 
 t_parse	parse_object_count(t_objects *o)
 {

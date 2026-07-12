@@ -37,7 +37,8 @@ MAIN := src/main.c
 
 MLXDIR := src/mlx
 MLXSRC := mlx_dat.c \
-		  mlx_util.c
+		  mlx_util.c \
+		  mlx_event.c
 MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 
 PARSEDIR := src/parse
@@ -72,6 +73,10 @@ OBJDIR := src/objects
 OBJSRC := sphere.c object_utils.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
 
+OBJMVDIR := src/object_move
+OBJMVSRC := obj_move.c obj_move_utils.c
+OBJMV := $(addprefix $(OBJMVDIR)/,$(OBJMVSRC))
+
 INTDIR := src/intersection
 INTSRC := intersection_hit.c
 INT := $(addprefix $(INTDIR)/,$(INTSRC))
@@ -80,7 +85,7 @@ WORLDDIR := src/world
 WORLDSRC := world_op.c
 WORLD := $(addprefix $(WORLDDIR)/,$(WORLDSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE) $(WORLD)
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE) $(WORLD) $(OBJMV)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)

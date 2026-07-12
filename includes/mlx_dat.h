@@ -21,4 +21,8 @@ void	mlx_dat_free(t_mlx *mlx_dat);
 void	mlx_put_pixel(t_mlx *m, int x, int y, int color);
 void	mlx_put_to_window(t_mlx *m);
 
+int		handle_key(int key, t_rt *win);
+int		close_all(t_rt *win);
+void	world_free(t_world *world);
+
 #endif

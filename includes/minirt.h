@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/21 17:10:27 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/12 21:58:39 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # define WIDTH 800
 # define ASPECT_RATIO 1.7777777777777777777777777777778
+# define MOVE_X 0.5
+# define MOVE_Y 0.5
 // # define PI 3.14159265358979323846
 
 #include "objects.h"
@@ -52,6 +54,7 @@ typedef struct s_rt
 	t_mlx		*mlx_dat;
 	t_cam		*cam;
 	t_world		world;
+	t_objects	*sel_obj;
 }				t_rt;
 
 // typedef struct s_interval
