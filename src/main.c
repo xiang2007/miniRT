@@ -127,6 +127,7 @@ int	main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
+	rt_dat = (t_rt) {0};
 	rt_dat_init(&rt_dat);
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0);
