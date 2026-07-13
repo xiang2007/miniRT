@@ -15,8 +15,8 @@
 
 # define WIDTH 800
 # define ASPECT_RATIO 1.7777777777777777777777777777778
-# define MOVE_X 0.5
-# define MOVE_Y 0.5
+# define MOVE_X 1
+# define MOVE_Y 1
 // # define PI 3.14159265358979323846
 
 #include "objects.h"

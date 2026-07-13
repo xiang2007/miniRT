@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
-#include "../includes/mlx_dat.h"
-#include "../includes/minirt.h"
-#include "../includes/parse.h"
+#include "../../includes/minirt.h"
+#include "../../includes/mlx_dat.h"
+#include "../../includes/minirt.h"
+#include "../../includes/parse.h"
 #include <X11/keysym.h>
 #include <stdio.h>
 
@@ -56,6 +56,6 @@ void move_obj_switch(int key, t_obj_type type, t_objects *o)
 void move_objects(int key, t_objects **obj)
 {
 	if (key >= XK_Left && key <= XK_Down)
-		move_obj_switch(key, (*obj)->type, (*obj));
+		move_obj_switch(key, (*obj)->type, *obj);
 	return ;
 }

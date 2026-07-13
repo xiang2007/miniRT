@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/objects.h"
-#include "../includes/minirt.h"
+#include "../../includes/objects.h"
+#include "../../includes/minirt.h"
 #include <X11/keysym.h>
 
 void *cylinder_mv(int key, t_objects *o)

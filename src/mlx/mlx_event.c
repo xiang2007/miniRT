@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
-#include "../mlx_Linux/mlx.h"
-#include "../includes/parse.h"
-#include "../includes/mlx_dat.h"
-#include "../includes/render.h"
+#include "../../includes/minirt.h"
+#include "../../mlx_Linux/mlx.h"
+#include "../../includes/parse.h"
+#include "../../includes/mlx_dat.h"
+#include "../../includes/render.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 
