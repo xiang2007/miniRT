@@ -29,7 +29,7 @@ typedef struct s_hit_dat
 }	t_hit_dat;
 
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
-t_color	ray_color(t_ray *r, t_world *world);
+t_color	ray_color(t_ray *r, int bounce_depth, t_world *world);
 t_vec3	ray_pos(t_ray *r, double t);
 
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec);

@@ -37,8 +37,10 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 	t_color	cl;
 	t_vec3	px_center;
 	t_vec3	r_dir;
+	int		max_bounce_depth; // Maximum number of ray bounces into scene
 
 	h = 0;
+	max_bounce_depth = 10;
 	start = clock();
 	while (h < rt_dat->img_h)
 	{
@@ -48,7 +50,7 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 			px_center = vec_add(c->px00_loc, vec_add(vec_mul(c->px_delta_u, w), vec_mul(c->px_delta_v, h)));
 			r_dir = vec_sub(px_center, c->cam_center);
 			r = ray(c->cam_center, r_dir);
-			cl = ray_color(&r, world);
+			cl = ray_color(&r, max_bounce_depth, world);
 			mlx_put_pixel(rt_dat->mlx_dat, w, h, color_get_hex(cl));
 			w++;
 		}

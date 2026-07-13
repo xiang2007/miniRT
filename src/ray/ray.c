@@ -96,7 +96,7 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
  * @param world the world data
  * @return the colour struct
  */
-t_color	ray_color(t_ray *r, t_world *world)
+t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 {
 	double		a;
 	t_color		res;
@@ -106,11 +106,13 @@ t_color	ray_color(t_ray *r, t_world *world)
 	t_ray		child_ray;
 
 	rec = (t_hit_dat){0};
+	if (bounce_depth <= 0)
+		return (create_color(0, 0, 0));
 	if (hit_list(r, world, &rec))
 	{
 		dir = rand_on_hemi(&rec.normal);
 		child_ray = ray(rec.point, dir);
-		return (vec_mul(ray_color(&child_ray, world), 0.5));
+		return (vec_mul(ray_color(&child_ray, bounce_depth - 1, world), 0.5));
 	}
 	u_dir = unit_vec(r->vec);
 	a = 0.5 * (u_dir.y + 1); // normalize
