@@ -6,13 +6,12 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 00:07:54 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/21 16:31:25 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/13 18:09:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/objects.h"
-
-#define NULL ((void *)0)
+#include <stddef.h>
 
 /**
  * @brief TODO: look into this another time
