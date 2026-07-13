@@ -13,7 +13,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 800
+# define WIDTH 1000
 # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define MOVE_X 1
 # define MOVE_Y 1

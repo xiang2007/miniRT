@@ -44,10 +44,10 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	if (d < 0)
 		return (-1);
 	root = (h - sqrt(d)) / a;
-	if (root <= 0 || r_max <= root) // less than zero or larger than the current smallest root not acceptable
+	if (root <= 0.001 || r_max <= root) // less than zero or larger than the current smallest root not acceptable
 	{
 		root = (h + sqrt(d)) / a;
-		if (root <= 0 || r_max <= root)
+		if (root <= 0.001 || r_max <= root)
 			return (0);
 	}
 	rec->t = root;
