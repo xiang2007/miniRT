@@ -6,11 +6,22 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/12 12:45:18 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/13 09:32:45 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parse.h"
+
+static t_objects	*parse_create_object(t_objects *o)
+{
+	if (o->type == OBJ_SPHERE)
+		return (create_object(&o->sphere, o->type, o->id));
+	if (o->type == OBJ_PLANE)
+		return (create_object(&o->plane, o->type, o->id));
+	if (o->type == OBJ_CYLINDER)
+		return (create_object(&o->cylinder, o->type, o->id));
+	return (NULL);
+}
 
 /**
  * @brief Iterates through the t_objects linked list and adds it to the
@@ -29,16 +40,9 @@ void	parse_world(t_world *w, t_objects *o)
 	p = o;
 	while (p)
 	{
-		if (p->type == OBJ_SPHERE)
-		{
-			t = create_object(&p->sphere, OBJ_SPHERE, p->id);
-			world_add_back(w, t, OBJ_SPHERE);
-		}
-		if (p->type == OBJ_PLANE)
-		{
-			t = create_object(&p->plane, OBJ_PLANE, p->id);
-			world_add_back(w, t, OBJ_PLANE);
-		}
+		t = parse_create_object(p);
+		if (t)
+			world_add_back(w, t, p->type);
 		p = p->next;
 	}
 	parse_free_objects(o);

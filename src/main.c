@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/12 12:45:14 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/13 09:21:37 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int	main(int argc, char **argv)
 		return (0); 
 	if (parse_and_render(&rt_dat) == 1)
 		return (1);
+	print_objects(rt_dat.world.objs);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 2, 1L << 0, handle_key, &rt_dat);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 17, 1L << 17, close_all, &rt_dat);
 	mlx_loop(rt_dat.mlx_dat->mlx);

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/12 21:32:17 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/13 14:43:30 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_objects	*select_object(int key, t_world *world);
 // Object move function
 void	*cylinder_mv(int key, t_objects *o);
 void	*sphere_mv(int key, t_objects *o);
+void	*plane_mv(int key, t_objects *o);
 void	move_objects(int key, t_objects **obj);
 
 // World function
