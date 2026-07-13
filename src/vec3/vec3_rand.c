@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_rand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 17:22:52 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/07 17:22:52 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/07/13 17:18:16 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,13 @@ t_vec3	rand_unit_vec3(void)
 {
 	t_vec3	p;
 	double	lensq;
-	int		i;
 
-	i = 0;
 	while (1)
 	{
 		p = vec3_rand(-1.0, 1.0);
 		lensq = vec_len_sq(p);
 		if (1e-160 < lensq && lensq <= 1)
 			return (vec_div(p, sqrt(lensq)));
-		i++;
 	}
 }
 
