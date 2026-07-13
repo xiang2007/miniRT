@@ -110,7 +110,7 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 		return (create_color(0, 0, 0));
 	if (hit_list(r, world, &rec))
 	{
-		dir = rand_on_hemi(&rec.normal);
+		dir = vec_add(rec.normal, rand_unit_vec3());
 		child_ray = ray(rec.point, dir);
 		return (vec_mul(ray_color(&child_ray, bounce_depth - 1, world), 0.5));
 	}
