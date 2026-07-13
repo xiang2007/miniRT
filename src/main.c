@@ -129,7 +129,7 @@ int	main(int argc, char **argv)
 	(void)argv;
 	rt_dat_init(&rt_dat);
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
-		return (0); 
+		return (0);
 	if (parse_and_render(&rt_dat) == 1)
 		return (1);
 	print_objects(rt_dat.world.objs);

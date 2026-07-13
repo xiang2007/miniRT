@@ -14,7 +14,8 @@
 #include "../../libft/libft.h"
 #include <sys/time.h>
 #include "../../includes/vec3.h"
-
+#include <math.h>
+#include <stdio.h>
 static	double	random_double(double min, double max)
 {
 	struct timeval		time;
@@ -23,11 +24,13 @@ static	double	random_double(double min, double max)
 	double				div;
 
 	if (seed.s == 0)
+	{
 		gettimeofday(&time, NULL);
-	seed.s = time.tv_usec;
+		seed.s = time.tv_sec;
+	}
 	range = max - min;
-	div = DBL_MAX / range;
-	return (min + (ft_xorshift32(&seed) / div));
+	div = UINT32_MAX / range;
+	return (min + ((double) ft_xorshift32(&seed) / div));
 }
 
 t_vec3	vec3_rand(double min, double max)
@@ -38,4 +41,32 @@ t_vec3	vec3_rand(double min, double max)
 	vec3.y = random_double(min, max);
 	vec3.z = random_double(min, max);
 	return (vec3);
+}
+
+t_vec3	rand_unit_vec3(void)
+{
+	t_vec3	p;
+	double	lensq;
+	int		i;
+
+	i = 0;
+	while (1)
+	{
+		p = vec3_rand(-1.0, 1.0);
+		lensq = vec_len_sq(p);
+		if (1e-160 < lensq && lensq <= 1)
+			return (vec_div(p, sqrt(lensq)));
+		i++;
+	}
+}
+
+t_vec3	rand_on_hemi(const t_vec3 *normal)
+{
+	t_vec3	on_unit_sphere;
+
+	on_unit_sphere = rand_unit_vec3();
+	if (vec_dot(on_unit_sphere, *normal) > 0.0)
+		return (on_unit_sphere);
+	else
+		return (vec_mul(on_unit_sphere, -1.0));
 }

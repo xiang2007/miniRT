@@ -98,16 +98,20 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
  */
 t_color	ray_color(t_ray *r, t_world *world)
 {
-	double		t;
 	double		a;
 	t_color		res;
 	t_vec3		u_dir;
+	t_vec3		dir;
 	t_hit_dat	rec;
+	t_ray		child_ray;
 
 	rec = (t_hit_dat){0};
-	t = hit_list(r, world, &rec);
-	if (t > 0.0)
-		return (color_mul_n(create_color(rec.normal.r + 1, rec.normal.g + 1, rec.normal.b + 1), 0.5)); // Normals Shading
+	if (hit_list(r, world, &rec))
+	{
+		dir = rand_on_hemi(&rec.normal);
+		child_ray = ray(rec.point, dir);
+		return (vec_mul(ray_color(&child_ray, world), 0.5));
+	}
 	u_dir = unit_vec(r->vec);
 	a = 0.5 * (u_dir.y + 1); // normalize
 	res = color_add(color_mul_n(create_color(1, 1, 1), (1 - a)),

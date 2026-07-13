@@ -9,7 +9,7 @@ RM := rm -rf
 
 # Compiler Flags
 # -Ofast: equivalent to -O3 -ffast-math, enables compiler optimizations and overrides standard math compliance to IEE 754
-CFLAGS := -Wall -Werror -Wextra -Ofast -std=gnu11#-g3
+CFLAGS := -Wall -Werror -Wextra -Ofast -std=gnu11 -g3
 
 # Preprocessor flags
 CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
@@ -53,7 +53,9 @@ RDR := $(addprefix $(RDRDIR)/,$(RDRSRC))
 
 VECDIR := src/vec3
 VECSRC := vec3_op.c \
-		  vec3_util.c point_op.c
+		  vec3_util.c \
+		  point_op.c \
+		  vec3_rand.c
 VEC := $(addprefix $(VECDIR)/,$(VECSRC))
 
 COLDIR := src/color
