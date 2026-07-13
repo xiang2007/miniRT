@@ -17,7 +17,6 @@
 #include "../includes/render.h"
 #include "../includes/mlx_dat.h"
 #include "../includes/parse.h"
-#include "../libft/libft.h"
 #include "../mlx_Linux/mlx.h"
 #include <stdlib.h>
 #include <X11/keysym.h>

@@ -77,3 +77,4 @@ t_vec3	unit_vec(t_vec3 a)
 {
 	return (vec_div(a, vec_len(a)));
 }
+

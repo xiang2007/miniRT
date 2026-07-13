@@ -47,4 +47,6 @@ t_vec3	unit_vec(t_vec3 a);
 
 t_point3 sub_point(t_point3 p1, t_point3 p2);
 
+t_vec3	vec3_rand(double min, double max);
+
 #endif
