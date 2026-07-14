@@ -14,7 +14,7 @@
 #include "../../includes/color.h"
 #include "../../includes/objects.h"
 #include "../../includes/ray.h"
-
+#include <math.h>
 #include <float.h>
 #include <stdbool.h>
 
@@ -69,7 +69,7 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 
 	tmp = world->objs;
 	hit_anything = false;
-	closest_so_far = DBL_MAX;
+	closest_so_far = INFINITY;
 	while (tmp)
 	{
 		if (tmp->type == OBJ_SPHERE && hit_sphere(&tmp->sphere, r, closest_so_far, &tmp_rec) > 0)
