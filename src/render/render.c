@@ -51,6 +51,9 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 			r_dir = vec_sub(px_center, c->cam_center);
 			r = ray(c->cam_center, r_dir);
 			cl = ray_color(&r, max_bounce_depth, world);
+			cl.r = linear_to_gamma(cl.r);
+			cl.g = linear_to_gamma(cl.g);
+			cl.b = linear_to_gamma(cl.b);
 			mlx_put_pixel(rt_dat->mlx_dat, w, h, color_get_hex(cl));
 			w++;
 		}

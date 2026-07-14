@@ -12,6 +12,7 @@
 
 #include "../../includes/vec3.h"
 #include "../../includes/color.h"
+#include <math.h>
 
 /**
  * @brief Creates a colour struct filled with rgb parameter
@@ -91,4 +92,16 @@ t_color	color_mul_n(t_color c, double n)
 int	color_get_hex(t_color c)
 {
 	return (rgb_to_hex((int)(c.r * 255), (int)(c.g * 255), (int)(c.b * 255)));
+}
+
+/**
+ *
+ * @param linear_component
+ * @return
+ */
+double	linear_to_gamma(double linear_component)
+{
+	if (linear_component > 0.0)
+		return (sqrt(linear_component));
+	return (0.0);
 }

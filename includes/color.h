@@ -21,4 +21,6 @@ t_color	color_mul(t_color a, t_color b);
 t_color	color_add(t_color a, t_color b);
 t_color	create_color(double r, double g, double b);
 
+double	linear_to_gamma(double linear_component);
+
 #endif
