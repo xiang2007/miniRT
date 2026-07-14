@@ -77,7 +77,7 @@ int	reload_scene(t_rt *win)
 
 	world.objs = NULL;
 	setup_cam_init(&s);
-	objs = parse("test.rt");
+	objs = parse("test_spheres_only.rt");
 	if (!objs)
 		return (1);
 	get_setup_cam(&s, objs);

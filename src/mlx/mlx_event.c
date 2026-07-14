@@ -45,8 +45,6 @@ void	world_free(t_world *world)
  */
 int	handle_key(int key, t_rt *win)
 {
-	t_objects	*o;
-
 	if (key == XK_Escape)
 	{
 		world_free(&win->world);
@@ -55,11 +53,7 @@ int	handle_key(int key, t_rt *win)
 		exit(0);
 	}
 	if (key == XK_r)
-	{
-		o = parse("test.rt");
-		parse_world(&win->world, o);
-		render(win, win->cam, &win->world);
-	}
+		reload_scene(win);
 	if (key >= XK_0 && key <= XK_9)
 		win->sel_obj = select_object(key, &win->world);
 	if (key >= XK_Left && key <= XK_Down && win->sel_obj)

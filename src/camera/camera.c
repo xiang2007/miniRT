@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:21:43 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/14 17:12:09 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/14 17:19:24 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 	cam->h = tan((cam->fov * PI / 180.0) / 2.0);
 	cam->vp_h = 2.0 * cam->h * cam->foc_len;
 	cam->vp_w = cam->vp_h * ((double)m->img_w / m->img_h);
-	cam->vp_u = vec_mul(cam->u, cam->vp_w); //create_vec3(cam->vp_w, s->norm_vector.y, s->norm_vector.z);
-	cam->vp_v = vec_mul((vec_mul(cam->v, -1)), cam->vp_h); //create_vec3(s->norm_vector.x, -(cam->vp_h), s->norm_vector.z);
+	cam->vp_u = vec_mul(cam->u, cam->vp_w);
+	cam->vp_v = vec_mul((vec_mul(cam->v, -1)), cam->vp_h);
 	cam->px_delta_u = vec_div(cam->vp_u, m->img_w);
 	cam->px_delta_v = vec_div(cam->vp_v, m->img_h);
 	cam->vp_upper_left = vec_sub(vec_sub(vec_sub(cam->cam_center,
