@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:21:43 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/14 16:29:58 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/14 17:12:09 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,27 @@
 void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 {
 	cam->foc_len = 1.0;
-	cam->h = tan(90 * PI/180)/2;
-	cam->vp_h = 2 * cam->h * cam->foc_len;
 	cam->cam_center = s->center;
 	cam->vup = create_vec3(0, 1, 0);
 	cam->lookfrom = s->center;
-	cam->lookat = create_vec3(0, 0, -1);
-	cam->fov = vec_len((vec_sub(cam->lookfrom, cam->lookat)));
-	cam->w = unit_vec(vec_sub(cam->lookfrom, cam->lookat));
+	cam->fov = s->fov;
+	if (vec_len(s->norm_vector) == 0.0)
+		s->norm_vector = create_vec3(0, 0, -1);
+	cam->w = unit_vec(vec_mul(s->norm_vector, -1.0));
+	cam->lookat = vec_add(cam->lookfrom, s->norm_vector);
+	if (fabs(vec_dot(cam->vup, cam->w)) > 0.999)
+		cam->vup = create_vec3(0, 0, 1);
 	cam->u = unit_vec(vec_cross(cam->vup, cam->w));
 	cam->v = vec_cross(cam->w, cam->u);
+	cam->h = tan((cam->fov * PI / 180.0) / 2.0);
+	cam->vp_h = 2.0 * cam->h * cam->foc_len;
 	cam->vp_w = cam->vp_h * ((double)m->img_w / m->img_h);
-	// cam->vp_u = create_vec3(vec_mul(cam->u, cam.vp_u)); //create_vec3(cam->vp_w, s->norm_vector.y, s->norm_vector.z);
-	cam->vp_v = create_vec3(s->norm_vector.x, -(cam->vp_h), s->norm_vector.z);
+	cam->vp_u = vec_mul(cam->u, cam->vp_w); //create_vec3(cam->vp_w, s->norm_vector.y, s->norm_vector.z);
+	cam->vp_v = vec_mul((vec_mul(cam->v, -1)), cam->vp_h); //create_vec3(s->norm_vector.x, -(cam->vp_h), s->norm_vector.z);
 	cam->px_delta_u = vec_div(cam->vp_u, m->img_w);
 	cam->px_delta_v = vec_div(cam->vp_v, m->img_h);
 	cam->vp_upper_left = vec_sub(vec_sub(vec_sub(cam->cam_center,
-					create_vec3(0.0, 0.0, 1.0)), vec_div(cam->vp_u, 2.0)),
+					vec_mul(cam->w, cam->foc_len)), vec_div(cam->vp_u, 2.0)),
 			vec_div(cam->vp_v, 2.0));
 	cam->px00_loc = vec_add(cam->vp_upper_left, vec_mul(vec_add(cam->px_delta_u,
 					cam->px_delta_v), 0.5));
