@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/12 21:58:39 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/14 15:44:29 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define MOVE_X 1
 # define MOVE_Y 1
-// # define PI 3.14159265358979323846
+# define PI 3.14159265358979323846
 
 #include "objects.h"
 

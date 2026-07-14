@@ -6,13 +6,14 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:21:43 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/16 11:57:23 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/14 16:29:58 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 #include "../../includes/vec3.h"
 #include "../../includes/camera.h"
+#include <math.h>
 
 /**
  * @brief Setup camera viewport size, px delta, fov, and focal length.
@@ -23,12 +24,19 @@
  */
 void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 {
-	cam->fov = s->fov;
 	cam->foc_len = 1.0;
-	cam->vp_h = 2.0;
-	cam->vp_w = cam->vp_h * ((double)m->img_w / m->img_h);
+	cam->h = tan(90 * PI/180)/2;
+	cam->vp_h = 2 * cam->h * cam->foc_len;
 	cam->cam_center = s->center;
-	cam->vp_u = create_vec3(cam->vp_w, s->norm_vector.y, s->norm_vector.z);
+	cam->vup = create_vec3(0, 1, 0);
+	cam->lookfrom = s->center;
+	cam->lookat = create_vec3(0, 0, -1);
+	cam->fov = vec_len((vec_sub(cam->lookfrom, cam->lookat)));
+	cam->w = unit_vec(vec_sub(cam->lookfrom, cam->lookat));
+	cam->u = unit_vec(vec_cross(cam->vup, cam->w));
+	cam->v = vec_cross(cam->w, cam->u);
+	cam->vp_w = cam->vp_h * ((double)m->img_w / m->img_h);
+	// cam->vp_u = create_vec3(vec_mul(cam->u, cam.vp_u)); //create_vec3(cam->vp_w, s->norm_vector.y, s->norm_vector.z);
 	cam->vp_v = create_vec3(s->norm_vector.x, -(cam->vp_h), s->norm_vector.z);
 	cam->px_delta_u = vec_div(cam->vp_u, m->img_w);
 	cam->px_delta_v = vec_div(cam->vp_v, m->img_h);

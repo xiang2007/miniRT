@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 12:27:46 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/14 15:20:31 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/07/14 14:12:35 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/07/14 14:18:07 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#include "../includes/minirt.h"
+#include "../includes/ray.h"
+#include "../includes/mlx_dat.h"
+#include "../includes/objects.h"
+#include "../includes/color.h"
 
-#include "objects.h"
+t_color light_color(double u, double v, const t_point3 *p)
+{
+	return(create_color(0, 0, 0));
+}
 
-void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s);
 
-#endif
+
+

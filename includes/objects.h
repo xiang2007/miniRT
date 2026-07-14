@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/13 14:43:30 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/14 15:40:12 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,25 @@ typedef struct s_setup_cam
 
 typedef struct s_cam
 {
-	int		fov;
-	double	foc_len;
-	double	vp_h;
-	double	vp_w;
-	t_vec3	cam_center;
-	t_vec3	vp_u;
-	t_vec3	vp_v;
-	t_vec3	px_delta_u;
-	t_vec3	px_delta_v;
-	t_vec3	vp_upper_left;
-	t_vec3	px00_loc;
+	int			fov;
+	double		vfov;
+	double		foc_len;
+	double		vp_h;
+	double		vp_w;
+	double		h;
+	t_vec3		cam_center;
+	t_vec3		vp_u;
+	t_vec3		vp_v;
+	t_vec3		px_delta_u;
+	t_vec3		px_delta_v;
+	t_vec3		vp_upper_left;
+	t_vec3		px00_loc;
+	t_vec3		u;
+	t_vec3		v;
+	t_vec3		w;
+	t_point3	lookat;
+	t_point3	lookfrom;
+	t_point3	vup;
 }				t_cam;
 
 typedef struct s_objects
