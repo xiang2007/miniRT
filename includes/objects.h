@@ -14,6 +14,7 @@
 # define OBJECTS_H
 
 # include "vec3.h"
+# include "material.h"
 
 typedef enum e_obj_type
 {
@@ -34,6 +35,7 @@ typedef struct s_sphere
 	t_point3	point;
 	t_color		color;
 	double		radius;
+	t_material	*material;
 }				t_sphere;
 
 typedef struct s_plane
