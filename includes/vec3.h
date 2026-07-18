@@ -13,6 +13,8 @@
 #ifndef VEC3_H
 # define VEC3_H
 
+# include <stdbool.h>
+
 typedef struct s_vec3
 {
 	union
@@ -50,5 +52,9 @@ t_point3 sub_point(t_point3 p1, t_point3 p2);
 t_vec3	vec3_rand(double min, double max);
 t_vec3	rand_unit_vec3(void);
 t_vec3	rand_on_hemi(const t_vec3 *normal);
+
+bool	near_zero(t_vec3 *vector);
+
+t_vec3	reflect(const t_vec3 *vec, const t_vec3 *normal);
 
 #endif

@@ -24,8 +24,9 @@ typedef struct s_ray
 typedef struct s_hit_dat
 {
 	double		t;
-	t_vec3	normal;
-	t_vec3	point;
+	t_vec3		normal;
+	t_vec3		point;
+	t_material	*mat;
 }	t_hit_dat;
 
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);

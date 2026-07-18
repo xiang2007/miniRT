@@ -16,6 +16,7 @@
 #include "../../includes/vec3.h"
 #include <math.h>
 #include <stdio.h>
+
 static	double	random_double(double min, double max)
 {
 	struct timeval		time;
@@ -66,4 +67,16 @@ t_vec3	rand_on_hemi(const t_vec3 *normal)
 		return (on_unit_sphere);
 	else
 		return (vec_mul(on_unit_sphere, -1.0));
+}
+
+bool	near_zero(t_vec3 *vector)
+{
+	const double	s = 1e-8;
+
+	return ((fabs(vector->x) < s) && (fabs(vector->y) < s) && (fabs(vector->z) < s));
+}
+
+t_vec3	reflect(const t_vec3 *vec, const t_vec3 *normal)
+{
+	return (vec_sub(*vec, vec_mul(*normal, vec_dot(*vec, *normal) * 2.0)));
 }

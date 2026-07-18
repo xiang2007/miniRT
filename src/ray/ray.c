@@ -13,6 +13,7 @@
 #include "../../includes/vec3.h"
 #include "../../includes/color.h"
 #include "../../includes/objects.h"
+#include "../../includes/material.h"
 #include "../../includes/ray.h"
 #include <math.h>
 #include <float.h>
@@ -70,6 +71,7 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	tmp = world->objs;
 	hit_anything = false;
 	closest_so_far = INFINITY;
+	rec->mat = 0;
 	while (tmp)
 	{
 		if (tmp->type == OBJ_SPHERE && hit_sphere(&tmp->sphere, r, closest_so_far, &tmp_rec) > 0)
@@ -101,22 +103,22 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 	double		a;
 	t_color		res;
 	t_vec3		u_dir;
-	t_vec3		dir;
 	t_hit_dat	rec;
-	t_ray		child_ray;
+	t_ray		scattered;
+	t_color		attenuation;
 
 	rec = (t_hit_dat){0};
 	if (bounce_depth <= 0)
 		return (create_color(0, 0, 0));
 	if (hit_list(r, world, &rec))
 	{
-		dir = vec_add(rec.normal, rand_unit_vec3());
-		child_ray = ray(rec.point, dir);
-		return (vec_mul(ray_color(&child_ray, bounce_depth - 1, world), 0.5));
+		if (rec.mat->scatter(rec.mat, r, &rec, &attenuation, &scattered))
+			return (color_mul(attenuation, ray_color(&scattered, bounce_depth - 1, world)));
+		return (create_color(0.0, 0.0, 0.0));
 	}
 	u_dir = unit_vec(r->vec);
 	a = 0.5 * (u_dir.y + 1); // normalize
 	res = color_add(color_mul_n(create_color(1, 1, 1), (1 - a)),
-			color_mul_n(create_color(0.5, 0.7, 1), a)); // Sky colour
+			color_mul_n(create_color(0.5, 0.7, 1.0), a)); // Sky colour
 	return (res);
 }

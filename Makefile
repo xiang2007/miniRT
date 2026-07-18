@@ -9,7 +9,7 @@ RM := rm -rf
 
 # Compiler Flags
 # -Ofast: equivalent to -O3 -ffast-math, enables compiler optimizations and overrides standard math compliance to IEE 754
-CFLAGS := -Wall -Werror -Wextra -Ofast -std=gnu11 #-g3
+CFLAGS := -Wall -Werror -Wextra -Ofast -std=gnu11 -g3
 
 # Preprocessor flags
 CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
@@ -31,7 +31,8 @@ HEADERS := includes/minirt.h \
 		   includes/camera.h \
 		   includes/ray.h \
 		   includes/render.h \
-		   includes/objects.h
+		   includes/objects.h \
+		   includes/material.h
 
 MAIN := src/main.c
 
@@ -72,8 +73,13 @@ CAMSRC := camera.c
 CAM := $(addprefix $(CAMDIR)/,$(CAMSRC))
 
 OBJDIR := src/objects
-OBJSRC := sphere.c object_utils.c
+OBJSRC := sphere.c \
+		  object_utils.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
+
+MATDIR := src/material
+MATSRC := material.c
+MAT := $(addprefix $(MATDIR)/,$(MATSRC))
 
 OBJMVDIR := src/object_move
 OBJMVSRC := obj_move.c obj_move_utils.c
@@ -87,7 +93,7 @@ WORLDDIR := src/world
 WORLDSRC := world_op.c
 WORLD := $(addprefix $(WORLDDIR)/,$(WORLDSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE) $(WORLD) $(OBJMV)
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)

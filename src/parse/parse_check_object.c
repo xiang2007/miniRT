@@ -119,7 +119,8 @@ int	check_sphere(char *s)
 	if (!res || !*res)
 		return (FALSE);
 	if (parse_arg_count(res) != 4)
-		return (free_str_arr(res), FALSE);
+		if (parse_arg_count(res) != 5)
+			return (free_str_arr(res), FALSE);
 	if (!check_cords(res[1]))
 		return (free_str_arr(res), FALSE);
 	t = ft_atof(res[2]);

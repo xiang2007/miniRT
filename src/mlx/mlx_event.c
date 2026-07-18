@@ -31,6 +31,8 @@ void	world_free(t_world *world)
 	{
 		tmp = world->objs;
 		world->objs = world->objs->next;
+		if (tmp->type == OBJ_SPHERE)
+			free(tmp->sphere.material);
 		free(tmp);
 	}
 }

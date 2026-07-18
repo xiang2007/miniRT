@@ -53,6 +53,7 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	rec->t = root;
 	rec->normal = unit_vec(vec_sub(ray_pos(r, root), sp->point)); // calculates the normal in unit length
 	rec->point = ray_pos(r, root);
+	rec->mat = sp->material;
 	return (root);
 }
 

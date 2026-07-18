@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../includes/parse.h"
+#include "../../includes/material.h"
+#include "../../includes/color.h"
 
 int	parse_ambient(int id, char *s, t_objects **obj)
 {
@@ -111,6 +113,18 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	o->sphere.color = parse_color(res[3]);
 	if (o->sphere.color.r == -1)
 		return (free(o), free_str_arr(res), FALSE);
+	o->sphere.material = NULL;
+	if (res[4])
+	{
+		if (ft_strcmp(res[4], "lambertian") == TRUE)
+			o->sphere.material = create_lambertian(o->sphere.color);
+		else if (ft_strcmp(res[4], "metal") == TRUE)
+			o->sphere.material = create_metal(o->sphere.color);
+		if (!o->sphere.material)
+			return (free(o), free_str_arr(res), FALSE);
+	}
+	else
+		o->sphere.material = create_lambertian(o->sphere.color);
 	o->type = OBJ_SPHERE;
 	free_str_arr(res);
 	obj_add_back(o, obj);

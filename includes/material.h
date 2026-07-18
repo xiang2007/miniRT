@@ -13,9 +13,34 @@
 #ifndef MATERIAL_H
 # define MATERIAL_H
 
-typedef struct s_material
-{
+typedef struct s_ray t_ray;
+typedef struct s_hit_dat t_hit_dat;
 
-}	t_material;
+typedef struct s_material {
+	bool (*scatter)(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_vec3 *attenuation, t_ray *scattered);
+} t_material;
+
+typedef struct s_lambertian
+{
+	t_material	base;
+	t_color		albedo;
+}	t_lambertian;
+
+typedef struct s_metal {
+	t_material	base;            // Must be first!
+	t_color		albedo;
+	// double		fuzziness;       // ONLY metal has this!
+} t_metal;
+
+typedef struct s_glass {
+	t_material	base;            // Must be first! Holds the scatter pointer.
+	double		refractive_index; // ONLY glass has this!
+} t_glass;
+
+bool	lambertian_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered);
+t_material	*create_lambertian(t_color cl);
+
+bool	metal_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered);
+t_material	*create_metal(const t_color cl);
 
 #endif
