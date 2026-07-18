@@ -29,7 +29,7 @@ typedef struct s_lambertian
 typedef struct s_metal {
 	t_material	base;            // Must be first!
 	t_color		albedo;
-	// double		fuzziness;       // ONLY metal has this!
+	double		fuzziness;       // ONLY metal has this!
 } t_metal;
 
 typedef struct s_glass {
@@ -41,6 +41,6 @@ bool	lambertian_scatter(const struct s_material *self, const t_ray *in, const t_
 t_material	*create_lambertian(t_color cl);
 
 bool	metal_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered);
-t_material	*create_metal(const t_color cl);
+t_material	*create_metal(const t_color cl, const double fuzz);
 
 #endif

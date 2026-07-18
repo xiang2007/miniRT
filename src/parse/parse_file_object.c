@@ -119,7 +119,7 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 		if (ft_strcmp(res[4], "lambertian") == TRUE)
 			o->sphere.material = create_lambertian(o->sphere.color);
 		else if (ft_strcmp(res[4], "metal") == TRUE)
-			o->sphere.material = create_metal(o->sphere.color);
+			o->sphere.material = create_metal(o->sphere.color, 0.3);
 		if (!o->sphere.material)
 			return (free(o), free_str_arr(res), FALSE);
 	}

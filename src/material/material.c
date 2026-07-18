@@ -38,10 +38,11 @@ bool	metal_scatter(const struct s_material *self, const t_ray *in, const t_hit_d
 	t_metal	*metal;
 
 	reflected = reflect(&in->vec, &rec->normal);
-	*scattered = ray(rec->point, reflected);
 	metal = (t_metal *) self;
+	reflected = vec_add(unit_vec(reflected), vec_mul(rand_unit_vec3(), metal->fuzziness));
+	*scattered = ray(rec->point, reflected);
 	*attenuation = metal->albedo;
-	return (true);
+	return (vec_dot(scattered->vec, rec->normal));
 }
 
 t_material	*create_lambertian(const t_color cl)
@@ -56,7 +57,7 @@ t_material	*create_lambertian(const t_color cl)
 	return ((t_material *)lam);
 }
 
-t_material	*create_metal(const t_color cl)
+t_material	*create_metal(const t_color cl, const double fuzz)
 {
 	t_metal	*metal;
 
@@ -65,5 +66,6 @@ t_material	*create_metal(const t_color cl)
 		return (NULL);
 	metal->base.scatter = &metal_scatter;
 	metal->albedo = cl;
+	metal->fuzziness = fuzz;
 	return ((t_material *)metal);
 }
