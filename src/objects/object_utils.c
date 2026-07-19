@@ -6,11 +6,18 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/21 15:31:01 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:01:11 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parse.h"
+#include "../../includes/aabb.h"
+
+void	build_box_switch(t_objects *obj, t_obj_type type)
+{
+	if (type == OBJ_SPHERE)
+		obj->box = build_box(obj);
+}
 
 /**
  * @brief Adds the object to the back of the 'dest' struct
@@ -84,4 +91,33 @@ void	print_object_list(t_objects *o)
 		printf("Object: %s\n", t[p->type]);
 		p = p->next;
 	}
+}
+
+t_objects	*Obj2Arr(t_objects *o)
+{
+	int			size;
+	int			i;
+	char		*res;
+	t_objects	*head;
+	t_objects	*temp;
+
+	if (!o)
+		return (NULL);
+	head = o;
+	temp = o;
+	while(temp->next)
+	{
+		temp = temp->next;
+		size++;
+	}
+	res = malloc(sizeof(t_objects *) * size);
+	i = 0;
+	while(i < size)
+	{
+		res[i] = head;
+		head = head->next;
+		i++;
+	}
+	res[i] = NULL;
+	return (res);
 }

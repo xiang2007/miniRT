@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/14 12:22:37 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/15 16:21:03 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	parse_and_render(t_rt *rt_dat)
 	setup_cam_init(&s);
 	// TODO: malloc failure msg
 	objs = parse("test_spheres_only.rt");
+	// objs = parse("test.rt");
 	if (!objs)
 		return (1);
 	// Extract camera setup from parsed objects before populating the world
