@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/14 17:28:11 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/20 09:06:01 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # define PI 3.14159265358979323846
 
 #include "objects.h"
+
+typedef struct s_cam t_cam;
+typedef struct s_world t_world;
+typedef struct s_objects t_objects;
 
 /**
  * @brief Mlx data

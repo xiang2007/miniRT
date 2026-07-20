@@ -93,7 +93,11 @@ WORLDDIR := src/world
 WORLDSRC := world_op.c
 WORLD := $(addprefix $(WORLDDIR)/,$(WORLDSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(CAM) $(OBJ) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT)
+AABBDIR := src/aabb
+AABBSRC := aabb.c bvh.c
+AABB := $(addprefix $(AABBDIR)/,$(AABBSRC))
+
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT) $(AABB)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)

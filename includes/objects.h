@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/19 14:04:19 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/20 09:21:07 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 
 # include "vec3.h"
 # include "material.h"
-# include "aabb.h"
+
+typedef struct s_aabb
+{
+	t_point3	min;
+	t_point3	max;
+}				t_aabb;
 
 typedef enum e_obj_type
 {
@@ -126,7 +131,7 @@ void		print_object_list(t_objects *o);
 t_sphere	sphere(t_point3 center, double radius);
 t_objects	*create_object(void *obj, t_obj_type type, int id);
 t_objects	*select_object(int key, t_world *world);
-char		*Obj2Arr(t_objects *o);
+t_objects	*Obj2Arr(t_objects *o);
 
 // Object move function
 void	*cylinder_mv(int key, t_objects *o);

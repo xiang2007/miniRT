@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/19 14:01:11 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/20 09:15:40 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,13 @@ t_objects	*Obj2Arr(t_objects *o)
 {
 	int			size;
 	int			i;
-	char		*res;
+	t_objects	*res;
 	t_objects	*head;
 	t_objects	*temp;
 
-	if (!o)
-		return (NULL);
 	head = o;
 	temp = o;
+	size = 0;
 	while(temp->next)
 	{
 		temp = temp->next;
@@ -114,10 +113,10 @@ t_objects	*Obj2Arr(t_objects *o)
 	i = 0;
 	while(i < size)
 	{
-		res[i] = head;
+		res[i] = *head;
 		head = head->next;
 		i++;
 	}
-	res[i] = NULL;
+	res[i] = *head;
 	return (res);
 }
