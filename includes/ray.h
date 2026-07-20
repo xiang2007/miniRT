@@ -26,6 +26,7 @@ typedef struct s_hit_dat
 	double		t;
 	t_vec3		normal;
 	t_vec3		point;
+	bool		front_face;
 	t_material	*mat;
 }	t_hit_dat;
 

@@ -17,7 +17,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-bool	lambertian_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered)
+#include "../../includes/color.h"
+
+bool lambertian_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered)
 {
 	t_vec3	scatter_direction;
 	t_lambertian	*lam;
@@ -45,6 +47,25 @@ bool	metal_scatter(const struct s_material *self, const t_ray *in, const t_hit_d
 	return (vec_dot(scattered->vec, rec->normal));
 }
 
+bool	dielectric_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered)
+{
+	t_dielectric	*die;
+	t_vec3			unit_direction;
+	t_vec3			refracted;
+	double	ri;
+
+	die = (t_dielectric *) self;
+	*attenuation = create_color(1.0, 1.0, 1.0);
+	if (rec->front_face)
+		ri = 1.0 / die->refractive_index;
+	else
+		ri = die->refractive_index;
+	unit_direction = unit_vec(in->vec);
+	refracted = refract(&unit_direction, &rec->normal, ri);
+	*scattered = ray(rec->point, refracted);
+	return (true);
+}
+
 t_material	*create_lambertian(const t_color cl)
 {
 	t_lambertian	*lam;
@@ -68,4 +89,16 @@ t_material	*create_metal(const t_color cl, const double fuzz)
 	metal->albedo = cl;
 	metal->fuzziness = fuzz;
 	return ((t_material *)metal);
+}
+
+t_material	*create_dielectric(const double refraction_index)
+{
+	t_dielectric	*die;
+
+	die = malloc(sizeof(t_dielectric));
+	if (!die)
+		return (NULL);
+	die->base.scatter = &lambertian_scatter;
+	die->refractive_index = refraction_index;
+	return ((t_material *)die);
 }

@@ -32,15 +32,18 @@ typedef struct s_metal {
 	double		fuzziness;       // ONLY metal has this!
 } t_metal;
 
-typedef struct s_glass {
+typedef struct s_dielectric {
 	t_material	base;            // Must be first! Holds the scatter pointer.
 	double		refractive_index; // ONLY glass has this!
-} t_glass;
+} t_dielectric;
 
 bool	lambertian_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered);
 t_material	*create_lambertian(t_color cl);
 
 bool	metal_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered);
 t_material	*create_metal(const t_color cl, const double fuzz);
+
+bool	dielectric_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered);
+t_material	*create_dielectric(const double refraction_index);
 
 #endif

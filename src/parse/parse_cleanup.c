@@ -21,8 +21,6 @@ void	parse_free_objects(t_objects *o)
 	while (o)
 	{
 		next = o->next;
-		if (o->type == OBJ_SPHERE)
-			free(o->sphere.material);
 		free(o);
 		o = next;
 	}

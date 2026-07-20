@@ -16,6 +16,17 @@
 #include <math.h>
 #include <stdbool.h>
 
+void	set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_dat *rec)
+{
+	// Sets the hit record normal vector.
+	// NOTE: the parameter `outward_normal` is assumed to have unit length.
+	rec->front_face = vec_dot(r->vec, *outward_normal) < 0;
+	if (rec->front_face)
+		rec->normal = *outward_normal;
+	else
+		rec->normal = vec_mul(*outward_normal, -1.0);
+}
+
 // TODO: might need more description
 
 /**
@@ -30,6 +41,7 @@
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 {
 	t_vec3	ori_center;
+	t_vec3	outward_normal;
 	double	a;
 	double	h;
 	double	c;
@@ -51,8 +63,10 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 			return (0);
 	}
 	rec->t = root;
-	rec->normal = unit_vec(vec_sub(ray_pos(r, root), sp->point)); // calculates the normal in unit length
 	rec->point = ray_pos(r, root);
+	outward_normal = vec_div(vec_sub(rec->point, sp->point), sp->radius);
+	set_face_normal(r, &outward_normal, rec);
+	// rec->normal = unit_vec(vec_sub(ray_pos(r, root), sp->point)); // calculates the normal in unit length
 	rec->mat = sp->material;
 	return (root);
 }
