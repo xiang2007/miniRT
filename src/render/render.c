@@ -54,7 +54,7 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 
 	h = 0;
 	max_bounce_depth = 10;
-	samples_per_pixel = 1;
+	samples_per_pixel = 100;
 	pixel_samples_scale = 1.0 / samples_per_pixel;
 	start = clock();
 	while (h < rt_dat->img_h)

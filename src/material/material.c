@@ -98,7 +98,7 @@ t_material	*create_dielectric(const double refraction_index)
 	die = malloc(sizeof(t_dielectric));
 	if (!die)
 		return (NULL);
-	die->base.scatter = &lambertian_scatter;
+	die->base.scatter = &dielectric_scatter;
 	die->refractive_index = refraction_index;
 	return ((t_material *)die);
 }
