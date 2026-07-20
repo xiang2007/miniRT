@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/20 09:21:07 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/20 18:29:41 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "vec3.h"
 # include "material.h"
+
+typedef struct s_rt t_rt;
 
 typedef struct s_aabb
 {
@@ -138,6 +140,9 @@ void	*cylinder_mv(int key, t_objects *o);
 void	*sphere_mv(int key, t_objects *o);
 void	*plane_mv(int key, t_objects *o);
 void	move_objects(int key, t_objects **obj);
+void	lower_res(int key, t_rt *rt);
+void	reset_res(t_rt *rt);
+
 
 // World function
 void	world_add_back(t_world *world, t_objects *obj, t_obj_type type);

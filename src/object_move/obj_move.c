@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 13:02:09 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/13 14:43:25 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/20 22:03:50 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,24 @@ t_objects *select_object(int key, t_world *world)
 	return ((void *)0);
 }
 
-void move_obj_switch(int key, t_obj_type type, t_objects *o)
+void	lower_res(int key, t_rt *rt)
+{
+	if ((key == XK_Left) || (key == XK_Right)
+		|| (key == XK_Up) || (key == XK_Down))
+	{
+		rt->max_bounce_depth = 5;
+		rt->samples_per_pixel = 7;
+	}
+	return ;
+}
+
+void	reset_res(t_rt *rt)
+{
+	rt->max_bounce_depth = MAX_BOUNCE;
+	rt->samples_per_pixel = SPP;
+}
+
+void	move_obj_switch(int key, t_obj_type type, t_objects *o)
 {
 	if (type == OBJ_SPHERE)
 		sphere_mv(key, o);
@@ -53,7 +70,7 @@ void move_obj_switch(int key, t_obj_type type, t_objects *o)
 	return ;
 }
 
-void move_objects(int key, t_objects **obj)
+void	move_objects(int key, t_objects **obj)
 {
 	if (key >= XK_Left && key <= XK_Down)
 		move_obj_switch(key, (*obj)->type, *obj);

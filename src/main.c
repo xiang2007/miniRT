@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/15 16:21:03 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/20 19:33:19 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ void	rt_dat_init(t_rt *rt_dat)
 	rt_dat->aspect_ratio = (double)16 / 9;
 	rt_dat->img_w = WIDTH;
 	rt_dat->img_h = WIDTH / rt_dat->aspect_ratio;
+	rt_dat->max_bounce_depth = MAX_BOUNCE;
+	rt_dat->old_max_bounce_depth = MAX_BOUNCE;
+	rt_dat->samples_per_pixel = SPP;
+	rt_dat->old_sampels_per_pixel = SPP;
+	rt_dat->pixel_samples_scale = 1;
+	rt_dat->old_pixel_samples_scale = 1;
 	if (rt_dat->img_h < 1)
 		rt_dat->img_h = 1;
 	rt_dat->init = 0;
@@ -85,6 +91,7 @@ int	reload_scene(t_rt *win)
 	world_free(&win->world);
 	win->world = world;
 	cam_init(win->cam, win, &s);
+	reset_res(win);
 	render(win, win->cam, &win->world);
 	return (0);
 }

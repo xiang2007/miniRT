@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/10 18:39:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/12 22:03:55 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/20 22:19:21 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ int	handle_key(int key, t_rt *win)
 	if (key >= XK_Left && key <= XK_Down && win->sel_obj)
 	{
 		move_objects(key, &win->sel_obj);
+		lower_res(key, win);
+		render(win, win->cam, &win->world);
+	}
+	if (key == XK_z)
+	{
+		reset_res(win);
 		render(win, win->cam, &win->world);
 	}
 	return (0);

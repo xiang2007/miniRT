@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 21:07:24 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/06/11 02:56:54 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/07/20 18:12:57 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 	t_vec3	offset;
 
 	h = 0;
-	max_bounce_depth = 10;
-	samples_per_pixel = 100;
-	pixel_samples_scale = 1.0 / samples_per_pixel;
+	max_bounce_depth = rt_dat->max_bounce_depth;
+	samples_per_pixel = rt_dat->samples_per_pixel;
+	pixel_samples_scale = 1.0 / rt_dat->samples_per_pixel;
 	start = clock();
 	while (h < rt_dat->img_h)
 	{
