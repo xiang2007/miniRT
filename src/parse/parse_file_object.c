@@ -110,7 +110,7 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 		return (FALSE);
 	o->id = id;
 	o->sphere.point = parse_cords(res[1]);
-	o->sphere.radius = ft_atof(res[2]);
+	o->sphere.radius = ft_atof(res[2]) / 2.0;
 	o->sphere.color = parse_color(res[3]);
 	if (o->sphere.color.r == -1)
 		return (free(o), free_str_arr(res), FALSE);
@@ -120,10 +120,19 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 		if (ft_strcmp(res[4], "lambertian") == TRUE)
 			o->sphere.material = create_lambertian(o->sphere.color);
 		else if (ft_strcmp(res[4], "metal") == TRUE)
-			o->sphere.material = create_metal(o->sphere.color, 0.3);
+		{
+			if (res[5])
+				ri = ft_atof(res[5]);
+			else
+				ri = 0.3;
+			o->sphere.material = create_metal(o->sphere.color, ri);
+		}
 		else if (ft_strcmp(res[4], "dielectric") == TRUE)
 		{
-			ri = ft_atof(res[5]);
+			if (res[5])
+				ri = ft_atof(res[5]);
+			else
+				ri = 1.50;
 			o->sphere.material = create_dielectric(ri);
 		}
 		if (!o->sphere.material)
@@ -132,6 +141,7 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	else
 		o->sphere.material = create_lambertian(o->sphere.color);
 	o->type = OBJ_SPHERE;
+	// printf("[DEBUG SPHERE] Coords: X=%s | Albedo: R=%.2f, G=%.2f, B=%.2f | Mat: '%s'\n", res[1], o->sphere.color.r, o->sphere.color.g, o->sphere.color.b, res[4]);
 	free_str_arr(res);
 	obj_add_back(o, obj);
 	return (TRUE);

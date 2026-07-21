@@ -92,9 +92,9 @@ t_color	parse_color(char *s)
 	if ((res.r < 0 || res.r > 255) || (res.g < 0 || res.g > 255)
 		|| (res.b < 0 || res.b > 255))
 		return (free_str_arr(arr), ((t_color){.r = -1, .g = -1, .b = -1}));
-	res.r = res.r / 255;
-	res.g = res.g / 255;
-	res.b = res.b / 255;
+	res.r = res.r / 255.0;
+	res.g = res.g / 255.0;
+	res.b = res.b / 255.0;
 	return (free_str_arr(arr), res);
 }
 
