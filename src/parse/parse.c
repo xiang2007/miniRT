@@ -6,11 +6,12 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/13 09:32:45 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/21 20:46:32 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parse.h"
+#include "../../includes/aabb.h"
 
 static t_objects	*parse_create_object(t_objects *o)
 {
@@ -34,7 +35,12 @@ void	parse_world(t_world *w, t_objects *o)
 {
 	t_objects	*p;
 	t_objects	*t;
+	int			count;
 
+	if (!w)
+		return ;
+	w->bvh_obj = NULL;
+	w->bvh = NULL;
 	if (!o)
 		return ;
 	p = o;
@@ -46,6 +52,10 @@ void	parse_world(t_world *w, t_objects *o)
 		p = p->next;
 	}
 	parse_free_objects(o);
+	w->bvh_obj = Obj2Arr(w->objs);
+	count = obj_sphere_count(w->objs);
+	if (w->bvh_obj && count > 0)
+		w->bvh = build_bvh(w->bvh_obj, 0, count);
 }
 
 t_parse	parse_object_count(t_objects *o)

@@ -6,17 +6,17 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/20 09:15:40 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/21 20:43:31 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parse.h"
 #include "../../includes/aabb.h"
 
-void	build_box_switch(t_objects *obj, t_obj_type type)
+void	build_box_switch(t_objects *o)
 {
-	if (type == OBJ_SPHERE)
-		obj->box = build_box(obj);
+	if (o && o->type == OBJ_SPHERE)
+		o->box = build_box(o);
 }
 
 /**
@@ -69,6 +69,7 @@ t_objects	*create_object(void *obj, t_obj_type type, int id)
 		res->cylinder = *(t_cylinder *)obj;
 	else if (type == OBJ_PLANE)
 		res->plane = *(t_plane *)obj;
+	build_box_switch(res);
 	return (res);
 }
 
@@ -93,30 +94,27 @@ void	print_object_list(t_objects *o)
 	}
 }
 
-t_objects	*Obj2Arr(t_objects *o)
+t_objects	**Obj2Arr(t_objects *o)
 {
 	int			size;
 	int			i;
-	t_objects	*res;
+	t_objects	**res;
 	t_objects	*head;
-	t_objects	*temp;
 
+	if (!o)
+		return (NULL);
 	head = o;
-	temp = o;
-	size = 0;
-	while(temp->next)
-	{
-		temp = temp->next;
-		size++;
-	}
-	res = malloc(sizeof(t_objects *) * size);
+	size = obj_sphere_count(o);
+	res = malloc(sizeof(t_objects *) * (size + 1));
+	if (!res)
+		return (NULL);
 	i = 0;
-	while(i < size)
+	while(head)
 	{
-		res[i] = *head;
+		if (head->type == OBJ_SPHERE)
+			res[i++] = head;
 		head = head->next;
-		i++;
 	}
-	res[i] = *head;
+	res[i] = NULL;
 	return (res);
 }

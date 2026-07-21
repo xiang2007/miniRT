@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/20 18:29:41 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/21 20:26:59 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "material.h"
 
 typedef struct s_rt t_rt;
+typedef struct s_bvh t_bvh;
 
 typedef struct s_aabb
 {
@@ -125,15 +126,19 @@ typedef struct s_objects
 typedef struct s_world
 {
 	t_objects	*objs;
+	t_objects	**bvh_obj;
+	t_bvh		*bvh;
 }	t_world;
 
 // Objects function
+int			obj_size(t_objects *o);
+int			obj_sphere_count(t_objects *o);
 void		obj_add_back(t_objects *src, t_objects **dest);
 void		print_object_list(t_objects *o);
 t_sphere	sphere(t_point3 center, double radius);
 t_objects	*create_object(void *obj, t_obj_type type, int id);
 t_objects	*select_object(int key, t_world *world);
-t_objects	*Obj2Arr(t_objects *o);
+t_objects	**Obj2Arr(t_objects *o);
 
 // Object move function
 void	*cylinder_mv(int key, t_objects *o);

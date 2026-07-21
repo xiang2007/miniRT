@@ -82,6 +82,8 @@ int	reload_scene(t_rt *win)
 	t_world		world;
 
 	world.objs = NULL;
+	world.bvh_obj = NULL;
+	world.bvh = NULL;
 	setup_cam_init(&s);
 	objs = parse("test_spheres_only.rt");
 	if (!objs)
@@ -104,6 +106,8 @@ int	parse_and_render(t_rt *rt_dat)
 	t_setup_cam	s;
 
 	world.objs = NULL;
+	world.bvh_obj = NULL;
+	world.bvh = NULL;
 	setup_cam_init(&s);
 	// TODO: malloc failure msg
 	objs = parse("test_spheres_only.rt");

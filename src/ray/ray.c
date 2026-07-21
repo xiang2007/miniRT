@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/13 10:37:18 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/21 20:14:25 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../../includes/objects.h"
 #include "../../includes/material.h"
 #include "../../includes/ray.h"
+#include "../../includes/aabb.h"
 #include <math.h>
 #include <float.h>
 #include <stdbool.h>
@@ -72,15 +73,14 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	hit_anything = false;
 	closest_so_far = INFINITY;
 	rec->mat = 0;
+	if (world->bvh && hit_bvh(world->bvh, r, closest_so_far, rec))
+	{
+		hit_anything = true;
+		closest_so_far = rec->t;
+	}
 	while (tmp)
 	{
-		if (tmp->type == OBJ_SPHERE && hit_sphere(&tmp->sphere, r, closest_so_far, &tmp_rec) > 0)
-		{
-			hit_anything = true;
-			closest_so_far = tmp_rec.t;
-			*rec = tmp_rec;
-		}
-		else if (tmp->type == OBJ_PLANE && hit_plane(&tmp->plane, r, closest_so_far, &tmp_rec) > 0)
+		if (tmp->type == OBJ_PLANE && hit_plane(&tmp->plane, r, closest_so_far, &tmp_rec) > 0)
 		{
 			hit_anything = true;
 			closest_so_far = tmp_rec.t;

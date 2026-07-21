@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/06/11 02:51:52 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/07/21 15:45:35 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	rec->point = ray_pos(r, root);
 	outward_normal = vec_div(vec_sub(rec->point, sp->point), sp->radius);
 	set_face_normal(r, &outward_normal, rec);
-	// rec->normal = unit_vec(vec_sub(ray_pos(r, root), sp->point)); // calculates the normal in unit length
 	rec->mat = sp->material;
 	return (root);
 }

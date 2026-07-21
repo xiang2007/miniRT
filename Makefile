@@ -65,7 +65,8 @@ COLSRC := color.c \
 COL := $(addprefix $(COLDIR)/,$(COLSRC))
 
 RAYDIR := src/ray
-RAYSRC := ray.c
+RAYSRC := ray.c \
+		  ray_utils.c
 RAY := $(addprefix $(RAYDIR)/,$(RAYSRC))
 
 CAMDIR := src/camera
@@ -74,7 +75,8 @@ CAM := $(addprefix $(CAMDIR)/,$(CAMSRC))
 
 OBJDIR := src/objects
 OBJSRC := sphere.c \
-		  object_utils.c
+		  object_utils.c \
+		  object_utils2.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
 
 MATDIR := src/material

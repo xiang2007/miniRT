@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/10 18:39:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/20 22:19:21 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/21 20:15:37 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "../../includes/parse.h"
 #include "../../includes/mlx_dat.h"
 #include "../../includes/render.h"
+#include "../../includes/aabb.h"
+#include "../../includes/aabb.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 
@@ -27,6 +29,12 @@ void	world_free(t_world *world)
 {
 	t_objects	*tmp;
 
+	if (!world)
+		return ;
+	free_bvh(world->bvh);
+	free(world->bvh_obj);
+	world->bvh = NULL;
+	world->bvh_obj = NULL;
 	while (world->objs)
 	{
 		tmp = world->objs;
@@ -35,6 +43,8 @@ void	world_free(t_world *world)
 			free(tmp->sphere.material);
 		free(tmp);
 	}
+	free_bvh(world->bvh);
+	free(world->bvh_obj);
 }
 
 /**
