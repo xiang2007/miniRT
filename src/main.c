@@ -110,7 +110,7 @@ int	parse_and_render(t_rt *rt_dat)
 	world.bvh = NULL;
 	setup_cam_init(&s);
 	// TODO: malloc failure msg
-	objs = parse("test_spheres_only.rt");
+	objs = parse("shirley_final.rt");
 	// objs = parse("test.rt");
 	if (!objs)
 		return (1);
