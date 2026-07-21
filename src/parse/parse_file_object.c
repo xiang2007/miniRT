@@ -98,6 +98,7 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 {
 	char		**res;
 	t_objects	*o;
+	double		ri;
 
 	if (!check_sphere(s))
 		return (FALSE);
@@ -121,7 +122,10 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 		else if (ft_strcmp(res[4], "metal") == TRUE)
 			o->sphere.material = create_metal(o->sphere.color, 0.3);
 		else if (ft_strcmp(res[4], "dielectric") == TRUE)
-			o->sphere.material = create_dielectric(1.50);
+		{
+			ri = ft_atof(res[5]);
+			o->sphere.material = create_dielectric(ri);
+		}
 		if (!o->sphere.material)
 			return (free(o), free_str_arr(res), FALSE);
 	}

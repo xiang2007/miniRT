@@ -13,6 +13,9 @@
 #include "../../includes/objects.h"
 #include "../../includes/vec3.h"
 #include "../../includes/material.h"
+
+#include <math.h>
+
 #include "../../includes/ray.h"
 #include <stdlib.h>
 #include <stdbool.h>
@@ -47,12 +50,24 @@ bool	metal_scatter(const struct s_material *self, const t_ray *in, const t_hit_d
 	return (vec_dot(scattered->vec, rec->normal));
 }
 
+double	reflectance(double cosine, double refraction_index)
+{
+	double	r0;
+
+	r0 = (1 - refraction_index) / (1 + refraction_index);
+	r0 = r0 * r0;
+	return (r0 + (1 - r0) * pow((1 - cosine), 5));
+}
+
 bool	dielectric_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered)
 {
 	t_dielectric	*die;
 	t_vec3			unit_direction;
-	t_vec3			refracted;
+	t_vec3	direction;
 	double	ri;
+	double	cos_theta;
+	double	sin_theta;
+	bool	cannot_refract;
 
 	die = (t_dielectric *) self;
 	*attenuation = create_color(1.0, 1.0, 1.0);
@@ -61,8 +76,16 @@ bool	dielectric_scatter(const struct s_material *self, const t_ray *in, const t_
 	else
 		ri = die->refractive_index;
 	unit_direction = unit_vec(in->vec);
-	refracted = refract(&unit_direction, &rec->normal, ri);
-	*scattered = ray(rec->point, refracted);
+	cos_theta = vec_dot(vec_mul(unit_direction, -1.0), rec->normal);
+	if (cos_theta > 1.0)
+		cos_theta = 1.0;
+	sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+	cannot_refract = ri * sin_theta > 1.0;
+	if (cannot_refract || reflectance(cos_theta, ri) > random_double(0.0, 1.0))
+		direction = reflect(&unit_direction, &rec->normal);
+	else
+		direction = refract(&unit_direction, &rec->normal, ri);
+	*scattered = ray(rec->point, direction);
 	return (true);
 }
 

@@ -52,6 +52,7 @@ t_point3 sub_point(t_point3 p1, t_point3 p2);
 t_vec3	vec3_rand(double min, double max);
 t_vec3	rand_unit_vec3(void);
 t_vec3	rand_on_hemi(const t_vec3 *normal);
+double	random_double(double min, double max);
 
 bool	near_zero(t_vec3 *vector);
 
