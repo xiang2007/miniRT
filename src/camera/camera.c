@@ -13,7 +13,32 @@
 #include "../../includes/minirt.h"
 #include "../../includes/vec3.h"
 #include "../../includes/camera.h"
+#include <X11/keysym.h>
 #include <math.h>
+
+void	camera_move(int key, t_rt *rt)
+{
+	t_setup_cam	setup;
+	t_vec3		move;
+
+	move = create_vec3(0, 0, 0);
+	if (key == XK_w)
+		move = vec_mul(rt->cam->w, -MOVE_Y);
+	else if (key == XK_s)
+		move = vec_mul(rt->cam->w, MOVE_Y);
+	else if (key == XK_a)
+		move = vec_mul(rt->cam->u, -MOVE_X);
+	else if (key == XK_d)
+		move = vec_mul(rt->cam->u, MOVE_X);
+	else if (key == XK_q)
+		move = vec_mul(rt->cam->v, -MOVE_Y);
+	else if (key == XK_e)
+		move = vec_mul(rt->cam->v, MOVE_Y);
+	setup.center = vec_add(rt->cam->cam_center, move);
+	setup.norm_vector = vec_mul(rt->cam->w, -1.0);
+	setup.fov = rt->cam->fov;
+	cam_init(rt->cam, rt, &setup);
+}
 
 /**
  * @brief Setup camera viewport size, px delta, fov, and focal length.

@@ -15,12 +15,16 @@
 
 static t_objects	*parse_create_object(t_objects *o)
 {
+	if (o->type == OBJ_AMBIENT)
+		return (create_object(&o->ambient, o->type, o->id));
 	if (o->type == OBJ_SPHERE)
 		return (create_object(&o->sphere, o->type, o->id));
 	if (o->type == OBJ_PLANE)
 		return (create_object(&o->plane, o->type, o->id));
 	if (o->type == OBJ_CYLINDER)
 		return (create_object(&o->cylinder, o->type, o->id));
+	if (o->type == OBJ_LIGHT)
+		return (create_object(&o->light, o->type, o->id));
 	return (NULL);
 }
 

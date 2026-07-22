@@ -69,6 +69,8 @@ t_objects	*create_object(void *obj, t_obj_type type, int id)
 		res->cylinder = *(t_cylinder *)obj;
 	else if (type == OBJ_PLANE)
 		res->plane = *(t_plane *)obj;
+	else if (type == OBJ_LIGHT)
+		res->light = *(t_light *)obj;
 	build_box_switch(res);
 	return (res);
 }

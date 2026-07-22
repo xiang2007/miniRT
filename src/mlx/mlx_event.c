@@ -16,9 +16,28 @@
 #include "../../includes/mlx_dat.h"
 #include "../../includes/render.h"
 #include "../../includes/aabb.h"
-#include "../../includes/aabb.h"
+#include "../../includes/camera.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
+
+static void	rebuild_world_bvh(t_world *world)
+{
+	t_objects	**objects;
+	t_bvh		*root;
+	int			count;
+
+	count = obj_sphere_count(world->objs);
+	objects = Obj2Arr(world->objs);
+	if (!objects || count <= 0)
+		return (free(objects));
+	root = build_bvh(objects, 0, count);
+	if (!root)
+		return (free(objects));
+	free_bvh(world->bvh);
+	free(world->bvh_obj);
+	world->bvh = root;
+	world->bvh_obj = objects;
+}
 
 /**
  * @brief Frees all obj structs in world
@@ -43,8 +62,6 @@ void	world_free(t_world *world)
 			free(tmp->sphere.material);
 		free(tmp);
 	}
-	free_bvh(world->bvh);
-	free(world->bvh_obj);
 }
 
 /**
@@ -71,6 +88,15 @@ int	handle_key(int key, t_rt *win)
 	if (key >= XK_Left && key <= XK_Down && win->sel_obj)
 	{
 		move_objects(key, &win->sel_obj);
+		if (win->sel_obj->type == OBJ_SPHERE)
+			rebuild_world_bvh(&win->world);
+		lower_res(key, win);
+		render(win, win->cam, &win->world);
+	}
+	if (key == XK_w || key == XK_s || key == XK_a
+		|| key == XK_d || key == XK_q || key == XK_e)
+	{
+		camera_move(key, win);
 		lower_res(key, win);
 		render(win, win->cam, &win->world);
 	}

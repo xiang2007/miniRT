@@ -47,7 +47,9 @@ t_objects *select_object(int key, t_world *world)
 void	lower_res(int key, t_rt *rt)
 {
 	if ((key == XK_Left) || (key == XK_Right)
-		|| (key == XK_Up) || (key == XK_Down))
+		|| (key == XK_Up) || (key == XK_Down)
+		|| key == XK_w || key == XK_s || key == XK_a
+		|| key == XK_d || key == XK_q || key == XK_e)
 	{
 		rt->max_bounce_depth = 5;
 		rt->samples_per_pixel = 7;
@@ -67,6 +69,8 @@ void	move_obj_switch(int key, t_obj_type type, t_objects *o)
 		sphere_mv(key, o);
 	else if (type == OBJ_PLANE)
 		plane_mv(key, o);
+	else if (type == OBJ_LIGHT)
+		light_mv(key, o);
 	return ;
 }
 

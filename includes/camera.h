@@ -16,5 +16,6 @@
 #include "objects.h"
 
 void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s);
+void	camera_move(int key, t_rt *rt);
 
 #endif

@@ -99,7 +99,11 @@ AABBDIR := src/aabb
 AABBSRC := aabb.c bvh.c
 AABB := $(addprefix $(AABBDIR)/,$(AABBSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT) $(AABB)
+LIGHTDIR := src/light
+LIGHTSRC := light.c
+LIGHT := $(addprefix $(LIGHTDIR)/,$(LIGHTSRC))
+
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT) $(AABB) $(LIGHT)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)

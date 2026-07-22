@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 15:45:35 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/21 22:04:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	a = vec_len_sq(r->vec);
 	h = vec_dot(r->vec, ori_center);
 	c = vec_len_sq(ori_center) - pow(sp->radius, 2.0);
-	d = pow(h, 2.0) - a * c;
+	d = (h * h) - a * c;
 	if (d < 0)
 		return (-1);
 	root = (h - sqrt(d)) / a;
@@ -64,6 +64,7 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	}
 	rec->t = root;
 	rec->point = ray_pos(r, root);
+	rec->color = sp->color;
 	outward_normal = vec_div(vec_sub(rec->point, sp->point), sp->radius);
 	set_face_normal(r, &outward_normal, rec);
 	rec->mat = sp->material;
@@ -95,7 +96,9 @@ double hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 	if (t <= __DBL_EPSILON__ || t >= r_max)
 		return (-1);
 	rec->t = t;
-	rec->normal = normal;
 	rec->point = ray_pos(ray, t);
+	rec->color = p->color;
+	set_face_normal(ray, &normal, rec);
+	rec->mat = 0;
 	return (t);
 }

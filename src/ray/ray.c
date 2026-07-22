@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 20:14:25 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:43:43 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,65 @@ bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	return (hit_anything);
 }
 
+t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, int bounce_depth, t_light l)
+{
+	t_ray		shadow_ray;
+	t_hit_dat	shadow_rec;
+	t_vec3		light_dir;
+	t_vec3		shadow_ori;
+	t_vec3		light_in;
+	t_vec3		reflected;
+	t_vec3		view_dir;
+	t_color		result;
+	double		light_distance;
+	double		brightness;
+	double		specular;
+
+	(void)bounce_depth;
+
+	shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
+	light_dir = unit_vec(sub_point(l.cords, rec->point));
+	light_distance = vec_len(sub_point(l.cords, rec->point));
+	shadow_ray = ray(shadow_ori, light_dir);
+	if (!hit_bvh(w->bvh, &shadow_ray, light_distance, &shadow_rec))
+	{
+		brightness = fmax(vec_dot(rec->normal, light_dir), 0.0);
+		brightness *= l.brightness_ratio;
+		light_in = vec_mul(light_dir, -1.0);
+		reflected = reflect(&light_in, &rec->normal);
+		view_dir = unit_vec(vec_mul(r->vec, -1.0));
+		specular = pow(fmax(vec_dot(view_dir, reflected), 0.0), 32.0);
+		specular *= l.brightness_ratio;
+		result = color_add(color_mul_n(rec->color, brightness),
+				color_mul_n(l.color, specular));
+		result.r = fmin(result.r, 1.0);
+		result.g = fmin(result.g, 1.0);
+		result.b = fmin(result.b, 1.0);
+		return (result);
+	}
+	return (create_color(0, 0, 0));
+}
+
+static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
+{
+	t_objects	*obj;
+	t_color		result;
+
+	result = create_color(0, 0, 0);
+	obj = w->objs;
+	while (obj)
+	{
+		if (obj->type == OBJ_LIGHT)
+			result = color_add(result,
+					lightning(rec, w, r, depth, obj->light));
+		obj = obj->next;
+	}
+	result.r = fmin(result.r, 1.0);
+	result.g = fmin(result.g, 1.0);
+	result.b = fmin(result.b, 1.0);
+	return (result);
+}
+
 /**
  * @brief Calculates the hit data from hit_list and calculates the colour from it.
  *
@@ -104,18 +163,12 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 	t_color		res;
 	t_vec3		u_dir;
 	t_hit_dat	rec;
-	t_ray		scattered;
-	t_color		attenuation;
 
 	rec = (t_hit_dat){0};
 	if (bounce_depth <= 0)
 		return (create_color(0, 0, 0));
 	if (hit_list(r, world, &rec))
-	{
-		if (rec.mat->scatter(rec.mat, r, &rec, &attenuation, &scattered))
-			return (color_mul(attenuation, ray_color(&scattered, bounce_depth - 1, world)));
-		return (create_color(0.0, 0.0, 0.0));
-	}
+		return (all_lights(&rec, world, r, bounce_depth));
 	u_dir = unit_vec(r->vec);
 	a = 0.5 * (u_dir.y + 1); // normalize
 	res = color_add(color_mul_n(create_color(1, 1, 1), (1 - a)),

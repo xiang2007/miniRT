@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/20 19:33:19 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/22 16:18:25 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	parse_and_render(t_rt *rt_dat)
 	world.bvh = NULL;
 	setup_cam_init(&s);
 	// TODO: malloc failure msg
-	objs = parse("shirley_final.rt");
+	objs = parse("test.rt");
 	// objs = parse("test.rt");
 	if (!objs)
 		return (1);

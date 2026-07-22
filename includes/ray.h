@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 12:15:34 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/21 19:36:27 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/22 13:11:36 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_hit_dat
 	double		t;
 	t_vec3		normal;
 	t_vec3		point;
+	t_color		color;
 	bool		front_face;
 	t_material	*mat;
 }	t_hit_dat;

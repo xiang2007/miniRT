@@ -88,6 +88,7 @@ int	parse_light(int id, char *s, t_objects **obj)
 	o->id = id;
 	o->light.cords = parse_cords(res[1]);
 	o->light.brightness_ratio = ft_atof(res[2]);
+	o->light.color = parse_color(res[3]);
 	o->type = OBJ_LIGHT;
 	obj_add_back(o, obj);
 	free_str_arr(res);

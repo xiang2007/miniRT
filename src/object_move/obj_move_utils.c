@@ -52,3 +52,16 @@ void *plane_mv(int key, t_objects *o)
 		return (o->plane.center.x += MOVE_X, ((void *)0));
 	return ((void *)0);
 }
+
+void	*light_mv(int key, t_objects *o)
+{
+	if (key == XK_Up)
+		o->light.cords.y += MOVE_Y;
+	else if (key == XK_Down)
+		o->light.cords.y -= MOVE_Y;
+	else if (key == XK_Left)
+		o->light.cords.x -= MOVE_X;
+	else if (key == XK_Right)
+		o->light.cords.x += MOVE_X;
+	return ((void *)0);
+}

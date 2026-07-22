@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/21 20:26:59 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:35:57 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_light
 {
 	double		brightness_ratio;
 	t_point3	cords;
+	t_color		color;
 }				t_light;
 
 typedef struct s_setup_cam
@@ -144,6 +145,7 @@ t_objects	**Obj2Arr(t_objects *o);
 void	*cylinder_mv(int key, t_objects *o);
 void	*sphere_mv(int key, t_objects *o);
 void	*plane_mv(int key, t_objects *o);
+void	*light_mv(int key, t_objects *o);
 void	move_objects(int key, t_objects **obj);
 void	lower_res(int key, t_rt *rt);
 void	reset_res(t_rt *rt);
@@ -151,5 +153,6 @@ void	reset_res(t_rt *rt);
 
 // World function
 void	world_add_back(t_world *world, t_objects *obj, t_obj_type type);
+t_light	*get_light(t_world *w);
 
 #endif
