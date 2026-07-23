@@ -23,7 +23,7 @@
  */
 double	vec_len_sq(t_vec3 a)
 {
-	return (pow(a.x, 2.0) + pow(a.y, 2.0) + pow(a.z, 2.0)); // TODO: change to x*x instead of using pow unless got other optimization
+	return (pow(a.x, 2.0) + pow(a.y, 2.0) + pow(a.z, 2.0));
 }
 
 /**
@@ -77,4 +77,3 @@ t_vec3	unit_vec(t_vec3 a)
 {
 	return (vec_div(a, vec_len(a)));
 }
-

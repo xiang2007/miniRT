@@ -142,7 +142,6 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	else
 		o->sphere.material = create_lambertian(o->sphere.color);
 	o->type = OBJ_SPHERE;
-	// printf("[DEBUG SPHERE] Coords: X=%s | Albedo: R=%.2f, G=%.2f, B=%.2f | Mat: '%s'\n", res[1], o->sphere.color.r, o->sphere.color.g, o->sphere.color.b, res[4]);
 	free_str_arr(res);
 	obj_add_back(o, obj);
 	return (TRUE);

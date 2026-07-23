@@ -92,7 +92,7 @@ int	parse_object_switch(int id, char *s, t_objects **o)
 	return (FALSE);
 }
 
-t_objects *parse_object(char **res)
+t_objects	*parse_object(char **res)
 {
 	int			i;
 	t_objects	*o_res;

@@ -170,8 +170,8 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 	if (hit_list(r, world, &rec))
 		return (all_lights(&rec, world, r, bounce_depth));
 	u_dir = unit_vec(r->vec);
-	a = 0.5 * (u_dir.y + 1); // normalize
+	a = 0.5 * (u_dir.y + 1);
 	res = color_add(color_mul_n(create_color(1, 1, 1), (1 - a)),
-			color_mul_n(create_color(0.5, 0.7, 1.0), a)); // Sky colour
+			color_mul_n(create_color(0.5, 0.7, 1.0), a));
 	return (res);
 }

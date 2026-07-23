@@ -109,12 +109,9 @@ int	parse_and_render(t_rt *rt_dat)
 	world.bvh_obj = NULL;
 	world.bvh = NULL;
 	setup_cam_init(&s);
-	// TODO: malloc failure msg
 	objs = parse("test.rt");
-	// objs = parse("test.rt");
 	if (!objs)
 		return (1);
-	// Extract camera setup from parsed objects before populating the world
 	cam = malloc(sizeof(t_cam));
 	get_setup_cam(&s, objs);
 	parse_world(&world, objs);
@@ -135,11 +132,9 @@ int	parse_and_render(t_rt *rt_dat)
 int	main(int argc, char **argv)
 {
 	t_rt		rt_dat;
-
-
 	(void)argc;
 	(void)argv;
-	rt_dat = (t_rt) {0};
+	rt_dat = (t_rt){0};
 	rt_dat_init(&rt_dat);
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0);

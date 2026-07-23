@@ -46,9 +46,9 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 	t_color	cl;
 	t_vec3	px_sample;
 	t_vec3	r_dir;
-	int		max_bounce_depth; // Maximum number of ray bounces into scene
-	int		samples_per_pixel;   // Count of random samples for each pixel
-	double	pixel_samples_scale; // Color scale factor for a sum of pixel samples
+	int		max_bounce_depth;
+	int		samples_per_pixel;
+	double	pixel_samples_scale;
 	int		sample;
 	t_vec3	offset;
 

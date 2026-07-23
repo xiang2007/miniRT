@@ -94,7 +94,7 @@ int	check_cylinder(char *s)
 	if ((ft_strncmp(s, "cy", 2) != 0) || s[2] != ' ')
 		return (FALSE);
 	res = ft_split(s, ' ');
-	if(parse_arg_count(res) != 6)
+	if (parse_arg_count(res) != 6)
 		return (free_str_arr(res), FALSE);
 	if (!check_cords(res[1]))
 		return (free_str_arr(res), FALSE);

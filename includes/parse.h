@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/23 00:00:00 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/07/23 00:00:00 by wshou-xi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSE_H
 # define PARSE_H
 
@@ -44,15 +56,20 @@ int	parse_plane(int id, char *s, t_objects **obj);
 int	parse_cylinder(int id, char *s, t_objects **obj);
 
 // Parsing helper functions
-int		check_rt_file(char *file_name);
-int		parse_arg_count(char **arg);
-char	*read_rt_file(char *filename);
+int	check_rt_file(char *file_name);
+int	parse_arg_count(char **arg);
+
+char		*read_rt_file(char *filename);
+
 void	print_str_arr(char **str_arr);
 void	free_str_arr(char **strarr);
 void	print_objects(t_objects *o);
 void	print_object(t_objects *o);
+
 t_point3	parse_cords(char *s);
-t_color		parse_color(char *s);
+
+t_color	parse_color(char *s);
+
 t_objects	*parse_object(char **res);
 
 // Parsing cleaning function
@@ -60,6 +77,6 @@ void	parse_free_objects(t_objects *o);
 
 // Main parsing function
 t_objects	*parse(char *file);
-void		parse_world(t_world *w, t_objects *o);
+void	parse_world(t_world *w, t_objects *o);
 
 #endif

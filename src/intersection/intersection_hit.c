@@ -18,16 +18,12 @@
 
 void	set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_dat *rec)
 {
-	// Sets the hit record normal vector.
-	// NOTE: the parameter `outward_normal` is assumed to have unit length.
 	rec->front_face = vec_dot(r->vec, *outward_normal) < 0;
 	if (rec->front_face)
 		rec->normal = *outward_normal;
 	else
 		rec->normal = vec_mul(*outward_normal, -1.0);
 }
-
-// TODO: might need more description
 
 /**
  * @brief Calculates whether the ray hits the sphere
@@ -56,7 +52,7 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	if (d < 0)
 		return (-1);
 	root = (h - sqrt(d)) / a;
-	if (root <= 0.001 || r_max <= root) // less than zero or larger than the current smallest root not acceptable
+	if (root <= 0.001 || r_max <= root)
 	{
 		root = (h + sqrt(d)) / a;
 		if (root <= 0.001 || r_max <= root)
