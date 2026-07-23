@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/22 14:43:43 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 17:13:53 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_ray	ray(t_point3 cam_center, t_vec3 ray_dir)
  * @param rec data struct when ray hits object
  * @return true if hit any objects or false if not
  */
-bool hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
+bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 {
 	t_objects	*tmp;
 	bool		hit_anything;
@@ -106,7 +106,6 @@ t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, int bounce_depth, t_ligh
 	double		specular;
 
 	(void)bounce_depth;
-
 	shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
 	light_dir = unit_vec(sub_point(l.cords, rec->point));
 	light_distance = vec_len(sub_point(l.cords, rec->point));

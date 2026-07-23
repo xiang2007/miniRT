@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 17:22:52 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/13 17:18:16 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 23:16:52 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ bool	near_zero(t_vec3 *vector)
 {
 	const double	s = 1e-8;
 
-	return ((fabs(vector->x) < s) && (fabs(vector->y) < s) && (fabs(vector->z) < s));
+	return ((fabs(vector->x) < s) && (fabs(vector->y) < s)
+		&& (fabs(vector->z) < s));
 }
 
 t_vec3	reflect(const t_vec3 *vec, const t_vec3 *normal)
@@ -91,6 +92,7 @@ t_vec3	refract(const t_vec3 *uv, const t_vec3 *n, double etai_over_etat)
 	if (cos_theta > 1.0)
 		cos_theta = 1.0;
 	r_out_perp = vec_mul(vec_add(*uv, vec_mul(*n, cos_theta)), etai_over_etat);
-	r_out_parallel = vec_mul(*n, -1.0 * sqrt(fabs(1.0 - vec_len_sq(r_out_perp))));
+	r_out_parallel = vec_mul(*n,
+			-1.0 * sqrt(fabs(1.0 - vec_len_sq(r_out_perp))));
 	return (vec_add(r_out_perp, r_out_parallel));
 }

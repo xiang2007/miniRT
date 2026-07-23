@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 15:59:54 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 19:34:26 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 17:12:58 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 double	get_ray_vec_n(t_ray *ray, int n)
 {
-	double res;
+	double	res;
 
 	res = 0;
-	if(!ray)
+	if (!ray)
 		return (-1);
 	if (n == 1)
 		res = ray->vec.x;
@@ -31,10 +31,10 @@ double	get_ray_vec_n(t_ray *ray, int n)
 
 double	get_ray_point_n(t_ray *ray, int n)
 {
-	double res;
+	double	res;
 
 	res = 0;
-	if(!ray)
+	if (!ray)
 		return (-1);
 	if (n == 1)
 		res = ray->point.x;

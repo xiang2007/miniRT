@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/10 18:39:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 20:15:37 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 17:09:39 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	rebuild_world_bvh(t_world *world)
 	int			count;
 
 	count = obj_sphere_count(world->objs);
-	objects = Obj2Arr(world->objs);
+	objects = obj2arr(world->objs);
 	if (!objects || count <= 0)
 		return (free(objects));
 	root = build_bvh(objects, 0, count);

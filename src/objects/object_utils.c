@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 20:43:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 17:09:18 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	obj_add_back(t_objects *src, t_objects **dest)
 		return ;
 	}
 	ptr = *dest;
-	while(ptr->next)
+	while (ptr->next)
 		ptr = ptr->next;
 	ptr->next = src;
 	src->next = NULL;
@@ -82,21 +82,21 @@ t_objects	*create_object(void *obj, t_obj_type type, int id)
  */
 void	print_object_list(t_objects *o)
 {
-	const char *t[7] =
-		{"AMBIENT", "CAMERA", "SPHERE", "PLANE", "CYLINDER", "LIGHT", "S_CAM"};
+	const char	*t[7] = {"AMBIENT", "CAMERA", "SPHERE", "PLANE",
+		"CYLINDER", "LIGHT", "S_CAM"};
 	t_objects	*p;
 
 	if (!o)
 		return ;
 	p = o;
-	while(p)
+	while (p)
 	{
 		printf("Object: %s\n", t[p->type]);
 		p = p->next;
 	}
 }
 
-t_objects	**Obj2Arr(t_objects *o)
+t_objects	**obj2arr(t_objects *o)
 {
 	int			size;
 	int			i;
@@ -111,7 +111,7 @@ t_objects	**Obj2Arr(t_objects *o)
 	if (!res)
 		return (NULL);
 	i = 0;
-	while(head)
+	while (head)
 	{
 		if (head->type == OBJ_SPHERE)
 			res[i++] = head;

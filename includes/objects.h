@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/22 14:35:57 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 17:09:39 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void		print_object_list(t_objects *o);
 t_sphere	sphere(t_point3 center, double radius);
 t_objects	*create_object(void *obj, t_obj_type type, int id);
 t_objects	*select_object(int key, t_world *world);
-t_objects	**Obj2Arr(t_objects *o);
+t_objects	**obj2arr(t_objects *o);
 
 // Object move function
 void	*cylinder_mv(int key, t_objects *o);

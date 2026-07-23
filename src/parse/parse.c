@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 20:46:32 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 17:09:39 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	parse_world(t_world *w, t_objects *o)
 		p = p->next;
 	}
 	parse_free_objects(o);
-	w->bvh_obj = Obj2Arr(w->objs);
+	w->bvh_obj = obj2arr(w->objs);
 	count = obj_sphere_count(w->objs);
 	if (w->bvh_obj && count > 0)
 		w->bvh = build_bvh(w->bvh_obj, 0, count);

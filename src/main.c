@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/22 16:18:25 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/23 17:01:21 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int	parse_and_render(t_rt *rt_dat)
 int	main(int argc, char **argv)
 {
 	t_rt		rt_dat;
+
 	(void)argc;
 	(void)argv;
 	rt_dat = (t_rt){0};
