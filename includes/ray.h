@@ -32,6 +32,17 @@ typedef struct s_hit_dat
 	t_material	*mat;
 }	t_hit_dat;
 
+typedef struct s_hit_sphere
+{
+	t_vec3	ori_center;
+	t_vec3	outward_normal;
+	double	a;
+	double	h;
+	double	c;
+	double	d;
+	double	root;
+}			t_hit_sphere;
+
 typedef struct s_lightning
 {
 	t_ray		shadow_ray;

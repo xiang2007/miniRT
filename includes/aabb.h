@@ -28,6 +28,16 @@ typedef struct s_bvh
 	t_aabb			box;
 }				t_bvh;
 
+typedef struct s_slab_args
+{
+	double	origin;
+	double	direction;
+	double	min;
+	double	max;
+	double	*t_min;
+	double	*t_max;
+}			t_slab_args;
+
 t_aabb	build_box(t_objects *o);
 t_aabb	surround_box(t_aabb a, t_aabb b);
 t_bvh	*build_bvh(t_objects **objects, int start, int end);

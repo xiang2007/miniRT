@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 13:02:09 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/20 22:03:50 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:47:06 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,29 @@
 #include <X11/keysym.h>
 #include <stdio.h>
 
-t_objects *select_object(int key, t_world *world)
+t_objects	*select_object(int key, t_world *world)
 {
 	int			id;
 	int			i;
 	t_objects	*obj;
 	t_objects	*temp;
 	const int	keys[] = {XK_0, XK_1, XK_2, XK_3, XK_4, XK_5,
-			XK_6, XK_7, XK_8, XK_9};
+		XK_6, XK_7, XK_8, XK_9};
 
 	obj = (world)->objs;
 	i = 0;
-	while(keys[i])
+	while (keys[i])
 	{
 		if (keys[i] == key)
 			id = i;
 		i++;
 	}
 	temp = obj;
-	while(temp)
+	while (temp)
 	{
 		if (temp->id == id && temp->type != OBJ_AMBIENT)
-			return (print_object(temp), printf("id: %d %s\n", id, "selected"), temp);
+			return (print_object(temp),
+				printf("id: %d %s\n", id, "selected"), temp);
 		temp = temp->next;
 	}
 	return ((void *)0);

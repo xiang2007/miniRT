@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 07:26:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:37:54 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_ray	ray(t_point3 cam_center, t_vec3 ray_dir)
 }
 
 /**
- * @brief Iterates through all the objects and returns true if hit obj or false if not
+ * @brief Iterates through all the objects and returns true
+ * if hit obj or false if not
  *
  * @param r the ray
  * @param world world data struct
@@ -72,7 +73,6 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	tmp = world->objs;
 	hit_anything = false;
 	closest_so_far = INFINITY;
-	rec->mat = 0;
 	if (world->bvh && hit_bvh(world->bvh, r, closest_so_far, rec))
 	{
 		hit_anything = true;
@@ -80,7 +80,8 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	}
 	while (tmp)
 	{
-		if (tmp->type == OBJ_PLANE && hit_plane(&tmp->plane, r, closest_so_far, &tmp_rec) > 0)
+		if (tmp->type == OBJ_PLANE
+			&& hit_plane(&tmp->plane, r, closest_so_far, &tmp_rec) > 0)
 		{
 			hit_anything = true;
 			closest_so_far = tmp_rec.t;
@@ -120,7 +121,7 @@ static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 	return (create_color(0, 0, 0));
 }
 
-static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
+static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
 {
 	t_objects	*obj;
 	t_color		result;
@@ -141,7 +142,8 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 }
 
 /**
- * @brief Calculates the hit data from hit_list and calculates the colour from it.
+ * @brief Calculates the hit data from hit_list and calculates
+ * the colour from it.
  *
  * @param r the ray
  * @param world the world data
@@ -158,7 +160,7 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 	if (bounce_depth <= 0)
 		return (create_color(0, 0, 0));
 	if (hit_list(r, world, &rec))
-		return (all_lights(&rec, world, r, bounce_depth));
+		return (all_lights(&rec, world, r));
 	u_dir = unit_vec(r->vec);
 	a = 0.5 * (u_dir.y + 1);
 	res = color_add(color_mul_n(create_color(1, 1, 1), (1 - a)),

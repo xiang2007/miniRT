@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/23 17:09:39 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:53:29 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,5 @@ void	reset_res(t_rt *rt);
 
 // World function
 void	world_add_back(t_world *world, t_objects *obj, t_obj_type type);
-t_light	*get_light(t_world *w);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:55:07 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 20:18:46 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:50:34 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	bvh_size(t_objects **obj)
 		return (-1);
 	o = *obj;
 	size = 0;
-	while(o)
+	while (o)
 	{
 		if (o->type == OBJ_SPHERE)
 			size++;
@@ -65,7 +65,7 @@ t_bvh	*build_bvh(t_objects **objects, int start, int end)
 	node->left = build_bvh(objects, start, start + half);
 	node->right = build_bvh(objects, start + half, end);
 	if (!node->left || !node->right)
-		return(free_bvh(node), NULL);
+		return (free_bvh(node), NULL);
 	node->box = surround_box(node->left->box, node->right->box);
 	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:27:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/05/11 17:40:48 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:38:25 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param p2
  * @return
  */
-t_point3 sub_point(t_point3 p1, t_point3 p2)
+t_point3	sub_point(t_point3 p1, t_point3 p2)
 {
 	t_point3	res;
 

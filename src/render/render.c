@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 21:07:24 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/27 23:54:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:39:47 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ static void	render_row(t_rt *rt_dat, t_spp spp, int h)
  */
 void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 {
-	clock_t	start, end;
+	clock_t	start;
+	clock_t	end;
 	int		h;
 	t_spp	spp;
 
@@ -100,6 +101,7 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 		h++;
 	}
 	end = clock();
-	printf("Render took %f seconds to execute \n", ((double) (end - start)) / CLOCKS_PER_SEC);
+	printf("Render took %f seconds to execute \n",
+		((double)(end - start)) / CLOCKS_PER_SEC);
 	mlx_put_to_window(rt_dat->mlx_dat);
 }

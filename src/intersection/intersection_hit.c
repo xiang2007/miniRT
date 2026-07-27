@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/21 22:04:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:48:30 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #include <math.h>
 #include <stdbool.h>
 
-void	set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_dat *rec)
+void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec)
 {
-	rec->front_face = vec_dot(r->vec, *outward_normal) < 0;
+	rec->front_face = vec_dot(r->vec, *out_norm) < 0;
 	if (rec->front_face)
-		rec->normal = *outward_normal;
+		rec->normal = *out_norm;
 	else
-		rec->normal = vec_mul(*outward_normal, -1.0);
+		rec->normal = vec_mul(*out_norm, -1.0);
 }
 
 /**
@@ -36,35 +36,29 @@ void	set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_dat *re
  */
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 {
-	t_vec3	ori_center;
-	t_vec3	outward_normal;
-	double	a;
-	double	h;
-	double	c;
-	double	d;
-	double	root;
+	t_hit_sphere	dat;
 
-	ori_center = vec_sub(sp->point, r->point);
-	a = vec_len_sq(r->vec);
-	h = vec_dot(r->vec, ori_center);
-	c = vec_len_sq(ori_center) - pow(sp->radius, 2.0);
-	d = (h * h) - a * c;
-	if (d < 0)
+	dat.ori_center = vec_sub(sp->point, r->point);
+	dat.a = vec_len_sq(r->vec);
+	dat.h = vec_dot(r->vec, dat.ori_center);
+	dat.c = vec_len_sq(dat.ori_center) - pow(sp->radius, 2.0);
+	dat.d = (dat.h * dat.h) - dat.a * dat.c;
+	if (dat.d < 0)
 		return (-1);
-	root = (h - sqrt(d)) / a;
-	if (root <= 0.001 || r_max <= root)
+	dat.root = (dat.h - sqrt(dat.d)) / dat.a;
+	if (dat.root <= 0.001 || r_max <= dat.root)
 	{
-		root = (h + sqrt(d)) / a;
-		if (root <= 0.001 || r_max <= root)
+		dat.root = (dat.h + sqrt(dat.d)) / dat.a;
+		if (dat.root <= 0.001 || r_max <= dat.root)
 			return (0);
 	}
-	rec->t = root;
-	rec->point = ray_pos(r, root);
+	rec->t = dat.root;
+	rec->point = ray_pos(r, dat.root);
 	rec->color = sp->color;
-	outward_normal = vec_div(vec_sub(rec->point, sp->point), sp->radius);
-	set_face_normal(r, &outward_normal, rec);
+	dat.outward_normal = vec_div(vec_sub(rec->point, sp->point), sp->radius);
+	set_face_normal(r, &dat.outward_normal, rec);
 	rec->mat = sp->material;
-	return (root);
+	return (dat.root);
 }
 
 /**

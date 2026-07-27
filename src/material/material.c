@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 01:53:54 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/15 01:53:54 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/07/28 07:44:31 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,32 @@
 
 #include "../../includes/color.h"
 
-bool lambertian_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered)
+bool	lambertian_scatter(t_scatter_args *args)
 {
-	t_vec3	scatter_direction;
+	t_vec3			scatter_direction;
 	t_lambertian	*lam;
 
-	(void)in;
-	scatter_direction = vec_add(rec->normal, rand_unit_vec3());
+	scatter_direction = vec_add(args->rec->normal, rand_unit_vec3());
 	if (near_zero(&scatter_direction))
-		scatter_direction = rec->normal;
-	*scattered = ray(rec->point, scatter_direction);
-	lam = (t_lambertian *) self;
-	*attenuation = lam->albedo;
+		scatter_direction = args->rec->normal;
+	*args->scattered = ray(args->rec->point, scatter_direction);
+	lam = (t_lambertian *)args->self;
+	*args->attenuation = lam->albedo;
 	return (true);
 }
 
-bool	metal_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered)
+bool	metal_scatter(t_scatter_args *args)
 {
 	t_vec3	reflected;
 	t_metal	*metal;
 
-	reflected = reflect(&in->vec, &rec->normal);
-	metal = (t_metal *) self;
-	reflected = vec_add(unit_vec(reflected), vec_mul(rand_unit_vec3(), metal->fuzziness));
-	*scattered = ray(rec->point, reflected);
-	*attenuation = metal->albedo;
-	return (vec_dot(scattered->vec, rec->normal));
+	reflected = reflect(&args->in->vec, &args->rec->normal);
+	metal = (t_metal *)args->self;
+	reflected = vec_add(unit_vec(reflected),
+			vec_mul(rand_unit_vec3(), metal->fuzziness));
+	*args->scattered = ray(args->rec->point, reflected);
+	*args->attenuation = metal->albedo;
+	return (vec_dot(args->scattered->vec, args->rec->normal));
 }
 
 double	reflectance(double cosine, double refraction_index)
@@ -59,33 +59,30 @@ double	reflectance(double cosine, double refraction_index)
 	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }
 
-bool	dielectric_scatter(const struct s_material *self, const t_ray *in, const t_hit_dat *rec, t_color *attenuation, t_ray *scattered)
+bool	dielectric_scatter(t_scatter_args *args)
 {
-	t_dielectric	*die;
-	t_vec3			unit_direction;
-	t_vec3	direction;
-	double	ri;
-	double	cos_theta;
-	double	sin_theta;
-	bool	cannot_refract;
+	t_dielectric_scatter	dat;
 
-	die = (t_dielectric *) self;
-	*attenuation = create_color(1.0, 1.0, 1.0);
-	if (rec->front_face)
-		ri = 1.0 / die->refractive_index;
+	dat = (t_dielectric_scatter){0};
+	dat.die = (t_dielectric *)args->self;
+	*args->attenuation = create_color(1.0, 1.0, 1.0);
+	dat.ri = dat.die->refractive_index;
+	if (args->rec->front_face)
+		dat.ri = 1.0 / dat.die->refractive_index;
+	dat.unit_direction = unit_vec(args->in->vec);
+	dat.cos_theta = vec_dot(vec_mul(dat.unit_direction, -1.0),
+			args->rec->normal);
+	if (dat.cos_theta > 1.0)
+		dat.cos_theta = 1.0;
+	dat.sin_theta = sqrt(1.0 - dat.cos_theta * dat.cos_theta);
+	dat.cannot_refract = dat.ri * dat.sin_theta > 1.0;
+	if (dat.cannot_refract || reflectance(dat.cos_theta, dat.ri)
+		> random_double(0.0, 1.0))
+		dat.direction = reflect(&dat.unit_direction, &args->rec->normal);
 	else
-		ri = die->refractive_index;
-	unit_direction = unit_vec(in->vec);
-	cos_theta = vec_dot(vec_mul(unit_direction, -1.0), rec->normal);
-	if (cos_theta > 1.0)
-		cos_theta = 1.0;
-	sin_theta = sqrt(1.0 - cos_theta * cos_theta);
-	cannot_refract = ri * sin_theta > 1.0;
-	if (cannot_refract || reflectance(cos_theta, ri) > random_double(0.0, 1.0))
-		direction = reflect(&unit_direction, &rec->normal);
-	else
-		direction = refract(&unit_direction, &rec->normal, ri);
-	*scattered = ray(rec->point, direction);
+		dat.direction = refract(&dat.unit_direction, &args->rec->normal,
+				dat.ri);
+	*args->scattered = ray(args->rec->point, dat.direction);
 	return (true);
 }
 
