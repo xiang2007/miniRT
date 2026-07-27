@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/23 17:13:53 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/27 23:58:59 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,40 +91,32 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	return (hit_anything);
 }
 
-t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, int bounce_depth, t_light l)
+static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light l)
 {
-	t_ray		shadow_ray;
-	t_hit_dat	shadow_rec;
-	t_vec3		light_dir;
-	t_vec3		shadow_ori;
-	t_vec3		light_in;
-	t_vec3		reflected;
-	t_vec3		view_dir;
-	t_color		result;
-	double		light_distance;
-	double		brightness;
-	double		specular;
+	t_lightning	dat;
 
-	(void)bounce_depth;
-	shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
-	light_dir = unit_vec(sub_point(l.cords, rec->point));
-	light_distance = vec_len(sub_point(l.cords, rec->point));
-	shadow_ray = ray(shadow_ori, light_dir);
-	if (!hit_bvh(w->bvh, &shadow_ray, light_distance, &shadow_rec))
+	dat = (t_lightning){0};
+	dat.shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
+	dat.light_dir = unit_vec(sub_point(l.cords, rec->point));
+	dat.light_distance = vec_len(sub_point(l.cords, rec->point));
+	dat.shadow_ray = ray(dat.shadow_ori, dat.light_dir);
+	if (!hit_bvh(w->bvh, &dat.shadow_ray, dat.light_distance,
+			&dat.shadow_rec))
 	{
-		brightness = fmax(vec_dot(rec->normal, light_dir), 0.0);
-		brightness *= l.brightness_ratio;
-		light_in = vec_mul(light_dir, -1.0);
-		reflected = reflect(&light_in, &rec->normal);
-		view_dir = unit_vec(vec_mul(r->vec, -1.0));
-		specular = pow(fmax(vec_dot(view_dir, reflected), 0.0), 32.0);
-		specular *= l.brightness_ratio;
-		result = color_add(color_mul_n(rec->color, brightness),
-				color_mul_n(l.color, specular));
-		result.r = fmin(result.r, 1.0);
-		result.g = fmin(result.g, 1.0);
-		result.b = fmin(result.b, 1.0);
-		return (result);
+		dat.brightness = fmax(vec_dot(rec->normal, dat.light_dir), 0.0);
+		dat.brightness *= l.brightness_ratio;
+		dat.light_in = vec_mul(dat.light_dir, -1.0);
+		dat.reflected = reflect(&dat.light_in, &rec->normal);
+		dat.view_dir = unit_vec(vec_mul(r->vec, -1.0));
+		dat.specular = pow(fmax(vec_dot(dat.view_dir, dat.reflected),
+					0.0), 32.0);
+		dat.specular *= l.brightness_ratio;
+		dat.result = color_add(color_mul_n(rec->color, dat.brightness),
+				color_mul_n(l.color, dat.specular));
+		dat.result.r = fmin(dat.result.r, 1.0);
+		dat.result.g = fmin(dat.result.g, 1.0);
+		dat.result.b = fmin(dat.result.b, 1.0);
+		return (dat.result);
 	}
 	return (create_color(0, 0, 0));
 }
@@ -140,7 +132,7 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 	{
 		if (obj->type == OBJ_LIGHT)
 			result = color_add(result,
-					lightning(rec, w, r, depth, obj->light));
+					lightning(rec, w, r, obj->light));
 		obj = obj->next;
 	}
 	result.r = fmin(result.r, 1.0);

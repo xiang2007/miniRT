@@ -32,6 +32,21 @@ typedef struct s_hit_dat
 	t_material	*mat;
 }	t_hit_dat;
 
+typedef struct s_lightning
+{
+	t_ray		shadow_ray;
+	t_hit_dat	shadow_rec;
+	t_vec3		light_dir;
+	t_vec3		shadow_ori;
+	t_vec3		light_in;
+	t_vec3		reflected;
+	t_vec3		view_dir;
+	t_color		result;
+	double		light_distance;
+	double		brightness;
+	double		specular;
+}				t_lightning;
+
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world);
 t_vec3	ray_pos(t_ray *r, double t);
