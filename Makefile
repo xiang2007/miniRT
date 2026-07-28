@@ -82,7 +82,8 @@ OBJSRC := sphere.c \
 OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
 
 MATDIR := src/material
-MATSRC := material.c
+MATSRC := material.c \
+		  create_material.c
 MAT := $(addprefix $(MATDIR)/,$(MATSRC))
 
 OBJMVDIR := src/object_move
