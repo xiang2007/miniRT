@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 00:00:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/23 00:00:00 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:10:32 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ int	check_cords(char *s);
 int	check_norm_vector(char *s);
 
 // Parsing functions
-int	parse_light(int id, char *s, t_objects **obj);
-int	parse_cam(int id, char *s, t_objects **obj);
-int	parse_ambient(int id, char *res, t_objects **obj);
-int	parse_sphere(int id, char *s, t_objects **obj);
-int	parse_plane(int id, char *s, t_objects **obj);
-int	parse_cylinder(int id, char *s, t_objects **obj);
+int		parse_light(int id, char *s, t_objects **obj);
+int		parse_cam(int id, char *s, t_objects **obj);
+int		parse_ambient(int id, char *res, t_objects **obj);
+int		parse_sphere(int id, char *s, t_objects **obj);
+int		parse_plane(int id, char *s, t_objects **obj);
+int		parse_cylinder(int id, char *s, t_objects **obj);
+bool	parse_material(char **res ,t_objects **o);
 
 // Parsing helper functions
 int	check_rt_file(char *file_name);

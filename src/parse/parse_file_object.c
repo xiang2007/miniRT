@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 12:04:38 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/16 11:41:20 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:11:52 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 {
 	char		**res;
 	t_objects	*o;
-	double		ri;
 
 	if (!check_sphere(s))
 		return (FALSE);
@@ -107,8 +106,6 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	if (!res)
 		return (FALSE);
 	o = malloc(sizeof(t_objects));
-	if (!o)
-		return (FALSE);
 	o->id = id;
 	o->sphere.point = parse_cords(res[1]);
 	o->sphere.radius = ft_atof(res[2]) / 2.0;
@@ -118,33 +115,13 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	o->sphere.material = NULL;
 	if (res[4])
 	{
-		if (ft_strcmp(res[4], "lambertian") == TRUE)
-			o->sphere.material = create_lambertian(o->sphere.color);
-		else if (ft_strcmp(res[4], "metal") == TRUE)
-		{
-			if (res[5])
-				ri = ft_atof(res[5]);
-			else
-				ri = 0.3;
-			o->sphere.material = create_metal(o->sphere.color, ri);
-		}
-		else if (ft_strcmp(res[4], "dielectric") == TRUE)
-		{
-			if (res[5])
-				ri = ft_atof(res[5]);
-			else
-				ri = 1.50;
-			o->sphere.material = create_dielectric(ri);
-		}
-		if (!o->sphere.material)
-			return (free(o), free_str_arr(res), FALSE);
+		if (!parse_material(res, &o))
+			return (FALSE);
 	}
 	else
 		o->sphere.material = create_lambertian(o->sphere.color);
 	o->type = OBJ_SPHERE;
-	free_str_arr(res);
-	obj_add_back(o, obj);
-	return (TRUE);
+	return (free_str_arr(res), obj_add_back(o, obj), TRUE);
 }
 
 int	parse_plane(int id, char *s, t_objects **obj)

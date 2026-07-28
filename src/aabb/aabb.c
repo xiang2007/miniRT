@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 14:50:32 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 07:50:14 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 11:33:50 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ t_aabb	surround_box(t_aabb a, t_aabb b)
 
 t_aabb	build_box(t_objects *o)
 {
-	t_aabb	box = {0};
+	t_aabb	box;
 
+	box.max = create_vec3(0, 0, 0);
+	box.min = create_vec3(0, 0, 0);
 	if (o->type == OBJ_SPHERE)
 	{
 		box.min = create_vec3(o->sphere.point.x - o->sphere.radius,
@@ -65,15 +67,6 @@ double	get_box_point_n(t_aabb *aabb, int n, int min, int max)
 			return (aabb->max.z);
 	}
 	return (-1);
-}
-
-void	swap_double(double *a, double *b)
-{
-	double	temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
 }
 
 static bool	slab_hit(t_slab_args args)

@@ -25,4 +25,8 @@ int		handle_key(int key, t_rt *win);
 int		close_all(t_rt *win);
 void	world_free(t_world *world);
 
+void	handle_key_z(t_rt *win);
+void	handle_camera_move(int key, t_rt *win);
+void	handle_move_object(int key, t_rt *win);
+
 #endif

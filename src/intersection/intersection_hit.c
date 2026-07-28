@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 07:48:30 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 12:03:30 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
  * @param rec the record hit struct
  * @return the root value
  */
-double hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
+double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 {
 	double	t;
 	double	d;

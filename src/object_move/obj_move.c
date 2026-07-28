@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 13:02:09 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 07:47:06 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:14:53 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_objects	*select_object(int key, t_world *world)
 
 	obj = (world)->objs;
 	i = 0;
+	id = 0;
 	while (keys[i])
 	{
 		if (keys[i] == key)

@@ -9,7 +9,7 @@ RM := rm -rf
 
 # Compiler Flags
 # -Ofast: equivalent to -O3 -ffast-math, enables compiler optimizations and overrides standard math compliance to IEE 754
-CFLAGS := -Wall -Werror -Wextra -Ofast -std=gnu11 -g3
+CFLAGS := -Wall -Werror -Wextra -Ofast -std=gnu11 -g3 -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer
 
 # Preprocessor flags
 CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
@@ -45,7 +45,7 @@ MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 PARSEDIR := src/parse
 PARSESRC := parse_check_helper.c parse_check_object.c parse_check_object2.c \
 			parse_cleanup.c parse_file_object.c parse_file.c parse_utils.c \
-			parse.c
+			parse.c parse_file_object2.c
 PARSE := $(addprefix $(PARSEDIR)/,$(PARSESRC))
 
 RDRDIR := src/render
@@ -61,6 +61,7 @@ VEC := $(addprefix $(VECDIR)/,$(VECSRC))
 
 COLDIR := src/color
 COLSRC := color.c \
+		  color2.c \
 		  color_util.c
 COL := $(addprefix $(COLDIR)/,$(COLSRC))
 
@@ -96,7 +97,7 @@ WORLDSRC := world_op.c
 WORLD := $(addprefix $(WORLDDIR)/,$(WORLDSRC))
 
 AABBDIR := src/aabb
-AABBSRC := aabb.c bvh.c
+AABBSRC := aabb.c bvh.c interval.c
 AABB := $(addprefix $(AABBDIR)/,$(AABBSRC))
 
 SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT) $(AABB)

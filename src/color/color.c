@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:32:49 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/06/11 02:44:00 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/07/28 11:34:32 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,4 @@ t_color	color_mul_n(t_color c, double n)
 int	color_get_hex(t_color c)
 {
 	return (rgb_to_hex((int)(c.r * 255), (int)(c.g * 255), (int)(c.b * 255)));
-}
-
-/**
- *
- * @param linear_component
- * @return
- */
-double	linear_to_gamma(double linear_component)
-{
-	if (linear_component > 0.0)
-		return (sqrt(linear_component));
-	return (0.0);
 }

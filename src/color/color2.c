@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   color2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 22:38:54 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/28 12:02:33 by wshou-xi         ###   ########.fr       */
+/*   Created: 2026/07/28 11:34:36 by wshou-xi          #+#    #+#             */
+/*   Updated: 2026/07/28 12:03:23 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#include <math.h>
 
-int		rgb_to_hex(int r, int g, int b);
-
-int		color_get_hex(t_color c);
-t_color	color_mul_n(t_color c, double n);
-t_color	color_mul(t_color a, t_color b);
-t_color	color_add(t_color a, t_color b);
-t_color	create_color(double r, double g, double b);
-
-double	linear_to_gamma(double linear_component);
-double	linear_to_gamma(double linear_component);
-
-#endif
+/**
+ *
+ * @param linear_component
+ * @return
+ */
+double	linear_to_gamma(double linear_component)
+{
+	if (linear_component > 0.0)
+		return (sqrt(linear_component));
+	return (0.0);
+}
