@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 01:53:54 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/28 07:44:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/28 18:58:51 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,41 +84,4 @@ bool	dielectric_scatter(t_scatter_args *args)
 				dat.ri);
 	*args->scattered = ray(args->rec->point, dat.direction);
 	return (true);
-}
-
-t_material	*create_lambertian(const t_color cl)
-{
-	t_lambertian	*lam;
-
-	lam = malloc(sizeof(t_lambertian));
-	if (!lam)
-		return (NULL);
-	lam->base.scatter = &lambertian_scatter;
-	lam->albedo = cl;
-	return ((t_material *)lam);
-}
-
-t_material	*create_metal(const t_color cl, const double fuzz)
-{
-	t_metal	*metal;
-
-	metal = malloc(sizeof(t_metal));
-	if (!metal)
-		return (NULL);
-	metal->base.scatter = &metal_scatter;
-	metal->albedo = cl;
-	metal->fuzziness = fuzz;
-	return ((t_material *)metal);
-}
-
-t_material	*create_dielectric(const double refraction_index)
-{
-	t_dielectric	*die;
-
-	die = malloc(sizeof(t_dielectric));
-	if (!die)
-		return (NULL);
-	die->base.scatter = &dielectric_scatter;
-	die->refractive_index = refraction_index;
-	return ((t_material *)die);
 }

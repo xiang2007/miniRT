@@ -39,7 +39,8 @@ MAIN := src/main.c
 MLXDIR := src/mlx
 MLXSRC := mlx_dat.c \
 		  mlx_util.c \
-		  mlx_event.c
+		  mlx_event.c \
+		  mlx_event2.c
 MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 
 PARSEDIR := src/parse

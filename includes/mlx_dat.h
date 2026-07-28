@@ -29,4 +29,6 @@ void	handle_key_z(t_rt *win);
 void	handle_camera_move(int key, t_rt *win);
 void	handle_move_object(int key, t_rt *win);
 
+void	rebuild_world_bvh(t_world *world);
+
 #endif
