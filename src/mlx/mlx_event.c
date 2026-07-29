@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/10 18:39:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 18:50:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 18:39:09 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	handle_key(int key, t_rt *win)
 		reload_scene(win);
 	if (key >= XK_0 && key <= XK_9)
 		win->sel_obj = select_object(key, &win->world);
-	if (key >= XK_Left && key <= XK_Down && win->sel_obj)
+	if ((key >= XK_Left && key <= XK_Down && win->sel_obj)
+		|| (key == XK_minus || key == XK_equal))
 		handle_move_object(key, win);
 	if (key == XK_w || key == XK_s || key == XK_a
 		|| key == XK_d || key == XK_q || key == XK_e)

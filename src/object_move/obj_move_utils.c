@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 20:06:11 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 07:47:47 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 18:38:00 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ void	*sphere_mv(int key, t_objects *o)
 		return (o->sphere.point.x -= MOVE_X, ((void *)0));
 	else if (key == XK_Right)
 		return (o->sphere.point.x += MOVE_X, ((void *)0));
+	else if (key == XK_equal)
+		return (o->sphere.radius += EXPAND, ((void *)0));
+	else if (key == XK_minus)
+		return (o->sphere.radius -= SHIRNK, ((void *)0));
 	return ((void *)0);
 }
 

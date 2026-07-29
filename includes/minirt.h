@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/20 19:31:42 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 18:37:33 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define MOVE_X 1
 # define MOVE_Y 1
+# define EXPAND 0.1
+# define SHIRNK 0.1
 # define MAX_BOUNCE 10
 # define SPP 100
 # define PI 3.14159265358979323846

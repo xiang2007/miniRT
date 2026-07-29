@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 13:02:09 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 14:14:53 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 18:39:02 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_objects	*select_object(int key, t_world *world)
 	obj = (world)->objs;
 	i = 0;
 	id = 0;
-	while (keys[i])
+	while (i < 10)
 	{
 		if (keys[i] == key)
 			id = i;
@@ -78,7 +78,8 @@ void	move_obj_switch(int key, t_obj_type type, t_objects *o)
 
 void	move_objects(int key, t_objects **obj)
 {
-	if (key >= XK_Left && key <= XK_Down)
+	if ((key >= XK_Left && key <= XK_Down)
+		|| (key == XK_minus || key == XK_equal))
 		move_obj_switch(key, (*obj)->type, *obj);
 	return ;
 }
