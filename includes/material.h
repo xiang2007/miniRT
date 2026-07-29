@@ -25,7 +25,7 @@ typedef struct s_scatter_args
 	t_ray					*scattered;
 }							t_scatter_args;
 
-typedef bool	t_scatter_fn(t_scatter_args *args);
+typedef bool				t_scatter_fn(t_scatter_args *args);
 
 typedef struct s_material
 {
@@ -36,7 +36,7 @@ typedef struct s_lambertian
 {
 	t_material	base;
 	t_color		albedo;
-}	t_lambertian;
+}				t_lambertian;
 
 typedef struct s_metal
 {
@@ -62,13 +62,13 @@ typedef struct s_dielectric_scatter
 	bool			cannot_refract;
 }					t_dielectric_scatter;
 
-bool	lambertian_scatter(t_scatter_args *args);
-t_material		*create_lambertian(t_color cl);
+bool		lambertian_scatter(t_scatter_args *args);
+t_material	*create_lambertian(t_color cl);
 
-bool	metal_scatter(t_scatter_args *args);
-t_material		*create_metal(const t_color cl, const double fuzz);
+bool		metal_scatter(t_scatter_args *args);
+t_material	*create_metal(const t_color cl, const double fuzz);
 
-bool	dielectric_scatter(t_scatter_args *args);
-t_material		*create_dielectric(const double refraction_index);
+bool		dielectric_scatter(t_scatter_args *args);
+t_material	*create_dielectric(const double refraction_index);
 
 #endif

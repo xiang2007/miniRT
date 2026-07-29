@@ -6,15 +6,15 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 12:15:34 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/28 18:57:49 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 17:33:43 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAY_H
 # define RAY_H
 
-#include "objects.h"
-#include <stdbool.h>
+# include "objects.h"
+# include <stdbool.h>
 
 typedef struct s_ray
 {

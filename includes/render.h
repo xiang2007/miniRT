@@ -6,14 +6,14 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:19:00 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/27 23:50:30 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 17:33:34 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
 
-#include "ray.h"
+# include "ray.h"
 
 typedef struct s_spp
 {
@@ -29,8 +29,6 @@ typedef struct s_spp
 	int		spp;
 	double	pss;
 }				t_spp;
-
-
 
 void	render(t_rt *rt_dat, t_cam *c, t_world *world);
 

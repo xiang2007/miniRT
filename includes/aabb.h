@@ -13,12 +13,11 @@
 #ifndef AABB_H
 # define AABB_H
 
+# include "vec3.h"
+# include "objects.h"
+# include <math.h>
 
-#include "vec3.h"
-#include "objects.h"
-#include <math.h>
-
-typedef struct s_objects t_objects;
+typedef struct s_objects	t_objects;
 
 typedef struct s_bvh
 {

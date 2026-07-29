@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/28 07:53:29 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 17:39:09 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 # include "vec3.h"
 # include "material.h"
 
-typedef struct s_rt t_rt;
-typedef struct s_bvh t_bvh;
+typedef struct s_rt			t_rt;
+typedef struct s_bvh		t_bvh;
+typedef struct s_objects	t_objects;
 
 typedef struct s_aabb
 {
@@ -106,7 +107,7 @@ typedef struct s_cam
 	t_point3	vup;
 }				t_cam;
 
-typedef struct s_objects
+struct s_objects
 {
 	int			id;
 	t_obj_type	type;
@@ -121,8 +122,8 @@ typedef struct s_objects
 		t_light		light;
 		t_setup_cam	cam_setup;
 	};
-	struct s_objects	*next;
-}				t_objects;
+	t_objects	*next;
+};
 
 typedef struct s_world
 {
@@ -142,16 +143,14 @@ t_objects	*select_object(int key, t_world *world);
 t_objects	**obj2arr(t_objects *o);
 
 // Object move function
-void	*cylinder_mv(int key, t_objects *o);
-void	*sphere_mv(int key, t_objects *o);
-void	*plane_mv(int key, t_objects *o);
-void	*light_mv(int key, t_objects *o);
-void	move_objects(int key, t_objects **obj);
-void	lower_res(int key, t_rt *rt);
-void	reset_res(t_rt *rt);
-
-
+void		*cylinder_mv(int key, t_objects *o);
+void		*sphere_mv(int key, t_objects *o);
+void		*plane_mv(int key, t_objects *o);
+void		*light_mv(int key, t_objects *o);
+void		move_objects(int key, t_objects **obj);
+void		lower_res(int key, t_rt *rt);
+void		reset_res(t_rt *rt);
 // World function
-void	world_add_back(t_world *world, t_objects *obj, t_obj_type type);
+void		world_add_back(t_world *world, t_objects *obj, t_obj_type type);
 
 #endif

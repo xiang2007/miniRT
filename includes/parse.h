@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 00:00:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 15:10:32 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/07/29 17:57:27 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,50 +34,52 @@ typedef struct s_parse
 }		t_parse;
 
 // Object checking function
-int	check_sphere(char *s);
-int	check_plane(char *s);
-int	check_light(char *s);
-int	check_cam(char *s);
-int	check_ambient_lightning(char *s);
-int	check_cylinder(char *s);
+int			check_sphere(char *s);
+int			check_plane(char *s);
+int			check_light(char *s);
+int			check_cam(char *s);
+int			check_ambient_lightning(char *s);
+int			check_cylinder(char *s);
 
 // Object checking function helper
-int	check_float(char *s);
-int	check_color(char *s);
-int	check_cords(char *s);
-int	check_norm_vector(char *s);
+int			check_float(char *s);
+int			check_color(char *s);
+int			check_cords(char *s);
+int			check_norm_vector(char *s);
 
 // Parsing functions
-int		parse_light(int id, char *s, t_objects **obj);
-int		parse_cam(int id, char *s, t_objects **obj);
-int		parse_ambient(int id, char *res, t_objects **obj);
-int		parse_sphere(int id, char *s, t_objects **obj);
-int		parse_plane(int id, char *s, t_objects **obj);
-int		parse_cylinder(int id, char *s, t_objects **obj);
-bool	parse_material(char **res ,t_objects **o);
+int			parse_light(int id, char *s, t_objects **obj);
+int			parse_cam(int id, char *s, t_objects **obj);
+int			parse_ambient(int id, char *res, t_objects **obj);
+int			parse_sphere(int id, char *s, t_objects **obj);
+int			parse_plane(int id, char *s, t_objects **obj);
+int			parse_cylinder(int id, char *s, t_objects **obj);
+bool		parse_material(char **res, t_objects **o);
 
 // Parsing helper functions
-int	check_rt_file(char *file_name);
-int	parse_arg_count(char **arg);
+int			check_rt_file(char *file_name);
+int			parse_arg_count(char **arg);
 
 char		*read_rt_file(char *filename);
 
-void	print_str_arr(char **str_arr);
-void	free_str_arr(char **strarr);
-void	print_objects(t_objects *o);
-void	print_object(t_objects *o);
+void		print_str_arr(char **str_arr);
+void		free_str_arr(char **strarr);
+void		print_objects(t_objects *o);
+void		print_object(t_objects *o);
 
+// Coordinate and object parsing
 t_point3	parse_cords(char *s);
 
-t_color	parse_color(char *s);
-
+// Main parsing functions
+t_objects	*parse(char *file);
 t_objects	*parse_object(char **res);
 
+t_color		parse_color(char *s);
+
 // Parsing cleaning function
-void	parse_free_objects(t_objects *o);
+void		parse_free_objects(t_objects *o);
 
 // Main parsing function
-t_objects	*parse(char *file);
-void	parse_world(t_world *w, t_objects *o);
+void		parse_world(t_world *w, t_objects *o);
 
 #endif

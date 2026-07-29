@@ -21,11 +21,11 @@
 # define SPP 100
 # define PI 3.14159265358979323846
 
-#include "objects.h"
+# include "objects.h"
 
-typedef struct s_cam t_cam;
-typedef struct s_world t_world;
-typedef struct s_objects t_objects;
+typedef struct s_cam		t_cam;
+typedef struct s_world		t_world;
+typedef struct s_objects	t_objects;
 
 /**
  * @brief Mlx data
