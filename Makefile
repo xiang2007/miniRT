@@ -35,7 +35,7 @@ HEADERS := includes/minirt.h \
 		   includes/objects.h \
 		   includes/material.h
 
-MAIN := src/main.c
+MAIN := src/main.c src/rt.c
 
 MLXDIR := src/mlx
 MLXSRC := mlx_dat.c \
@@ -58,7 +58,8 @@ VECDIR := src/vec3
 VECSRC := vec3_op.c \
 		  vec3_util.c \
 		  point_op.c \
-		  vec3_rand.c
+		  vec3_rand.c \
+		  vec3_rand2.c
 VEC := $(addprefix $(VECDIR)/,$(VECSRC))
 
 COLDIR := src/color

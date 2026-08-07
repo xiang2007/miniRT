@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/29 18:37:33 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/07 21:47:32 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ typedef struct s_rt
 // 	double	r_max;
 // }				t_ray_min_max;
 
-int	reload_scene(t_rt *win);
+int		reload_scene(t_rt *win);
+void	rt_dat_init(t_rt *rt_dat);
+void	rt_dat_free(t_rt *rt_dat);
+void	setup_cam_init(t_setup_cam *s);
 
 #endif
