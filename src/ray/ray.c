@@ -33,6 +33,20 @@ static double	material_fuzz(const t_material *mat)
 	return (0.0);
 }
 
+static t_color	ambient_light(t_world *w)
+{
+	t_objects	*obj;
+
+	obj = w->objs;
+	while (obj)
+	{
+		if (obj->type == OBJ_AMBIENT)
+			return (color_mul_n(obj->ambient.color, obj->ambient.ratio));
+		obj = obj->next;
+	}
+	return (create_color(0, 0, 0));
+}
+
 /**
  * @brief Create a ray struct on stack memory
  *
@@ -163,7 +177,7 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
 	t_objects	*obj;
 	t_color		result;
 
-	result = create_color(0, 0, 0);
+	result = ambient_light(w);
 	obj = w->objs;
 	while (obj)
 	{
@@ -280,7 +294,7 @@ static t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 
 	/* 4. visible point-light reflections (alignment cone + shadow rays) */
 	light_hits = recursive_light_hits(rec, w, &scattered, fuzz, metal->albedo);
-	return (clamp_color(color_add(bounced, light_hits)));
+	return (clamp_color(color_add(color_add(bounced, light_hits), ambient_light(w))));
 }
 
 static t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
@@ -303,7 +317,7 @@ static t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 
 	/* visible point lights through the glass: smooth → tight alignment cone */
 	light_hits = recursive_light_hits(rec, w, args.scattered, 0.0, *args.attenuation);
-	return (clamp_color(color_add(bounced, light_hits)));
+	return (clamp_color(color_add(color_add(bounced, light_hits), ambient_light(w))));
 }
 
 /**
