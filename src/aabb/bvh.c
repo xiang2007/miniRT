@@ -70,7 +70,7 @@ t_bvh	*build_bvh(t_objects **objects, int start, int end)
 	return (node);
 }
 
-bool	hit_bvh(t_bvh *node, t_ray *ray, double max_t, t_hit_dat *rec)
+bool	hit_bvh(t_bvh *node, t_ray *ray, double max_t, t_hit_dat *rec, t_objects *skip)
 {
 	bool	hit_left;
 	bool	hit_right;
@@ -85,16 +85,26 @@ bool	hit_bvh(t_bvh *node, t_ray *ray, double max_t, t_hit_dat *rec)
 		return (false);
 	if (!node->left && !node->right)
 	{
-		if (node->o->type == OBJ_SPHERE)
-			return (hit_sphere(&node->o->sphere, ray, max_t, rec) > 0);
-		if (node->o->type == OBJ_CYLINDER)
-			return (hit_cylinder(&node->o->cylinder, ray, max_t, rec) > 0);
+		if (node->o == skip)
+			return (false);
+		if (node->o->type == OBJ_SPHERE
+			&& hit_sphere(&node->o->sphere, ray, max_t, rec) > 0)
+		{
+			rec->hit_obj = node->o;
+			return (true);
+		}
+		if (node->o->type == OBJ_CYLINDER
+			&& hit_cylinder(&node->o->cylinder, ray, max_t, rec) > 0)
+		{
+			rec->hit_obj = node->o;
+			return (true);
+		}
 		return (false);
 	}
 	closest_so_far = max_t;
-	hit_left = hit_bvh(node->left, ray, closest_so_far, rec);
+	hit_left = hit_bvh(node->left, ray, closest_so_far, rec, skip);
 	if (hit_left)
 		closest_so_far = rec->t;
-	hit_right = hit_bvh(node->right, ray, closest_so_far, rec);
+	hit_right = hit_bvh(node->right, ray, closest_so_far, rec, skip);
 	return (hit_left || hit_right);
 }

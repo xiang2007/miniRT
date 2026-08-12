@@ -40,7 +40,8 @@ typedef struct s_slab_args
 t_aabb	build_box(t_objects *o);
 t_aabb	surround_box(t_aabb a, t_aabb b);
 t_bvh	*build_bvh(t_objects **objects, int start, int end);
-bool	hit_bvh(t_bvh *node, t_ray *ray, double max_t, t_hit_dat *rec);
+bool	hit_bvh(t_bvh *node, t_ray *ray, double max_t, t_hit_dat *rec,
+		t_objects *skip);
 bool	aabb_hit(t_aabb *box, t_ray *ray, double t_min, double t_max);
 int		bvh_size(t_objects **obj);
 void	free_bvh(t_bvh *node);

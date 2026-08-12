@@ -19,6 +19,7 @@
 #include <math.h>
 #include <float.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 static double	material_fuzz(const t_material *mat)
 {
@@ -48,6 +49,25 @@ t_ray	ray(t_point3 cam_center, t_vec3 ray_dir)
 	return (r);
 }
 
+static bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip)
+{
+	t_hit_dat	rec;
+	t_objects	*tmp;
+
+	rec = (t_hit_dat){0};
+	if (w->bvh && hit_bvh(w->bvh, ray, t_max, &rec, skip))
+		return (true);
+	tmp = w->objs;
+	while (tmp)
+	{
+		if (tmp->type == OBJ_PLANE && tmp != skip
+			&& hit_plane(&tmp->plane, ray, t_max, &rec) > 0)
+			return (true);
+		tmp = tmp->next;
+	}
+	return (false);
+}
+
 /**
  * @brief Iterates through all the objects and returns true
  * if hit obj or false if not
@@ -67,7 +87,7 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	tmp = world->objs;
 	hit_anything = false;
 	closest_so_far = INFINITY;
-	if (world->bvh && hit_bvh(world->bvh, r, closest_so_far, rec))
+	if (world->bvh && hit_bvh(world->bvh, r, closest_so_far, rec, NULL))
 	{
 		hit_anything = true;
 		closest_so_far = rec->t;
@@ -80,6 +100,7 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 			hit_anything = true;
 			closest_so_far = tmp_rec.t;
 			*rec = tmp_rec;
+			rec->hit_obj = tmp;	/* NEW: planes aren't in the BVH */
 		}
 		tmp = tmp->next;
 	}
@@ -107,8 +128,7 @@ static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 	l.light_dir = unit_vec(sub_point(light.cords, rec->point));
 	l.light_distance = vec_len(sub_point(light.cords, rec->point));
 	l.shadow_ray = ray(l.shadow_ori, l.light_dir);
-	if (!hit_bvh(w->bvh, &l.shadow_ray, l.light_distance,
-			&l.shadow_rec))
+	if (!shadow_hit(w, &l.shadow_ray, l.light_distance, rec->hit_obj))
 	{
 		l.brightness = fmax(vec_dot(rec->normal, l.light_dir), 0.0);
 		l.brightness *= light.brightness_ratio;
@@ -194,7 +214,6 @@ static t_color	recursive_light_hits(t_hit_dat *rec, t_world *w,
 	t_vec3		out_dir;
 	t_vec3		light_dir;
 	t_ray		shadow_ray;
-	t_hit_dat	shadow_rec;
 	double		alignment;
 	double		accept_cos;
 	double		intensity;
@@ -216,8 +235,7 @@ static t_color	recursive_light_hits(t_hit_dat *rec, t_world *w,
 						vec_add(rec->point, vec_mul(out_dir, 0.01)),
 						light_dir);
 				distance = vec_len(sub_point(obj->light.cords, rec->point));
-				shadow_rec = (t_hit_dat){0};
-				if (!hit_bvh(w->bvh, &shadow_ray, distance, &shadow_rec))
+				if (!shadow_hit(w, &shadow_ray, distance, rec->hit_obj))
 				{
 					if (fuzz < 1e-6)
 						intensity = 1.0;	/* perfect mirror: exact hit */

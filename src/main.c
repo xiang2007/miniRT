@@ -45,7 +45,7 @@ int	reload_scene(t_rt *win)
 	world.bvh_obj = NULL;
 	world.bvh = NULL;
 	setup_cam_init(&s);
-	objs = parse("test_all.rt");
+	objs = parse("test_cornell_box.rt");
 	if (!objs)
 		return (1);
 	get_setup_cam(&s, objs);
@@ -69,7 +69,7 @@ int	parse_and_render(t_rt *rt_dat)
 	world.bvh_obj = NULL;
 	world.bvh = NULL;
 	setup_cam_init(&s);
-	objs = parse("test_all.rt");
+	objs = parse("test_cornell_box.rt");
 	if (!objs)
 		return (1);
 	cam = malloc(sizeof(t_cam));

@@ -28,7 +28,7 @@
  */
 void	rt_dat_init(t_rt *rt_dat)
 {
-	rt_dat->aspect_ratio = (double)16 / 9;
+	rt_dat->aspect_ratio = ASPECT_RATIO;
 	rt_dat->img_w = WIDTH;
 	rt_dat->img_h = WIDTH / rt_dat->aspect_ratio;
 	rt_dat->max_bounce_depth = MAX_BOUNCE;

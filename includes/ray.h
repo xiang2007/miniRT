@@ -30,6 +30,7 @@ typedef struct s_hit_dat
 	t_color		color;
 	bool		front_face;
 	t_material	*mat;
+	t_objects	*hit_obj;
 }	t_hit_dat;
 
 typedef struct s_hit_sphere
