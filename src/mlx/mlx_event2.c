@@ -17,6 +17,7 @@
 #include "../../includes/render.h"
 #include "../../includes/aabb.h"
 #include "../../includes/camera.h"
+#include "objects.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 
@@ -36,7 +37,7 @@ void	handle_camera_move(int key, t_rt *win)
 void	handle_move_object(int key, t_rt *win)
 {
 	move_objects(key, &win->sel_obj);
-	if (win->sel_obj->type == OBJ_SPHERE)
+	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER)
 		rebuild_world_bvh(&win->world);
 	lower_res(key, win);
 	render(win, win->cam, &win->world);

@@ -29,7 +29,7 @@ int	obj_size(t_objects *o)
 	return (size);
 }
 
-int	obj_sphere_count(t_objects *o)
+int	obj_bvh_count(t_objects *o)
 {
 	int			size;
 	t_objects	*t;
@@ -40,7 +40,7 @@ int	obj_sphere_count(t_objects *o)
 	size = 0;
 	while (t)
 	{
-		if (t->type == OBJ_SPHERE)
+		if (t->type == OBJ_SPHERE || t->type == OBJ_CYLINDER)
 			size++;
 		t = t->next;
 	}

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
-#include "../includes/vec3.h"
 #include "../includes/camera.h"
 #include "../includes/objects.h"
 #include "../includes/render.h"
@@ -46,7 +45,7 @@ int	reload_scene(t_rt *win)
 	world.bvh_obj = NULL;
 	world.bvh = NULL;
 	setup_cam_init(&s);
-	objs = parse("test_spheres_only.rt");
+	objs = parse("test_all.rt");
 	if (!objs)
 		return (1);
 	get_setup_cam(&s, objs);
@@ -70,7 +69,7 @@ int	parse_and_render(t_rt *rt_dat)
 	world.bvh_obj = NULL;
 	world.bvh = NULL;
 	setup_cam_init(&s);
-	objs = parse("test_spheres_only.rt");
+	objs = parse("test_all.rt");
 	if (!objs)
 		return (1);
 	cam = malloc(sizeof(t_cam));

@@ -17,6 +17,7 @@
 #include "../../includes/render.h"
 #include "../../includes/aabb.h"
 #include "../../includes/camera.h"
+#include "objects.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 
@@ -26,7 +27,7 @@ void	rebuild_world_bvh(t_world *world)
 	t_bvh		*root;
 	int			count;
 
-	count = obj_sphere_count(world->objs);
+	count = obj_bvh_count(world->objs);
 	objects = obj2arr(world->objs);
 	if (!objects || count <= 0)
 		return (free(objects));
@@ -60,6 +61,8 @@ void	world_free(t_world *world)
 		world->objs = world->objs->next;
 		if (tmp->type == OBJ_SPHERE)
 			free(tmp->sphere.material);
+		else if (tmp->type == OBJ_CYLINDER)
+			free(tmp->cylinder.material);
 		free(tmp);
 	}
 }

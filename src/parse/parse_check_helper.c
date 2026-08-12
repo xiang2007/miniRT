@@ -95,7 +95,9 @@ int	check_cylinder(char *s)
 		return (FALSE);
 	res = ft_split(s, ' ');
 	if (parse_arg_count(res) != 6)
-		return (free_str_arr(res), FALSE);
+		if (parse_arg_count(res) != 7)
+			if (parse_arg_count(res) != 8)
+				return (free_str_arr(res), FALSE);
 	if (!check_cords(res[1]))
 		return (free_str_arr(res), FALSE);
 	if (!check_norm_vector(res[2]))

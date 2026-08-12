@@ -20,7 +20,7 @@
 # define EXPAND 0.1
 # define SHIRNK 0.1
 # define MAX_BOUNCE 10
-# define SPP 100
+# define SPP 10
 # define PI 3.14159265358979323846
 
 # include "objects.h"

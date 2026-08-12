@@ -67,5 +67,6 @@ t_vec3	ray_pos(t_ray *r, double t);
 
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec);
 double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec);
+double	hit_cylinder(t_cylinder *cy, t_ray *ray, double r_max, t_hit_dat *rec);
 
 #endif

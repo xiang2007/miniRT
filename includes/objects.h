@@ -53,6 +53,7 @@ typedef struct s_plane
 	t_point3	center;
 	t_vec3		normal;
 	t_color		color;
+	t_material	*material;
 }				t_plane;
 
 typedef struct s_cylinder
@@ -62,6 +63,7 @@ typedef struct s_cylinder
 	double		radius;
 	double		height;
 	t_color		color;
+	t_material	*material;
 }				t_cylinder;
 
 typedef struct s_ambient
@@ -134,7 +136,7 @@ typedef struct s_world
 
 // Objects function
 int			obj_size(t_objects *o);
-int			obj_sphere_count(t_objects *o);
+int			obj_bvh_count(t_objects *o);
 void		obj_add_back(t_objects *src, t_objects **dest);
 void		print_object_list(t_objects *o);
 t_sphere	sphere(t_point3 center, double radius);

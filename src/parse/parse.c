@@ -12,6 +12,7 @@
 
 #include "../../includes/parse.h"
 #include "../../includes/aabb.h"
+#include "objects.h"
 
 static t_objects	*parse_create_object(t_objects *o)
 {
@@ -57,7 +58,7 @@ void	parse_world(t_world *w, t_objects *o)
 	}
 	parse_free_objects(o);
 	w->bvh_obj = obj2arr(w->objs);
-	count = obj_sphere_count(w->objs);
+	count = obj_bvh_count(w->objs);
 	if (w->bvh_obj && count > 0)
 		w->bvh = build_bvh(w->bvh_obj, 0, count);
 }

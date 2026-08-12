@@ -45,11 +45,21 @@ int	parse_cylinder(int id, char *s, t_objects **obj)
 	o->type = OBJ_CYLINDER;
 	o->cylinder.center = parse_cords(res[1]);
 	o->cylinder.axis = parse_cords(res[2]);
-	o->cylinder.radius = ft_atof(res[3]);
+	if (vec_len_sq(o->cylinder.axis) > 0.0)
+		o->cylinder.axis = unit_vec(o->cylinder.axis);
+	o->cylinder.radius = ft_atof(res[3]) / 2.0;
 	o->cylinder.height = ft_atof(res[4]);
 	o->cylinder.color = parse_color(res[5]);
 	if (o->cylinder.color.r == -1)
 		return (free(o), free_str_arr(res), FALSE);
+	o->cylinder.material = NULL;
+	if (res[6])
+	{
+		if (!parse_material(res, &o, 6))
+			return (FALSE);
+	}
+	else
+		o->cylinder.material = create_lambertian(o->cylinder.color);
 	free_str_arr(res);
 	obj_add_back(o, obj);
 	return (TRUE);

@@ -12,7 +12,7 @@
 
 #include "../../includes/parse.h"
 #include "../../includes/material.h"
-#include "../../includes/color.h"
+#include "objects.h"
 
 int	parse_ambient(int id, char *s, t_objects **obj)
 {
@@ -113,14 +113,14 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	if (o->sphere.color.r == -1)
 		return (free(o), free_str_arr(res), FALSE);
 	o->sphere.material = NULL;
+	o->type = OBJ_SPHERE;
 	if (res[4])
 	{
-		if (!parse_material(res, &o))
+		if (!parse_material(res, &o, 4))
 			return (FALSE);
 	}
 	else
 		o->sphere.material = create_lambertian(o->sphere.color);
-	o->type = OBJ_SPHERE;
 	return (free_str_arr(res), obj_add_back(o, obj), TRUE);
 }
 
@@ -144,6 +144,15 @@ int	parse_plane(int id, char *s, t_objects **obj)
 	o->plane.color = parse_color(res[3]);
 	if (o->plane.color.r == -1)
 		return (free(o), free_str_arr(res), FALSE);
+	o->plane.material = NULL;
+	o->type = OBJ_PLANE;
+	if (res[4])
+	{
+		if (!parse_material(res, &o, 4))
+			return (FALSE);
+	}
+	else
+		o->plane.material = create_lambertian(o->plane.color);
 	free_str_arr(res);
 	obj_add_back(o, obj);
 	return (TRUE);

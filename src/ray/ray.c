@@ -20,6 +20,18 @@
 #include <float.h>
 #include <stdbool.h>
 
+static double	material_fuzz(const t_material *mat)
+{
+	t_metal	*metal;
+
+	if (mat && mat->scatter == metal_scatter)
+	{
+		metal = (t_metal *)mat;
+		return (metal->fuzziness);
+	}
+	return (0.0);
+}
+
 /**
  * @brief Create a ray struct on stack memory
  *
@@ -74,6 +86,18 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	return (hit_anything);
 }
 
+static t_color	material_albedo(const t_material *mat, t_color fallback)
+{
+	t_lambertian	*lam;
+
+	if (!mat)
+		return (fallback);
+	if (mat->scatter == dielectric_scatter)
+		return (create_color(1.0, 1.0, 1.0));
+	lam = (t_lambertian *)mat;
+	return (lam->albedo);
+}
+
 static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 {
 	t_lightning	l;
@@ -90,10 +114,21 @@ static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 		l.brightness *= light.brightness_ratio;
 		l.light_in = vec_mul(l.light_dir, -1.0);
 		l.reflected = reflect(&l.light_in, &rec->normal);
+		if (material_fuzz(rec->mat) > 0.0)
+			l.reflected = vec_add(l.reflected,
+					vec_mul(rand_unit_vec3(), material_fuzz(rec->mat)));
+		l.reflected = unit_vec(l.reflected);
 		l.view_dir = unit_vec(vec_mul(r->vec, -1.0));
-		l.specular = pow(fmax(vec_dot(l.view_dir, l.reflected), 0.0), 32.0);
-		l.specular *= light.brightness_ratio;
-		l.result = color_add(color_mul_n(rec->color, l.brightness),
+		/* inside lightning(), dielectric only */
+		if (rec->mat && rec->mat->scatter == dielectric_scatter)
+			l.specular = pow(fmax(1.0 - vec_dot(rec->normal, l.view_dir), 0.0), 5.0);
+		else
+		{
+			l.specular = pow(fmax(vec_dot(l.view_dir, l.reflected), 0.0), 32.0);
+			l.specular *= light.brightness_ratio;
+		}
+		l.result = color_add(
+				color_mul_n(material_albedo(rec->mat, rec->color), l.brightness),
 				color_mul_n(light.color, l.specular));
 		l.result.r = fmin(l.result.r, 1.0);
 		l.result.g = fmin(l.result.g, 1.0);
@@ -123,6 +158,136 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
 	return (result);
 }
 
+static t_color	background_gradient(const t_ray *r)
+{
+	double	a;
+	t_vec3	u_dir;
+
+	u_dir = unit_vec(r->vec);
+	a = 0.5 * (u_dir.y + 1.0);
+	return (color_add(
+			color_mul_n(create_color(1.0, 1.0, 1.0), (1.0 - a)),
+			color_mul_n(create_color(0.5, 0.7, 1.0), a)));
+}
+
+static t_color	clamp_color(t_color c)
+{
+	c.r = fmin(c.r, 1.0);
+	c.g = fmin(c.g, 1.0);
+	c.b = fmin(c.b, 1.0);
+	return (c);
+}
+
+/**
+ * @brief For recursive materials: find point lights aligned with the
+ * outgoing ray, verify visibility with a shadow ray, add specular color.
+ *
+ * fuzz widens the acceptance cone: 0.0 = razor-sharp mirror alignment,
+ * 1.0 = accept the whole hemisphere (soft, broad highlight).
+ * tint = albedo for metal, attenuation (white) for dielectric.
+ */
+static t_color	recursive_light_hits(t_hit_dat *rec, t_world *w,
+		const t_ray *outgoing, double fuzz, t_color tint)
+{
+	t_objects	*obj;
+	t_color		result;
+	t_vec3		out_dir;
+	t_vec3		light_dir;
+	t_ray		shadow_ray;
+	t_hit_dat	shadow_rec;
+	double		alignment;
+	double		accept_cos;
+	double		intensity;
+	double		distance;
+
+	result = create_color(0, 0, 0);
+	out_dir = unit_vec(outgoing->vec);
+	accept_cos = 1.0 - fuzz;			/* dynamic threshold */
+	obj = w->objs;
+	while (obj)
+	{
+		if (obj->type == OBJ_LIGHT)
+		{
+			light_dir = unit_vec(sub_point(obj->light.cords, rec->point));
+			alignment = fmax(vec_dot(out_dir, light_dir), 0.0);
+			if (alignment > accept_cos)
+			{
+				shadow_ray = ray(
+						vec_add(rec->point, vec_mul(out_dir, 0.01)),
+						light_dir);
+				distance = vec_len(sub_point(obj->light.cords, rec->point));
+				shadow_rec = (t_hit_dat){0};
+				if (!hit_bvh(w->bvh, &shadow_ray, distance, &shadow_rec))
+				{
+					if (fuzz < 1e-6)
+						intensity = 1.0;	/* perfect mirror: exact hit */
+					else
+						intensity = (alignment - accept_cos) / (1.0 - accept_cos);
+					result = color_add(result, color_mul_n(
+							color_mul(tint, obj->light.color),
+							obj->light.brightness_ratio * intensity));
+				}
+			}
+		}
+		obj = obj->next;
+	}
+	return (result);
+}
+
+static t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
+{
+	t_metal	*metal;
+	t_vec3	reflected;		/* perfect mirror direction */
+	t_vec3	fuzzy;			/* fuzzy = perfect + fuzz * rand_in_unit_sphere */
+	t_ray	scattered;
+	t_color	bounced;
+	t_color	light_hits;
+	double	fuzz;
+
+	metal = (t_metal *)rec->mat;
+	fuzz = fmin(fmax(metal->fuzziness, 0.0), 1.0);
+
+	/* 1. fuzzy scatter */
+	reflected = reflect(&r->vec, &rec->normal);
+	fuzzy = vec_add(reflected, vec_mul(rand_in_unit_sphere(), fuzz));
+
+	/* 2. absorption: scattered below the surface is discarded */
+	if (vec_dot(fuzzy, rec->normal) <= 0.0)
+		return (create_color(0, 0, 0));
+	fuzzy = unit_vec(fuzzy);
+	scattered = ray(rec->point, fuzzy);
+
+	/* 3. recursive reflection of the scene, tinted by the metal albedo */
+	bounced = color_mul(metal->albedo, ray_color(&scattered, depth - 1, w));
+
+	/* 4. visible point-light reflections (alignment cone + shadow rays) */
+	light_hits = recursive_light_hits(rec, w, &scattered, fuzz, metal->albedo);
+	return (clamp_color(color_add(bounced, light_hits)));
+}
+
+static t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
+{
+	t_scatter_args	args;
+	t_color			bounced;
+	t_color			light_hits;
+
+	args = (t_scatter_args){0};
+	args.self = rec->mat;
+	args.in = r;
+	args.rec = rec;
+	args.attenuation = &(t_color){0};
+	args.scattered = &(t_ray){0};
+	if (!rec->mat->scatter(&args))
+		return (create_color(0, 0, 0));
+
+	/* recursive transmission/reflection of the scene (attenuation = white) */
+	bounced = color_mul(*args.attenuation, ray_color(args.scattered, depth - 1, w));
+
+	/* visible point lights through the glass: smooth → tight alignment cone */
+	light_hits = recursive_light_hits(rec, w, args.scattered, 0.0, *args.attenuation);
+	return (clamp_color(color_add(bounced, light_hits)));
+}
+
 /**
  * @brief Calculates the hit data from hit_list and calculates
  * the colour from it.
@@ -133,19 +298,16 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
  */
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 {
-	double		a;
-	t_color		res;
-	t_vec3		u_dir;
 	t_hit_dat	rec;
 
 	rec = (t_hit_dat){0};
 	if (bounce_depth <= 0)
 		return (create_color(0, 0, 0));
-	if (hit_list(r, world, &rec))
-		return (all_lights(&rec, world, r));
-	u_dir = unit_vec(r->vec);
-	a = 0.5 * (u_dir.y + 1);
-	res = color_add(color_mul_n(create_color(1, 1, 1), (1 - a)),
-			color_mul_n(create_color(0.5, 0.7, 1.0), a));
-	return (res);
+	if (!hit_list(r, world, &rec))
+		return (background_gradient(r));
+	if (rec.mat && rec.mat->scatter == metal_scatter)
+		return (metal_shade(&rec, world, r, bounce_depth));
+	if (rec.mat && rec.mat->scatter == dielectric_scatter)
+		return (dielectric_shade(&rec, world, r, bounce_depth));
+	return (all_lights(&rec, world, r));	/* lambertian + planes (mat == NULL): unchanged */
 }

@@ -12,32 +12,48 @@
 
 #include "../../includes/parse.h"
 #include "../../includes/material.h"
-#include "../../includes/color.h"
+#include "objects.h"
 
-bool	parse_material(char **res, t_objects **o)
+bool	parse_material(char **res, t_objects **o, int idx)
 {
-	double	ri;
+	double		ri;
+	t_color		cl;
+	t_material	*mat;
 
 	ri = 0;
-	if (ft_strcmp(res[4], "lambertian") == TRUE)
-		(*o)->sphere.material = create_lambertian((*o)->sphere.color);
-	else if (ft_strcmp(res[4], "metal") == TRUE)
+	mat = NULL;
+	if ((*o)->type == OBJ_CYLINDER)
+		cl = (*o)->cylinder.color;
+	else if ((*o)->type == OBJ_SPHERE)
+		cl = (*o)->sphere.color;
+	else if ((*o)->type == OBJ_PLANE)
+		cl = (*o)->plane.color;
+	if (ft_strcmp(res[idx], "lambertian") == TRUE)
+		mat = create_lambertian(cl);
+	else if (ft_strcmp(res[idx], "metal") == TRUE)
 	{
-		if (res[5])
-			ri = ft_atof(res[5]);
+		if (res[idx + 1])
+			ri = ft_atof(res[idx + 1]);
 		else
 			ri = 0.3;
-		(*o)->sphere.material = create_metal((*o)->sphere.color, ri);
+		mat = create_metal(cl, ri);
 	}
-	else if (ft_strcmp(res[4], "dielectric") == TRUE)
+	else if (ft_strcmp(res[idx], "dielectric") == TRUE)
 	{
-		if (res[5])
-			ri = ft_atof(res[5]);
+		if (res[idx + 1])
+			ri = ft_atof(res[idx + 1]);
 		else
 			ri = 1.50;
-		(*o)->sphere.material = create_dielectric(ri);
+		mat = create_dielectric(ri);
 	}
-	if (!(*o)->sphere.material)
+	if (!mat)
 		return (free((*o)), free_str_arr(res), FALSE);
+	if ((*o)->type == OBJ_CYLINDER)
+		(*o)->cylinder.material = mat;
+	else if ((*o)->type == OBJ_SPHERE)
+		(*o)->sphere.material = mat;
+	else if ((*o)->type == OBJ_PLANE)
+		(*o)->plane.material = mat;
 	return (TRUE);
 }
+

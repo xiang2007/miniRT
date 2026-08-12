@@ -96,7 +96,9 @@ int	check_plane(char *s)
 	if (!res || !*res)
 		return (FALSE);
 	if (parse_arg_count(res) != 4)
-		return (free_str_arr(res), FALSE);
+		if (parse_arg_count(res) != 5)
+			if (parse_arg_count(res) != 6)
+				return (free_str_arr(res), FALSE);
 	if (!check_cords(res[1]))
 		return (free_str_arr(res), FALSE);
 	if (!check_norm_vector(res[2]))

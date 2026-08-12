@@ -26,7 +26,7 @@ int	bvh_size(t_objects **obj)
 	size = 0;
 	while (o)
 	{
-		if (o->type == OBJ_SPHERE)
+		if (o->type == OBJ_SPHERE || o->type == OBJ_CYLINDER)
 			size++;
 		o = o->next;
 	}
@@ -87,6 +87,8 @@ bool	hit_bvh(t_bvh *node, t_ray *ray, double max_t, t_hit_dat *rec)
 	{
 		if (node->o->type == OBJ_SPHERE)
 			return (hit_sphere(&node->o->sphere, ray, max_t, rec) > 0);
+		if (node->o->type == OBJ_CYLINDER)
+			return (hit_cylinder(&node->o->cylinder, ray, max_t, rec) > 0);
 		return (false);
 	}
 	closest_so_far = max_t;

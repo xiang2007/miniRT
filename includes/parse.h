@@ -54,7 +54,7 @@ int			parse_ambient(int id, char *res, t_objects **obj);
 int			parse_sphere(int id, char *s, t_objects **obj);
 int			parse_plane(int id, char *s, t_objects **obj);
 int			parse_cylinder(int id, char *s, t_objects **obj);
-bool		parse_material(char **res, t_objects **o);
+bool		parse_material(char **res, t_objects **o, int idx);
 
 // Parsing helper functions
 int			check_rt_file(char *file_name);

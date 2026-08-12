@@ -12,6 +12,7 @@
 
 #include "../includes/aabb.h"
 #include "../../includes/ray.h"
+#include "vec3.h"
 
 t_aabb	surround_box(t_aabb a, t_aabb b)
 {
@@ -29,6 +30,9 @@ t_aabb	surround_box(t_aabb a, t_aabb b)
 t_aabb	build_box(t_objects *o)
 {
 	t_aabb	box;
+	t_vec3	half_axis;
+	t_vec3	e1;
+	t_vec3	e2;
 
 	box.max = create_vec3(0, 0, 0);
 	box.min = create_vec3(0, 0, 0);
@@ -40,6 +44,22 @@ t_aabb	build_box(t_objects *o)
 		box.max = create_vec3(o->sphere.point.x + o->sphere.radius,
 				o->sphere.point.y + o->sphere.radius,
 				o->sphere.point.z + o->sphere.radius);
+	}
+	else if (o->type == OBJ_CYLINDER)
+	{
+		if (vec_len_sq(o->cylinder.axis) > 0.0)
+			half_axis = vec_mul(unit_vec(o->cylinder.axis),
+					o->cylinder.height / 2.0);
+		else
+			half_axis = create_vec3(0, 0, 0);
+		e1 = vec_add(o->cylinder.center, half_axis);
+		e2 = vec_sub(o->cylinder.center, half_axis);
+		box.min = create_vec3(fmin(e1.x, e2.x) - o->cylinder.radius,
+				fmin(e1.y, e2.y) - o->cylinder.radius,
+				fmin(e1.z, e2.z) - o->cylinder.radius);
+		box.max = create_vec3(fmax(e1.x, e2.x) + o->cylinder.radius,
+				fmax(e1.y, e2.y) + o->cylinder.radius,
+				fmax(e1.z, e2.z) + o->cylinder.radius);
 	}
 	return (box);
 }

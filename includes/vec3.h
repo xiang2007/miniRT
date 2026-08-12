@@ -53,6 +53,7 @@ t_vec3		vec3_rand(double min, double max);
 t_vec3		rand_unit_vec3(void);
 t_vec3		rand_on_hemi(const t_vec3 *normal);
 double		random_double(double min, double max);
+t_vec3	rand_in_unit_sphere(void);
 
 bool		near_zero(t_vec3 *vector);
 

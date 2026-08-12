@@ -14,6 +14,7 @@
 #include "../../includes/mlx_dat.h"
 #include "../../includes/minirt.h"
 #include "../../includes/parse.h"
+#include "objects.h"
 #include <X11/keysym.h>
 #include <stdio.h>
 
@@ -73,6 +74,8 @@ void	move_obj_switch(int key, t_obj_type type, t_objects *o)
 		plane_mv(key, o);
 	else if (type == OBJ_LIGHT)
 		light_mv(key, o);
+	else if (type == OBJ_CYLINDER)
+		cylinder_mv(key, o);
 	return ;
 }
 

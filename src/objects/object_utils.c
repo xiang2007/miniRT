@@ -10,12 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parse.h"
+#include <stdlib.h>
+#include <stdio.h>
 #include "../../includes/aabb.h"
+#include "objects.h"
 
 void	build_box_switch(t_objects *o)
 {
-	if (o && o->type == OBJ_SPHERE)
+	if (o && (o->type == OBJ_SPHERE || o->type == OBJ_CYLINDER))
 		o->box = build_box(o);
 }
 
@@ -106,14 +108,14 @@ t_objects	**obj2arr(t_objects *o)
 	if (!o)
 		return (NULL);
 	head = o;
-	size = obj_sphere_count(o);
+	size = obj_bvh_count(o);
 	res = malloc(sizeof(t_objects *) * (size + 1));
 	if (!res)
 		return (NULL);
 	i = 0;
 	while (head)
 	{
-		if (head->type == OBJ_SPHERE)
+		if (head->type == OBJ_SPHERE ||head->type == OBJ_CYLINDER)
 			res[i++] = head;
 		head = head->next;
 	}
