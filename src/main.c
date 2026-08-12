@@ -103,6 +103,7 @@ int	main(int argc, char **argv)
 		return (1);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 2, 1L << 0, handle_key, &rt_dat);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 17, 1L << 17, close_all, &rt_dat);
+	mlx_mouse_hook(rt_dat.mlx_dat->mlx_win, mouse_select, &rt_dat);
 	mlx_loop(rt_dat.mlx_dat->mlx);
 	return (0);
 }

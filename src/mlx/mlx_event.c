@@ -96,6 +96,14 @@ int	handle_key(int key, t_rt *win)
 		handle_camera_move(key, win);
 	if (key == XK_z)
 		handle_key_z(win);
+	if (key == XK_bracketleft || key == XK_bracketright
+		|| key == XK_semicolon || key == XK_apostrophe)
+	{
+		if (win->sel_obj)
+			handle_rotate_object(key, win);
+		else
+			handle_camera_rotate(key, win);
+	}
 	return (0);
 }
 

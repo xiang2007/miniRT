@@ -59,6 +59,7 @@ typedef struct s_lightning
 	double		specular;
 }				t_lightning;
 
+bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec);
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world);
 t_vec3	ray_pos(t_ray *r, double t);

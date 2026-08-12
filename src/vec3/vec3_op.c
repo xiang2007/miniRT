@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/vec3.h"
+#include <math.h>
 
 /**
  * @brief Adds both vector
@@ -100,4 +101,21 @@ t_vec3	create_vec3(double a, double b, double c)
 	res.y = b;
 	res.z = c;
 	return (res);
+}
+
+t_vec3	vec_rotate(t_vec3 v, t_vec3 axis, double angle)
+{
+	t_vec3	k;
+	t_vec3	cross;
+	double	cos_a;
+	double	sin_a;
+	double	dot;
+
+	k = unit_vec(axis);
+	cos_a = cos(angle);
+	sin_a = sin(angle);
+	dot = vec_dot(k, v);
+	cross = vec_cross(k, v);
+	return (vec_add(vec_add(vec_mul(v, cos_a), vec_mul(cross, sin_a)),
+			vec_mul(k, dot * (1.0 - cos_a))));
 }

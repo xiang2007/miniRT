@@ -157,10 +157,8 @@ static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 		if (rec->mat && rec->mat->scatter == dielectric_scatter)
 			l.specular = pow(fmax(1.0 - vec_dot(rec->normal, l.view_dir), 0.0), 5.0);
 		else
-		{
 			l.specular = pow(fmax(vec_dot(l.view_dir, l.reflected), 0.0), 32.0);
-			l.specular *= light.brightness_ratio;
-		}
+		l.specular *= light.brightness_ratio;
 		l.result = color_add(
 				color_mul_n(material_albedo(rec->mat, rec->color), l.brightness),
 				color_mul_n(light.color, l.specular));

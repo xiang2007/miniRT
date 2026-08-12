@@ -31,4 +31,9 @@ void	handle_move_object(int key, t_rt *win);
 
 void	rebuild_world_bvh(t_world *world);
 
+void	handle_rotate_object(int key, t_rt *win);
+void	handle_camera_rotate(int key, t_rt *win);
+
+int	mouse_select(int button, int x, int y, t_rt *win);
+
 #endif

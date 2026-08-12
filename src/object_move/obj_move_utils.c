@@ -24,6 +24,10 @@ void	*cylinder_mv(int key, t_objects *o)
 		return (o->cylinder.center.x -= MOVE_X, ((void *)0));
 	else if (key == XK_Right)
 		return (o->cylinder.center.x += MOVE_X, ((void *)0));
+	else if (key == XK_equal)
+		return (o->cylinder.radius += EXPAND, ((void *)0));
+	else if (key == XK_minus)
+		return (o->cylinder.radius -= SHIRNK, ((void *)0));
 	return ((void *)0);
 }
 
