@@ -15,6 +15,7 @@
 #include "../../includes/camera.h"
 #include <X11/keysym.h>
 #include <math.h>
+#include <stdio.h>
 
 void	camera_move(int key, t_rt *rt)
 {
@@ -66,7 +67,7 @@ void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 	cam->vp_h = 2.0 * cam->h * cam->foc_len;
 	cam->vp_w = cam->vp_h * ((double)m->img_w / m->img_h);
 	cam->vp_u = vec_mul(cam->u, cam->vp_w);
-	cam->vp_v = vec_mul((vec_mul(cam->v, -1)), cam->vp_h);
+	cam->vp_v = vec_mul(cam->v, -cam->vp_h);
 	cam->px_delta_u = vec_div(cam->vp_u, m->img_w);
 	cam->px_delta_v = vec_div(cam->vp_v, m->img_h);
 	cam->vp_upper_left = vec_sub(vec_sub(vec_sub(cam->cam_center,

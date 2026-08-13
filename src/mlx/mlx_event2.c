@@ -20,6 +20,7 @@
 #include <X11/keysym.h>
 #include "material.h"
 #include "parse.h"
+#include "../../mlx_Linux/mlx.h"
 
 void	handle_key_z(t_rt *win)
 {
@@ -110,7 +111,7 @@ int	mouse_select(int button, int x, int y, t_rt *win)
 	t_ray		r;
 	t_hit_dat	rec;
 
-	if (button != 1 || !win->cam)
+	if (button != 1 || !win->cam || x >= win->img_w)
 		return (0);
 	r = click_ray(win, x, y);
 	rec = (t_hit_dat){0};
@@ -121,4 +122,42 @@ int	mouse_select(int button, int x, int y, t_rt *win)
 		print_object(rec.hit_obj);
 	}
 	return (0);
+}
+
+void	draw_controls(t_rt *rt)
+{
+	char	*lines[] = {
+		"ESC           quit",
+		"R             reload scene",
+		"0-9           select object by id",
+		"LMB           select under cursor",
+		"",
+		"ARROWS        move selected object",
+		"-  =          shrink / expand sphere",
+		"[  ]          rotate around Y",
+		";  '          rotate around X",
+		"",
+		"W A S D       move camera",
+		"Q E           move camera (down/up)",
+		"Z             full quality",
+		NULL
+	};
+	int	x;
+	int	y;
+	int	i;
+
+	if (!rt->show_controls)
+		return ;
+	x = rt->img_w + 14;
+	y = 22;
+	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
+			x, y, 0xFFFFFF, "CONTROLS");
+	i = 0;
+	while (lines[i])
+	{
+		y += 22;
+		mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
+				x, y, 0xBBBBBB, lines[i]);
+		i++;
+	}
 }

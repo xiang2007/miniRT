@@ -57,6 +57,7 @@ typedef struct s_lightning
 	double		light_distance;
 	double		brightness;
 	double		specular;
+	double		falloff;
 }				t_lightning;
 
 bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec);

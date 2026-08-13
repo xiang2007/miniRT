@@ -22,15 +22,6 @@
 #include <time.h>
 #include <stdio.h>
 
-double	clamp(double cl, double min, double max)
-{
-	if (cl < min)
-		return (min);
-	if (cl > max)
-		return (max);
-	return (cl);
-}
-
 static t_color	spp_loop(t_spp spp, int n)
 {
 	t_color	cl;
@@ -66,9 +57,9 @@ static void	render_row(t_rt *rt_dat, t_spp spp, int h)
 			cl = color_add(cl, spp_loop(spp, w));
 			sample++;
 		}
-		cl.r = clamp(linear_to_gamma(spp.pss * cl.r), 0.000, 0.999);
-		cl.g = clamp(linear_to_gamma(spp.pss * cl.g), 0.000, 0.999);
-		cl.b = clamp(linear_to_gamma(spp.pss * cl.b), 0.000, 0.999);
+		cl.r = linear_to_gamma(spp.pss * cl.r / (1.0 + spp.pss * cl.r));
+		cl.g = linear_to_gamma(spp.pss * cl.g / (1.0 + spp.pss * cl.g));
+		cl.b = linear_to_gamma(spp.pss * cl.b / (1.0 + spp.pss * cl.b));
 		mlx_put_pixel(rt_dat->mlx_dat, w, h, color_get_hex(cl));
 		w++;
 	}
@@ -104,4 +95,5 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 	printf("Render took %f seconds to execute \n",
 		((double)(end - start)) / CLOCKS_PER_SEC);
 	mlx_put_to_window(rt_dat->mlx_dat);
+	draw_controls(rt_dat);
 }

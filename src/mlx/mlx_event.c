@@ -104,6 +104,11 @@ int	handle_key(int key, t_rt *win)
 		else
 			handle_camera_rotate(key, win);
 	}
+	if (key == XK_h)
+	{
+		win->show_controls = !win->show_controls;
+		render(win, win->cam, &win->world);
+	}
 	return (0);
 }
 

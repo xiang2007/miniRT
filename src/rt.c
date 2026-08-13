@@ -37,6 +37,7 @@ void	rt_dat_init(t_rt *rt_dat)
 	rt_dat->old_sampels_per_pixel = SPP;
 	rt_dat->pixel_samples_scale = 1;
 	rt_dat->old_pixel_samples_scale = 1;
+	rt_dat->show_controls = 1;
 	if (rt_dat->img_h < 1)
 		rt_dat->img_h = 1;
 	rt_dat->init = 0;

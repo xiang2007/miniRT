@@ -54,8 +54,8 @@ void	lower_res(int key, t_rt *rt)
 		|| key == XK_w || key == XK_s || key == XK_a
 		|| key == XK_d || key == XK_q || key == XK_e)
 	{
-		rt->max_bounce_depth = 5;
-		rt->samples_per_pixel = 7;
+		rt->max_bounce_depth = LOW_RES_BOUNCE;
+		rt->samples_per_pixel = LOW_RES_SPP;
 	}
 	return ;
 }

@@ -28,7 +28,8 @@ t_mlx	*mlx_dat_init(t_mlx **mlx_dat)
 	if (!m)
 		return (NULL);
 	m->mlx = mlx_init();
-	m->mlx_win = mlx_new_window(m->mlx, WIDTH, WIDTH / ASPECT_RATIO, "miniRT");
+	m->mlx_win = mlx_new_window(m->mlx, WIDTH + PANEL_W,
+			WIDTH / ASPECT_RATIO, "miniRT");
 	m->img = mlx_new_image(m->mlx, WIDTH, WIDTH / ASPECT_RATIO);
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->line_length, &m->endian);
 	*mlx_dat = m;

@@ -36,4 +36,6 @@ void	handle_camera_rotate(int key, t_rt *win);
 
 int	mouse_select(int button, int x, int y, t_rt *win);
 
+void	draw_controls(t_rt *rt);
+
 #endif

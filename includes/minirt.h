@@ -16,13 +16,18 @@
 # define WIDTH 800
 // # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define ASPECT_RATIO 1.0
-# define MOVE_X 1
-# define MOVE_Y 1
+# define PANEL_W 300
+# define MOVE_X 0.1
+# define MOVE_Y 0.1
 # define EXPAND 0.1
 # define SHIRNK 0.1
 # define MAX_BOUNCE 10
-# define SPP 10
+# define LOW_RES_BOUNCE 5
+# define LOW_RES_SPP 1
+# define SPP 1
 # define PI 3.14159265358979323846
+
+# define LIGHT_WATTAGE 100.0
 
 # include "objects.h"
 
@@ -63,6 +68,7 @@ typedef struct s_rt
 	int			old_max_bounce_depth;
 	int			samples_per_pixel;
 	int			old_sampels_per_pixel;
+	int			show_controls;
 	double		pixel_samples_scale;
 	double		old_pixel_samples_scale;
 	double		aspect_ratio;

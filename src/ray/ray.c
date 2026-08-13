@@ -16,10 +16,21 @@
 #include "../../includes/material.h"
 #include "../../includes/ray.h"
 #include "../../includes/aabb.h"
+#include "minirt.h"
 #include <math.h>
 #include <float.h>
 #include <stdbool.h>
 #include <stddef.h>
+
+static double	light_attenuation(t_light light, double distance)
+{
+	double	physical_intensity;
+	double	attenuation;
+
+	physical_intensity = light.brightness_ratio * LIGHT_WATTAGE;
+	attenuation = physical_intensity / ((distance * distance) + 0.001);
+	return (attenuation);
+}
 
 static double	material_fuzz(const t_material *mat)
 {
@@ -145,7 +156,7 @@ static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 	if (!shadow_hit(w, &l.shadow_ray, l.light_distance, rec->hit_obj))
 	{
 		l.brightness = fmax(vec_dot(rec->normal, l.light_dir), 0.0);
-		l.brightness *= light.brightness_ratio;
+		l.brightness *= light_attenuation(light, l.light_distance);
 		l.light_in = vec_mul(l.light_dir, -1.0);
 		l.reflected = reflect(&l.light_in, &rec->normal);
 		if (material_fuzz(rec->mat) > 0.0)
@@ -158,13 +169,10 @@ static t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 			l.specular = pow(fmax(1.0 - vec_dot(rec->normal, l.view_dir), 0.0), 5.0);
 		else
 			l.specular = pow(fmax(vec_dot(l.view_dir, l.reflected), 0.0), 32.0);
-		l.specular *= light.brightness_ratio;
+		l.specular *= light_attenuation(light, l.light_distance);
 		l.result = color_add(
 				color_mul_n(material_albedo(rec->mat, rec->color), l.brightness),
 				color_mul_n(light.color, l.specular));
-		l.result.r = fmin(l.result.r, 1.0);
-		l.result.g = fmin(l.result.g, 1.0);
-		l.result.b = fmin(l.result.b, 1.0);
 		return (l.result);
 	}
 	return (create_color(0, 0, 0));
@@ -175,7 +183,7 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
 	t_objects	*obj;
 	t_color		result;
 
-	result = ambient_light(w);
+	result = create_color(0, 0, 0);
 	obj = w->objs;
 	while (obj)
 	{
@@ -184,31 +192,20 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
 					lightning(rec, w, r, obj->light));
 		obj = obj->next;
 	}
-	result.r = fmin(result.r, 1.0);
-	result.g = fmin(result.g, 1.0);
-	result.b = fmin(result.b, 1.0);
 	return (result);
 }
 
-static t_color	background_gradient(const t_ray *r)
-{
-	double	a;
-	t_vec3	u_dir;
+// static t_color	background_gradient(const t_ray *r)
+// {
+// 	double	a;
+// 	t_vec3	u_dir;
 
-	u_dir = unit_vec(r->vec);
-	a = 0.5 * (u_dir.y + 1.0);
-	return (color_add(
-			color_mul_n(create_color(1.0, 1.0, 1.0), (1.0 - a)),
-			color_mul_n(create_color(0.5, 0.7, 1.0), a)));
-}
-
-static t_color	clamp_color(t_color c)
-{
-	c.r = fmin(c.r, 1.0);
-	c.g = fmin(c.g, 1.0);
-	c.b = fmin(c.b, 1.0);
-	return (c);
-}
+// 	u_dir = unit_vec(r->vec);
+// 	a = 0.5 * (u_dir.y + 1.0);
+// 	return (color_add(
+// 			color_mul_n(create_color(1.0, 1.0, 1.0), (1.0 - a)),
+// 			color_mul_n(create_color(0.5, 0.7, 1.0), a)));
+// }
 
 /**
  * @brief For recursive materials: find point lights aligned with the
@@ -255,7 +252,7 @@ static t_color	recursive_light_hits(t_hit_dat *rec, t_world *w,
 						intensity = (alignment - accept_cos) / (1.0 - accept_cos);
 					result = color_add(result, color_mul_n(
 							color_mul(tint, obj->light.color),
-							obj->light.brightness_ratio * intensity));
+							light_attenuation(obj->light, distance) * intensity));
 				}
 			}
 		}
@@ -292,7 +289,7 @@ static t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 
 	/* 4. visible point-light reflections (alignment cone + shadow rays) */
 	light_hits = recursive_light_hits(rec, w, &scattered, fuzz, metal->albedo);
-	return (clamp_color(color_add(color_add(bounced, light_hits), ambient_light(w))));
+	return (color_add(bounced, light_hits));
 }
 
 static t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
@@ -315,7 +312,7 @@ static t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 
 	/* visible point lights through the glass: smooth → tight alignment cone */
 	light_hits = recursive_light_hits(rec, w, args.scattered, 0.0, *args.attenuation);
-	return (clamp_color(color_add(color_add(bounced, light_hits), ambient_light(w))));
+	return (color_add(bounced, light_hits));
 }
 
 /**
@@ -334,7 +331,7 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 	if (bounce_depth <= 0)
 		return (create_color(0, 0, 0));
 	if (!hit_list(r, world, &rec))
-		return (background_gradient(r));
+		return (ambient_light(world));	/* was: background_gradient(r) */
 	if (rec.mat && rec.mat->scatter == metal_scatter)
 		return (metal_shade(&rec, world, r, bounce_depth));
 	if (rec.mat && rec.mat->scatter == dielectric_scatter)

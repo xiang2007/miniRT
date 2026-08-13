@@ -65,6 +65,8 @@ int	parse_cam(int id, char *s, t_objects **obj)
 	o->id = id;
 	o->cam_setup.center = parse_cords(res[1]);
 	o->cam_setup.norm_vector = parse_cords(res[2]);
+	// if (vec_len_sq(o->cam_setup.norm_vector) > 0.0)
+	// 	o->cam_setup.norm_vector = unit_vec(o->cam_setup.norm_vector);
 	o->cam_setup.fov = temp;
 	o->type = OBJ_SETUP_CAM;
 	return (obj_add_back(o, obj), free_str_arr(res), TRUE);
