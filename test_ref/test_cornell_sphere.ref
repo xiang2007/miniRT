@@ -1,0 +1,31 @@
+# ==========================================
+# miniRT Cornell Box: The Ultimate PBR Test
+# ==========================================
+
+# 1. Environment & Lighting
+# Ambient Light (Dim, allowing bounces to fill the dark areas)
+A 0.05 255,255,255
+# Camera: Placed centered on the open front, looking inward
+C 0.0,5.0,-10.0 0.0,0.0,1.0 50
+# Light: Area-mimic light placed high near the ceiling
+L 0.0,9.8,2.0 1.0 255,255,255
+
+# 2. The Box (Infinite Planes)
+# All normals point INWARD to the center of the box.
+
+# Floor (White) - Normal points UP
+pl 0.0,0.0,0.0 0.0,1.0,0.0 255,255,255 lambertian
+# Ceiling (White) - Normal points DOWN
+pl 0.0,10.0,0.0 0.0,-1.0,0.0 255,255,255 lambertian
+# Back Wall (White) - Normal points FORWARD (towards camera)
+pl 0.0,5.0,10.0 0.0,0.0,-1.0 255,255,255 lambertian
+# Left Wall (Red) - Normal points RIGHT
+pl -5.0,5.0,0.0 1.0,0.0,0.0 255,0,0 lambertian
+# Right Wall (Green) - Normal points LEFT
+pl 5.0,5.0,0.0 -1.0,0.0,0.0 0,255,0 lambertian
+
+# 3. The Subjects (Preserving existing spheres)
+# Tall Matte Red Sphere
+sp -2.0,2.0,5.0 4.0 255,50,50 lambertian
+# Short Brushed Metal Green Sphere
+sp 2.5,1.0,1.0 2.0 50,255,50 metal 0.1

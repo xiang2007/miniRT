@@ -1,0 +1,27 @@
+# ==========================================
+# The Sealed Infinity Mirror Room
+# ==========================================
+A 0.05 255,255,255
+# Camera: Same position, looking down the -Z axis
+C 0.0,2.0,15.0 0.0,0.0,-1.0 60
+L 0.0,8.0,0.0 1.0 255,255,255
+
+# 1. The Mirrors (Left and Right)
+pl -5.0,0.0,0.0 1.0,0.0,0.0 255,255,255 metal 0.0
+pl 5.0,0.0,0.0 -1.0,0.0,0.0 255,255,255 metal 0.0
+
+# 2. The Caps (Floor & Ceiling)
+# Floor (Dark Grey)
+pl 0.0,0.0,0.0 0.0,1.0,0.0 30,30,30 lambertian
+# Ceiling (Dark Grey) - Placed just above the light
+pl 0.0,10.0,0.0 0.0,-1.0,0.0 30,30,30 lambertian
+
+# 3. The Caps (Front & Back Walls)
+# Back Wall (Dark Grey) - Placed way down the hall behind the spheres
+pl 0.0,0.0,-10.0 0.0,0.0,1.0 30,30,30 lambertian
+# Front Wall (Dark Grey) - Placed just behind the camera so rays don't escape backwards
+pl 0.0,0.0,20.0 0.0,0.0,-1.0 30,30,30 lambertian
+
+# 4. The Subjects
+sp 0.0,2.0,0.0 3.0 255,50,50 lambertian
+sp 0.0,4.5,0.0 1.5 50,255,50 metal 0.1

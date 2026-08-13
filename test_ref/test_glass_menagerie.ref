@@ -1,0 +1,16 @@
+# ==========================================
+# The Glass Menagerie
+# ==========================================
+A 0.0 0,0,0
+C 0.0,4.0,10.0 0.0,-0.2,-1.0 45
+# Intense light placed very close to the objects
+L 0.0,6.0,-2.0 1.0 255,255,255
+
+# Bright Blue Floor to show off color transmission
+pl 0.0,0.0,0.0 0.0,1.0,0.0 50,150,255 lambertian
+
+# Cluster of Glass
+sp 0.0,2.0,-2.0 4.0 255,255,255 dielectric 1.5
+sp -3.0,1.5,0.0 3.0 255,255,255 dielectric 1.5
+sp 3.0,1.0,1.0 2.0 255,255,255 dielectric 1.5
+sp -1.5,0.5,2.5 1.0 255,255,255 dielectric 1.5
