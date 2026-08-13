@@ -89,6 +89,8 @@ void	render(t_rt *rt_dat, t_cam *c, t_world *world)
 	while (h < rt_dat->img_h)
 	{
 		render_row(rt_dat, spp, h);
+		if (h % 100 == 0)
+			printf("Render row: %i\n", h);
 		h++;
 	}
 	end = clock();

@@ -59,6 +59,25 @@ double	reflectance(double cosine, double refraction_index)
 	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }
 
+static void	dielectric_pick_direction(t_scatter_args *args,
+				t_dielectric_scatter *dat)
+{
+	dat->unit_direction = unit_vec(args->in->vec);
+	dat->cos_theta = vec_dot(vec_mul(dat->unit_direction, -1.0),
+			args->rec->normal);
+	if (dat->cos_theta > 1.0)
+		dat->cos_theta = 1.0;
+	dat->sin_theta = sqrt(1.0 - dat->cos_theta * dat->cos_theta);
+	dat->cannot_refract = dat->ri * dat->sin_theta > 1.0;
+	if (dat->cannot_refract || reflectance(dat->cos_theta, dat->ri)
+		> random_double(0.0, 1.0))
+		dat->direction = reflect(&dat->unit_direction,
+				&args->rec->normal);
+	else
+		dat->direction = refract(&dat->unit_direction,
+				&args->rec->normal, dat->ri);
+}
+
 bool	dielectric_scatter(t_scatter_args *args)
 {
 	t_dielectric_scatter	dat;
@@ -67,21 +86,12 @@ bool	dielectric_scatter(t_scatter_args *args)
 	dat.die = (t_dielectric *)args->self;
 	*args->attenuation = create_color(1.0, 1.0, 1.0);
 	dat.ri = dat.die->refractive_index;
+	if (dat.ri <= 0.0)
+		dat.ri = 1.5;
 	if (args->rec->front_face)
-		dat.ri = 1.0 / dat.die->refractive_index;
-	dat.unit_direction = unit_vec(args->in->vec);
-	dat.cos_theta = vec_dot(vec_mul(dat.unit_direction, -1.0),
-			args->rec->normal);
-	if (dat.cos_theta > 1.0)
-		dat.cos_theta = 1.0;
-	dat.sin_theta = sqrt(1.0 - dat.cos_theta * dat.cos_theta);
-	dat.cannot_refract = dat.ri * dat.sin_theta > 1.0;
-	if (dat.cannot_refract || reflectance(dat.cos_theta, dat.ri)
-		> random_double(0.0, 1.0))
-		dat.direction = reflect(&dat.unit_direction, &args->rec->normal);
-	else
-		dat.direction = refract(&dat.unit_direction, &args->rec->normal,
-				dat.ri);
-	*args->scattered = ray(args->rec->point, dat.direction);
+		dat.ri = 1.0 / dat.ri;
+	dielectric_pick_direction(args, &dat);
+	*args->scattered = ray(vec_add(args->rec->point,
+			vec_mul(dat.direction, 0.001)), dat.direction);
 	return (true);
 }

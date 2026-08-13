@@ -74,20 +74,41 @@ t_ray	ray(t_point3 cam_center, t_vec3 ray_dir)
 	return (r);
 }
 
+static bool	material_is_transparent(t_objects *o)
+{
+	t_material	*mat;
+
+	mat = NULL;
+	if (o->type == OBJ_SPHERE)
+		mat = o->sphere.material;
+	else if (o->type == OBJ_CYLINDER)
+		mat = o->cylinder.material;
+	else if (o->type == OBJ_PLANE)
+		mat = o->plane.material;
+	return (mat && mat->scatter == dielectric_scatter);
+}
+
 static bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip)
 {
-	t_hit_dat	rec;
 	t_objects	*tmp;
+	t_hit_dat	rec;
 
-	rec = (t_hit_dat){0};
-	if (w->bvh && hit_bvh(w->bvh, ray, t_max, &rec, skip))
-		return (true);
 	tmp = w->objs;
 	while (tmp)
 	{
-		if (tmp->type == OBJ_PLANE && tmp != skip
-			&& hit_plane(&tmp->plane, ray, t_max, &rec) > 0)
-			return (true);
+		if (tmp != skip && !material_is_transparent(tmp))
+		{
+			rec = (t_hit_dat){0};
+			if (tmp->type == OBJ_SPHERE
+				&& hit_sphere(&tmp->sphere, ray, t_max, &rec) > 0)
+				return (true);
+			if (tmp->type == OBJ_CYLINDER
+				&& hit_cylinder(&tmp->cylinder, ray, t_max, &rec) > 0)
+				return (true);
+			if (tmp->type == OBJ_PLANE
+				&& hit_plane(&tmp->plane, ray, t_max, &rec) > 0)
+				return (true);
+		}
 		tmp = tmp->next;
 	}
 	return (false);
@@ -282,7 +303,7 @@ static t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 	if (vec_dot(fuzzy, rec->normal) <= 0.0)
 		return (create_color(0, 0, 0));
 	fuzzy = unit_vec(fuzzy);
-	scattered = ray(rec->point, fuzzy);
+	scattered = ray(vec_add(rec->point, vec_mul(fuzzy, 0.001)), fuzzy);
 
 	/* 3. recursive reflection of the scene, tinted by the metal albedo */
 	bounced = color_mul(metal->albedo, ray_color(&scattered, depth - 1, w));
@@ -310,8 +331,9 @@ static t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 	/* recursive transmission/reflection of the scene (attenuation = white) */
 	bounced = color_mul(*args.attenuation, ray_color(args.scattered, depth - 1, w));
 
-	/* visible point lights through the glass: smooth → tight alignment cone */
-	light_hits = recursive_light_hits(rec, w, args.scattered, 0.0, *args.attenuation);
+	/* point lights through the glass: small cone so they aren't razor-missed */
+	light_hits = recursive_light_hits(rec, w, args.scattered,
+			DIELECTRIC_FUZZ, *args.attenuation);
 	return (color_add(bounced, light_hits));
 }
 
@@ -329,7 +351,7 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 
 	rec = (t_hit_dat){0};
 	if (bounce_depth <= 0)
-		return (create_color(0, 0, 0));
+		return (ambient_light(world));
 	if (!hit_list(r, world, &rec))
 		return (ambient_light(world));	/* was: background_gradient(r) */
 	if (rec.mat && rec.mat->scatter == metal_scatter)

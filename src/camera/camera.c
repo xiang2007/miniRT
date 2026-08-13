@@ -61,8 +61,8 @@ void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 	cam->lookat = vec_add(cam->lookfrom, s->norm_vector);
 	if (fabs(vec_dot(cam->vup, cam->w)) > 0.999)
 		cam->vup = create_vec3(0, 0, 1);
-	cam->u = unit_vec(vec_cross(cam->vup, cam->w));
-	cam->v = vec_cross(cam->w, cam->u);
+	cam->u = unit_vec(vec_cross(cam->w, cam->vup));
+	cam->v = vec_cross(cam->u, cam->w);
 	cam->h = tan((cam->fov * PI / 180.0) / 2.0);
 	cam->vp_h = 2.0 * cam->h * cam->foc_len;
 	cam->vp_w = cam->vp_h * ((double)m->img_w / m->img_h);

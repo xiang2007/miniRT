@@ -20,7 +20,7 @@
 
 void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec)
 {
-	rec->front_face = vec_dot(r->vec, *out_norm) < 0;
+	rec->front_face = vec_dot(r->vec, *out_norm) < 0.001;
 	if (rec->front_face)
 		rec->normal = *out_norm;
 	else
@@ -91,7 +91,7 @@ double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 	rec->point = ray_pos(ray, t);
 	rec->color = p->color;
 	set_face_normal(ray, &normal, rec);
-	rec->mat = 0;
+	rec->mat = p->material;
 	return (t);
 }
 
