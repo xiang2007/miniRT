@@ -17,11 +17,11 @@
 // # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define ASPECT_RATIO 1.0
 # define PANEL_W 300
-# define MOVE_X 0.1
-# define MOVE_Y 0.1
-# define EXPAND 0.1
-# define SHIRNK 0.1
-# define MAX_BOUNCE 50
+# define MOVE_X 0.3
+# define MOVE_Y 0.3
+# define EXPAND 0.3
+# define SHIRNK 0.3
+# define MAX_BOUNCE 10
 # define LOW_RES_BOUNCE 10
 # define LOW_RES_SPP 1
 # define SPP 1
