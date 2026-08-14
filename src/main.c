@@ -45,7 +45,7 @@ int	reload_scene(t_rt *win)
 	world.bvh_obj = NULL;
 	world.bvh = NULL;
 	setup_cam_init(&s);
-	objs = parse("test_shirley.rt");
+	objs = parse(win->test_file);
 	if (!objs)
 		return (1);
 	get_setup_cam(&s, objs);
@@ -69,7 +69,7 @@ int	parse_and_render(t_rt *rt_dat)
 	world.bvh_obj = NULL;
 	world.bvh = NULL;
 	setup_cam_init(&s);
-	objs = parse("test_shirley.rt");
+	objs = parse(rt_dat->test_file);
 	if (!objs)
 		return (1);
 	cam = malloc(sizeof(t_cam));
@@ -93,10 +93,11 @@ int	main(int argc, char **argv)
 {
 	t_rt		rt_dat;
 
-	(void)argc;
-	(void)argv;
+	if (argc != 2)
+		return (1);
 	rt_dat = (t_rt){0};
 	rt_dat_init(&rt_dat);
+	rt_dat.test_file = argv[1];
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0);
 	if (parse_and_render(&rt_dat) == 1)

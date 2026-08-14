@@ -13,9 +13,9 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 1280
-# define ASPECT_RATIO 1.7777777777777777777777777777778
-// # define ASPECT_RATIO 1.0
+# define WIDTH 800
+// # define ASPECT_RATIO 1.7777777777777777777777777777778
+# define ASPECT_RATIO 1.0
 # define PANEL_W 300
 # define MOVE_X 0.1
 # define MOVE_Y 0.1
@@ -24,7 +24,7 @@
 # define MAX_BOUNCE 50
 # define LOW_RES_BOUNCE 10
 # define LOW_RES_SPP 1
-# define SPP 10
+# define SPP 1
 # define PI 3.14159265358979323846
 
 # define LIGHT_WATTAGE 4300.0
@@ -77,6 +77,7 @@ typedef struct s_rt
 	t_cam		*cam;
 	t_world		world;
 	t_objects	*sel_obj;
+	char		*test_file;
 }				t_rt;
 
 // typedef struct s_interval
