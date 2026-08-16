@@ -13,7 +13,8 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 800
+#include <stdbool.h>
+# define WIDTH 600
 // # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define ASPECT_RATIO 1.0
 # define PANEL_W 300
@@ -78,6 +79,9 @@ typedef struct s_rt
 	t_world		world;
 	t_objects	*sel_obj;
 	char		*test_file;
+	bool		is_rendering;
+	double		render_start;
+	double		render_time;
 }				t_rt;
 
 // typedef struct s_interval

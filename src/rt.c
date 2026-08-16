@@ -41,6 +41,7 @@ void	rt_dat_init(t_rt *rt_dat)
 	if (rt_dat->img_h < 1)
 		rt_dat->img_h = 1;
 	rt_dat->init = 0;
+	rt_dat->is_rendering = false;
 }
 
 /**

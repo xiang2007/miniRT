@@ -21,18 +21,18 @@
 #include "material.h"
 #include "parse.h"
 #include "../../mlx_Linux/mlx.h"
-
+#include <stdio.h>
 void	handle_key_z(t_rt *win)
 {
 	reset_res(win);
-	render(win, win->cam, &win->world);
+	// render(win, win->cam, &win->world);
 }
 
 void	handle_camera_move(int key, t_rt *win)
 {
 	camera_move(key, win);
 	lower_res(key, win);
-	render(win, win->cam, &win->world);
+	// render(win, win->cam, &win->world);
 }
 
 void	handle_move_object(int key, t_rt *win)
@@ -41,7 +41,7 @@ void	handle_move_object(int key, t_rt *win)
 	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER)
 		rebuild_world_bvh(&win->world);
 	lower_res(key, win);
-	render(win, win->cam, &win->world);
+	// render(win, win->cam, &win->world);
 }
 
 static void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
@@ -75,7 +75,7 @@ void	handle_rotate_object(int key, t_rt *win)
 	lower_res(key, win);
 	if (o->type == OBJ_CYLINDER)
 		rebuild_world_bvh(&win->world);	/* AABB changes with the axis */
-	render(win, win->cam, &win->world);
+	// render(win, win->cam, &win->world);
 }
 
 void	handle_camera_rotate(int key, t_rt *win)
@@ -91,7 +91,7 @@ void	handle_camera_rotate(int key, t_rt *win)
 	setup.fov = win->cam->fov;
 	cam_init(win->cam, win, &setup);
 	lower_res(key, win);
-	render(win, win->cam, &win->world);
+	// render(win, win->cam, &win->world);
 }
 
 static t_ray	click_ray(t_rt *win, int x, int y)
@@ -145,7 +145,7 @@ void	draw_controls(t_rt *rt)
 	int	x;
 	int	y;
 	int	i;
-
+	char	buf[32];
 	if (!rt->show_controls)
 		return ;
 	x = rt->img_w + 14;
@@ -160,4 +160,8 @@ void	draw_controls(t_rt *rt)
 				x, y, 0xBBBBBB, lines[i]);
 		i++;
 	}
+	y += 22;
+	snprintf(buf, sizeof(buf), "Render: %.2f s", rt->render_time);
+	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
+			x, y, 0xFFD700, buf);
 }

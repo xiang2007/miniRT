@@ -17,8 +17,11 @@
 #include "../includes/mlx_dat.h"
 #include "../includes/parse.h"
 #include "../mlx_Linux/mlx.h"
+#include <pthread.h>
 #include <stdlib.h>
 #include <X11/keysym.h>
+#include "libft.h"
+#include "threadpool.h"
 
 void	get_setup_cam(t_setup_cam *s, t_objects *objs)
 {
@@ -54,11 +57,11 @@ int	reload_scene(t_rt *win)
 	win->world = world;
 	cam_init(win->cam, win, &s);
 	reset_res(win);
-	render(win, win->cam, &win->world);
+	// render(win, win->cam, &win->world);
 	return (0);
 }
 
-int	parse_and_render(t_rt *rt_dat)
+int	parse_and_render(t_rt *rt_dat, t_threadpool *tp)
 {
 	t_cam		*cam;
 	t_objects	*objs;
@@ -78,7 +81,33 @@ int	parse_and_render(t_rt *rt_dat)
 	rt_dat->world = world;
 	cam_init(cam, rt_dat, &s);
 	rt_dat->cam = cam;
-	render(rt_dat, rt_dat->cam, &rt_dat->world);
+	if (rt_dat->is_rendering == false)
+	{
+		rt_dat->is_rendering = true;
+		queue_tiles(tp);
+	}
+	// render(rt_dat, rt_dat->cam, &rt_dat->world);
+	return (0);
+}
+
+int	mlx_render_loop(void *param)
+{
+	t_threadpool	*tp;
+	int				is_done;
+
+	tp = param;
+	pthread_mutex_lock(&tp->queue_mutex);
+	is_done = (tp->active_threads == 0 && tp->queue_cnt == 0);
+	pthread_mutex_unlock(&tp->queue_mutex);
+	if (is_done && tp->engine->is_rendering)
+	{
+		tp->engine->render_time = monotonic_seconds()
+				- tp->engine->render_start;
+		printf("Render took %.2f s\n", tp->engine->render_time);
+		mlx_put_to_window(tp->engine->mlx_dat);
+		draw_controls(tp->engine);
+		tp->engine->is_rendering = false;
+	}
 	return (0);
 }
 
@@ -91,7 +120,8 @@ int	parse_and_render(t_rt *rt_dat)
  */
 int	main(int argc, char **argv)
 {
-	t_rt		rt_dat;
+	t_threadpool	*tp;
+	t_rt			rt_dat;
 
 	if (argc != 2)
 		return (1);
@@ -100,8 +130,10 @@ int	main(int argc, char **argv)
 	rt_dat.test_file = argv[1];
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0);
-	if (parse_and_render(&rt_dat) == 1)
+	tp = threadpool_create(&rt_dat, 12, 4096);
+	if (parse_and_render(&rt_dat, tp) == 1)
 		return (1);
+	mlx_loop_hook(rt_dat.mlx_dat->mlx, mlx_render_loop, (void *)tp);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 2, 1L << 0, handle_key, &rt_dat);
 	mlx_hook(rt_dat.mlx_dat->mlx_win, 17, 1L << 17, close_all, &rt_dat);
 	mlx_mouse_hook(rt_dat.mlx_dat->mlx_win, mouse_select, &rt_dat);

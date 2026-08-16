@@ -18,6 +18,7 @@
 #include "../../includes/aabb.h"
 #include "../../includes/camera.h"
 #include "objects.h"
+#include "threadpool.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 
@@ -109,7 +110,8 @@ int	handle_key(int key, t_rt *win)
 	if (key == XK_h)
 	{
 		win->show_controls = !win->show_controls;
-		render(win, win->cam, &win->world);
+		// queue_tiles(t_threadpool *tp)
+		// render(win, win->cam, &win->world);
 	}
 	return (0);
 }

@@ -14,15 +14,15 @@
 #include "../../includes/vec3.h"
 #include "../../includes/objects.h"
 #include "../../includes/ray.h"
-#include "../../includes/camera.h"
+// #include "../../includes/camera.h"
 #include "../../includes/color.h"
 #include "../../includes/mlx_dat.h"
 #include "../../includes/render.h"
+// #include "threadpool.h"
+// #include <time.h>
+// #include <stdio.h>
 
-#include <time.h>
-#include <stdio.h>
-
-static t_color	spp_loop(t_spp spp, int n)
+t_color	spp_loop(t_spp spp, int n)
 {
 	t_color	cl;
 
@@ -40,28 +40,28 @@ static t_color	spp_loop(t_spp spp, int n)
 	return (cl);
 }
 
-static void	render_row(t_rt *rt_dat, t_spp spp, int h)
+void	render_row(t_tile tile, t_spp spp, int y, t_rt *rt_dat)
 {
 	t_color	cl;
-	int		w;
+	int		x;
 	int		sample;
 
-	w = 0;
-	spp.h = h;
-	while (w < rt_dat->img_w)
+	x = tile.start_x;
+	spp.h = y;
+	while (x < tile.end_x)
 	{
 		sample = 0;
 		cl = create_color(0, 0, 0);
 		while (sample < spp.spp)
 		{
-			cl = color_add(cl, spp_loop(spp, w));
+			cl = color_add(cl, spp_loop(spp, x));
 			sample++;
 		}
 		cl.r = linear_to_gamma(spp.pss * cl.r / (1.0 + spp.pss * cl.r));
 		cl.g = linear_to_gamma(spp.pss * cl.g / (1.0 + spp.pss * cl.g));
 		cl.b = linear_to_gamma(spp.pss * cl.b / (1.0 + spp.pss * cl.b));
-		mlx_put_pixel(rt_dat->mlx_dat, w, h, color_get_hex(cl));
-		w++;
+		mlx_put_pixel(rt_dat->mlx_dat, x, y, color_get_hex(cl));
+		x++;
 	}
 }
 
@@ -72,30 +72,32 @@ static void	render_row(t_rt *rt_dat, t_spp spp, int h)
  * @param c the camera struct
  * @param world the world struct
  */
-void	render(t_rt *rt_dat, t_cam *c, t_world *world)
-{
-	clock_t	start;
-	clock_t	end;
-	int		h;
-	t_spp	spp;
+// void	render(t_rt *rt_dat, t_cam *c, t_world *world)
+// {
+// 	clock_t	start;
+// 	clock_t	end;
+// 	int		h;
+// 	t_spp	spp;
+// 	t_tile_job	*tiles;
 
-	h = 0;
-	spp.w = world;
-	spp.c = c;
-	spp.max_bounce_depth = rt_dat->max_bounce_depth;
-	spp.spp = rt_dat->samples_per_pixel;
-	spp.pss = 1.0 / rt_dat->samples_per_pixel;
-	start = clock();
-	while (h < rt_dat->img_h)
-	{
-		render_row(rt_dat, spp, h);
-		if (h % 100 == 0)
-			printf("Render row: %i\n", h);
-		h++;
-	}
-	end = clock();
-	printf("Render took %f seconds to execute \n",
-		((double)(end - start)) / CLOCKS_PER_SEC);
-	mlx_put_to_window(rt_dat->mlx_dat);
-	draw_controls(rt_dat);
-}
+	
+// 	h = 0;
+// 	spp.w = world;
+// 	spp.c = c;
+// 	spp.max_bounce_depth = rt_dat->max_bounce_depth;
+// 	spp.spp = rt_dat->samples_per_pixel;
+// 	spp.pss = 1.0 / rt_dat->samples_per_pixel;
+// 	start = clock();
+// 	while (h < rt_dat->img_h)
+// 	{
+// 		render_row(rt_dat, spp, h);
+// 		if (h % 100 == 0)
+// 			printf("Render row: %i\n", h);
+// 		h++;
+// 	}
+// 	end = clock();
+// 	printf("Render took %f seconds to execute \n",
+// 		((double)(end - start)) / CLOCKS_PER_SEC);
+// 	mlx_put_to_window(rt_dat->mlx_dat);
+// 	draw_controls(rt_dat);
+// }

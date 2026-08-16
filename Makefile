@@ -33,9 +33,15 @@ HEADERS := includes/minirt.h \
 		   includes/ray.h \
 		   includes/render.h \
 		   includes/objects.h \
-		   includes/material.h
+		   includes/material.h \
+		   includes/threadpool.h
 
 MAIN := src/main.c src/rt.c
+
+TPDIR := src/threadpool
+TPSRC := threadpool.c \
+		  thread_render.c
+TP := $(addprefix $(TPDIR)/,$(TPSRC))
 
 MLXDIR := src/mlx
 MLXSRC := mlx_dat.c \
@@ -104,7 +110,7 @@ AABBDIR := src/aabb
 AABBSRC := aabb.c bvh.c interval.c
 AABB := $(addprefix $(AABBDIR)/,$(AABBSRC))
 
-SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT) $(AABB)
+SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT) $(AABB) $(TP)
 
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)
