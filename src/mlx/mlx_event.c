@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
 #include "../../mlx_Linux/mlx.h"
+#include "threadpool.h"
 #include "../../includes/parse.h"
+#include "../../includes/minirt.h"
 #include "../../includes/mlx_dat.h"
 #include "../../includes/render.h"
 #include "../../includes/aabb.h"
 #include "../../includes/camera.h"
 #include "objects.h"
-#include "threadpool.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 
@@ -110,8 +110,7 @@ int	handle_key(int key, t_rt *win)
 	if (key == XK_h)
 	{
 		win->show_controls = !win->show_controls;
-		// queue_tiles(t_threadpool *tp)
-		// render(win, win->cam, &win->world);
+		draw_controls(win);
 	}
 	return (0);
 }

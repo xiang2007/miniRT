@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
 #include "../../includes/vec3.h"
 #include "../../includes/camera.h"
+#include "../../includes/minirt.h"
 #include <X11/keysym.h>
 #include <math.h>
 #include <stdio.h>

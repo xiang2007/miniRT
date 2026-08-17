@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "threadpool.h"
+#include "minirt.h"
 #include "../../includes/parse.h"
 
 int	parse_arg_count(char **arg)

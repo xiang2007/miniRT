@@ -46,5 +46,6 @@ void	threadpool_destroy(t_threadpool *tp);
 t_threadpool	*threadpool_create(t_rt *engine, int thread_count, int queue_size);
 void	*threadpool_worker(void *arg);
 double	monotonic_seconds(void);
+void	queue_render(t_rt *win);
 
 #endif

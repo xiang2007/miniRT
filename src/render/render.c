@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
 #include "../../includes/vec3.h"
 #include "../../includes/objects.h"
+#include "../../includes/minirt.h"
 #include "../../includes/ray.h"
 // #include "../../includes/camera.h"
 #include "../../includes/color.h"

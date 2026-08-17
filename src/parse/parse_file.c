@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "threadpool.h"
+#include "minirt.h"
 #include "../../includes/parse.h"
 
 int	check_rt_file(char *file_name)

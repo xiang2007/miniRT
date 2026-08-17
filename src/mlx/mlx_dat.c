@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "threadpool.h"
 #include "../../includes/minirt.h"
 #include "../../mlx_Linux/mlx.h"
 #include <stdlib.h>

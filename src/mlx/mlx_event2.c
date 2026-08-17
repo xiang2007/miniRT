@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
 #include "ray.h"
+#include "../../includes/minirt.h"
 #include "../../includes/mlx_dat.h"
-#include "../../includes/render.h"
 #include "../../includes/aabb.h"
 #include "../../includes/camera.h"
 #include "objects.h"
@@ -21,18 +20,19 @@
 #include "material.h"
 #include "parse.h"
 #include "../../mlx_Linux/mlx.h"
+#include "threadpool.h"
 #include <stdio.h>
 void	handle_key_z(t_rt *win)
 {
 	reset_res(win);
-	// render(win, win->cam, &win->world);
+	queue_render(win);
 }
 
 void	handle_camera_move(int key, t_rt *win)
 {
 	camera_move(key, win);
 	lower_res(key, win);
-	// render(win, win->cam, &win->world);
+	queue_render(win);
 }
 
 void	handle_move_object(int key, t_rt *win)
@@ -41,7 +41,7 @@ void	handle_move_object(int key, t_rt *win)
 	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER)
 		rebuild_world_bvh(&win->world);
 	lower_res(key, win);
-	// render(win, win->cam, &win->world);
+	queue_render(win);
 }
 
 static void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
@@ -75,7 +75,7 @@ void	handle_rotate_object(int key, t_rt *win)
 	lower_res(key, win);
 	if (o->type == OBJ_CYLINDER)
 		rebuild_world_bvh(&win->world);	/* AABB changes with the axis */
-	// render(win, win->cam, &win->world);
+	queue_render(win);
 }
 
 void	handle_camera_rotate(int key, t_rt *win)
@@ -91,7 +91,7 @@ void	handle_camera_rotate(int key, t_rt *win)
 	setup.fov = win->cam->fov;
 	cam_init(win->cam, win, &setup);
 	lower_res(key, win);
-	// render(win, win->cam, &win->world);
+	queue_render(win);
 }
 
 static t_ray	click_ray(t_rt *win, int x, int y)

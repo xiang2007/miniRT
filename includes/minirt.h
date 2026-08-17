@@ -13,6 +13,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+#include "threadpool.h"
 #include <stdbool.h>
 # define WIDTH 600
 // # define ASPECT_RATIO 1.7777777777777777777777777777778
@@ -36,6 +37,7 @@
 typedef struct s_cam		t_cam;
 typedef struct s_world		t_world;
 typedef struct s_objects	t_objects;
+typedef struct s_threadpool t_threadpool;
 
 /**
  * @brief Mlx data
@@ -80,6 +82,7 @@ typedef struct s_rt
 	t_objects	*sel_obj;
 	char		*test_file;
 	bool		is_rendering;
+	t_threadpool	*tp;
 	double		render_start;
 	double		render_time;
 }				t_rt;

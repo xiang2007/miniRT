@@ -18,6 +18,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <time.h>
+
 void	render_tile(t_tile tile, t_rt *rt_dat)
 {
 	// clock_t	start;
@@ -81,4 +82,12 @@ double	monotonic_seconds(void)
 
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	return (ts.tv_sec + ts.tv_nsec / 1e9);
+}
+
+void	queue_render(t_rt *win)
+{
+	if (!win->tp || win->is_rendering)
+		return ;
+	win->is_rendering = true;
+	queue_tiles(win->tp);
 }

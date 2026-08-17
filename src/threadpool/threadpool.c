@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+
 void	*threadpool_worker(void *arg)
 {
 	t_threadpool	*tp = arg;

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
 #include "../includes/camera.h"
+#include "../includes/minirt.h"
 #include "../includes/objects.h"
 #include "../includes/render.h"
 #include "../includes/mlx_dat.h"
@@ -57,7 +57,7 @@ int	reload_scene(t_rt *win)
 	win->world = world;
 	cam_init(win->cam, win, &s);
 	reset_res(win);
-	// render(win, win->cam, &win->world);
+	queue_render(win);
 	return (0);
 }
 
@@ -131,6 +131,7 @@ int	main(int argc, char **argv)
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0);
 	tp = threadpool_create(&rt_dat, 12, 4096);
+	rt_dat.tp = tp;
 	if (parse_and_render(&rt_dat, tp) == 1)
 		return (1);
 	mlx_loop_hook(rt_dat.mlx_dat->mlx, mlx_render_loop, (void *)tp);

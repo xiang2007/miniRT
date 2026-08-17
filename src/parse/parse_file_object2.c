@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "threadpool.h"
+#include "minirt.h"
 #include "../../includes/parse.h"
 #include "../../includes/material.h"
 #include "objects.h"
