@@ -120,6 +120,10 @@ all: $(NAME)
 $(NAME): mlx_Linux/libmlx_Linux.a libft/libft.a $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
 
+tsan: fclean
+	$(MAKE) CFLAGS="-std=gnu11 -g3 -fsanitize=thread" \
+		LDLIBS="-lft -lmlx_Linux -lXext -lX11 -lm -fsanitize=thread" re
+	
 $(OBJSDIR)/%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
@@ -141,4 +145,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re tsan

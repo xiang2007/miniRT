@@ -70,29 +70,14 @@ void	world_free(t_world *world)
 	}
 }
 
-/**
- * @brief Checks if a key pressed
- * - If Escape Key is pressed, all malloced data are freed and exit with 0
- *
- * @param key key pressed
- * @param win window data
- * @return returns 0
- */
-int	handle_key(int key, t_rt *win)
+static void	dispatch_key(int key, t_rt *win)
 {
-	if (key == XK_Escape)
-	{
-		world_free(&win->world);
-		mlx_dat_free(win->mlx_dat);
-		free(win->cam);
-		exit(0);
-	}
 	if (key == XK_r)
 		reload_scene(win);
 	if (key >= XK_0 && key <= XK_9)
 		win->sel_obj = select_object(key, &win->world);
 	if ((key >= XK_Left && key <= XK_Down && win->sel_obj)
-		|| (key == XK_minus || key == XK_equal))
+		|| ((key == XK_minus || key == XK_equal) && win->sel_obj))
 		handle_move_object(key, win);
 	if (key == XK_w || key == XK_s || key == XK_a
 		|| key == XK_d || key == XK_q || key == XK_e)
@@ -112,6 +97,33 @@ int	handle_key(int key, t_rt *win)
 		win->show_controls = !win->show_controls;
 		draw_controls(win);
 	}
+}
+
+/**
+ * @brief Checks if a key pressed
+ * - If Escape Key is pressed, all malloced data are freed and exit with 0
+ *
+ * @param key key pressed
+ * @param win window data
+ * @return returns 0
+ */
+int	handle_key(int key, t_rt *win)
+{
+	if (key == XK_Escape)
+	{
+		threadpool_destroy(win->tp);
+		world_free(&win->world);
+		mlx_dat_free(win->mlx_dat);
+		free(win->cam);
+		exit(0);
+	}
+	if (win->is_rendering)
+	{
+		win->pending_key = key;
+		win->has_pending = true;
+		return (0);
+	}
+	dispatch_key(key, win);
 	return (0);
 }
 
@@ -123,6 +135,7 @@ int	handle_key(int key, t_rt *win)
  */
 int	close_all(t_rt *win)
 {
+	threadpool_destroy(win->tp);
 	world_free(&win->world);
 	mlx_dat_free(win->mlx_dat);
 	exit(0);

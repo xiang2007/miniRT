@@ -42,3 +42,16 @@ void	mlx_put_to_window(t_mlx *m)
 	temp = *m;
 	mlx_put_image_to_window(temp.mlx, temp.mlx_win, temp.img, 0, 0);
 }
+
+void	mlx_swap_buffers(t_mlx *m)
+{
+	void	*tmp_img;
+	char	*tmp_addr;
+
+	tmp_img = m->img;
+	m->img = m->img2;
+	m->img2 = tmp_img;
+	tmp_addr = m->addr;
+	m->addr = m->addr2;
+	m->addr2 = tmp_addr;
+}

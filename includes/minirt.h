@@ -23,10 +23,10 @@
 # define MOVE_Y 0.3
 # define EXPAND 0.3
 # define SHIRNK 0.3
-# define MAX_BOUNCE 10
+# define MAX_BOUNCE 50
 # define LOW_RES_BOUNCE 10
 # define LOW_RES_SPP 1
-# define SPP 1
+# define SPP 100
 # define PI 3.14159265358979323846
 
 # define LIGHT_WATTAGE 4300.0
@@ -34,10 +34,10 @@
 
 # include "objects.h"
 
+typedef struct s_threadpool t_threadpool;
 typedef struct s_cam		t_cam;
 typedef struct s_world		t_world;
 typedef struct s_objects	t_objects;
-typedef struct s_threadpool t_threadpool;
 
 /**
  * @brief Mlx data
@@ -46,6 +46,8 @@ typedef struct s_mlx
 {
 	void	*img;
 	void	*addr;
+	void	*img2;
+	void	*addr2;
 	void	*mlx;
 	void	*mlx_win;
 	int		bpp;
@@ -83,6 +85,8 @@ typedef struct s_rt
 	char		*test_file;
 	bool		is_rendering;
 	t_threadpool	*tp;
+	int			pending_key;
+	bool		has_pending;
 	double		render_start;
 	double		render_time;
 }				t_rt;

@@ -33,6 +33,8 @@ t_mlx	*mlx_dat_init(t_mlx **mlx_dat)
 			WIDTH / ASPECT_RATIO, "miniRT");
 	m->img = mlx_new_image(m->mlx, WIDTH, WIDTH / ASPECT_RATIO);
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->line_length, &m->endian);
+	m->img2 = mlx_new_image(m->mlx, WIDTH, WIDTH / ASPECT_RATIO);
+	m->addr2 = mlx_get_data_addr(m->img2, &m->bpp, &m->line_length, &m->endian);
 	*mlx_dat = m;
 	return (m);
 }
@@ -45,6 +47,7 @@ t_mlx	*mlx_dat_init(t_mlx **mlx_dat)
 void	mlx_dat_free(t_mlx *mlx_dat)
 {
 	mlx_destroy_image(mlx_dat->mlx, mlx_dat->img);
+	mlx_destroy_image(mlx_dat->mlx, mlx_dat->img2);
 	mlx_destroy_window(mlx_dat->mlx, mlx_dat->mlx_win);
 	mlx_destroy_display(mlx_dat->mlx);
 	free(mlx_dat->mlx);

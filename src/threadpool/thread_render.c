@@ -10,12 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "threadpool.h"
 #include "render.h"
 #include "../../includes/minirt.h"
 #include "../../includes/objects.h"
 #include "../../includes/render.h"
+#include "../../includes/mlx_dat.h"
 #include <pthread.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -89,5 +92,7 @@ void	queue_render(t_rt *win)
 	if (!win->tp || win->is_rendering)
 		return ;
 	win->is_rendering = true;
+	mlx_swap_buffers(win->mlx_dat);
+	ft_memset(win->mlx_dat->addr, 0, (size_t)win->mlx_dat->line_length * win->img_h);
 	queue_tiles(win->tp);
 }

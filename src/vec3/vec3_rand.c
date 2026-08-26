@@ -11,27 +11,47 @@
 /* ************************************************************************** */
 
 #include <float.h>
+#include <stdint.h>
 #include "../../libft/libft.h"
 #include <sys/time.h>
 #include "../../includes/vec3.h"
 #include <math.h>
 #include <stdio.h>
 
+static _Thread_local t_rng_state	g_rng;
+
+static void	rng_seed(void)
+{
+	struct timeval	time;
+	uint32_t		base;
+	uint32_t		seed;
+
+	gettimeofday(&time, NULL);
+	base = (uint32_t)(uintptr_t)&g_rng;	/* unique per thread */
+	seed = ((uint32_t)time.tv_sec ^ (base * 2654435761u));
+	if (seed == 0)
+		seed = 1;	/* xorshift(0) would lock to 0 */
+	g_rng.seed.s = seed;
+	g_rng.init = true;
+}
+
 double	random_double(double min, double max)
 {
-	struct timeval		time;
-	static t_xorshift32	seed;
+	// struct timeval		time;
+	// static t_xorshift32	seed;
 	double				range;
 	double				div;
 
-	if (seed.s == 0)
-	{
-		gettimeofday(&time, NULL);
-		seed.s = time.tv_sec;
-	}
+	// if (seed.s == 0)
+	// {
+	// 	gettimeofday(&time, NULL);
+	// 	seed.s = time.tv_sec;
+	// }
+	if (!g_rng.init)
+		rng_seed();
 	range = max - min;
 	div = UINT32_MAX / range;
-	return (min + ((double) ft_xorshift32(&seed) / div));
+	return (min + ((double) ft_xorshift32(&g_rng.seed) / div));
 }
 
 t_vec3	vec3_rand(double min, double max)

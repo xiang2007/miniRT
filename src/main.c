@@ -107,6 +107,11 @@ int	mlx_render_loop(void *param)
 		mlx_put_to_window(tp->engine->mlx_dat);
 		draw_controls(tp->engine);
 		tp->engine->is_rendering = false;
+		if (tp->engine->has_pending)
+		{
+			tp->engine->has_pending = false;
+			handle_key(tp->engine->pending_key, tp->engine);
+		}
 	}
 	return (0);
 }
@@ -130,7 +135,7 @@ int	main(int argc, char **argv)
 	rt_dat.test_file = argv[1];
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0);
-	tp = threadpool_create(&rt_dat, 12, 4096);
+	tp = threadpool_create(&rt_dat, 24, 4096);
 	rt_dat.tp = tp;
 	if (parse_and_render(&rt_dat, tp) == 1)
 		return (1);

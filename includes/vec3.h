@@ -14,6 +14,7 @@
 # define VEC3_H
 
 # include <stdbool.h>
+# include "libft.h"
 
 typedef struct s_vec3
 {
@@ -33,6 +34,12 @@ typedef struct s_vec3
 		};
 	};
 } t_vec3, t_color,	t_point3;
+
+typedef struct s_rng_state
+{
+	t_xorshift32	seed;
+	bool			init;
+}				t_rng_state;
 
 t_vec3		vec_add(t_vec3 a, t_vec3 b);
 t_vec3		vec_sub(t_vec3 a, t_vec3 b);
