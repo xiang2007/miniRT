@@ -37,6 +37,8 @@ void	handle_camera_move(int key, t_rt *win)
 
 void	handle_move_object(int key, t_rt *win)
 {
+	if (!win->sel_obj)
+		return ;
 	move_objects(key, &win->sel_obj);
 	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER)
 		rebuild_world_bvh(&win->world);
