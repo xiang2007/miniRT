@@ -21,6 +21,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 
 void	render_tile(t_tile tile, t_rt *rt_dat)
 {
@@ -45,39 +46,43 @@ void	render_tile(t_tile tile, t_rt *rt_dat)
 	// printf("Chunk took %f seconds to execute \n", ((double)(end - start)) / CLOCKS_PER_SEC);
 }
 
+static void	fill_tile(t_threadpool *tp, t_rt *rt, int px, int py, int i)
+{
+	tp->tiles[i].start_x = px;
+	tp->tiles[i].start_y = py;
+	tp->tiles[i].end_x = fmin(px + TILE_SIZE, rt->img_w);
+	tp->tiles[i].end_y = fmin(py + TILE_SIZE, rt->img_h);
+}
+
 void	queue_tiles(t_threadpool *tp)
 {
-	const int	tile_size = 64;
-	int			px;
-	int			py;
+	t_rt	*rt;
+	int		px;
+	int		py;
+	int		i;
 
-	tp->engine->render_start = monotonic_seconds();
+	rt = tp->engine;
+	rt->render_start = monotonic_seconds();
+	i = 0;
 	py = 0;
-	while (py < tp->engine->img_h)
+	while (py < rt->img_h)
 	{
 		px = 0;
-		while (px < tp->engine->img_w)
+		while (px < rt->img_w)
 		{
-			pthread_mutex_lock(&tp->queue_mutex);
-			tp->queue[tp->tile_head].start_x = px;
-			tp->queue[tp->tile_head].start_y = py;
-			if ((tile_size + px) / tp->engine->img_w == 1)
-				tp->queue[tp->tile_head].end_x = px + (tp->engine->img_w - px);
-			else
-				tp->queue[tp->tile_head].end_x = px + tile_size;
-			if ((tile_size + py) / tp->engine->img_h == 1)
-				tp->queue[tp->tile_head].end_y = py + (tp->engine->img_h - py);
-			else
-				tp->queue[tp->tile_head].end_y = py + tile_size;
-			tp->tile_head = (tp->tile_head + 1) % tp->queue_size;
-			tp->queue_cnt++;
-			pthread_cond_signal(&tp->queue_cond);
-			pthread_mutex_unlock(&tp->queue_mutex);
-			px += tile_size;
+			fill_tile(tp, rt, px, py, i);
+			i++;
+			px += TILE_SIZE;
 		}
-		py += tile_size;
+		py += TILE_SIZE;
 	}
+	pthread_mutex_lock(&tp->queue_mutex);
+	tp->tile_count = i;
+	tp->tile_next = 0;
+	pthread_cond_broadcast(&tp->queue_cond);
+	pthread_mutex_unlock(&tp->queue_mutex);
 }
+
 
 double	monotonic_seconds(void)
 {

@@ -13,14 +13,12 @@
 #include "../includes/camera.h"
 #include "../includes/minirt.h"
 #include "../includes/objects.h"
-#include "../includes/render.h"
 #include "../includes/mlx_dat.h"
 #include "../includes/parse.h"
 #include "../mlx_Linux/mlx.h"
 #include <pthread.h>
 #include <stdlib.h>
 #include <X11/keysym.h>
-#include "libft.h"
 #include "threadpool.h"
 
 void	get_setup_cam(t_setup_cam *s, t_objects *objs)
@@ -97,7 +95,8 @@ int	mlx_render_loop(void *param)
 
 	tp = param;
 	pthread_mutex_lock(&tp->queue_mutex);
-	is_done = (tp->active_threads == 0 && tp->queue_cnt == 0);
+	is_done = (tp->active_threads == 0
+			&& tp->tile_next >= tp->tile_count);
 	pthread_mutex_unlock(&tp->queue_mutex);
 	if (is_done && tp->engine->is_rendering)
 	{
@@ -135,7 +134,9 @@ int	main(int argc, char **argv)
 	rt_dat.test_file = argv[1];
 	if (!mlx_dat_init(&rt_dat.mlx_dat))
 		return (0);
-	tp = threadpool_create(&rt_dat, 24, 4096);
+	tp = threadpool_create(&rt_dat, 12);
+	if (!tp)
+		return (1);
 	rt_dat.tp = tp;
 	if (parse_and_render(&rt_dat, tp) == 1)
 		return (1);

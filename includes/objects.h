@@ -81,7 +81,7 @@ typedef struct s_light
 
 typedef struct s_setup_cam
 {
-	int			fov;
+	double		fov;
 	t_point3	center;
 	t_vec3		norm_vector;
 }				t_setup_cam;

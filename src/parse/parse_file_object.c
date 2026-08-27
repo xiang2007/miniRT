@@ -145,6 +145,8 @@ int	parse_plane(int id, char *s, t_objects **obj)
 	o->type = OBJ_PLANE;
 	o->plane.center = parse_cords(res[1]);
 	o->plane.normal = parse_cords(res[2]);
+	if (vec_len_sq(o->plane.normal) > 0.0)
+		o->plane.normal = unit_vec(o->plane.normal);
 	o->plane.color = parse_color(res[3]);
 	if (o->plane.color.r == -1)
 		return (free(o), free_str_arr(res), FALSE);

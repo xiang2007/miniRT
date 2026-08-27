@@ -9,8 +9,18 @@ RM := rm -rf
 
 # Compiler Flags
 # -Ofast: equivalent to -O3 -ffast-math, enables compiler optimizations and overrides standard math compliance to IEE 754
-CHECKMEM := -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer
-CFLAGS := -Wall -Werror -Wextra -Ofast -std=gnu11 -g3
+CFLAGS := -Wall -Werror -Wextra -std=gnu11 -g3 -Ofast
+
+# If TSAN=1 is passed, append the sanitize flags
+ifdef TSAN
+	CFLAGS += -fsanitize=thread -g3 -O1
+	LDFLAGS += -fsanitize=thread
+	# Overwrite -Ofast to -O1 because heavy optimization messes with TSAN traces
+	CFLAGS := $(filter-out -Ofast,$(CFLAGS))
+endif
+
+# Need to enable this: sudo sysctl vm.mmap_rnd_bits=28 to run tsan
+# 
 
 # Preprocessor flags
 CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
@@ -121,8 +131,7 @@ $(NAME): mlx_Linux/libmlx_Linux.a libft/libft.a $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
 
 tsan: fclean
-	$(MAKE) CFLAGS="-std=gnu11 -g3 -fsanitize=thread" \
-		LDLIBS="-lft -lmlx_Linux -lXext -lX11 -lm -fsanitize=thread" re
+	$(MAKE) TSAN=1 re
 	
 $(OBJSDIR)/%.o: %.c
 	mkdir -p $(dir $@)
