@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 14:50:32 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 11:33:50 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/28 18:27:15 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,41 @@
 #include "../../includes/ray.h"
 #include "vec3.h"
 
-t_aabb	surround_box(t_aabb a, t_aabb b)
+void build_cylinder(t_aabb *box, t_objects *o, t_vec3 half_axis, t_aabbs e)
 {
-	t_aabb	res;
-
-	res.min.x = fmin(a.min.x, b.min.x);
-	res.min.y = fmin(a.min.y, b.min.y);
-	res.min.z = fmin(a.min.z, b.min.z);
-	res.max.x = fmax(a.max.x, b.max.x);
-	res.max.y = fmax(a.max.y, b.max.y);
-	res.max.z = fmax(a.max.z, b.max.z);
-	return (res);
+	if (vec_len_sq(o->cylinder.axis) > 0.0)
+		half_axis = vec_mul(unit_vec(o->cylinder.axis),
+				o->cylinder.height / 2.0);
+	else
+		half_axis = create_vec3(0, 0, 0);
+	e.e1 = vec_add(o->cylinder.center, half_axis);
+	e.e2 = vec_sub(o->cylinder.center, half_axis);
+	box->min = create_vec3(fmin(e.e1.x, e.e2.x) - o->cylinder.radius,
+			fmin(e.e1.y, e.e2.y) - o->cylinder.radius,
+			fmin(e.e1.z, e.e2.z) - o->cylinder.radius);
+	box->max = create_vec3(fmax(e.e1.x, e.e2.x) + o->cylinder.radius,
+			fmax(e.e1.y, e.e2.y) + o->cylinder.radius,
+			fmax(e.e1.z, e.e2.z) + o->cylinder.radius);
 }
 
 t_aabb	build_box(t_objects *o)
 {
-	t_aabb	box;
-	t_vec3	half_axis;
-	t_vec3	e1;
-	t_vec3	e2;
+	t_aabbs	t;
 
-	box.max = create_vec3(0, 0, 0);
-	box.min = create_vec3(0, 0, 0);
+	t.box.max = create_vec3(0, 0, 0);
+	t.box.min = create_vec3(0, 0, 0);
 	if (o->type == OBJ_SPHERE)
 	{
-		box.min = create_vec3(o->sphere.point.x - o->sphere.radius,
+		t.box.min = create_vec3(o->sphere.point.x - o->sphere.radius,
 				o->sphere.point.y - o->sphere.radius,
 				o->sphere.point.z - o->sphere.radius);
-		box.max = create_vec3(o->sphere.point.x + o->sphere.radius,
+		t.box.max = create_vec3(o->sphere.point.x + o->sphere.radius,
 				o->sphere.point.y + o->sphere.radius,
 				o->sphere.point.z + o->sphere.radius);
 	}
 	else if (o->type == OBJ_CYLINDER)
-	{
-		if (vec_len_sq(o->cylinder.axis) > 0.0)
-			half_axis = vec_mul(unit_vec(o->cylinder.axis),
-					o->cylinder.height / 2.0);
-		else
-			half_axis = create_vec3(0, 0, 0);
-		e1 = vec_add(o->cylinder.center, half_axis);
-		e2 = vec_sub(o->cylinder.center, half_axis);
-		box.min = create_vec3(fmin(e1.x, e2.x) - o->cylinder.radius,
-				fmin(e1.y, e2.y) - o->cylinder.radius,
-				fmin(e1.z, e2.z) - o->cylinder.radius);
-		box.max = create_vec3(fmax(e1.x, e2.x) + o->cylinder.radius,
-				fmax(e1.y, e2.y) + o->cylinder.radius,
-				fmax(e1.z, e2.z) + o->cylinder.radius);
-	}
-	return (box);
+		build_cylinder(&t.box, o, t.half_axis, t);
+	return (t.box);
 }
 
 double	get_box_point_n(t_aabb *aabb, int n, int min, int max)

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 14:48:28 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 11:34:13 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/28 18:12:13 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ typedef struct s_slab_args
 	double	*t_min;
 	double	*t_max;
 }			t_slab_args;
+
+typedef struct s_aabbs
+{
+	t_aabb		box;
+	t_vec3		half_axis;
+	t_vec3		e1;
+	t_vec3		e2;
+}				t_aabbs;
 
 t_aabb	build_box(t_objects *o);
 t_aabb	surround_box(t_aabb a, t_aabb b);

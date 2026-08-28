@@ -117,7 +117,7 @@ WORLDSRC := world_op.c
 WORLD := $(addprefix $(WORLDDIR)/,$(WORLDSRC))
 
 AABBDIR := src/aabb
-AABBSRC := aabb.c bvh.c interval.c
+AABBSRC := aabb.c bvh.c interval.c aabb_helper.c
 AABB := $(addprefix $(AABBDIR)/,$(AABBSRC))
 
 SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(INT) $(PARSE) $(WORLD) $(OBJMV) $(MAT) $(AABB) $(TP)
