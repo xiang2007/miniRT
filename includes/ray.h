@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 12:15:34 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/29 17:33:43 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 05:26:05 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ typedef struct s_hit_dat
 	t_material	*mat;
 	t_objects	*hit_obj;
 }	t_hit_dat;
+
+typedef struct s_cylinder_args
+{
+	t_cylinder	*cy;
+	t_ray		*ray;
+	double		r_max;
+	t_hit_dat	*rec;
+}				t_cylinder_args;
 
 typedef struct s_hit_sphere
 {
@@ -60,6 +68,30 @@ typedef struct s_lightning
 	double		falloff;
 }				t_lightning;
 
+typedef struct	s_recurse_l_hit
+{
+	t_objects	*obj;
+	t_color		result;
+	t_vec3		out_dir;
+	t_vec3		light_dir;
+	t_ray		shadow_ray;
+	double		alignment;
+	double		accept_cos;
+	double		intensity;
+	double		distance;
+}				t_recurse_l_hit;
+
+typedef struct	s_metal_shade
+{
+	t_metal	*metal;
+	t_vec3	reflected;
+	t_vec3	fuzzy;
+	t_ray	scattered;
+	t_color	bounced;
+	t_color	light_hits;
+	double	fuzz;
+}				t_metal_shade;
+
 bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec);
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world);
@@ -71,5 +103,20 @@ t_vec3	ray_pos(t_ray *r, double t);
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec);
 double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec);
 double	hit_cylinder(t_cylinder *cy, t_ray *ray, double r_max, t_hit_dat *rec);
+double	hit_cap(t_cylinder_args *args, const t_vec3 *center,
+			const t_vec3 *normal);
+void	hit_cylinder_tube(t_cylinder_hit *hit, t_cylinder_args *args);
+void	hit_cylinder_tube2(t_cylinder_hit *hit, t_cylinder_args *args);
+void	hit_cylinder_caps(t_cylinder_hit *hit, t_cylinder_args *args);
+
+t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light);
+double	light_attenuation(t_light light, double distance);
+t_color	ambient_light(t_world *w);
+bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
+t_color	recursive_light_hits(t_hit_dat *rec, t_world *w, const t_ray *outgoing, double fuzz, t_color tint);
+t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
+t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
+bool	material_is_transparent(t_objects *o);
+bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
 
 #endif

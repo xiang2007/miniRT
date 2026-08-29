@@ -85,8 +85,12 @@ COLSRC := color.c \
 COL := $(addprefix $(COLDIR)/,$(COLSRC))
 
 RAYDIR := src/ray
-RAYSRC := ray.c \
-		  ray_utils.c
+RAYSRC := lightning.c \
+		  lightning2.c \
+		  ray.c \
+		  ray_utils.c \
+		  material.c \
+		  shade.c
 RAY := $(addprefix $(RAYDIR)/,$(RAYSRC))
 
 CAMDIR := src/camera
@@ -109,7 +113,8 @@ OBJMVSRC := obj_move.c obj_move_utils.c
 OBJMV := $(addprefix $(OBJMVDIR)/,$(OBJMVSRC))
 
 INTDIR := src/intersection
-INTSRC := intersection_hit.c
+INTSRC := intersection_hit.c \
+		  intersection_hit2.c
 INT := $(addprefix $(INTDIR)/,$(INTSRC))
 
 WORLDDIR := src/world

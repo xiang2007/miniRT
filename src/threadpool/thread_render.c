@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_render.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 19:18:45 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/14 19:18:45 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/08/29 00:48:52 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 
 void	render_tile(t_tile tile, t_rt *rt_dat)
 {
-	// clock_t	start;
-	// clock_t	end;
 	t_spp	spp;
 	int		y;
 
@@ -36,53 +34,47 @@ void	render_tile(t_tile tile, t_rt *rt_dat)
 	spp.max_bounce_depth = rt_dat->max_bounce_depth;
 	spp.spp = rt_dat->samples_per_pixel;
 	spp.pss = 1.0 / rt_dat->samples_per_pixel;
-	// start = clock();
 	while (y < tile.end_y)
 	{
 		render_row(tile, spp, y, rt_dat);
 		y++;
 	}
-	// end = clock();
-	// printf("Chunk took %f seconds to execute \n", ((double)(end - start)) / CLOCKS_PER_SEC);
 }
 
-static void	fill_tile(t_threadpool *tp, t_rt *rt, int px, int py, int i)
+static void	fill_tile(t_threads *td)
 {
-	tp->tiles[i].start_x = px;
-	tp->tiles[i].start_y = py;
-	tp->tiles[i].end_x = fmin(px + TILE_SIZE, rt->img_w);
-	tp->tiles[i].end_y = fmin(py + TILE_SIZE, rt->img_h);
+	td->tp->tiles[td->i].start_x = td->px;
+	td->tp->tiles[td->i].start_y = td->py;
+	td->tp->tiles[td->i].end_x = fmin(td->px + TILE_SIZE, td->rt->img_w);
+	td->tp->tiles[td->i].end_y = fmin(td->py + TILE_SIZE, td->rt->img_h);
 }
 
 void	queue_tiles(t_threadpool *tp)
 {
-	t_rt	*rt;
-	int		px;
-	int		py;
-	int		i;
+	t_threads	td;
 
-	rt = tp->engine;
-	rt->render_start = monotonic_seconds();
-	i = 0;
-	py = 0;
-	while (py < rt->img_h)
+	td.tp = tp;
+	td.rt = tp->engine;
+	td.rt->render_start = monotonic_seconds();
+	td.i = 0;
+	td.py = 0;
+	while (td.py < td.rt->img_h)
 	{
-		px = 0;
-		while (px < rt->img_w)
+		td.px = 0;
+		while (td.px < td.rt->img_w)
 		{
-			fill_tile(tp, rt, px, py, i);
-			i++;
-			px += TILE_SIZE;
+			fill_tile(&td);
+			td.i++;
+			td.px += TILE_SIZE;
 		}
-		py += TILE_SIZE;
+		td.py += TILE_SIZE;
 	}
 	pthread_mutex_lock(&tp->queue_mutex);
-	tp->tile_count = i;
+	tp->tile_count = td.i;
 	tp->tile_next = 0;
 	pthread_cond_broadcast(&tp->queue_cond);
 	pthread_mutex_unlock(&tp->queue_mutex);
 }
-
 
 double	monotonic_seconds(void)
 {
@@ -98,6 +90,7 @@ void	queue_render(t_rt *win)
 		return ;
 	win->is_rendering = true;
 	mlx_swap_buffers(win->mlx_dat);
-	ft_memset(win->mlx_dat->addr, 0, (size_t)win->mlx_dat->line_length * win->img_h);
+	ft_memset(win->mlx_dat->addr, 0,
+			(size_t)win->mlx_dat->line_length * win->img_h);
 	queue_tiles(win->tp);
 }

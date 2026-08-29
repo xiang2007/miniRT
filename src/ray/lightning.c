@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lighting.c                                         :+:      :+:    :+:   */
+/*   lightning.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 15:59:54 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/26 23:58:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 03:56:34 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,29 @@
 #include "../../includes/ray.h"
 #include "../../includes/aabb.h"
 #include "minirt.h"
-#include <math.h>
-#include <float.h>
-#include <stdbool.h>
-#include <stddef.h>
+
+
+double	light_attenuation(t_light light, double distance)
+{
+	double	physical_intensity;
+	double	attenuation;
+
+	physical_intensity = light.brightness_ratio * LIGHT_WATTAGE;
+	attenuation = physical_intensity / ((distance * distance) + 0.001);
+	return (attenuation);
+}
+
+static double	material_fuzz(const t_material *mat)
+{
+	t_metal	*metal;
+
+	if (mat && mat->scatter == metal_scatter)
+	{
+		metal = (t_metal *)mat;
+		return (metal->fuzziness);
+	}
+	return (0.0);
+}
 
 static t_color	material_albedo(const t_material *mat, t_color fallback)
 {

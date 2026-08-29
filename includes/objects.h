@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:49:56 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/29 17:39:09 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 10:42:11 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,29 @@ struct s_objects
 	};
 	t_objects	*next;
 };
+
+typedef struct s_cylinder_hit
+{
+	t_vec3	x;
+	t_vec3	p;
+	t_vec3	half_axis;
+	t_vec3	top_center;
+	t_vec3	bot_center;
+	t_vec3	neg_axis;
+	t_vec3	outward_normal;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	double	root;
+	double	m;
+	double	d_dot_v;
+	double	x_dot_v;
+	double	t_tube;
+	double	t_top;
+	double	t_bot;
+	double	t_best;
+}				t_cylinder_hit;
 
 typedef struct s_world
 {

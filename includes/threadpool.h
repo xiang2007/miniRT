@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tpool.h                                            :+:      :+:    :+:   */
+/*   threadpool.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 19:02:45 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/14 19:02:45 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/08/29 05:18:50 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "minirt.h"
 #include <pthread.h>
+#include <stdbool.h>
 
 # define TILE_SIZE 64
 
@@ -40,6 +41,15 @@ typedef struct s_threadpool
 	pthread_t		*thread_id;
 	t_rt			*engine;
 }	t_threadpool;
+
+typedef struct s_threads
+{
+	t_threadpool	*tp;
+	t_rt			*rt;
+	int				px;
+	int				py;
+	int				i;
+}				t_threads;
 
 t_threadpool	*threadpool_create(t_rt *engine, int thread_count);
 void			*threadpool_worker(void *arg);

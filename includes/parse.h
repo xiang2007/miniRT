@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 00:00:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/29 17:57:27 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 02:44:27 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,8 @@ void		parse_free_objects(t_objects *o);
 
 // Main parsing function
 void		parse_world(t_world *w, t_objects *o);
+
+// helper functions
+t_objects	*parse_plane_helper(int id, char **res);
 
 #endif

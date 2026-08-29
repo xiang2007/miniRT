@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/23 17:09:18 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 02:44:32 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_objects	**obj2arr(t_objects *o)
 	i = 0;
 	while (head)
 	{
-		if (head->type == OBJ_SPHERE ||head->type == OBJ_CYLINDER)
+		if (head->type == OBJ_SPHERE || head->type == OBJ_CYLINDER)
 			res[i++] = head;
 		head = head->next;
 	}

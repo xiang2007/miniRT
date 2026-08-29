@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/07 21:47:32 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 03:56:44 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include "threadpool.h"
 #include <stdbool.h>
+#include <math.h>
+#include <float.h>
+#include <stddef.h>
 # define WIDTH 600
 // # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define ASPECT_RATIO 1.0

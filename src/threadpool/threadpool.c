@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threadpool.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydylan-k <ydylan-k@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/15 13:05:54 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/15 13:05:54 by ydylan-k         ###   ########.fr       */
+/*   Updated: 2026/08/29 00:48:36 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,9 @@ t_threadpool	*threadpool_create(t_rt *engine, int thread_count)
 		return (free(tp->tiles), free(tp), NULL);
 	pthread_mutex_init(&tp->queue_mutex, NULL);
 	pthread_cond_init(&tp->queue_cond, NULL);
-	i = 0;
-	while (i < thread_count)
-	{
+	i = -1;
+	while (i++ < thread_count)
 		pthread_create(&tp->thread_id[i], NULL, threadpool_worker, tp);
-		i++;
-	}
 	return (tp);
 }
 
