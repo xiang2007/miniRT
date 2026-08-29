@@ -13,6 +13,7 @@
 #include "../../includes/vec3.h"
 #include "../../includes/material.h"
 #include <stdlib.h>
+#include "color.h"
 
 t_material	*create_lambertian(const t_color cl)
 {

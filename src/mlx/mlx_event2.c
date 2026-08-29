@@ -19,12 +19,6 @@
 #include <stdio.h>
 #include "color.h"
 
-void	handle_key_z(t_rt *win)
-{
-	reset_res(win);
-	queue_render(win);
-}
-
 void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
 {
 	*axis = create_vec3(0, 0, 0);
