@@ -23,6 +23,8 @@ t_material	*create_lambertian(const t_color cl)
 		return (NULL);
 	lam->base.scatter = &lambertian_scatter;
 	lam->albedo = cl;
+	lam->checker_color = create_color(0, 0, 0);
+	lam->checker_size = 0.0;
 	return ((t_material *)lam);
 }
 

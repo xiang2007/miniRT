@@ -27,7 +27,7 @@
 # define SHIRNK 0.3
 # define MAX_BOUNCE 50
 # define LOW_RES_BOUNCE 10
-# define LOW_RES_SPP 1
+# define LOW_RES_SPP 3
 # define SPP 100
 # define PI 3.14159265358979323846
 

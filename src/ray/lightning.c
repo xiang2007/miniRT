@@ -45,6 +45,8 @@ static t_color	material_albedo(const t_material *mat, t_color fallback)
 	if (mat->scatter == dielectric_scatter)
 		return (create_color(1.0, 1.0, 1.0));
 	lam = (t_lambertian *)mat;
+	if (mat->scatter == lambertian_scatter && lam->checker_size > 0.0)
+		return (fallback);	/* hit_plane set rec->color to the checker cell */
 	return (lam->albedo);
 }
 

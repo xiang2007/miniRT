@@ -91,6 +91,8 @@ static void	dispatch_key(int key, t_rt *win)
 		win->show_controls = !win->show_controls;
 		draw_controls(win);
 	}
+	if (key == XK_c)
+		handle_toggle_checker(win);
 }
 
 /**

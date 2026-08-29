@@ -13,6 +13,7 @@
 #ifndef MATERIAL_H
 # define MATERIAL_H
 
+#include "vec3.h"
 typedef struct s_ray		t_ray;
 typedef struct s_hit_dat	t_hit_dat;
 
@@ -36,6 +37,8 @@ typedef struct s_lambertian
 {
 	t_material	base;
 	t_color		albedo;
+	t_color		checker_color;
+	double		checker_size;
 }				t_lambertian;
 
 typedef struct s_metal

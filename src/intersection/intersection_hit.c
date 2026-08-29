@@ -12,6 +12,11 @@
 
 #include "../../includes/ray.h"
 #include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include "vec3.h"
+#include <stdio.h>
+#include "material.h"
 
 void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec)
 {
@@ -58,6 +63,44 @@ double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec)
 	return (dat.root);
 }
 
+static t_color	plane_color(const t_plane *p, const t_vec3 *point,
+		const t_vec3 *normal)
+{
+	t_lambertian	*lam;
+	t_vec3			tangent;
+	t_vec3			bitangent;
+	t_vec3			rel;
+	double			u;
+	double			v;
+
+	lam = (t_lambertian *)p->material;
+	if (!lam || lam->base.scatter != lambertian_scatter
+		|| lam->checker_size <= 0.0)
+		return (p->color);
+	if (fabs(normal->y) < 0.99)
+		tangent = unit_vec(vec_cross(*normal, create_vec3(0, 1, 0)));
+	else
+		tangent = unit_vec(vec_cross(*normal, create_vec3(1, 0, 0)));
+	bitangent = vec_cross(*normal, tangent);
+	rel = vec_sub(*point, p->center);
+	u = vec_dot(rel, tangent);
+	v = vec_dot(rel, bitangent);
+	if ((((int)floor(u / lam->checker_size))
+			+ ((int)floor(v / lam->checker_size))) % 2 == 0)
+		return (lam->albedo);
+	return (lam->checker_color);
+}
+
+t_color	lerp_colour(t_color base, t_color tint, float strength)
+{
+	t_color	final;
+
+	final.r = (base.r * (1.0 - strength)) + (tint.r * strength);
+	final.g = (base.g * (1.0 - strength)) + (tint.g * strength);
+	final.b = (base.b * (1.0 - strength)) + (tint.b * strength);
+	return (final);
+}
+
 /**
  * @brief Calculates whether the ray hits the plane
  *
@@ -84,9 +127,24 @@ double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 		return (-1);
 	rec->t = t;
 	rec->point = ray_pos(ray, t);
-	rec->color = p->color;
 	set_face_normal(ray, &normal, rec);
 	rec->mat = p->material;
+
+	t_vec3	helper = (fabs(rec->normal.y) > 0.999) ? create_vec3(1, 0, 0) : create_vec3(0, 1, 0);
+	t_vec3	u_axis = unit_vec(vec_cross(helper, rec->normal));
+	t_vec3	v_axis = unit_vec(vec_cross(rec->normal, u_axis));
+	t_vec3 hit_vector = vec_sub(rec->point, p->center);
+	float local_u = vec_dot(hit_vector, u_axis);
+	float local_v = vec_dot(hit_vector, v_axis);
+	float	scale = 1.0;
+	int		check_u = (int)floor(local_u * scale);
+	int		check_v = (int)floor(local_v * scale);
+	if (abs((check_u + check_v) % 2) == 0)
+	{	
+		rec->color = lerp_colour(p->color, (t_color) {.r = 0.1, .g = 0.1, .b = 0.1}, 0.3);
+	}
+	else
+		rec->color = plane_color(p, &rec->point, &normal);
 	return (t);
 }
 

@@ -17,6 +17,13 @@
 #include "parse.h"
 #include <X11/keysym.h>
 #include <stdio.h>
+#include "color.h"
+
+void	handle_key_z(t_rt *win)
+{
+	reset_res(win);
+	queue_render(win);
+}
 
 void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
 {
@@ -88,6 +95,7 @@ static const char	*g_controls[] = {
 	"W A S D       move camera",
 	"Q E           move camera (down/up)",
 	"Z             full quality",
+	"C             toggle checker",
 	NULL
 };
 
@@ -116,4 +124,25 @@ void	draw_controls(t_rt *rt)
 	snprintf(buf, sizeof(buf), "Render: %.2f s", rt->render_time);
 	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
 		x, y, 0xFFD700, buf);
+}
+
+void	handle_toggle_checker(t_rt *win)
+{
+	t_lambertian	*lam;
+	t_objects		*o;
+
+	o = win->sel_obj;
+	if (!o || o->type != OBJ_PLANE)
+		return ;
+	lam = (t_lambertian *)o->plane.material;
+	if (!lam || lam->base.scatter != lambertian_scatter)
+		return ;
+	if (lam->checker_size > 0.0)
+		lam->checker_size = 0.0;
+	else
+	{
+		lam->checker_size = 1.0;
+		lam->checker_color = create_color(1.0, 1.0, 1.0);
+	}
+	queue_render(win);
 }
