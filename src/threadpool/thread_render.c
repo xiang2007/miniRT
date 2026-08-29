@@ -6,20 +6,16 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 19:18:45 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/29 00:48:52 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:24:44 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "threadpool.h"
 #include "render.h"
-#include "../../includes/minirt.h"
-#include "../../includes/objects.h"
-#include "../../includes/render.h"
 #include "../../includes/mlx_dat.h"
 #include <pthread.h>
 #include <stddef.h>
-#include <stdio.h>
 #include <time.h>
 #include <math.h>
 
@@ -91,6 +87,6 @@ void	queue_render(t_rt *win)
 	win->is_rendering = true;
 	mlx_swap_buffers(win->mlx_dat);
 	ft_memset(win->mlx_dat->addr, 0,
-			(size_t)win->mlx_dat->line_length * win->img_h);
+		(size_t)win->mlx_dat->line_length * win->img_h);
 	queue_tiles(win->tp);
 }

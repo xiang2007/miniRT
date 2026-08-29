@@ -6,25 +6,25 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 19:02:45 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/29 05:18:50 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:26:04 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef THREADPOOL_H
 # define THREADPOOL_H
 
-#include "minirt.h"
-#include <pthread.h>
-#include <stdbool.h>
+# include "minirt.h"
+# include <pthread.h>
+# include <stdbool.h>
 
 # define TILE_SIZE 64
 
 typedef struct s_tile
 {
-    int		start_x;
-    int		start_y;
-    int		end_x;
-    int		end_y;
+	int		start_x;
+	int		start_y;
+	int		end_x;
+	int		end_y;
 }	t_tile;
 
 typedef struct s_threadpool

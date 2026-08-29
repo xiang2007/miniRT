@@ -11,10 +11,7 @@
 /* ************************************************************************** */
 
 #include "threadpool.h"
-#include "../../includes/minirt.h"
-#include "../../includes/mlx_dat.h"
 #include "../../includes/parse.h"
-#include "objects.h"
 #include <X11/keysym.h>
 #include <stdio.h>
 

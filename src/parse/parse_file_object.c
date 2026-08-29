@@ -11,10 +11,7 @@
 /* ************************************************************************** */
 
 #include "threadpool.h"
-#include "minirt.h"
 #include "../../includes/parse.h"
-#include "../../includes/material.h"
-#include "objects.h"
 
 int	parse_ambient(int id, char *s, t_objects **obj)
 {

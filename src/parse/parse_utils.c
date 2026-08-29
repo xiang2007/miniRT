@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "threadpool.h"
-#include "minirt.h"
 #include "../../includes/parse.h"
 
 void	print_str_arr(char **str_arr)

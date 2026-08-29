@@ -10,15 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../mlx_Linux/mlx.h"
 #include "threadpool.h"
-#include "../../includes/parse.h"
-#include "../../includes/minirt.h"
 #include "../../includes/mlx_dat.h"
-#include "../../includes/render.h"
 #include "../../includes/aabb.h"
-#include "../../includes/camera.h"
-#include "objects.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 

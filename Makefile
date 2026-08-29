@@ -57,7 +57,8 @@ MLXDIR := src/mlx
 MLXSRC := mlx_dat.c \
 		  mlx_util.c \
 		  mlx_event.c \
-		  mlx_event2.c
+		  mlx_event2.c \
+		  mlx_event3.c
 MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 
 PARSEDIR := src/parse
@@ -75,7 +76,8 @@ VECSRC := vec3_op.c \
 		  vec3_util.c \
 		  point_op.c \
 		  vec3_rand.c \
-		  vec3_rand2.c
+		  vec3_rand2.c \
+		  vec3_op2.c
 VEC := $(addprefix $(VECDIR)/,$(VECSRC))
 
 COLDIR := src/color

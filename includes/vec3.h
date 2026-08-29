@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 21:39:18 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/29 17:49:03 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:27:42 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdbool.h>
 # include "libft.h"
+# include <math.h>
 
 typedef struct s_vec3
 {
@@ -54,7 +55,7 @@ t_vec3		vec_cross(t_vec3 a, t_vec3 b);
 double		vec_dot(t_vec3 a, t_vec3 b);
 t_vec3		unit_vec(t_vec3 a);
 
-t_vec3	vec_rotate(t_vec3 v, t_vec3 axis, double angle);
+t_vec3		vec_rotate(t_vec3 v, t_vec3 axis, double angle);
 
 t_point3	sub_point(t_point3 p1, t_point3 p2);
 

@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
-#include "../../includes/objects.h"
 #include "../../includes/ray.h"
-#include "material.h"
 #include <math.h>
-#include <stdbool.h>
 
 static bool	gtost(double t_cmp, double gt, double st)
 {

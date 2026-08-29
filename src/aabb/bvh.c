@@ -12,7 +12,6 @@
 
 #include "aabb.h"
 #include "ray.h"
-#include <stddef.h>
 #include <stdlib.h>
 
 int	bvh_size(t_objects **obj)

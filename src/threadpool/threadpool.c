@@ -12,12 +12,7 @@
 
 #include "threadpool.h"
 #include "libft.h"
-#include <bits/pthreadtypes.h>
-#include <pthread.h>
-#include <stddef.h>
 #include <stdlib.h>
-#include <time.h>
-#include <stdio.h>
 
 static bool	claim_tile(t_threadpool *tp, t_tile *tile)
 {

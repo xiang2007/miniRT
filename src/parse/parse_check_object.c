@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "threadpool.h"
-#include "minirt.h"
 #include "../../includes/parse.h"
 
 int	check_ambient_lightning(char *s)

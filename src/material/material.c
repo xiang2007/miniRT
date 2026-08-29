@@ -6,20 +6,14 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 01:53:54 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/28 18:58:51 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:17:05 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/objects.h"
 #include "../../includes/vec3.h"
 #include "../../includes/material.h"
-
 #include <math.h>
-
 #include "../../includes/ray.h"
-#include <stdlib.h>
-#include <stdbool.h>
-
 #include "../../includes/color.h"
 
 bool	lambertian_scatter(t_scatter_args *args)
@@ -92,6 +86,6 @@ bool	dielectric_scatter(t_scatter_args *args)
 		dat.ri = 1.0 / dat.ri;
 	dielectric_pick_direction(args, &dat);
 	*args->scattered = ray(vec_add(args->rec->point,
-			vec_mul(dat.direction, 0.001)), dat.direction);
+				vec_mul(dat.direction, 0.001)), dat.direction);
 	return (true);
 }

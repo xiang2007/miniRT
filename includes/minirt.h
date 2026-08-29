@@ -6,20 +6,19 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:57:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 03:56:44 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:27:31 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-#include "threadpool.h"
-#include <stdbool.h>
-#include <math.h>
-#include <float.h>
-#include <stddef.h>
+# include "threadpool.h"
+# include <stdbool.h>
+# include <math.h>
+# include <float.h>
+# include <stddef.h>
 # define WIDTH 600
-// # define ASPECT_RATIO 1.7777777777777777777777777777778
 # define ASPECT_RATIO 1.0
 # define PANEL_W 300
 # define MOVE_X 0.3
@@ -37,7 +36,7 @@
 
 # include "objects.h"
 
-typedef struct s_threadpool t_threadpool;
+typedef struct s_threadpool	t_threadpool;
 typedef struct s_cam		t_cam;
 typedef struct s_world		t_world;
 typedef struct s_objects	t_objects;
@@ -70,28 +69,28 @@ typedef struct s_mlx
  */
 typedef struct s_rt
 {
-	int			init;
-	int			img_h;
-	int			img_w;
-	int			max_bounce_depth;
-	int			old_max_bounce_depth;
-	int			samples_per_pixel;
-	int			old_sampels_per_pixel;
-	int			show_controls;
-	double		pixel_samples_scale;
-	double		old_pixel_samples_scale;
-	double		aspect_ratio;
-	t_mlx		*mlx_dat;
-	t_cam		*cam;
-	t_world		world;
-	t_objects	*sel_obj;
-	char		*test_file;
-	bool		is_rendering;
+	int				init;
+	int				img_h;
+	int				img_w;
+	int				max_bounce_depth;
+	int				old_max_bounce_depth;
+	int				samples_per_pixel;
+	int				old_sampels_per_pixel;
+	int				show_controls;
+	double			pixel_samples_scale;
+	double			old_pixel_samples_scale;
+	double			aspect_ratio;
+	t_mlx			*mlx_dat;
+	t_cam			*cam;
+	t_world			world;
+	t_objects		*sel_obj;
+	char			*test_file;
+	bool			is_rendering;
 	t_threadpool	*tp;
-	int			pending_key;
-	bool		has_pending;
-	double		render_start;
-	double		render_time;
+	int				pending_key;
+	bool			has_pending;
+	double			render_start;
+	double			render_time;
 }				t_rt;
 
 // typedef struct s_interval

@@ -10,17 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/objects.h"
 #include "../../includes/vec3.h"
 #include "../../includes/material.h"
-
-#include <math.h>
-
-#include "../../includes/ray.h"
 #include <stdlib.h>
-#include <stdbool.h>
-
-#include "../../includes/color.h"
 
 t_material	*create_lambertian(const t_color cl)
 {

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/ray.h"
-#include "../../includes/vec3.h"
 
 double	get_ray_vec_n(t_ray *ray, int n)
 {

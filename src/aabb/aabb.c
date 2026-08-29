@@ -6,15 +6,14 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 14:50:32 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/28 18:27:15 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:17:36 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/aabb.h"
 #include "../../includes/ray.h"
-#include "vec3.h"
 
-void build_cylinder(t_aabb *box, t_objects *o, t_vec3 half_axis, t_aabbs e)
+void	build_cylinder(t_aabb *box, t_objects *o, t_vec3 half_axis, t_aabbs e)
 {
 	if (vec_len_sq(o->cylinder.axis) > 0.0)
 		half_axis = vec_mul(unit_vec(o->cylinder.axis),

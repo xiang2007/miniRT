@@ -6,20 +6,15 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 05:24:09 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:03:26 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
-#include "../../includes/color.h"
-#include "../../includes/objects.h"
-#include "../../includes/material.h"
 #include "../../includes/ray.h"
+#include "../../includes/color.h"
+#include "../../includes/material.h"
 #include "../../includes/aabb.h"
-#include "minirt.h"
 #include <math.h>
-#include <float.h>
-#include <stdbool.h>
 #include <stddef.h>
 
 /**
@@ -69,7 +64,7 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 			hit_anything = true;
 			c = t_rec.t;
 			*rec = t_rec;
-			rec->hit_obj = t; /* NEW: planes aren't in the BVH */
+			rec->hit_obj = t;
 		}
 		t = t->next;
 	}
@@ -93,18 +88,6 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
 	return (result);
 }
 
-// static t_color	background_gradient(const t_ray *r)
-// {
-// 	double	a;
-// 	t_vec3	u_dir;
-
-// 	u_dir = unit_vec(r->vec);
-// 	a = 0.5 * (u_dir.y + 1.0);
-// 	return (color_add(
-// 			color_mul_n(create_color(1.0, 1.0, 1.0), (1.0 - a)),
-// 			color_mul_n(create_color(0.5, 0.7, 1.0), a)));
-// }
-
 /**
  * @brief For recursive materials: find point lights aligned with the
  * outgoing ray, verify visibility with a shadow ray, add specular color.
@@ -120,7 +103,7 @@ t_color	recursive_light_hits(t_hit_dat *rec, t_world *w,
 
 	t.result = create_color(0, 0, 0);
 	t.out_dir = unit_vec(outgoing->vec);
-	t.accept_cos = 1.0 - fuzz;			/* dynamic threshold */
+	t.accept_cos = 1.0 - fuzz;
 	t.obj = w->objs;
 	while (t.obj)
 	{
@@ -137,7 +120,7 @@ t_color	recursive_light_hits(t_hit_dat *rec, t_world *w,
 				if (!shadow_hit(w, &t.shadow_ray, t.distance, rec->hit_obj))
 				{
 					if (fuzz < 1e-6)
-						t.intensity = 1.0;	/* perfect mirror: exact hit */
+						t.intensity = 1.0;
 					else
 						t.intensity = (t.alignment - t.accept_cos) / (1.0 - t.accept_cos);
 					t.result = color_add(t.result, color_mul_n(
@@ -167,10 +150,10 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 	if (bounce_depth <= 0)
 		return (ambient_light(world));
 	if (!hit_list(r, world, &rec))
-		return (ambient_light(world));	/* was: background_gradient(r) */
+		return (ambient_light(world));
 	if (rec.mat && rec.mat->scatter == metal_scatter)
 		return (metal_shade(&rec, world, r, bounce_depth));
 	if (rec.mat && rec.mat->scatter == dielectric_scatter)
 		return (dielectric_shade(&rec, world, r, bounce_depth));
-	return (all_lights(&rec, world, r));	/* lambertian + planes (mat == NULL): unchanged */
+	return (all_lights(&rec, world, r));
 }

@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include "threadpool.h"
-#include "minirt.h"
 #include "../../includes/parse.h"
 
 int	check_cords(char *s)

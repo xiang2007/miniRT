@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/aabb.h"
-#include "../../includes/ray.h"
 
 t_aabb	surround_box(t_aabb a, t_aabb b)
 {

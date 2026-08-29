@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
-#include "../../includes/objects.h"
 #include "../../includes/ray.h"
-#include "material.h"
 #include <math.h>
-#include <stdbool.h>
 
 void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec)
 {

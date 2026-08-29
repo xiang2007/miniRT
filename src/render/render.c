@@ -6,21 +6,15 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 21:07:24 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/07/28 07:39:47 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:24:20 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
 #include "../../includes/objects.h"
 #include "../../includes/minirt.h"
-#include "../../includes/ray.h"
-// #include "../../includes/camera.h"
 #include "../../includes/color.h"
 #include "../../includes/mlx_dat.h"
 #include "../../includes/render.h"
-// #include "threadpool.h"
-// #include <time.h>
-// #include <stdio.h>
 
 t_color	spp_loop(t_spp spp, int n)
 {
@@ -80,7 +74,6 @@ void	render_row(t_tile tile, t_spp spp, int y, t_rt *rt_dat)
 // 	t_spp	spp;
 // 	t_tile_job	*tiles;
 
-	
 // 	h = 0;
 // 	spp.w = world;
 // 	spp.c = c;

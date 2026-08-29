@@ -11,10 +11,8 @@
 /* ************************************************************************** */
 
 #include "threadpool.h"
-#include "minirt.h"
 #include "../../includes/parse.h"
 #include "../../includes/aabb.h"
-#include "objects.h"
 
 static t_objects	*parse_create_object(t_objects *o)
 {

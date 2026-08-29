@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 12:15:34 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/29 05:26:05 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:26:46 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_lightning
 	double		falloff;
 }				t_lightning;
 
-typedef struct	s_recurse_l_hit
+typedef struct s_recurse_l_hit
 {
 	t_objects	*obj;
 	t_color		result;
@@ -81,7 +81,7 @@ typedef struct	s_recurse_l_hit
 	double		distance;
 }				t_recurse_l_hit;
 
-typedef struct	s_metal_shade
+typedef struct s_metal_shade
 {
 	t_metal	*metal;
 	t_vec3	reflected;

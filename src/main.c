@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/07 21:46:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:25:02 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "../mlx_Linux/mlx.h"
 #include <pthread.h>
 #include <stdlib.h>
-#include <X11/keysym.h>
 #include "threadpool.h"
 
 void	get_setup_cam(t_setup_cam *s, t_objects *objs)
@@ -84,7 +83,6 @@ int	parse_and_render(t_rt *rt_dat, t_threadpool *tp)
 		rt_dat->is_rendering = true;
 		queue_tiles(tp);
 	}
-	// render(rt_dat, rt_dat->cam, &rt_dat->world);
 	return (0);
 }
 
@@ -101,7 +99,7 @@ int	mlx_render_loop(void *param)
 	if (is_done && tp->engine->is_rendering)
 	{
 		tp->engine->render_time = monotonic_seconds()
-				- tp->engine->render_start;
+			- tp->engine->render_start;
 		printf("Render took %.2f s\n", tp->engine->render_time);
 		mlx_put_to_window(tp->engine->mlx_dat);
 		draw_controls(tp->engine);

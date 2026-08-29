@@ -6,18 +6,13 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 15:59:54 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 03:56:34 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:06:44 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
-#include "../../includes/color.h"
-#include "../../includes/objects.h"
-#include "../../includes/material.h"
 #include "../../includes/ray.h"
-#include "../../includes/aabb.h"
+#include "../../includes/color.h"
 #include "minirt.h"
-
 
 double	light_attenuation(t_light light, double distance)
 {
@@ -67,7 +62,6 @@ static void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
 		l->reflected = vec_add(l->reflected, vec_mul(rand_unit_vec3(), fuzz));
 	l->reflected = unit_vec(l->reflected);
 	l->view_dir = unit_vec(vec_mul(r->vec, -1.0));
-	/* inside lightning(), dielectric only */
 	if (rec->mat && rec->mat->scatter == dielectric_scatter)
 		l->specular = pow(fmax(1.0 - vec_dot(rec->normal, l->view_dir), 0.0),
 				5.0);
@@ -89,7 +83,8 @@ t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 	{
 		lightning_helper(&l, rec, r, light);
 		l.result = color_add(
-				color_mul_n(material_albedo(rec->mat, rec->color), l.brightness),
+				color_mul_n(material_albedo(rec->mat, rec->color),
+					l.brightness),
 				color_mul_n(light.color, l.specular));
 		return (l.result);
 	}

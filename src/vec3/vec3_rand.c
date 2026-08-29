@@ -6,17 +6,15 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 17:22:52 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/07 21:41:11 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/29 11:09:35 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <float.h>
 #include <stdint.h>
 #include "../../libft/libft.h"
 #include <sys/time.h>
 #include "../../includes/vec3.h"
 #include <math.h>
-#include <stdio.h>
 
 static _Thread_local t_rng_state	g_rng;
 
@@ -27,26 +25,19 @@ static void	rng_seed(void)
 	uint32_t		seed;
 
 	gettimeofday(&time, NULL);
-	base = (uint32_t)(uintptr_t)&g_rng;	/* unique per thread */
+	base = (uint32_t)(uintptr_t) & g_rng;
 	seed = ((uint32_t)time.tv_sec ^ (base * 2654435761u));
 	if (seed == 0)
-		seed = 1;	/* xorshift(0) would lock to 0 */
+		seed = 1;
 	g_rng.seed.s = seed;
 	g_rng.init = true;
 }
 
 double	random_double(double min, double max)
 {
-	// struct timeval		time;
-	// static t_xorshift32	seed;
 	double				range;
 	double				div;
 
-	// if (seed.s == 0)
-	// {
-	// 	gettimeofday(&time, NULL);
-	// 	seed.s = time.tv_sec;
-	// }
 	if (!g_rng.init)
 		rng_seed();
 	range = max - min;
@@ -87,26 +78,4 @@ t_vec3	rand_on_hemi(const t_vec3 *normal)
 		return (on_unit_sphere);
 	else
 		return (vec_mul(on_unit_sphere, -1.0));
-}
-
-bool	near_zero(t_vec3 *vector)
-{
-	const double	s = 1e-8;
-
-	return ((fabs(vector->x) < s) && (fabs(vector->y) < s)
-		&& (fabs(vector->z) < s));
-}
-
-t_vec3	rand_in_unit_sphere(void)
-{
-	t_vec3	p;
-	double	lensq;
-
-	while (1)
-	{
-		p = vec3_rand(-1.0, 1.0);
-		lensq = vec_len_sq(p);
-		if (1e-160 < lensq && lensq < 1.0)
-			return (p);
-	}
 }

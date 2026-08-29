@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include "threadpool.h"
-#include "minirt.h"
-#include "../../includes/parse.h"
+#include "../../includes/objects.h"
 
 int	obj_size(t_objects *o)
 {

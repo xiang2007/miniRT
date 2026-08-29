@@ -11,15 +11,10 @@
 /* ************************************************************************** */
 
 #include "../includes/vec3.h"
-#include "../includes/camera.h"
-#include "../includes/minirt.h"
 #include "../includes/objects.h"
-#include "../includes/render.h"
+#include "../includes/minirt.h"
 #include "../includes/mlx_dat.h"
-#include "../includes/parse.h"
-#include "../mlx_Linux/mlx.h"
 #include <stdlib.h>
-#include <X11/keysym.h>
 
 /**
  * @brief Setup ray tracer config data like aspect ratio, image height & width
