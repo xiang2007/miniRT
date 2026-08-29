@@ -54,3 +54,13 @@ t_vec3	rand_in_unit_sphere(void)
 			return (p);
 	}
 }
+
+t_vec3	rand_on_hemi(const t_vec3 *normal)
+{
+	t_vec3	on_unit_sphere;
+
+	on_unit_sphere = rand_unit_vec3();
+	if (vec_dot(on_unit_sphere, *normal) > 0.0)
+		return (on_unit_sphere);
+	return (vec_mul(on_unit_sphere, -1.0));
+}

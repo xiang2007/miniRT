@@ -81,6 +81,15 @@ typedef struct s_recurse_l_hit
 	double		distance;
 }				t_recurse_l_hit;
 
+typedef struct s_recurse_args
+{
+	t_hit_dat	*rec;
+	t_world		*world;
+	const t_ray	*outgoing;
+	double		fuzz;
+	t_color		tint;
+}				t_recurse_args;
+
 typedef struct s_metal_shade
 {
 	t_metal	*metal;
@@ -113,7 +122,7 @@ t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light);
 double	light_attenuation(t_light light, double distance);
 t_color	ambient_light(t_world *w);
 bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
-t_color	recursive_light_hits(t_hit_dat *rec, t_world *w, const t_ray *outgoing, double fuzz, t_color tint);
+t_color	recursive_light_hits(t_recurse_args args);
 t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 bool	material_is_transparent(t_objects *o);

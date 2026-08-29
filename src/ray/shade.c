@@ -29,8 +29,8 @@ t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 	t.scattered = ray(vec_add(rec->point, vec_mul(t.fuzzy, 0.001)), t.fuzzy);
 	t.bounced = color_mul(t.metal->albedo,
 			ray_color(&t.scattered, depth - 1, w));
-	t.light_hits = recursive_light_hits(rec, w, &t.scattered,
-			t.fuzz, t.metal->albedo);
+	t.light_hits = recursive_light_hits((t_recurse_args){rec, w,
+			&t.scattered, t.fuzz, t.metal->albedo});
 	return (color_add(t.bounced, t.light_hits));
 }
 
@@ -50,8 +50,8 @@ t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 		return (create_color(0, 0, 0));
 	bounced = color_mul(*args.attenuation,
 			ray_color(args.scattered, depth - 1, w));
-	light_hits = recursive_light_hits(rec, w, args.scattered,
-			DIELECTRIC_FUZZ, *args.attenuation);
+	light_hits = recursive_light_hits((t_recurse_args){rec, w,
+			args.scattered, DIELECTRIC_FUZZ, *args.attenuation});
 	return (color_add(bounced, light_hits));
 }
 

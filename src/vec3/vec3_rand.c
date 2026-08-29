@@ -16,33 +16,40 @@
 #include "../../includes/vec3.h"
 #include <math.h>
 
-static _Thread_local t_rng_state	g_rng;
+static t_rng_state	*rng_state(void)
+{
+	static _Thread_local t_rng_state	rng;
 
-static void	rng_seed(void)
+	return (&rng);
+}
+
+static void	rng_seed(t_rng_state *rng)
 {
 	struct timeval	time;
 	uint32_t		base;
 	uint32_t		seed;
 
 	gettimeofday(&time, NULL);
-	base = (uint32_t)(uintptr_t) & g_rng;
+	base = (uint32_t)(uintptr_t)rng;
 	seed = ((uint32_t)time.tv_sec ^ (base * 2654435761u));
 	if (seed == 0)
 		seed = 1;
-	g_rng.seed.s = seed;
-	g_rng.init = true;
+	rng->seed.s = seed;
+	rng->init = true;
 }
 
 double	random_double(double min, double max)
 {
-	double				range;
-	double				div;
+	t_rng_state	*rng;
+	double		range;
+	double		div;
 
-	if (!g_rng.init)
-		rng_seed();
+	rng = rng_state();
+	if (!rng->init)
+		rng_seed(rng);
 	range = max - min;
 	div = UINT32_MAX / range;
-	return (min + ((double) ft_xorshift32(&g_rng.seed) / div));
+	return (min + ((double) ft_xorshift32(&rng->seed) / div));
 }
 
 t_vec3	vec3_rand(double min, double max)
@@ -67,15 +74,4 @@ t_vec3	rand_unit_vec3(void)
 		if (1e-160 < lensq && lensq <= 1)
 			return (vec_div(p, sqrt(lensq)));
 	}
-}
-
-t_vec3	rand_on_hemi(const t_vec3 *normal)
-{
-	t_vec3	on_unit_sphere;
-
-	on_unit_sphere = rand_unit_vec3();
-	if (vec_dot(on_unit_sphere, *normal) > 0.0)
-		return (on_unit_sphere);
-	else
-		return (vec_mul(on_unit_sphere, -1.0));
 }

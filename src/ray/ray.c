@@ -33,6 +33,14 @@ t_ray	ray(t_point3 cam_center, t_vec3 ray_dir)
 	return (r);
 }
 
+static bool	hit_world_bvh(t_world *world, t_ray *r, double max_t,
+		t_hit_dat *rec)
+{
+	if (!world->bvh)
+		return (false);
+	return (hit_bvh(world->bvh, (t_bvh_args){r, max_t, rec, NULL}));
+}
+
 /**
  * @brief Iterates through all the objects and returns true
  * if hit obj or false if not, c is shortform for closest_so_far
@@ -52,7 +60,7 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	t = world->objs;
 	hit_anything = false;
 	c = INFINITY;
-	if (world->bvh && hit_bvh(world->bvh, r, c, rec, NULL))
+	if (hit_world_bvh(world, r, c, rec))
 	{
 		hit_anything = true;
 		c = rec->t;
@@ -86,52 +94,6 @@ static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
 		obj = obj->next;
 	}
 	return (result);
-}
-
-/**
- * @brief For recursive materials: find point lights aligned with the
- * outgoing ray, verify visibility with a shadow ray, add specular color.
- *
- * fuzz widens the acceptance cone: 0.0 = razor-sharp mirror alignment,
- * 1.0 = accept the whole hemisphere (soft, broad highlight).
- * tint = albedo for metal, attenuation (white) for dielectric.
- */
-t_color	recursive_light_hits(t_hit_dat *rec, t_world *w,
-		const t_ray *outgoing, double fuzz, t_color tint)
-{
-	t_recurse_l_hit t;
-
-	t.result = create_color(0, 0, 0);
-	t.out_dir = unit_vec(outgoing->vec);
-	t.accept_cos = 1.0 - fuzz;
-	t.obj = w->objs;
-	while (t.obj)
-	{
-		if (t.obj->type == OBJ_LIGHT)
-		{
-			t.light_dir = unit_vec(sub_point(t.obj->light.cords, rec->point));
-			t.alignment = fmax(vec_dot(t.out_dir, t.light_dir), 0.0);
-			if (t.alignment > t.accept_cos)
-			{
-				t.shadow_ray = ray(
-						vec_add(rec->point, vec_mul(t.out_dir, 0.01)),
-						t.light_dir);
-				t.distance = vec_len(sub_point(t.obj->light.cords, rec->point));
-				if (!shadow_hit(w, &t.shadow_ray, t.distance, rec->hit_obj))
-				{
-					if (fuzz < 1e-6)
-						t.intensity = 1.0;
-					else
-						t.intensity = (t.alignment - t.accept_cos) / (1.0 - t.accept_cos);
-					t.result = color_add(t.result, color_mul_n(
-							color_mul(tint, t.obj->light.color),
-							light_attenuation(t.obj->light, t.distance) * t.intensity));
-				}
-			}
-		}
-		t.obj = t.obj->next;
-	}
-	return (t.result);
 }
 
 /**

@@ -26,3 +26,43 @@ t_color	ambient_light(t_world *w)
 	}
 	return (create_color(0, 0, 0));
 }
+
+static void	add_recursive_light(t_recurse_l_hit *t, t_recurse_args *args)
+{
+	t->light_dir = unit_vec(sub_point(t->obj->light.cords,
+				args->rec->point));
+	t->alignment = fmax(vec_dot(t->out_dir, t->light_dir), 0.0);
+	if (t->alignment <= t->accept_cos)
+		return ;
+	t->shadow_ray = ray(vec_add(args->rec->point,
+				vec_mul(t->out_dir, 0.01)), t->light_dir);
+	t->distance = vec_len(sub_point(t->obj->light.cords, args->rec->point));
+	if (shadow_hit(args->world, &t->shadow_ray,
+			t->distance, args->rec->hit_obj))
+		return ;
+	if (args->fuzz < 1e-6)
+		t->intensity = 1.0;
+	else
+		t->intensity = (t->alignment - t->accept_cos)
+			/ (1.0 - t->accept_cos);
+	t->result = color_add(t->result, color_mul_n(
+				color_mul(args->tint, t->obj->light.color),
+				light_attenuation(t->obj->light, t->distance) * t->intensity));
+}
+
+t_color	recursive_light_hits(t_recurse_args args)
+{
+	t_recurse_l_hit	t;
+
+	t.result = create_color(0, 0, 0);
+	t.out_dir = unit_vec(args.outgoing->vec);
+	t.accept_cos = 1.0 - args.fuzz;
+	t.obj = args.world->objs;
+	while (t.obj)
+	{
+		if (t.obj->type == OBJ_LIGHT)
+			add_recursive_light(&t, &args);
+		t.obj = t.obj->next;
+	}
+	return (t.result);
+}
