@@ -46,6 +46,7 @@ int			check_float(char *s);
 int			check_color(char *s);
 int			check_cords(char *s);
 int			check_norm_vector(char *s);
+int			check_cone(char *s);
 
 // Parsing functions
 int			parse_light(int id, char *s, t_objects **obj);
@@ -54,6 +55,7 @@ int			parse_ambient(int id, char *res, t_objects **obj);
 int			parse_sphere(int id, char *s, t_objects **obj);
 int			parse_plane(int id, char *s, t_objects **obj);
 int			parse_cylinder(int id, char *s, t_objects **obj);
+int			parse_cone(int id, char *s, t_objects **obj);
 bool		parse_material(char **res, t_objects **o, int idx);
 
 // Parsing helper functions

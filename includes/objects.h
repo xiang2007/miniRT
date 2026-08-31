@@ -34,7 +34,8 @@ typedef enum e_obj_type
 	OBJ_PLANE,
 	OBJ_CYLINDER,
 	OBJ_LIGHT,
-	OBJ_SETUP_CAM
+	OBJ_SETUP_CAM,
+	OBJ_CONE
 }			t_obj_type;
 
 /**
@@ -86,6 +87,17 @@ typedef struct s_setup_cam
 	t_vec3		norm_vector;
 }				t_setup_cam;
 
+typedef struct s_cone
+{
+	t_vec3	pos;
+	t_vec3	axis;
+	double	radius;
+	double	height;
+	t_color	color;
+	double	constant_k;
+	t_material	*material;
+} t_cone;
+
 typedef struct s_cam
 {
 	int			fov;
@@ -122,6 +134,7 @@ struct s_objects
 		t_ambient	ambient;
 		t_cam		cam;
 		t_light		light;
+		t_cone		cone;
 		t_setup_cam	cam_setup;
 	};
 	t_objects	*next;

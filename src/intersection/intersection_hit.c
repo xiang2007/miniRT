@@ -14,6 +14,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include "objects.h"
 #include "vec3.h"
 #include <stdio.h>
 #include "material.h"
@@ -193,4 +194,89 @@ double	hit_cylinder(t_cylinder *cy, t_ray *ray, double r_max, t_hit_dat *rec)
 	}
 	set_face_normal(ray, &c.outward_normal, rec);
 	return (c.t_best);
+}
+
+double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
+{
+	double	d_dot_d;
+	double	d_dot_v;
+	double	A;
+	double 	t;
+	int		hit_type;
+	double	final_m;
+	hit_type = 0;
+	d_dot_d = vec_dot(ray->vec, ray->vec);
+	d_dot_v = vec_dot(ray->vec, co->axis);
+	A = d_dot_d - (co->constant_k * d_dot_v * d_dot_v);
+
+	t_vec3	delta_p = vec_sub(ray->point, co->pos);
+	double	d_dot_dp = vec_dot(ray->vec, delta_p);
+	d_dot_v = vec_dot(ray->vec, co->axis);
+	double	dp_dot_v = vec_dot(delta_p, co->axis);
+	double	B = 2.0 * (d_dot_dp - (co->constant_k * d_dot_v * dp_dot_v));
+
+	double	delta_p_sq = vec_dot(delta_p, delta_p);
+	double	C = delta_p_sq - (co->constant_k * dp_dot_v * dp_dot_v);
+
+	double discriminant = (B * B) - (4.0 * A * C);
+	if (discriminant < 0.0001)
+    return (-1.0);
+	double sqrt_d = sqrt(discriminant);
+	double t1 = (-B - sqrt_d) / (2.0 * A);
+	double t2 = (-B + sqrt_d) / (2.0 * A);
+	double t3;
+	t_vec3	cap_center = vec_add(co->pos, vec_mul(co->axis, co->height));
+	double denom = vec_dot(ray->vec, co->axis);
+	t3 = 0;
+	t = 0.001;
+	if (!(fabs(denom) < 1e-8))
+	{
+		t3 = vec_dot(vec_sub(cap_center, ray->point), co->axis) / denom;
+		if (t3 <= 0.001 || t3 >= r_max)
+			t3 = 0;
+		t_vec3	hit_point = ray_pos(ray, t3);
+		if (vec_len_sq(vec_sub(hit_point, cap_center)) > co->radius * co->radius)
+			t3 = 0;
+	}
+	t = r_max;
+	final_m = 0.0;
+	if (t1 > 0.001 && t1 < t)
+	{
+		double m1 = vec_dot(vec_sub(ray_pos(ray, t1), co->pos), co->axis);
+		if (m1 >= 0.0 && m1 <= co->height)
+		{
+			hit_type = 1;
+			t = t1;
+			final_m = m1;
+		}
+	}
+	if (t2 > 0.001 && t2 < t)
+	{
+		double m2 = vec_dot(vec_sub(ray_pos(ray, t2), co->pos), co->axis);
+		if (m2 >= 0.0 && m2 <= co->height)
+		{
+			hit_type = 1;
+			t = t2;
+			final_m = m2;
+		}
+	}
+	if (t3 > 0.001 && t3 < t)
+	{
+		hit_type = 2;
+		t = t3;
+	}
+	if (hit_type == 0)
+		return (-1.0);
+	rec->t = t;
+	rec->point = ray_pos(ray, t);
+    if (hit_type == 1)
+    {
+		t_vec3	outward_normal = unit_vec(vec_sub(vec_sub(rec->point, co->pos), vec_mul(co->axis, co->constant_k * final_m)));
+		set_face_normal(ray, &outward_normal, rec);        
+    }
+    else if (hit_type == 2)
+       	set_face_normal(ray, &co->axis, rec);
+    rec->mat = co->material;
+    rec->color = co->color;
+    return (t);
 }

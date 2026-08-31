@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "material.h"
 #include "threadpool.h"
 #include "../../includes/parse.h"
+#include <math.h>
 
 t_objects	*parse_plane_helper(int id, char **res)
 {
@@ -95,5 +98,33 @@ bool	parse_material(char **res, t_objects **o, int idx)
 		(*o)->sphere.material = mat;
 	else if ((*o)->type == OBJ_PLANE)
 		(*o)->plane.material = mat;
+	return (TRUE);
+}
+
+int	parse_cone(int id, char *s, t_objects **obj)
+{
+	char		**res;
+	t_objects	*o;
+
+	if (!s)
+		return (FALSE);
+	if (!check_cone(s))
+		return (FALSE);
+	res = ft_split(s, ' ');
+	if (!res)
+		return (FALSE);
+	o = malloc(sizeof(t_objects));
+	if (!o)
+		return (FALSE);
+	o->id = id;
+	o->cone.pos = parse_cords(res[1]);
+	o->cone.axis = parse_cords(res[2]);
+	o->cone.radius = ft_atof(res[3]);
+	o->cone.height = ft_atof(res[4]);
+	o->cone.color = parse_color(res[5]);
+	o->cone.material = create_lambertian(o->cone.color);
+	o->cone.constant_k = 1.0 + pow(tan(atan(o->cone.radius / o->cone.height)), 2);
+	obj_add_back(o, obj);
+	free_str_arr(res);
 	return (TRUE);
 }

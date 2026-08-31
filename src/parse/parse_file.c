@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "objects.h"
 #include "threadpool.h"
 #include "../../includes/parse.h"
 
@@ -70,6 +72,8 @@ t_obj_type	parse_check_type(char *s)
 		return (OBJ_PLANE);
 	else if (!ft_strncmp(s, "cy", 2))
 		return (OBJ_CYLINDER);
+	else if (!ft_strncmp(s, "co", 2))
+		return (OBJ_CONE);	
 	return (-1);
 }
 
@@ -90,6 +94,8 @@ int	parse_object_switch(int id, char *s, t_objects **o)
 		return (parse_plane(id, s, o));
 	else if (type == OBJ_SPHERE)
 		return (parse_sphere(id, s, o));
+	else if (type == OBJ_CONE)
+		return (parse_cone(id, s, o));
 	return (FALSE);
 }
 
