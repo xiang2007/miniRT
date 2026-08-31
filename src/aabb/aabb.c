@@ -47,6 +47,8 @@ t_aabb	build_box(t_objects *o)
 	}
 	else if (o->type == OBJ_CYLINDER)
 		build_cylinder(&t.box, o, t.half_axis, t);
+	else if (o->type == OBJ_CONE)
+		build_cone(&t.box, &o->cone);
 	return (t.box);
 }
 

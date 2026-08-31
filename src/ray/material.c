@@ -23,5 +23,7 @@ bool	material_is_transparent(t_objects *o)
 		mat = o->cylinder.material;
 	else if (o->type == OBJ_PLANE)
 		mat = o->plane.material;
+	else if (o->type == OBJ_CONE)
+		mat = o->cone.material;
 	return (mat && mat->scatter == dielectric_scatter);
 }

@@ -54,12 +54,7 @@ void	world_free(t_world *world)
 	{
 		tmp = world->objs;
 		world->objs = world->objs->next;
-		if (tmp->type == OBJ_SPHERE)
-			free(tmp->sphere.material);
-		else if (tmp->type == OBJ_CYLINDER)
-			free(tmp->cylinder.material);
-		else if (tmp->type == OBJ_PLANE)
-			free(tmp->plane.material);
+		free_object_material(tmp);
 		free(tmp);
 	}
 }

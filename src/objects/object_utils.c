@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 09:45:36 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 02:44:32 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 16:28:31 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 void	build_box_switch(t_objects *o)
 {
-	if (o && (o->type == OBJ_SPHERE || o->type == OBJ_CYLINDER))
+	if (o && (o->type == OBJ_SPHERE || o->type == OBJ_CYLINDER
+			|| o->type == OBJ_CONE))
 		o->box = build_box(o);
 }
 
@@ -73,6 +74,8 @@ t_objects	*create_object(void *obj, t_obj_type type, int id)
 		res->plane = *(t_plane *)obj;
 	else if (type == OBJ_LIGHT)
 		res->light = *(t_light *)obj;
+	else if (type == OBJ_CONE)
+		res->cone = *(t_cone *)obj;
 	build_box_switch(res);
 	return (res);
 }
@@ -84,8 +87,8 @@ t_objects	*create_object(void *obj, t_obj_type type, int id)
  */
 void	print_object_list(t_objects *o)
 {
-	const char	*t[7] = {"AMBIENT", "CAMERA", "SPHERE", "PLANE",
-		"CYLINDER", "LIGHT", "S_CAM"};
+	const char	*t[8] = {"AMBIENT", "CAMERA", "SPHERE", "PLANE",
+		"CYLINDER", "LIGHT", "S_CAM", "CONE"};
 	t_objects	*p;
 
 	if (!o)
@@ -115,7 +118,8 @@ t_objects	**obj2arr(t_objects *o)
 	i = 0;
 	while (head)
 	{
-		if (head->type == OBJ_SPHERE || head->type == OBJ_CYLINDER)
+		if (head->type == OBJ_SPHERE || head->type == OBJ_CYLINDER
+			|| head->type == OBJ_CONE)
 			res[i++] = head;
 		head = head->next;
 	}

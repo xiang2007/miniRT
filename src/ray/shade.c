@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 11:05:43 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 16:30:50 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip)
 				return (true);
 			if (t->type == OBJ_PLANE
 				&& hit_plane(&t->plane, ray, t_max, &rec) > 0)
+				return (true);
+			if (t->type == OBJ_CONE
+				&& hit_cone(&t->cone, ray, t_max, &rec) > 0)
 				return (true);
 		}
 		t = t->next;

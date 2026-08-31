@@ -54,6 +54,7 @@ typedef struct s_bvh_args
 }				t_bvh_args;
 
 t_aabb	build_box(t_objects *o);
+void	build_cone(t_aabb *box, t_cone *cone);
 t_aabb	surround_box(t_aabb a, t_aabb b);
 t_bvh	*build_bvh(t_objects **objects, int start, int end);
 bool	hit_bvh(t_bvh *node, t_bvh_args args);

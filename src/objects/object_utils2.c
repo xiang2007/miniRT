@@ -11,6 +11,19 @@
 /* ************************************************************************** */
 
 #include "../../includes/objects.h"
+#include <stdlib.h>
+
+void	free_object_material(t_objects *o)
+{
+	if (o->type == OBJ_SPHERE)
+		free(o->sphere.material);
+	else if (o->type == OBJ_CYLINDER)
+		free(o->cylinder.material);
+	else if (o->type == OBJ_PLANE)
+		free(o->plane.material);
+	else if (o->type == OBJ_CONE)
+		free(o->cone.material);
+}
 
 int	obj_size(t_objects *o)
 {
@@ -40,7 +53,8 @@ int	obj_bvh_count(t_objects *o)
 	size = 0;
 	while (t)
 	{
-		if (t->type == OBJ_SPHERE || t->type == OBJ_CYLINDER)
+		if (t->type == OBJ_SPHERE || t->type == OBJ_CYLINDER
+			|| t->type == OBJ_CONE)
 			size++;
 		t = t->next;
 	}

@@ -25,7 +25,8 @@ int	bvh_size(t_objects **obj)
 	size = 0;
 	while (o)
 	{
-		if (o->type == OBJ_SPHERE || o->type == OBJ_CYLINDER)
+		if (o->type == OBJ_SPHERE || o->type == OBJ_CYLINDER
+			|| o->type == OBJ_CONE)
 			size++;
 		o = o->next;
 	}
@@ -87,7 +88,7 @@ static bool	hit_bvh_leaf(t_bvh *node, t_bvh_args args)
 		return (true);
 	}
 	if (node->o->type == OBJ_CONE && hit_cone(&node->o->cone, args.ray,
-			args.max_t, args.rec) >0)
+			args.max_t, args.rec) > 0)
 	{
 		args.rec->hit_obj = node->o;
 		return (true);

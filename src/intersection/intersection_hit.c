@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/31 14:25:29 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 16:35:17 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
 	double	d_dot_d;
 	double	d_dot_v;
 	double	A;
-	double 	t;
+	double	t;
 	int		hit_type;
 	double	final_m;
 	hit_type = 0;

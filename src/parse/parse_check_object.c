@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 17:28:09 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/15 00:03:32 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 16:27:14 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,30 +132,6 @@ int	check_sphere(char *s)
 	if (t < 0)
 		return (free_str_arr(res), FALSE);
 	if (!check_color(res[3]))
-		return (free_str_arr(res), FALSE);
-	return (free_str_arr(res), TRUE);
-}
-
-int	check_cone(char *s)
-{
-	char	**res;
-
-	if (!s)
-		return (FALSE);
-	res = ft_split(s, ' ');
-	if (!res || !*res)
-		return (FALSE);
-	if (parse_arg_count(res) != 5)
-		return (free_str_arr(res), FALSE);
-	if (!check_cords(res[1]))
-		return (free_str_arr(res), FALSE);
-	if (!check_cords(res[2]))
-		return (free_str_arr(res), FALSE);
-	if (ft_atof(res[3]) < 0)
-		return (free_str_arr(res), FALSE);
-	if (ft_atof(res[4]) < 0)
-		return (free_str_arr(res), FALSE);
-	if (!check_color(res[5]))
 		return (free_str_arr(res), FALSE);
 	return (free_str_arr(res), TRUE);
 }

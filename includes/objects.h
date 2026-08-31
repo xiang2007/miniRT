@@ -89,14 +89,14 @@ typedef struct s_setup_cam
 
 typedef struct s_cone
 {
-	t_vec3	pos;
-	t_vec3	axis;
-	double	radius;
-	double	height;
-	t_color	color;
-	double	constant_k;
+	t_vec3		pos;
+	t_vec3		axis;
+	double		radius;
+	double		height;
+	t_color		color;
+	double		constant_k;
 	t_material	*material;
-} t_cone;
+}				t_cone;
 
 typedef struct s_cam
 {
@@ -173,6 +173,7 @@ typedef struct s_world
 // Objects function
 int			obj_size(t_objects *o);
 int			obj_bvh_count(t_objects *o);
+void		free_object_material(t_objects *o);
 void		obj_add_back(t_objects *src, t_objects **dest);
 void		print_object_list(t_objects *o);
 t_sphere	sphere(t_point3 center, double radius);

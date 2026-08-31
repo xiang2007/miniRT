@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 00:00:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 02:44:27 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 16:29:50 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_parse
 	int	sphere;
 	int	plane;
 	int	object;
+	int	cone;
 }		t_parse;
 
 // Object checking function

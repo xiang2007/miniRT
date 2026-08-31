@@ -64,7 +64,7 @@ MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 PARSEDIR := src/parse
 PARSESRC := parse_check_helper.c parse_check_object.c parse_check_object2.c \
 			parse_cleanup.c parse_file_object.c parse_file.c parse_utils.c \
-			parse.c parse_file_object2.c
+			parse.c parse_file_object2.c parse_cone.c
 PARSE := $(addprefix $(PARSEDIR)/,$(PARSESRC))
 
 RDRDIR := src/render

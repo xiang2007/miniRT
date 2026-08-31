@@ -12,6 +12,26 @@
 
 #include "../includes/aabb.h"
 
+void	build_cone(t_aabb *box, t_cone *cone)
+{
+	t_vec3	base;
+	t_vec3	extent;
+
+	base = vec_add(cone->pos, vec_mul(cone->axis, cone->height));
+	extent.x = cone->radius * sqrt(fmax(0.0,
+				1.0 - cone->axis.x * cone->axis.x));
+	extent.y = cone->radius * sqrt(fmax(0.0,
+				1.0 - cone->axis.y * cone->axis.y));
+	extent.z = cone->radius * sqrt(fmax(0.0,
+				1.0 - cone->axis.z * cone->axis.z));
+	box->min = create_vec3(fmin(cone->pos.x, base.x - extent.x),
+			fmin(cone->pos.y, base.y - extent.y),
+			fmin(cone->pos.z, base.z - extent.z));
+	box->max = create_vec3(fmax(cone->pos.x, base.x + extent.x),
+			fmax(cone->pos.y, base.y + extent.y),
+			fmax(cone->pos.z, base.z + extent.z));
+}
+
 t_aabb	surround_box(t_aabb a, t_aabb b)
 {
 	t_aabb	res;

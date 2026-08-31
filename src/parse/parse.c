@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/23 17:09:39 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 16:29:40 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static t_objects	*parse_create_object(t_objects *o)
 		return (create_object(&o->cylinder, o->type, o->id));
 	if (o->type == OBJ_LIGHT)
 		return (create_object(&o->light, o->type, o->id));
+	if (o->type == OBJ_CONE)
+		return (create_object(&o->cone, o->type, o->id));
 	return (NULL);
 }
 
@@ -84,9 +86,11 @@ t_parse	parse_object_count(t_objects *o)
 			c.sphere++;
 		else if (p->type == OBJ_SETUP_CAM)
 			c.camera++;
+		else if (p->type == OBJ_CONE)
+			c.cone++;
 		p = p->next;
 	}
-	c.object = c.ambient + c.light + c.cylinder + c.sphere;
+	c.object = c.ambient + c.light + c.cylinder + c.sphere + c.cone;
 	return (c);
 }
 
@@ -96,7 +100,8 @@ int	parse_check_object_count(t_objects *o)
 	int		total;
 
 	p = parse_object_count(o);
-	total = p.ambient + p.camera + p.cylinder + p.light + p.plane + p.sphere;
+	total = p.ambient + p.camera + p.cylinder + p.light + p.plane + p.sphere
+		+ p.cone;
 	if (total < 1)
 		return (FALSE);
 	if (p.object < 1)
