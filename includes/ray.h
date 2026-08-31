@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 12:15:34 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/29 11:26:46 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 14:29:56 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ double	hit_cap(t_cylinder_args *args, const t_vec3 *center,
 void	hit_cylinder_tube(t_cylinder_hit *hit, t_cylinder_args *args);
 void	hit_cylinder_tube2(t_cylinder_hit *hit, t_cylinder_args *args);
 void	hit_cylinder_caps(t_cylinder_hit *hit, t_cylinder_args *args);
+double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec);
 
 t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light);
 double	light_attenuation(t_light light, double distance);

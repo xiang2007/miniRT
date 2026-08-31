@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:27:48 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 10:46:19 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 14:25:29 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
 
 	double discriminant = (B * B) - (4.0 * A * C);
 	if (discriminant < 0.0001)
-    return (-1.0);
+	return (-1.0);
 	double sqrt_d = sqrt(discriminant);
 	double t1 = (-B - sqrt_d) / (2.0 * A);
 	double t2 = (-B + sqrt_d) / (2.0 * A);
@@ -269,14 +269,15 @@ double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
 		return (-1.0);
 	rec->t = t;
 	rec->point = ray_pos(ray, t);
-    if (hit_type == 1)
-    {
-		t_vec3	outward_normal = unit_vec(vec_sub(vec_sub(rec->point, co->pos), vec_mul(co->axis, co->constant_k * final_m)));
-		set_face_normal(ray, &outward_normal, rec);        
-    }
-    else if (hit_type == 2)
-       	set_face_normal(ray, &co->axis, rec);
-    rec->mat = co->material;
-    rec->color = co->color;
-    return (t);
+	if (hit_type == 1)
+	{
+		t_vec3	outward_normal = unit_vec(vec_sub(vec_sub(rec->point, co->pos),
+			vec_mul(co->axis, co->constant_k * final_m)));
+		set_face_normal(ray, &outward_normal, rec);
+	}
+	else if (hit_type == 2)
+		set_face_normal(ray, &co->axis, rec);
+	rec->mat = co->material;
+	rec->color = co->color;
+	return (t);
 }

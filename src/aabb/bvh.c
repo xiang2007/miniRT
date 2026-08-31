@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:55:07 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/07/28 07:50:34 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/08/31 14:33:42 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,14 @@ static bool	hit_bvh_leaf(t_bvh *node, t_bvh_args args)
 		args.rec->hit_obj = node->o;
 		return (true);
 	}
-	if (node->o->type == OBJ_CYLINDER
-		&& hit_cylinder(&node->o->cylinder, args.ray,
-			args.max_t, args.rec) > 0)
+	if (node->o->type == OBJ_CYLINDER && hit_cylinder(&node->o->cylinder,
+			args.ray, args.max_t, args.rec) > 0)
+	{
+		args.rec->hit_obj = node->o;
+		return (true);
+	}
+	if (node->o->type == OBJ_CONE && hit_cone(&node->o->cone, args.ray,
+			args.max_t, args.rec) >0)
 	{
 		args.rec->hit_obj = node->o;
 		return (true);
