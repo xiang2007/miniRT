@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "objects.h"
 #include "threadpool.h"
 #include "../../includes/parse.h"
 #include <X11/keysym.h>
@@ -73,6 +74,8 @@ void	move_obj_switch(int key, t_obj_type type, t_objects *o)
 		light_mv(key, o);
 	else if (type == OBJ_CYLINDER)
 		cylinder_mv(key, o);
+	else if (type == OBJ_CONE)
+		cone_mv(key, o);
 	return ;
 }
 

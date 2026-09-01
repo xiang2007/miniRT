@@ -97,7 +97,7 @@ void	print_objects(t_objects *o)
 void	print_object(t_objects *o)
 {
 	const char	*objs[] = {"Ambient", "Camera", "Sphere", "Plane",
-		"Cylinder", "Light", "Cam_setup"};
+		"Cylinder", "Light", "Cam_setup", "Cone"};
 	t_objects	*p;
 
 	if (!o)

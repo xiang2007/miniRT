@@ -28,7 +28,7 @@
 # define MAX_BOUNCE 50
 # define LOW_RES_BOUNCE 10
 # define LOW_RES_SPP 3
-# define SPP 100
+# define SPP 1
 # define PI 3.14159265358979323846
 
 # define LIGHT_WATTAGE 4300.0

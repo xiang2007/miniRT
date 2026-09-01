@@ -69,9 +69,12 @@ t_threadpool	*threadpool_create(t_rt *engine, int thread_count)
 		return (free(tp->tiles), free(tp), NULL);
 	pthread_mutex_init(&tp->queue_mutex, NULL);
 	pthread_cond_init(&tp->queue_cond, NULL);
-	i = -1;
-	while (i++ < thread_count)
+	i = 0;
+	while (i < thread_count)
+	{
 		pthread_create(&tp->thread_id[i], NULL, threadpool_worker, tp);
+		i++;
+	}
 	return (tp);
 }
 

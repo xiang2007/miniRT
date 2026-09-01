@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "objects.h"
 #include "ray.h"
 #include "../../includes/minirt.h"
 #include "../../includes/mlx_dat.h"
 #include "../../includes/camera.h"
+#include "vec3.h"
 #include <X11/keysym.h>
 
 void	handle_key_z(t_rt *win)
@@ -34,7 +36,7 @@ void	handle_move_object(int key, t_rt *win)
 	if (!win->sel_obj)
 		return ;
 	move_objects(key, &win->sel_obj);
-	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER)
+	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER || win->sel_obj->type == OBJ_CONE)
 		rebuild_world_bvh(&win->world);
 	lower_res(key, win);
 	queue_render(win);
@@ -52,10 +54,12 @@ void	handle_rotate_object(int key, t_rt *win)
 		o->cylinder.axis = unit_vec(vec_rotate(o->cylinder.axis, axis, angle));
 	else if (o->type == OBJ_PLANE)
 		o->plane.normal = unit_vec(vec_rotate(o->plane.normal, axis, angle));
+	else if (o->type == OBJ_CONE)
+		o->cone.axis = unit_vec(vec_rotate(o->cone.axis, axis, angle));
 	else
 		return ;
 	lower_res(key, win);
-	if (o->type == OBJ_CYLINDER)
+	if (o->type == OBJ_CYLINDER || o->type == OBJ_CONE)
 		rebuild_world_bvh(&win->world);
 	queue_render(win);
 }

@@ -186,6 +186,7 @@ void		*cylinder_mv(int key, t_objects *o);
 void		*sphere_mv(int key, t_objects *o);
 void		*plane_mv(int key, t_objects *o);
 void		*light_mv(int key, t_objects *o);
+void		*cone_mv(int key, t_objects *o);
 void		move_objects(int key, t_objects **obj);
 void		lower_res(int key, t_rt *rt);
 void		reset_res(t_rt *rt);
