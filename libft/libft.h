@@ -80,5 +80,6 @@ int			ft_tolower(int ch);
 
 // Custom functions
 uint32_t	ft_xorshift32(t_xorshift32 *state);
+char		*get_next_line(int fd);
 
 #endif

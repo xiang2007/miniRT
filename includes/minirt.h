@@ -86,6 +86,9 @@ typedef struct s_rt
 	t_objects		*sel_obj;
 	char			*test_file;
 	bool			is_rendering;
+	bool			needs_rerender;
+	bool			bvh_dirty;
+	bool			abort_flag;
 	t_threadpool	*tp;
 	int				pending_key;
 	bool			has_pending;

@@ -14,6 +14,7 @@
 # define RAY_H
 
 # include "objects.h"
+#include "vec3.h"
 # include <stdbool.h>
 
 typedef struct s_ray
@@ -128,5 +129,12 @@ t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 bool	material_is_transparent(t_objects *o);
 bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
+
+// intersect hit global
+bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec);
+
+// lighting
+bool	scene_intersect_shadow(t_world *w, t_ray *ray, double t_max, t_objects *skip);
+t_color compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r);
 
 #endif

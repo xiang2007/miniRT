@@ -88,4 +88,8 @@ void		parse_world(t_world *w, t_objects *o);
 // helper functions
 t_objects	*parse_plane_helper(int id, char **res);
 
+// Dispatch tables - contract v1
+typedef int	(*t_parser_fn)(int id, char *line, t_world *world);
+typedef int	(*t_check_fn)(char *line);
+
 #endif

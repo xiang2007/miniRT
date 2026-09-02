@@ -44,7 +44,9 @@ HEADERS := includes/minirt.h \
 		   includes/render.h \
 		   includes/objects.h \
 		   includes/material.h \
-		   includes/threadpool.h
+		   includes/threadpool.h \
+		   includes/parse.h \
+		   includes/aabb.h
 
 MAIN := src/main.c src/rt.c
 

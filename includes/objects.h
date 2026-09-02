@@ -20,6 +20,16 @@ typedef struct s_rt			t_rt;
 typedef struct s_bvh		t_bvh;
 typedef struct s_objects	t_objects;
 
+/* vtable types — contract v1 */
+typedef struct s_ray		t_ray;
+typedef struct s_hit_dat	t_hit_dat;
+
+typedef double	(*t_hit_fn)(struct s_objects *self, struct s_ray *ray,
+			double r_max, struct s_hit_dat *rec);
+typedef void	(*t_translate_fn)(struct s_objects *self, int key);
+typedef void	(*t_rotate_fn)(struct s_objects *self, const t_vec3 *axis,
+			double angle);
+
 typedef struct s_aabb
 {
 	t_point3	min;
@@ -123,9 +133,12 @@ typedef struct s_cam
 
 struct s_objects
 {
-	int			id;
-	t_obj_type	type;
-	t_aabb		box;
+	int				id;
+	t_obj_type		type;
+	t_aabb			box;
+	t_hit_fn		hit;        /* contract v1: non-NULL for sp/pl/cy/co */
+	t_translate_fn	translate;  /* contract v1: non-NULL for sp/pl/cy/co/L */
+	t_rotate_fn		rotate;     /* contract v1: non-NULL for cy/pl/co */
 	union
 	{
 		t_sphere	sphere;
@@ -180,6 +193,7 @@ t_sphere	sphere(t_point3 center, double radius);
 t_objects	*create_object(void *obj, t_obj_type type, int id);
 t_objects	*select_object(int key, t_world *world);
 t_objects	**obj2arr(t_objects *o);
+void		toggle_checker(t_objects *sel);
 
 // Object move function
 void		*cylinder_mv(int key, t_objects *o);
