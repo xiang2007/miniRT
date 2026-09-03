@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 12:04:38 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 02:10:12 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/03 11:32:31 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,5 +140,5 @@ int	parse_plane(int id, char *s, t_objects **obj)
 	if (!o)
 		return (free_str_arr(res), FALSE);
 	obj_add_back(o, obj);
-	return (TRUE);
+	return (free_str_arr(res), TRUE);
 }

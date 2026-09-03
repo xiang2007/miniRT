@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 00:00:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/09/03 10:31:17 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/03 16:17:07 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,31 @@ void		parse_world(t_world *w, t_objects *o);
 t_objects	*parse_plane_helper(int id, char **res);
 
 // Dispatch tables - contract v1
-typedef int	(*t_parser_fn)(int id, char *line, t_world *world);
+typedef int	(*t_parser_fn)(int id, char *line, t_objects **o);
 typedef int	(*t_check_fn)(char *line);
 
+
+static const t_check_fn g_check_table[] =
+{
+	[OBJ_AMBIENT] = check_ambient_lightning,
+	[OBJ_CAMERA] = check_cam,
+	[OBJ_SPHERE] = check_sphere,
+	[OBJ_PLANE] = check_plane,
+	[OBJ_CYLINDER] = check_cylinder,
+	[OBJ_LIGHT] = check_light,
+	[OBJ_CONE] = check_cone,
+};
+
+static const t_parser_fn g_parse_table[] =
+{
+	[OBJ_AMBIENT] = parse_ambient,
+	[OBJ_CAMERA] = parse_cam,
+	[OBJ_SPHERE] = parse_sphere,
+	[OBJ_PLANE] = parse_plane,
+	[OBJ_CYLINDER] = parse_cylinder,
+	[OBJ_LIGHT] = parse_light,
+	[OBJ_CONE] = parse_cone,
+};
+
 #endif
+ 

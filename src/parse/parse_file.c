@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/09/03 10:40:24 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/03 16:15:45 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,9 @@ int	parse_object_switch(int id, char *s, t_objects **o)
 	t_obj_type	type;
 
 	type = parse_check_type(s);
-	if (type == OBJ_AMBIENT)
-		return (parse_ambient(id, s, o));
-	else if (type == OBJ_CAMERA)
-		return (parse_cam(id, s, o));
-	else if (type == OBJ_CYLINDER)
-		return (parse_cylinder(id, s, o));
-	else if (type == OBJ_LIGHT)
-		return (parse_light(id, s, o));
-	else if (type == OBJ_PLANE)
-		return (parse_plane(id, s, o));
-	else if (type == OBJ_SPHERE)
-		return (parse_sphere(id, s, o));
-	else if (type == OBJ_CONE)
-		return (parse_cone(id, s, o));
-	return (FALSE);
+	if (type < 0 || !g_parse_table[type])
+		return (FALSE);
+	return (g_parse_table[type](id, s, o));
 }
 
 t_objects	*parse_object(int fd)
@@ -100,13 +88,10 @@ t_objects	*parse_object(int fd)
 		if (!line)
 			break ;
 		if (parse_object_switch(i, line, &o_res) == FALSE)
-		{
-			free(line);
-			return (NULL);
-		}
+			return (free(line), NULL);
 		free(line);
 		line = get_next_line(fd);
 		i++;
 	}
-	return (o_res);
+	return (free(line), o_res);
 }

@@ -7,9 +7,14 @@ MAKE := make
 CC := cc
 RM := rm -rf
 
+# Memory leak flags
+ifdef ML
+	CFLAGS += -ggdb -fsanitize=address -fno-omit-frame-pointer -static-libstdc++ -lrt
+endif
+
 # Compiler Flags
 # -Ofast: equivalent to -O3 -ffast-math, enables compiler optimizations and overrides standard math compliance to IEE 754
-CFLAGS := -Wall -Werror -Wextra -std=gnu11 -g3 -Ofast
+CFLAGS := -Wall -Werror -Wextra -std=gnu11 -g3 -Ofast $(ML)
 
 # If TSAN=1 is passed, append the sanitize flags
 ifdef TSAN
