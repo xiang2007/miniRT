@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 00:00:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/31 16:29:50 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/03 10:31:17 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool		parse_material(char **res, t_objects **o, int idx);
 int			check_rt_file(char *file_name);
 int			parse_arg_count(char **arg);
 
-char		*read_rt_file(char *filename);
+int		read_rt_file(char *filename);
 
 void		print_str_arr(char **str_arr);
 void		free_str_arr(char **strarr);
@@ -75,7 +75,7 @@ t_point3	parse_cords(char *s);
 
 // Main parsing functions
 t_objects	*parse(char *file);
-t_objects	*parse_object(char **res);
+t_objects	*parse_object(int fd);
 
 t_color		parse_color(char *s);
 

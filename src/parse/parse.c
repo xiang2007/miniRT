@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/31 16:29:40 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/03 10:31:47 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,23 +117,16 @@ int	parse_check_object_count(t_objects *o)
 
 t_objects	*parse(char *file)
 {
-	char		*file_content;
-	char		**temp;
+	int			fd;
 	t_objects	*o;
 
 	if (check_rt_file(file) == FALSE)
 		return (NULL);
-	file_content = read_rt_file(file);
-	if (file_content == NULL)
+	fd = read_rt_file(file);
+	if (fd == -1)
 		return (NULL);
-	temp = ft_split(file_content, '\n');
-	o = parse_object(temp);
-	if (o == NULL)
-		return (free(file_content), free_str_arr(temp), NULL);
+	o = parse_object(fd);
 	if (!parse_check_object_count(o))
-		return (free(file_content), free_str_arr(temp),
-			parse_free_objects(o), NULL);
-	free_str_arr(temp);
-	free(file_content);
+		return (parse_free_objects(o), NULL);
 	return (o);
 }

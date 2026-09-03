@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:53 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/04/15 15:51:45 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/03 10:40:24 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,12 @@ int	check_rt_file(char *file_name)
 	return (TRUE);
 }
 
-char	*read_rt_file(char *filename)
+int	read_rt_file(char *filename)
 {
 	int		fd;
-	int		rd;
-	char	buffer[BUF_SIZE + 1];
-	char	*res;
-	char	*line;
 
 	fd = open(filename, O_RDONLY);
-	res = ft_strdup("");
-	if (fd == -1)
-		return (NULL);
-	rd = read(fd, buffer, BUF_SIZE);
-	while (rd > 0)
-	{
-		buffer[rd] = '\0';
-		line = ft_strjoin(res, buffer);
-		free(res);
-		res = line;
-		rd = read(fd, buffer, BUF_SIZE);
-	}
-	close(fd);
-	return (res);
+	return (fd);
 }
 
 t_obj_type	parse_check_type(char *s)
@@ -99,22 +82,30 @@ int	parse_object_switch(int id, char *s, t_objects **o)
 	return (FALSE);
 }
 
-t_objects	*parse_object(char **res)
+t_objects	*parse_object(int fd)
 {
+	char		*line;
 	int			i;
 	t_objects	*o_res;
 
-	if (!res)
-		return (NULL);
 	o_res = NULL;
 	i = 0;
-	while (res[i])
+	if (fd == -1)
+		return (NULL);
+	line = get_next_line(fd);
+	while (line)
 	{
-		if (parse_object_switch(i, res[i], &o_res) == FALSE)
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
+		if (!line)
+			break ;
+		if (parse_object_switch(i, line, &o_res) == FALSE)
 		{
-			parse_free_objects(o_res);
+			free(line);
 			return (NULL);
 		}
+		free(line);
+		line = get_next_line(fd);
 		i++;
 	}
 	return (o_res);
