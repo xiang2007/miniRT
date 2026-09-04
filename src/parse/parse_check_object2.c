@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:23:49 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 01:51:35 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/04 13:01:37 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,30 +31,28 @@ int	parse_arg_count(char **arg)
 
 t_objects	*parse_cylinder_helper(int id, char **res)
 {
+	t_cylinder	cylinder;
 	t_objects	*o;
 
-	o = malloc(sizeof(t_objects));
-	if (!o)
+	cylinder.center = parse_cords(res[1]);
+	cylinder.axis = parse_cords(res[2]);
+	if (vec_len_sq(cylinder.axis) > 0.0)
+		cylinder.axis = unit_vec(cylinder.axis);
+	cylinder.radius = ft_atof(res[3]) / 2.0;
+	cylinder.height = ft_atof(res[4]);
+	cylinder.color = parse_color(res[5]);
+	if (cylinder.color.r == -1)
 		return (NULL);
-	o->id = id;
-	o->type = OBJ_CYLINDER;
-	o->cylinder.center = parse_cords(res[1]);
-	o->cylinder.axis = parse_cords(res[2]);
-	if (vec_len_sq(o->cylinder.axis) > 0.0)
-		o->cylinder.axis = unit_vec(o->cylinder.axis);
-	o->cylinder.radius = ft_atof(res[3]) / 2.0;
-	o->cylinder.height = ft_atof(res[4]);
-	o->cylinder.color = parse_color(res[5]);
-	if (o->cylinder.color.r == -1)
-		return (free(o), NULL);
-	o->cylinder.material = NULL;
+	cylinder.material = NULL;
 	if (res[6])
 	{
-		if (!parse_material(res, &o, 6))
-			return (free(o), NULL);
+		cylinder.material = parse_mat_switch(res, 6, cylinder.color, 0);
+		if (!cylinder.material)
+			return (NULL);
 	}
 	else
-		o->cylinder.material = create_lambertian(o->cylinder.color);
+		cylinder.material = create_lambertian(cylinder.color);
+	o = create_object(&cylinder, OBJ_CYLINDER, id);
 	return (o);
 }
 

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 12:04:38 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/09/03 11:32:31 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/04 12:55:20 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	parse_ambient(int id, char *s, t_objects **obj)
 {
-	double		ratio;
+	t_ambient	ambient;
 	char		**res;
 	t_objects	*o;
 
@@ -26,16 +26,11 @@ int	parse_ambient(int id, char *s, t_objects **obj)
 	res = ft_split(s, ' ');
 	if (!res)
 		return (FALSE);
-	ratio = ft_atof(res[1]);
-	o = malloc(sizeof(t_objects));
-	if (!o)
+	ambient.ratio = ft_atof(res[1]);
+	ambient.color = parse_color(res[2]);
+	if (ambient.color.r == -1)
 		return (free_str_arr(res), FALSE);
-	o->id = id;
-	o->type = OBJ_AMBIENT;
-	o->ambient.ratio = ratio;
-	o->ambient.color = parse_color(res[2]);
-	if (o->ambient.color.r == -1)
-		return (free(o), free_str_arr(res), FALSE);
+	o = create_object(&ambient, OBJ_AMBIENT, id);
 	obj_add_back(o, obj);
 	return (free_str_arr(res), TRUE);
 }
@@ -71,6 +66,7 @@ int	parse_cam(int id, char *s, t_objects **obj)
 
 int	parse_light(int id, char *s, t_objects **obj)
 {
+	t_light		light;
 	char		**res;
 	t_objects	*o;
 
@@ -81,21 +77,16 @@ int	parse_light(int id, char *s, t_objects **obj)
 	res = ft_split(s, ' ');
 	if (!res)
 		return (FALSE);
-	o = malloc(sizeof(t_objects));
-	if (!o)
-		return (FALSE);
-	o->id = id;
-	o->light.cords = parse_cords(res[1]);
-	o->light.brightness_ratio = ft_atof(res[2]);
-	o->light.color = parse_color(res[3]);
-	o->type = OBJ_LIGHT;
-	obj_add_back(o, obj);
-	free_str_arr(res);
-	return (TRUE);
+	light.cords = parse_cords(res[1]);
+	light.brightness_ratio = ft_atof(res[2]);
+	light.color = parse_color(res[3]);
+	o = create_object(&light, OBJ_LIGHT, id);
+	return (obj_add_back(o, obj), free_str_arr(res), TRUE);
 }
 
 int	parse_sphere(int id, char *s, t_objects **obj)
 {
+	t_sphere	sphere;
 	char		**res;
 	t_objects	*o;
 
@@ -104,27 +95,26 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	res = ft_split(s, ' ');
 	if (!res)
 		return (FALSE);
-	o = malloc(sizeof(t_objects));
-	o->id = id;
-	o->sphere.point = parse_cords(res[1]);
-	o->sphere.radius = ft_atof(res[2]) / 2.0;
-	o->sphere.color = parse_color(res[3]);
-	if (o->sphere.color.r == -1)
-		return (free(o), free_str_arr(res), FALSE);
-	o->sphere.material = NULL;
-	o->type = OBJ_SPHERE;
+	sphere.point = parse_cords(res[1]);
+	sphere.radius = ft_atof(res[2]) / 2.0;
+	sphere.color = parse_color(res[3]);
+	if (sphere.color.r == -1)
+		return (free_str_arr(res), FALSE);
 	if (res[4])
 	{
-		if (!parse_material(res, &o, 4))
-			return (FALSE);
+		sphere.material = parse_mat_switch(res, 4, sphere.color, 0);
+		if (!sphere.material)
+			return (free_str_arr(res), FALSE);
 	}
 	else
-		o->sphere.material = create_lambertian(o->sphere.color);
+		sphere.material = create_lambertian(sphere.color);
+	o = create_object(&sphere, OBJ_SPHERE, id);
 	return (free_str_arr(res), obj_add_back(o, obj), TRUE);
 }
 
 int	parse_plane(int id, char *s, t_objects **obj)
 {
+	t_plane		plane;
 	char		**res;
 	t_objects	*o;
 
@@ -133,12 +123,9 @@ int	parse_plane(int id, char *s, t_objects **obj)
 	res = ft_split(s, ' ');
 	if (!res)
 		return (FALSE);
-	o = malloc(sizeof(t_objects));
-	if (!o)
-		return (FALSE);
-	o = parse_plane_helper(id, res);
-	if (!o)
+	if (parse_plane_helper(id, res, &plane) == FALSE)
 		return (free_str_arr(res), FALSE);
+	o = create_object(&plane, OBJ_PLANE, id);
 	obj_add_back(o, obj);
 	return (free_str_arr(res), TRUE);
 }

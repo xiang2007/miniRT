@@ -7,14 +7,9 @@ MAKE := make
 CC := cc
 RM := rm -rf
 
-# Memory leak flags
-ifdef ML
-	CFLAGS += -ggdb -fsanitize=address -fno-omit-frame-pointer -static-libstdc++ -lrt
-endif
-
 # Compiler Flags
 # -Ofast: equivalent to -O3 -ffast-math, enables compiler optimizations and overrides standard math compliance to IEE 754
-CFLAGS := -Wall -Werror -Wextra -std=gnu11 -g3 -Ofast $(ML)
+CFLAGS := -Wall -Werror -Wextra -std=gnu11 -g3 -Ofast
 
 # If TSAN=1 is passed, append the sanitize flags
 ifdef TSAN
@@ -22,6 +17,11 @@ ifdef TSAN
 	LDFLAGS += -fsanitize=thread
 	# Overwrite -Ofast to -O1 because heavy optimization messes with TSAN traces
 	CFLAGS := $(filter-out -Ofast,$(CFLAGS))
+endif
+
+# Memory leak flags
+ifdef ML
+	CFLAGS += -ggdb -fsanitize=address -fno-omit-frame-pointer -static-libstdc++ -lrt
 endif
 
 # Need to enable this: sudo sysctl vm.mmap_rnd_bits=28 to run tsan
