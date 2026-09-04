@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 17:00:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/31 17:00:00 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/04 18:15:09 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,24 @@ int	check_cone(char *s)
 
 int	parse_cone(int id, char *s, t_objects **obj)
 {
+	t_cone		cone;
 	char		**res;
 	t_objects	*o;
 
 	if (!check_cone(s))
 		return (FALSE);
 	res = ft_split(s, ' ');
-	o = malloc(sizeof(t_objects));
-	if (!res || !o)
-		return (free(o), free_str_arr(res), FALSE);
-	o->id = id;
-	o->type = OBJ_CONE;
-	o->cone.pos = parse_cords(res[1]);
-	o->cone.axis = unit_vec(parse_cords(res[2]));
-	o->cone.radius = ft_atof(res[3]);
-	o->cone.height = ft_atof(res[4]);
-	o->cone.color = parse_color(res[5]);
-	o->cone.material = create_lambertian(o->cone.color);
-	o->cone.constant_k = 1.0 + pow(o->cone.radius / o->cone.height, 2);
-	if (!o->cone.material)
-		return (free(o), free_str_arr(res), FALSE);
+	if (!res)
+		return (free_str_arr(res), FALSE);
+	cone.pos = parse_cords(res[1]);
+	cone.axis = unit_vec(parse_cords(res[2]));
+	cone.radius = ft_atof(res[3]);
+	cone.height = ft_atof(res[4]);
+	cone.color = parse_color(res[5]);
+	cone.material = create_lambertian(cone.color);
+	cone.constant_k = 1.0 + pow(cone.radius / cone.height, 2);
+	if (!cone.material)
+		return (free_str_arr(res), FALSE);
+	o = create_object(&cone, OBJ_CONE, id);
 	return (obj_add_back(o, obj), free_str_arr(res), TRUE);
 }

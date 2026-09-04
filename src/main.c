@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:09:42 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 11:25:02 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/04 13:25:23 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	reload_scene(t_rt *win)
 	if (!objs)
 		return (1);
 	get_setup_cam(&s, objs);
-	parse_world(&world, objs);
+	parse_world(&world, &objs);
 	world_free(&win->world);
 	win->world = world;
 	cam_init(win->cam, win, &s);
@@ -74,7 +74,7 @@ int	parse_and_render(t_rt *rt_dat, t_threadpool *tp)
 		return (1);
 	cam = malloc(sizeof(t_cam));
 	get_setup_cam(&s, objs);
-	parse_world(&world, objs);
+	parse_world(&world, &objs);
 	rt_dat->world = world;
 	cam_init(cam, rt_dat, &s);
 	rt_dat->cam = cam;

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 14:37:21 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/09/03 10:31:47 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/04 17:56:16 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 #include "../../includes/parse.h"
 #include "../../includes/aabb.h"
 
-static t_objects	*parse_create_object(t_objects *o)
-{
-	if (o->type == OBJ_AMBIENT)
-		return (create_object(&o->ambient, o->type, o->id));
-	if (o->type == OBJ_SPHERE)
-		return (create_object(&o->sphere, o->type, o->id));
-	if (o->type == OBJ_PLANE)
-		return (create_object(&o->plane, o->type, o->id));
-	if (o->type == OBJ_CYLINDER)
-		return (create_object(&o->cylinder, o->type, o->id));
-	if (o->type == OBJ_LIGHT)
-		return (create_object(&o->light, o->type, o->id));
-	if (o->type == OBJ_CONE)
-		return (create_object(&o->cone, o->type, o->id));
-	return (NULL);
-}
+// static t_objects	*parse_create_object(t_objects *o)
+// {
+// 	if (o->type == OBJ_AMBIENT)
+// 		return (create_object(&o->ambient, o->type, o->id));
+// 	if (o->type == OBJ_SPHERE)
+// 		return (create_object(&o->sphere, o->type, o->id));
+// 	if (o->type == OBJ_PLANE)
+// 		return (create_object(&o->plane, o->type, o->id));
+// 	if (o->type == OBJ_CYLINDER)
+// 		return (create_object(&o->cylinder, o->type, o->id));
+// 	if (o->type == OBJ_LIGHT)
+// 		return (create_object(&o->light, o->type, o->id));
+// 	if (o->type == OBJ_CONE)
+// 		return (create_object(&o->cone, o->type, o->id));
+// 	return (NULL);
+// }
 
 /**
  * @brief Iterates through the t_objects linked list and adds it to the
@@ -38,27 +38,27 @@ static t_objects	*parse_create_object(t_objects *o)
  * @param w world struct
  * @param o object linked list
  */
-void	parse_world(t_world *w, t_objects *o)
+void	parse_world(t_world *w, t_objects **o)
 {
 	t_objects	*p;
-	t_objects	*t;
+	t_objects	*tmp;
 	int			count;
 
-	if (!w)
+	if (!w || !o)
 		return ;
 	w->bvh_obj = NULL;
 	w->bvh = NULL;
-	if (!o)
-		return ;
-	p = o;
+	p = *o;
 	while (p)
 	{
-		t = parse_create_object(p);
-		if (t)
-			world_add_back(w, t, p->type);
-		p = p->next;
+		tmp = p->next;
+		if (p->type == OBJ_SETUP_CAM || p->type == OBJ_CAMERA)
+			free(p);
+		else
+			world_add_back(w, p, p->type);
+		p = tmp;
 	}
-	parse_free_objects(o);
+	*o = NULL;
 	w->bvh_obj = obj2arr(w->objs);
 	count = obj_bvh_count(w->objs);
 	if (w->bvh_obj && count > 0)
