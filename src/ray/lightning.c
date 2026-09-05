@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 15:59:54 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 11:06:44 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/05 20:55:29 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static double	material_fuzz(const t_material *mat)
 	return (0.0);
 }
 
-static t_color	material_albedo(const t_material *mat, t_color fallback)
+t_color	material_albedo(const t_material *mat, t_color fallback)
 {
 	t_lambertian	*lam;
 
@@ -72,23 +72,52 @@ static void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
 	l->specular *= light_attenuation(light, l->light_distance);
 }
 
-t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
+// t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
+// {
+// 	t_lightning	l;
+
+// 	l = (t_lightning){0};
+// 	l.shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
+// 	l.light_dir = unit_vec(sub_point(light.cords, rec->point));
+// 	l.light_distance = vec_len(sub_point(light.cords, rec->point));
+// 	l.shadow_ray = ray(l.shadow_ori, l.light_dir);
+// 	if (!shadow_hit(w, &l.shadow_ray, l.light_distance, rec->hit_obj))
+// 	{
+// 		lightning_helper(&l, rec, r, light);
+// 		l.result = color_add(
+// 				color_mul_n(material_albedo(rec->mat, rec->color),
+// 					l.brightness),
+// 				color_mul_n(light.color, l.specular));
+// 		return (l.result);
+// 	}
+// 	return (create_color(0, 0, 0));
+// }
+
+t_color	compute_direct_lighting(t_hit_dat *r, t_world *w, t_ray *ra)
 {
+	t_objects	*objs;
+	t_color		total;
 	t_lightning	l;
 
-	l = (t_lightning){0};
-	l.shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
-	l.light_dir = unit_vec(sub_point(light.cords, rec->point));
-	l.light_distance = vec_len(sub_point(light.cords, rec->point));
-	l.shadow_ray = ray(l.shadow_ori, l.light_dir);
-	if (!shadow_hit(w, &l.shadow_ray, l.light_distance, rec->hit_obj))
+	objs = w->objs;
+	while(objs)
 	{
-		lightning_helper(&l, rec, r, light);
-		l.result = color_add(
-				color_mul_n(material_albedo(rec->mat, rec->color),
-					l.brightness),
-				color_mul_n(light.color, l.specular));
-		return (l.result);
+		if (objs->type == OBJ_LIGHT)
+		{
+			l = (t_lightning){0};
+			l.shadow_ori = vec_add(r->point, vec_mul(r->normal, 0.001));
+			l.light_dir = unit_vec(sub_point(objs->light.cords, r->point));
+			l.light_distance = vec_len(sub_point(objs->light.cords,
+				r->point));
+			l.shadow_ray = ray(l.shadow_ori, l.light_dir);
+			if (!scene_intersect_shadow(w, &l.shadow_ray,
+					l.light_distance, r->hit_obj))
+			{
+				lightning_helper(&l, r, ra, objs->light);
+				total = color_add(create_color(0, 0, 0), l.result);
+			}
+		}
+		objs = objs->next;
 	}
-	return (create_color(0, 0, 0));
+	return (total);
 }

@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 12:15:34 by ydylan-k          #+#    #+#             */
-/*   Updated: 2026/08/31 14:29:56 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/05 20:55:37 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,13 @@ t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 bool	material_is_transparent(t_objects *o);
 bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
+t_color	material_albedo(const t_material *mat, t_color fallback);
 
 // intersect hit global
 bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec);
 
 // lighting
 bool	scene_intersect_shadow(t_world *w, t_ray *ray, double t_max, t_objects *skip);
-t_color compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r);
+t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r);
 
 #endif

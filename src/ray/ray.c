@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:03:00 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/08/29 11:03:26 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/05 20:55:03 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,6 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	return (hit_anything);
 }
 
-static t_color	all_lights(t_hit_dat *rec, t_world *w, t_ray *r)
-{
-	t_objects	*obj;
-	t_color		result;
-
-	result = create_color(0, 0, 0);
-	obj = w->objs;
-	while (obj)
-	{
-		if (obj->type == OBJ_LIGHT)
-			result = color_add(result,
-					lightning(rec, w, r, obj->light));
-		obj = obj->next;
-	}
-	return (result);
-}
-
 /**
  * @brief Calculates the hit data from hit_list and calculates
  * the colour from it.
@@ -117,5 +100,5 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 		return (metal_shade(&rec, world, r, bounce_depth));
 	if (rec.mat && rec.mat->scatter == dielectric_scatter)
 		return (dielectric_shade(&rec, world, r, bounce_depth));
-	return (all_lights(&rec, world, r));
+	return (compute_direct_lighting(&rec, world, r));
 }
