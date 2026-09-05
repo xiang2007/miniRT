@@ -42,17 +42,6 @@ typedef struct s_cylinder_args
 	t_hit_dat	*rec;
 }				t_cylinder_args;
 
-typedef struct s_hit_sphere
-{
-	t_vec3	ori_center;
-	t_vec3	outward_normal;
-	double	a;
-	double	h;
-	double	c;
-	double	d;
-	double	root;
-}			t_hit_sphere;
-
 typedef struct s_lightning
 {
 	t_ray		shadow_ray;
@@ -102,7 +91,9 @@ typedef struct s_metal_shade
 	double	fuzz;
 }				t_metal_shade;
 
-bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec);
+// intersect hit global
+bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec);
+
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world);
 t_vec3	ray_pos(t_ray *r, double t);
@@ -130,8 +121,6 @@ t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 bool	material_is_transparent(t_objects *o);
 bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
 
-// intersect hit global
-bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec);
 
 // lighting
 bool	scene_intersect_shadow(t_world *w, t_ray *ray, double t_max, t_objects *skip);

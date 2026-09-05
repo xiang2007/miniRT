@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "objects.h"
 #include "threadpool.h"
 #include "../../includes/parse.h"
 
@@ -40,8 +41,8 @@ t_objects	*parse_cylinder_helper(int id, char **res)
 	o->type = OBJ_CYLINDER;
 	o->cylinder.center = parse_cords(res[1]);
 	o->cylinder.axis = parse_cords(res[2]);
-	if (vec_len_sq(o->cylinder.axis) > 0.0)
-		o->cylinder.axis = unit_vec(o->cylinder.axis);
+	if (vec3_len_sq(o->cylinder.axis) > 0.0)
+		o->cylinder.axis = unit_vec3(o->cylinder.axis);
 	o->cylinder.radius = ft_atof(res[3]) / 2.0;
 	o->cylinder.height = ft_atof(res[4]);
 	o->cylinder.color = parse_color(res[5]);
@@ -55,6 +56,9 @@ t_objects	*parse_cylinder_helper(int id, char **res)
 	}
 	else
 		o->cylinder.material = create_lambertian(o->cylinder.color);
+	o->hit = &cylinder_hit;
+	o->translate = &cylinder_translate;
+	o->rotate = &cylinder_rotate;
 	return (o);
 }
 

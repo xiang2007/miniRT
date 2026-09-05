@@ -45,7 +45,7 @@ int	parse_cone(int id, char *s, t_objects **obj)
 	o->id = id;
 	o->type = OBJ_CONE;
 	o->cone.pos = parse_cords(res[1]);
-	o->cone.axis = unit_vec(parse_cords(res[2]));
+	o->cone.axis = unit_vec3(parse_cords(res[2]));
 	o->cone.radius = ft_atof(res[3]);
 	o->cone.height = ft_atof(res[4]);
 	o->cone.color = parse_color(res[5]);
@@ -53,5 +53,8 @@ int	parse_cone(int id, char *s, t_objects **obj)
 	o->cone.constant_k = 1.0 + pow(o->cone.radius / o->cone.height, 2);
 	if (!o->cone.material)
 		return (free(o), free_str_arr(res), FALSE);
+	o->hit = &cone_hit;
+	o->translate = &cone_translate;
+	o->rotate = &cone_rotate;
 	return (obj_add_back(o, obj), free_str_arr(res), TRUE);
 }

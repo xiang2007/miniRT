@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "../../includes/aabb.h"
+#include "material.h"
 #include "objects.h"
+#include "ray.h"
 
 void	build_box_switch(t_objects *o)
 {
@@ -54,51 +55,33 @@ void	obj_add_back(t_objects *src, t_objects **dest)
  * @param type the object type
  * @return the node or NULL if malloc fail
  */
-t_objects	*create_object(void *obj, t_obj_type type, int id)
+t_objects	*create_object(t_objects *o)
 {
 	t_objects	*res;
 
 	res = malloc(sizeof(t_objects));
 	if (!res)
 		return (NULL);
-	res->id = id;
-	res->type = type;
+	res->id = o->id;
+	res->type = o->type;
+	res->hit = o->hit;
+	res->rotate = o->rotate;
+	res->translate = o->translate;
 	res->next = NULL;
-	if (type == OBJ_SPHERE)
-		res->sphere = *(t_sphere *)obj;
-	else if (type == OBJ_AMBIENT)
-		res->ambient = *(t_ambient *)obj;
-	else if (type == OBJ_CYLINDER)
-		res->cylinder = *(t_cylinder *)obj;
-	else if (type == OBJ_PLANE)
-		res->plane = *(t_plane *)obj;
-	else if (type == OBJ_LIGHT)
-		res->light = *(t_light *)obj;
-	else if (type == OBJ_CONE)
-		res->cone = *(t_cone *)obj;
+	if (o->type == OBJ_SPHERE)
+		res->sphere = o->sphere;
+	else if (o->type == OBJ_AMBIENT)
+		res->ambient = o->ambient;
+	else if (o->type == OBJ_CYLINDER)
+		res->cylinder = o->cylinder;
+	else if (o->type == OBJ_PLANE)
+		res->plane = o->plane;
+	else if (o->type == OBJ_LIGHT)
+		res->light = o->light;
+	else if (o->type == OBJ_CONE)
+		res->cone = o->cone;
 	build_box_switch(res);
 	return (res);
-}
-
-/**
- * @brief Prints the name of all the objects in the linked list
- *
- * @param o the linked list
- */
-void	print_object_list(t_objects *o)
-{
-	const char	*t[8] = {"AMBIENT", "CAMERA", "SPHERE", "PLANE",
-		"CYLINDER", "LIGHT", "S_CAM", "CONE"};
-	t_objects	*p;
-
-	if (!o)
-		return ;
-	p = o;
-	while (p)
-	{
-		printf("Object: %s\n", t[p->type]);
-		p = p->next;
-	}
 }
 
 t_objects	**obj2arr(t_objects *o)
@@ -125,4 +108,13 @@ t_objects	**obj2arr(t_objects *o)
 	}
 	res[i] = NULL;
 	return (res);
+}
+
+void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec)
+{
+	rec->front_face = vec3_dot(r->vec, *out_norm) < 0.001;
+	if (rec->front_face)
+		rec->normal = *out_norm;
+	else
+		rec->normal = vec3_mul(*out_norm, -1.0);
 }

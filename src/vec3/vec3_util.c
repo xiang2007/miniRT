@@ -21,7 +21,7 @@
  * @param a the vector
  * @return the sum
  */
-double	vec_len_sq(t_vec3 a)
+double	vec3_len_sq(t_vec3 a)
 {
 	return (pow(a.x, 2.0) + pow(a.y, 2.0) + pow(a.z, 2.0));
 }
@@ -32,9 +32,9 @@ double	vec_len_sq(t_vec3 a)
  * @param a the vector
  * @return the vector length
  */
-double	vec_len(t_vec3 a)
+double	vec3_len(t_vec3 a)
 {
-	return (sqrt(vec_len_sq(a)));
+	return (sqrt(vec3_len_sq(a)));
 }
 
 /**
@@ -44,7 +44,7 @@ double	vec_len(t_vec3 a)
  * @param b the second edge vector
  * @return the surface normal vector
  */
-t_vec3	vec_cross(t_vec3 a, t_vec3 b)
+t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 {
 	t_vec3	res;
 
@@ -62,7 +62,7 @@ t_vec3	vec_cross(t_vec3 a, t_vec3 b)
  * @param b the second vector
  * @return a double representing the scalar dot product
  */
-double	vec_dot(t_vec3 a, t_vec3 b)
+double	vec3_dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
@@ -73,7 +73,7 @@ double	vec_dot(t_vec3 a, t_vec3 b)
  * @param a the vector
  * @return the unit vector
  */
-t_vec3	unit_vec(t_vec3 a)
+t_vec3	unit_vec3(t_vec3 a)
 {
-	return (vec_div(a, vec_len(a)));
+	return (vec3_div(a, vec3_len(a)));
 }

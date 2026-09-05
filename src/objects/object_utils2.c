@@ -25,23 +25,6 @@ void	free_object_material(t_objects *o)
 		free(o->cone.material);
 }
 
-int	obj_size(t_objects *o)
-{
-	t_objects	*t;
-	int			size;
-
-	size = 0;
-	if (!o)
-		return (-1);
-	t = o;
-	while (t)
-	{
-		size++;
-		t = t->next;
-	}
-	return (size);
-}
-
 int	obj_bvh_count(t_objects *o)
 {
 	int			size;

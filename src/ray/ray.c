@@ -50,7 +50,7 @@ static bool	hit_world_bvh(t_world *world, t_ray *r, double max_t,
  * @param rec data struct when ray hits object
  * @return true if hit any objects or false if not
  */
-bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
+bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec)
 {
 	t_objects	*t;
 	bool		hit_anything;
@@ -67,7 +67,7 @@ bool	hit_list(t_ray *r, t_world *world, t_hit_dat *rec)
 	}
 	while (t)
 	{
-		if (t->type == OBJ_PLANE && hit_plane(&t->plane, r, c, &t_rec) > 0)
+		if (t->type == OBJ_PLANE && t->hit(t, r, c, &t_rec) > 0)
 		{
 			hit_anything = true;
 			c = t_rec.t;
@@ -111,7 +111,7 @@ t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 	rec = (t_hit_dat){0};
 	if (bounce_depth <= 0)
 		return (ambient_light(world));
-	if (!hit_list(r, world, &rec))
+	if (!scene_intersect(r, world, &rec))
 		return (ambient_light(world));
 	if (rec.mat && rec.mat->scatter == metal_scatter)
 		return (metal_shade(&rec, world, r, bounce_depth));

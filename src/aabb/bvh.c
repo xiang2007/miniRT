@@ -12,6 +12,7 @@
 
 #include "aabb.h"
 #include "ray.h"
+#include <stdbool.h>
 #include <stdlib.h>
 
 int	bvh_size(t_objects **obj)
@@ -74,24 +75,13 @@ static bool	hit_bvh_leaf(t_bvh *node, t_bvh_args args)
 {
 	if (node->o == args.skip)
 		return (false);
-	if (node->o->type == OBJ_SPHERE
-		&& hit_sphere(&node->o->sphere, args.ray,
-			args.max_t, args.rec) > 0)
+	if (node->o->hit)
 	{
-		args.rec->hit_obj = node->o;
-		return (true);
-	}
-	if (node->o->type == OBJ_CYLINDER && hit_cylinder(&node->o->cylinder,
-			args.ray, args.max_t, args.rec) > 0)
-	{
-		args.rec->hit_obj = node->o;
-		return (true);
-	}
-	if (node->o->type == OBJ_CONE && hit_cone(&node->o->cone, args.ray,
-			args.max_t, args.rec) > 0)
-	{
-		args.rec->hit_obj = node->o;
-		return (true);
+		if (node->o->hit(node->o, args.ray, args.max_t, args.rec) > 0)
+		{
+			args.rec->hit_obj = node->o;
+			return (true);
+		}
 	}
 	return (false);
 }

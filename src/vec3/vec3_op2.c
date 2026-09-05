@@ -30,7 +30,7 @@ t_vec3	create_vec3(double a, double b, double c)
 	return (res);
 }
 
-t_vec3	vec_rotate(t_vec3 v, t_vec3 axis, double angle)
+t_vec3	vec3_rotate(t_vec3 v, t_vec3 axis, double angle)
 {
 	t_vec3	k;
 	t_vec3	cross;
@@ -38,11 +38,26 @@ t_vec3	vec_rotate(t_vec3 v, t_vec3 axis, double angle)
 	double	sin_a;
 	double	dot;
 
-	k = unit_vec(axis);
+	k = unit_vec3(axis);
 	cos_a = cos(angle);
 	sin_a = sin(angle);
-	dot = vec_dot(k, v);
-	cross = vec_cross(k, v);
-	return (vec_add(vec_add(vec_mul(v, cos_a), vec_mul(cross, sin_a)),
-			vec_mul(k, dot * (1.0 - cos_a))));
+	dot = vec3_dot(k, v);
+	cross = vec3_cross(k, v);
+	return (vec3_add(vec3_add(vec3_mul(v, cos_a), vec3_mul(cross, sin_a)),
+			vec3_mul(k, dot * (1.0 - cos_a))));
+}
+
+t_vec3	get_object_right(t_vec3 obj_axis)
+{
+	t_vec3	world_up;
+
+	world_up = create_vec3(0.0, 1.0, 0.0);
+	if (fabs(obj_axis.y) > 0.99)
+		world_up = create_vec3(1.0, 0.0, 0.0);
+	return (unit_vec3(vec3_cross(world_up, obj_axis)));
+}
+
+t_vec3	get_object_up(t_vec3 obj_axis, t_vec3 obj_right)
+{
+	return (unit_vec3(vec3_cross(obj_axis, obj_right)));
 }

@@ -56,19 +56,19 @@ static void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
 	double	fuzz;
 
 	fuzz = material_fuzz(rec->mat);
-	l->brightness = fmax(vec_dot(rec->normal, l->light_dir), 0.0);
+	l->brightness = fmax(vec3_dot(rec->normal, l->light_dir), 0.0);
 	l->brightness *= light_attenuation(light, l->light_distance);
-	l->light_in = vec_mul(l->light_dir, -1.0);
+	l->light_in = vec3_mul(l->light_dir, -1.0);
 	l->reflected = reflect(&l->light_in, &rec->normal);
 	if (fuzz > 0.0)
-		l->reflected = vec_add(l->reflected, vec_mul(rand_unit_vec3(), fuzz));
-	l->reflected = unit_vec(l->reflected);
-	l->view_dir = unit_vec(vec_mul(r->vec, -1.0));
+		l->reflected = vec3_add(l->reflected, vec3_mul(rand_unit_vec3(), fuzz));
+	l->reflected = unit_vec3(l->reflected);
+	l->view_dir = unit_vec3(vec3_mul(r->vec, -1.0));
 	if (rec->mat && rec->mat->scatter == dielectric_scatter)
-		l->specular = pow(fmax(1.0 - vec_dot(rec->normal, l->view_dir), 0.0),
+		l->specular = pow(fmax(1.0 - vec3_dot(rec->normal, l->view_dir), 0.0),
 				5.0);
 	else
-		l->specular = pow(fmax(vec_dot(l->view_dir, l->reflected), 0.0), 32.0);
+		l->specular = pow(fmax(vec3_dot(l->view_dir, l->reflected), 0.0), 32.0);
 	l->specular *= light_attenuation(light, l->light_distance);
 }
 
@@ -77,9 +77,9 @@ t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
 	t_lightning	l;
 
 	l = (t_lightning){0};
-	l.shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
-	l.light_dir = unit_vec(sub_point(light.cords, rec->point));
-	l.light_distance = vec_len(sub_point(light.cords, rec->point));
+	l.shadow_ori = vec3_add(rec->point, vec3_mul(rec->normal, 0.001));
+	l.light_dir = unit_vec3(sub_point(light.cords, rec->point));
+	l.light_distance = vec3_len(sub_point(light.cords, rec->point));
 	l.shadow_ray = ray(l.shadow_ori, l.light_dir);
 	if (!shadow_hit(w, &l.shadow_ray, l.light_distance, rec->hit_obj))
 	{

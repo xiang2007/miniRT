@@ -12,14 +12,18 @@
 
 #include "threadpool.h"
 #include "libft.h"
+#include "minirt.h"
+#include <pthread.h>
+#include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 
 static bool	claim_tile(t_threadpool *tp, t_tile *tile)
 {
 	pthread_mutex_lock(&tp->queue_mutex);
 	while (tp->tile_next >= tp->tile_count && !tp->stop)
 		pthread_cond_wait(&tp->queue_cond, &tp->queue_mutex);
-	if (tp->stop)
+	if (tp->engine->abort_flag)
 	{
 		pthread_mutex_unlock(&tp->queue_mutex);
 		return (false);
@@ -42,6 +46,8 @@ void	*threadpool_worker(void *arg)
 		render_tile(tile, tp->engine);
 		pthread_mutex_lock(&tp->queue_mutex);
 		tp->active_threads--;
+		if (tp->active_threads == 0)
+			pthread_cond_broadcast(&tp->done_cond);
 		pthread_mutex_unlock(&tp->queue_mutex);
 	}
 	return (NULL);
@@ -69,6 +75,7 @@ t_threadpool	*threadpool_create(t_rt *engine, int thread_count)
 		return (free(tp->tiles), free(tp), NULL);
 	pthread_mutex_init(&tp->queue_mutex, NULL);
 	pthread_cond_init(&tp->queue_cond, NULL);
+	pthread_cond_init(&tp->done_cond, NULL);
 	i = 0;
 	while (i < thread_count)
 	{
@@ -95,4 +102,11 @@ void	threadpool_destroy(t_threadpool *tp)
 	free(tp->tiles);
 	free(tp->thread_id);
 	free(tp);
+}
+
+bool	threads_idle_locked(t_threadpool *tp)
+{
+	if (tp->active_threads == 0)
+		return (true);
+	return (false);
 }

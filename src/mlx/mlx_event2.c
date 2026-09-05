@@ -18,6 +18,7 @@
 #include <X11/keysym.h>
 #include <stdio.h>
 #include "color.h"
+#include "threadpool.h"
 
 void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
 {
@@ -50,10 +51,10 @@ static t_ray	click_ray(t_rt *win, int x, int y)
 	t_vec3	px_sample;
 	t_vec3	dir;
 
-	px_sample = vec_add(win->cam->px00_loc,
-			vec_add(vec_mul(win->cam->px_delta_u, (double)x),
-				vec_mul(win->cam->px_delta_v, (double)y)));
-	dir = vec_sub(px_sample, win->cam->cam_center);
+	px_sample = vec3_add(win->cam->px00_loc,
+			vec3_add(vec3_mul(win->cam->px_delta_u, (double)x),
+				vec3_mul(win->cam->px_delta_v, (double)y)));
+	dir = vec3_sub(px_sample, win->cam->cam_center);
 	return (ray(win->cam->cam_center, dir));
 }
 
@@ -66,7 +67,7 @@ int	mouse_select(int button, int x, int y, t_rt *win)
 		return (0);
 	r = click_ray(win, x, y);
 	rec = (t_hit_dat){0};
-	if (hit_list(&r, &win->world, &rec) && rec.hit_obj)
+	if (scene_intersect(&r, &win->world, &rec) && rec.hit_obj)
 	{
 		win->sel_obj = rec.hit_obj;
 		printf("Clicked object selected: ");

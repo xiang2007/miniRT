@@ -26,6 +26,8 @@ t_material	*create_lambertian(const t_color cl)
 	lam->albedo = cl;
 	lam->checker_color = create_color(0, 0, 0);
 	lam->checker_size = 0.0;
+	lam->base.emitted = black_emit;
+	lam->base.shininess = 0;
 	return ((t_material *)lam);
 }
 
@@ -39,6 +41,8 @@ t_material	*create_metal(const t_color cl, const double fuzz)
 	metal->base.scatter = &metal_scatter;
 	metal->albedo = cl;
 	metal->fuzziness = fuzz;
+	metal->base.emitted = black_emit;
+	metal->base.shininess = 0;
 	return ((t_material *)metal);
 }
 
@@ -51,5 +55,7 @@ t_material	*create_dielectric(const double refraction_index)
 		return (NULL);
 	die->base.scatter = &dielectric_scatter;
 	die->refractive_index = refraction_index;
+	die->base.emitted = black_emit;
+	die->base.shininess = 0;
 	return ((t_material *)die);
 }

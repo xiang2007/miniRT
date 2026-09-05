@@ -29,14 +29,14 @@ t_color	ambient_light(t_world *w)
 
 static void	add_recursive_light(t_recurse_l_hit *t, t_recurse_args *args)
 {
-	t->light_dir = unit_vec(sub_point(t->obj->light.cords,
+	t->light_dir = unit_vec3(sub_point(t->obj->light.cords,
 				args->rec->point));
-	t->alignment = fmax(vec_dot(t->out_dir, t->light_dir), 0.0);
+	t->alignment = fmax(vec3_dot(t->out_dir, t->light_dir), 0.0);
 	if (t->alignment <= t->accept_cos)
 		return ;
-	t->shadow_ray = ray(vec_add(args->rec->point,
-				vec_mul(t->out_dir, 0.01)), t->light_dir);
-	t->distance = vec_len(sub_point(t->obj->light.cords, args->rec->point));
+	t->shadow_ray = ray(vec3_add(args->rec->point,
+				vec3_mul(t->out_dir, 0.01)), t->light_dir);
+	t->distance = vec3_len(sub_point(t->obj->light.cords, args->rec->point));
 	if (shadow_hit(args->world, &t->shadow_ray,
 			t->distance, args->rec->hit_obj))
 		return ;
@@ -55,7 +55,7 @@ t_color	recursive_light_hits(t_recurse_args args)
 	t_recurse_l_hit	t;
 
 	t.result = create_color(0, 0, 0);
-	t.out_dir = unit_vec(args.outgoing->vec);
+	t.out_dir = unit_vec3(args.outgoing->vec);
 	t.accept_cos = 1.0 - args.fuzz;
 	t.obj = args.world->objs;
 	while (t.obj)

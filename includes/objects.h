@@ -24,11 +24,9 @@ typedef struct s_objects	t_objects;
 typedef struct s_ray		t_ray;
 typedef struct s_hit_dat	t_hit_dat;
 
-typedef double	(*t_hit_fn)(struct s_objects *self, struct s_ray *ray,
-			double r_max, struct s_hit_dat *rec);
+typedef double	(*t_hit_fn)(struct s_objects *self, struct s_ray *ray, double r_max, struct s_hit_dat *rec);
 typedef void	(*t_translate_fn)(struct s_objects *self, int key);
-typedef void	(*t_rotate_fn)(struct s_objects *self, const t_vec3 *axis,
-			double angle);
+typedef void	(*t_rotate_fn)(struct s_objects *self, int key);
 
 typedef struct s_aabb
 {
@@ -62,7 +60,7 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	t_point3	center;
-	t_vec3		normal;
+	t_vec3		axis;
 	t_color		color;
 	t_material	*material;
 }				t_plane;
@@ -176,6 +174,17 @@ typedef struct s_cylinder_hit
 	double	t_best;
 }				t_cylinder_hit;
 
+typedef struct s_hit_sphere
+{
+	t_vec3	ori_center;
+	t_vec3	outward_normal;
+	double	a;
+	double	h;
+	double	c;
+	double	d;
+	double	root;
+}			t_sphere_hit;
+
 typedef struct s_world
 {
 	t_objects	*objs;
@@ -184,27 +193,35 @@ typedef struct s_world
 }	t_world;
 
 // Objects function
-int			obj_size(t_objects *o);
 int			obj_bvh_count(t_objects *o);
 void		free_object_material(t_objects *o);
 void		obj_add_back(t_objects *src, t_objects **dest);
-void		print_object_list(t_objects *o);
-t_sphere	sphere(t_point3 center, double radius);
-t_objects	*create_object(void *obj, t_obj_type type, int id);
+t_objects	*create_object(t_objects *o);
 t_objects	*select_object(int key, t_world *world);
 t_objects	**obj2arr(t_objects *o);
 void		toggle_checker(t_objects *sel);
 
 // Object move function
-void		*cylinder_mv(int key, t_objects *o);
-void		*sphere_mv(int key, t_objects *o);
-void		*plane_mv(int key, t_objects *o);
-void		*light_mv(int key, t_objects *o);
-void		*cone_mv(int key, t_objects *o);
+void		cylinder_translate(t_objects *self, int key);
+void		sphere_translate(t_objects *self, int key);
+void		plane_translate(t_objects *self, int key);
+void		light_translate(t_objects *self, int key);
+void		cone_translate(t_objects *self, int key);
 void		move_objects(int key, t_objects **obj);
 void		lower_res(int key, t_rt *rt);
 void		reset_res(t_rt *rt);
 // World function
 void		world_add_back(t_world *world, t_objects *obj, t_obj_type type);
+
+void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec);
+
+double	plane_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
+double	sphere_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
+double	cylinder_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
+double	cone_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
+
+void	plane_rotate(t_objects *self, int key);
+void	cylinder_rotate(t_objects *self, int key);
+void	cone_rotate(t_objects *self, int key);
 
 #endif

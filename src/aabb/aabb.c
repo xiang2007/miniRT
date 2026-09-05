@@ -15,13 +15,13 @@
 
 void	build_cylinder(t_aabb *box, t_objects *o, t_vec3 half_axis, t_aabbs e)
 {
-	if (vec_len_sq(o->cylinder.axis) > 0.0)
-		half_axis = vec_mul(unit_vec(o->cylinder.axis),
+	if (vec3_len_sq(o->cylinder.axis) > 0.0)
+		half_axis = vec3_mul(unit_vec3(o->cylinder.axis),
 				o->cylinder.height / 2.0);
 	else
 		half_axis = create_vec3(0, 0, 0);
-	e.e1 = vec_add(o->cylinder.center, half_axis);
-	e.e2 = vec_sub(o->cylinder.center, half_axis);
+	e.e1 = vec3_add(o->cylinder.center, half_axis);
+	e.e2 = vec3_sub(o->cylinder.center, half_axis);
 	box->min = create_vec3(fmin(e.e1.x, e.e2.x) - o->cylinder.radius,
 			fmin(e.e1.y, e.e2.y) - o->cylinder.radius,
 			fmin(e.e1.z, e.e2.z) - o->cylinder.radius);

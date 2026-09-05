@@ -14,6 +14,7 @@
 # define THREADPOOL_H
 
 # include "minirt.h"
+#include <bits/pthreadtypes.h>
 # include <pthread.h>
 # include <stdbool.h>
 
@@ -35,6 +36,7 @@ typedef struct s_threadpool
 	t_tile			*tiles;
 	pthread_mutex_t	queue_mutex;
 	pthread_cond_t	queue_cond;
+	pthread_cond_t	done_cond;
 	size_t			thread_cnt;
 	int				active_threads;
 	bool			stop;
@@ -58,5 +60,6 @@ void			render_tile(t_tile tile, t_rt *rt_dat);
 void			queue_render(t_rt *win);
 void			threadpool_destroy(t_threadpool *tp);
 double			monotonic_seconds(void);
+bool	threads_idle_locked(t_threadpool *tp);
 
 #endif

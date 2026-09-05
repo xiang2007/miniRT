@@ -12,9 +12,9 @@
 
 #include "libft.h"
 #include "material.h"
-#include "threadpool.h"
+#include "objects.h"
 #include "../../includes/parse.h"
-#include <math.h>
+#include "vec3.h"
 
 t_objects	*parse_plane_helper(int id, char **res)
 {
@@ -24,9 +24,9 @@ t_objects	*parse_plane_helper(int id, char **res)
 	o->id = id;
 	o->type = OBJ_PLANE;
 	o->plane.center = parse_cords(res[1]);
-	o->plane.normal = parse_cords(res[2]);
-	if (vec_len_sq(o->plane.normal) > 0.0)
-		o->plane.normal = unit_vec(o->plane.normal);
+	o->plane.axis = parse_cords(res[2]);
+	if (vec3_len_sq(o->plane.axis) > 0.0)
+		o->plane.axis = unit_vec3(o->plane.axis);
 	o->plane.color = parse_color(res[3]);
 	if (o->plane.color.r == -1)
 		return (free(o), NULL);
@@ -38,6 +38,9 @@ t_objects	*parse_plane_helper(int id, char **res)
 	}
 	else
 		o->plane.material = create_lambertian(o->plane.color);
+	o->hit = &plane_hit;
+	o->translate = &plane_translate;
+	o->rotate = &plane_rotate;
 	return (o);
 }
 
@@ -45,6 +48,7 @@ t_color	parse_color_swtitch(t_objects **o)
 {
 	t_color	cl;
 
+	cl = (t_color){0};
 	if ((*o)->type == OBJ_CYLINDER)
 		cl = (*o)->cylinder.color;
 	else if ((*o)->type == OBJ_SPHERE)

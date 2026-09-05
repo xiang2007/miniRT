@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "threadpool.h"
+#include "objects.h"
 #include "../../includes/parse.h"
 
 int	parse_ambient(int id, char *s, t_objects **obj)
@@ -34,6 +34,9 @@ int	parse_ambient(int id, char *s, t_objects **obj)
 	o->type = OBJ_AMBIENT;
 	o->ambient.ratio = ratio;
 	o->ambient.color = parse_color(res[2]);
+	o->hit = NULL;
+	o->translate = NULL;
+	o->rotate = NULL;
 	if (o->ambient.color.r == -1)
 		return (free(o), free_str_arr(res), FALSE);
 	obj_add_back(o, obj);
@@ -89,6 +92,9 @@ int	parse_light(int id, char *s, t_objects **obj)
 	o->light.brightness_ratio = ft_atof(res[2]);
 	o->light.color = parse_color(res[3]);
 	o->type = OBJ_LIGHT;
+	o->hit = NULL;
+	o->translate = NULL;
+	o->rotate = NULL;
 	obj_add_back(o, obj);
 	free_str_arr(res);
 	return (TRUE);
@@ -120,6 +126,8 @@ int	parse_sphere(int id, char *s, t_objects **obj)
 	}
 	else
 		o->sphere.material = create_lambertian(o->sphere.color);
+	o->hit = &sphere_hit;
+	o->translate = &sphere_translate;
 	return (free_str_arr(res), obj_add_back(o, obj), TRUE);
 }
 
@@ -133,12 +141,10 @@ int	parse_plane(int id, char *s, t_objects **obj)
 	res = ft_split(s, ' ');
 	if (!res)
 		return (FALSE);
-	o = malloc(sizeof(t_objects));
-	if (!o)
-		return (FALSE);
 	o = parse_plane_helper(id, res);
 	if (!o)
 		return (free_str_arr(res), FALSE);
 	obj_add_back(o, obj);
+	free_str_arr(res);
 	return (TRUE);
 }

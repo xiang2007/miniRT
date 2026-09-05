@@ -57,7 +57,7 @@ t_vec3	ray_pos(t_ray *r, double t)
 	t_vec3		scaled_dir;
 	t_point3	res;
 
-	scaled_dir = vec_mul(r->vec, t);
-	res = vec_add(r->point, scaled_dir);
+	scaled_dir = vec3_mul(r->vec, t);
+	res = vec3_add(r->point, scaled_dir);
 	return (res);
 }

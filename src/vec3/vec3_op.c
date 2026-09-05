@@ -21,7 +21,7 @@
  * @param b the second vector
  * @return the resultant vector
  */
-t_vec3	vec_add(t_vec3 a, t_vec3 b)
+t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 {
 	t_vec3	res;
 
@@ -39,7 +39,7 @@ t_vec3	vec_add(t_vec3 a, t_vec3 b)
  * @param b the second vector
  * @return the resultant vector
  */
-t_vec3	vec_sub(t_vec3 a, t_vec3 b)
+t_vec3	vec3_sub(t_vec3 a, t_vec3 b)
 {
 	t_vec3	res;
 
@@ -56,7 +56,7 @@ t_vec3	vec_sub(t_vec3 a, t_vec3 b)
  * @param t the scalar
  * @return the resultant vector
  */
-t_vec3	vec_mul(t_vec3 a, double t)
+t_vec3	vec3_mul(t_vec3 a, double t)
 {
 	t_vec3	res;
 
@@ -73,7 +73,7 @@ t_vec3	vec_mul(t_vec3 a, double t)
  * @param t the scalar
  * @return the resultant vector
  */
-t_vec3	vec_div(t_vec3 a, double t)
+t_vec3	vec3_div(t_vec3 a, double t)
 {
 	t_vec3	res;
 	double	inv;

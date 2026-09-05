@@ -21,7 +21,7 @@ bool	lambertian_scatter(t_scatter_args *args)
 	t_vec3			scatter_direction;
 	t_lambertian	*lam;
 
-	scatter_direction = vec_add(args->rec->normal, rand_unit_vec3());
+	scatter_direction = vec3_add(args->rec->normal, rand_unit_vec3());
 	if (near_zero(&scatter_direction))
 		scatter_direction = args->rec->normal;
 	*args->scattered = ray(args->rec->point, scatter_direction);
@@ -37,14 +37,14 @@ bool	metal_scatter(t_scatter_args *args)
 
 	reflected = reflect(&args->in->vec, &args->rec->normal);
 	metal = (t_metal *)args->self;
-	reflected = vec_add(unit_vec(reflected),
-			vec_mul(rand_unit_vec3(), metal->fuzziness));
+	reflected = vec3_add(unit_vec3(reflected),
+			vec3_mul(rand_unit_vec3(), metal->fuzziness));
 	*args->scattered = ray(args->rec->point, reflected);
 	*args->attenuation = metal->albedo;
-	return (vec_dot(args->scattered->vec, args->rec->normal));
+	return (vec3_dot(args->scattered->vec, args->rec->normal));
 }
 
-double	reflectance(double cosine, double refraction_index)
+static double	reflectance(double cosine, double refraction_index)
 {
 	double	r0;
 
@@ -56,8 +56,8 @@ double	reflectance(double cosine, double refraction_index)
 static void	dielectric_pick_direction(t_scatter_args *args,
 				t_dielectric_scatter *dat)
 {
-	dat->unit_direction = unit_vec(args->in->vec);
-	dat->cos_theta = vec_dot(vec_mul(dat->unit_direction, -1.0),
+	dat->unit_direction = unit_vec3(args->in->vec);
+	dat->cos_theta = vec3_dot(vec3_mul(dat->unit_direction, -1.0),
 			args->rec->normal);
 	if (dat->cos_theta > 1.0)
 		dat->cos_theta = 1.0;
@@ -85,7 +85,7 @@ bool	dielectric_scatter(t_scatter_args *args)
 	if (args->rec->front_face)
 		dat.ri = 1.0 / dat.ri;
 	dielectric_pick_direction(args, &dat);
-	*args->scattered = ray(vec_add(args->rec->point,
-				vec_mul(dat.direction, 0.001)), dat.direction);
+	*args->scattered = ray(vec3_add(args->rec->point,
+				vec3_mul(dat.direction, 0.001)), dat.direction);
 	return (true);
 }
