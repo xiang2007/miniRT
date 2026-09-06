@@ -54,7 +54,7 @@ int	reload_scene(t_rt *win)
 	win->world = world;
 	cam_init(win->cam, win, &s);
 	reset_res(win);
-	queue_render(win);
+	win->needs_rerender = true;
 	return (0);
 }
 
@@ -89,25 +89,49 @@ int	parse_and_render(t_rt *rt_dat, t_threadpool *tp)
 int	mlx_render_loop(void *param)
 {
 	t_threadpool	*tp;
-	int				is_done;
-
+	
 	tp = param;
-	pthread_mutex_lock(&tp->queue_mutex);
-	is_done = (tp->active_threads == 0
-			&& tp->tile_next >= tp->tile_count);
-	pthread_mutex_unlock(&tp->queue_mutex);
-	if (is_done && tp->engine->is_rendering)
+	if (tp->engine->needs_rerender == true)
 	{
-		tp->engine->render_time = monotonic_seconds()
-			- tp->engine->render_start;
-		printf("Render took %.2f s\n", tp->engine->render_time);
-		mlx_put_to_window(tp->engine->mlx_dat);
-		draw_controls(tp->engine);
+		pthread_mutex_lock(&tp->queue_mutex);
+		tp->engine->abort_flag = true;
+		tp->tile_next = tp->tile_count;
+		pthread_mutex_unlock(&tp->queue_mutex);
+		pthread_cond_broadcast(&tp->queue_cond);
+		pthread_mutex_lock(&tp->queue_mutex);
+		while (!threads_idle_locked(tp))
+			pthread_cond_wait(&tp->done_cond, &tp->queue_mutex);
+		pthread_mutex_unlock(&tp->queue_mutex);
+		if (tp->engine->bvh_dirty)
+			rebuild_world_bvh(&tp->engine->world);
+		tp->engine->bvh_dirty = false;
 		tp->engine->is_rendering = false;
-		if (tp->engine->has_pending)
+		tp->engine->abort_flag = false;
+		queue_render(tp->engine);
+		tp->engine->needs_rerender = false;
+	}
+	else if (tp->engine->is_rendering == true)
+	{
+		pthread_mutex_lock(&tp->queue_mutex);
+		if (threads_idle_locked(tp) == true && tp->tile_next >= tp->tile_count)
 		{
-			tp->engine->has_pending = false;
-			handle_key(tp->engine->pending_key, tp->engine);
+			tp->engine->is_rendering = false;
+			pthread_mutex_unlock(&tp->queue_mutex);
+			tp->engine->render_time = monotonic_seconds()
+				- tp->engine->render_start;
+			printf("Render took %.2f s\n", tp->engine->render_time);
+			draw_controls(tp->engine);
+			if (tp->engine->has_pending)
+			{
+				tp->engine->has_pending = false;
+				handle_key(tp->engine->pending_key, tp->engine);
+			}
+			mlx_put_to_window(tp->engine->mlx_dat);
+		}
+		else
+		{
+			pthread_mutex_unlock(&tp->queue_mutex);
+			mlx_put_to_window(tp->engine->mlx_dat);
 		}
 	}
 	return (0);

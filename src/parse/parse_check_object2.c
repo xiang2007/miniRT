@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "objects.h"
 #include "threadpool.h"
 #include "../../includes/parse.h"
+#include "vec3.h"
 
 int	parse_arg_count(char **arg)
 {
@@ -31,28 +33,34 @@ int	parse_arg_count(char **arg)
 
 t_objects	*parse_cylinder_helper(int id, char **res)
 {
-	t_cylinder	cylinder;
 	t_objects	*o;
 
-	cylinder.center = parse_cords(res[1]);
-	cylinder.axis = parse_cords(res[2]);
-	if (vec_len_sq(cylinder.axis) > 0.0)
-		cylinder.axis = unit_vec(cylinder.axis);
-	cylinder.radius = ft_atof(res[3]) / 2.0;
-	cylinder.height = ft_atof(res[4]);
-	cylinder.color = parse_color(res[5]);
-	if (cylinder.color.r == -1)
+	o = malloc(sizeof(t_objects));
+	if (!o)
 		return (NULL);
-	cylinder.material = NULL;
+	o->id = id;
+	o->type = OBJ_CYLINDER;
+	o->cylinder.center = parse_cords(res[1]);
+	o->cylinder.axis = parse_cords(res[2]);
+	if (vec3_len_sq(o->cylinder.axis) > 0.0)
+		o->cylinder.axis = unit_vec3(o->cylinder.axis);
+	o->cylinder.radius = ft_atof(res[3]) / 2.0;
+	o->cylinder.height = ft_atof(res[4]);
+	o->cylinder.color = parse_color(res[5]);
+	if (o->cylinder.color.r == -1)
+		return (free(o), NULL);
+	o->cylinder.material = NULL;
 	if (res[6])
 	{
-		cylinder.material = parse_mat_switch(res, 6, cylinder.color, 0);
-		if (!cylinder.material)
+		o->cylinder.material = parse_mat_switch(res, 6, o->cylinder.color, 0);
+		if (!o->cylinder.material)
 			return (NULL);
 	}
 	else
-		cylinder.material = create_lambertian(cylinder.color);
-	o = create_object(&cylinder, OBJ_CYLINDER, id);
+		o->cylinder.material = create_lambertian(o->cylinder.color);
+	o->hit = &cylinder_hit;
+	o->translate = &cylinder_translate;
+	o->rotate = &cylinder_rotate;
 	return (o);
 }
 

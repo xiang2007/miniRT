@@ -70,8 +70,8 @@ t_vec3	rand_unit_vec3(void)
 	while (1)
 	{
 		p = vec3_rand(-1.0, 1.0);
-		lensq = vec_len_sq(p);
+		lensq = vec3_len_sq(p);
 		if (1e-160 < lensq && lensq <= 1)
-			return (vec_div(p, sqrt(lensq)));
+			return (vec3_div(p, sqrt(lensq)));
 	}
 }

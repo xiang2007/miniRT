@@ -14,79 +14,14 @@
 #include "../../includes/minirt.h"
 #include <X11/keysym.h>
 
-void	*cylinder_mv(int key, t_objects *o)
+void	light_translate(t_objects *self, int key)
 {
 	if (key == XK_Up)
-		return (o->cylinder.center.y += MOVE_Y, ((void *)0));
+		self->light.cords.y += MOVE_Y;
 	else if (key == XK_Down)
-		return (o->cylinder.center.y -= MOVE_Y, ((void *)0));
+		self->light.cords.y -= MOVE_Y;
 	else if (key == XK_Left)
-		return (o->cylinder.center.x += MOVE_X, ((void *)0));
+		self->light.cords.x += MOVE_X;
 	else if (key == XK_Right)
-		return (o->cylinder.center.x -= MOVE_X, ((void *)0));
-	else if (key == XK_equal)
-		return (o->cylinder.radius += EXPAND, ((void *)0));
-	else if (key == XK_minus)
-		return (o->cylinder.radius -= SHIRNK, ((void *)0));
-	return ((void *)0);
-}
-
-void	*sphere_mv(int key, t_objects *o)
-{
-	if (key == XK_Up)
-		return (o->sphere.point.y += MOVE_Y, ((void *)0));
-	else if (key == XK_Down)
-		return (o->sphere.point.y -= MOVE_Y, ((void *)0));
-	else if (key == XK_Left)
-		return (o->sphere.point.x += MOVE_X, ((void *)0));
-	else if (key == XK_Right)
-		return (o->sphere.point.x -= MOVE_X, ((void *)0));
-	else if (key == XK_equal)
-		return (o->sphere.radius += EXPAND, ((void *)0));
-	else if (key == XK_minus)
-		return (o->sphere.radius -= SHIRNK, ((void *)0));
-	return ((void *)0);
-}
-
-void	*cone_mv(int key, t_objects *o)
-{
-	if (key == XK_Up)
-		return (o->cone.pos.y += MOVE_Y, ((void *)0));
-	else if (key == XK_Down)
-		return (o->cone.pos.y -= MOVE_Y, ((void *)0));
-	else if (key == XK_Left)
-		return (o->cone.pos.x += MOVE_X, ((void *)0));
-	else if (key == XK_Right)
-		return (o->cone.pos.x -= MOVE_X, ((void *)0));
-	else if (key == XK_equal)
-		return (o->cone.radius += EXPAND, ((void *)0));
-	else if (key == XK_minus)
-		return (o->cone.radius -= SHIRNK, ((void *)0));
-	return ((void *)0);
-}
-
-void	*plane_mv(int key, t_objects *o)
-{
-	if (key == XK_Up)
-		return (o->plane.center.y += MOVE_Y, ((void *)0));
-	else if (key == XK_Down)
-		return (o->plane.center.y -= MOVE_Y, ((void *)0));
-	else if (key == XK_Left)
-		return (o->plane.center.x += MOVE_X, ((void *)0));
-	else if (key == XK_Right)
-		return (o->plane.center.x -= MOVE_X, ((void *)0));
-	return ((void *)0);
-}
-
-void	*light_mv(int key, t_objects *o)
-{
-	if (key == XK_Up)
-		o->light.cords.y += MOVE_Y;
-	else if (key == XK_Down)
-		o->light.cords.y -= MOVE_Y;
-	else if (key == XK_Left)
-		o->light.cords.x += MOVE_X;
-	else if (key == XK_Right)
-		o->light.cords.x -= MOVE_X;
-	return ((void *)0);
+		self->light.cords.x -= MOVE_X;
 }

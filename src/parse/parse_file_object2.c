@@ -12,36 +12,44 @@
 
 #include "libft.h"
 #include "material.h"
-#include "threadpool.h"
+#include "objects.h"
 #include "../../includes/parse.h"
-#include <math.h>
+#include "vec3.h"
 
-int	parse_plane_helper(int id, char **res, t_plane *plane)
+t_objects	*parse_plane_helper(int id, char **res)
 {
-	(void)id;
-	plane->center = parse_cords(res[1]);
-	plane->normal = parse_cords(res[2]);
-	if (vec_len_sq(plane->normal) > 0.0)
-		plane->normal = unit_vec(plane->normal);
-	plane->color = parse_color(res[3]);
-	if (plane->color.r == -1)
-		return (FALSE);
-	plane->material = NULL;
+	t_objects	*o;
+
+	o = malloc(sizeof(t_objects));
+	o->id = id;
+	o->type = OBJ_PLANE;
+	o->plane.center = parse_cords(res[1]);
+	o->plane.axis = parse_cords(res[2]);
+	if (vec3_len_sq(o->plane.axis) > 0.0)
+		o->plane.axis = unit_vec3(o->plane.axis);
+	o->plane.color = parse_color(res[3]);
+	if (o->plane.color.r == -1)
+		return (free(o), NULL);
+	o->plane.material = NULL;
 	if (res[4])
 	{
-		plane->material = parse_mat_switch(res, 4, plane->color, 0);
-		if (!plane->material)
+		o->plane.material = parse_mat_switch(res, 4, o->plane.color, 0);
+		if (!o->plane.material)
 			return (FALSE);
 	}
 	else
-		plane->material = create_lambertian(plane->color);
-	return (TRUE);
+		o->plane.material = create_lambertian(o->plane.color);
+	o->hit = &plane_hit;
+	o->translate = &plane_translate;
+	o->rotate = &plane_rotate;
+	return (o);
 }
 
 t_color	parse_color_swtitch(t_objects **o)
 {
 	t_color	cl;
 
+	cl = (t_color){0};
 	if ((*o)->type == OBJ_CYLINDER)
 		cl = (*o)->cylinder.color;
 	else if ((*o)->type == OBJ_SPHERE)

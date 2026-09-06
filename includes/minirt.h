@@ -13,9 +13,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "threadpool.h"
 # include <stdbool.h>
-# include <math.h>
 # include <float.h>
 # include <stddef.h>
 # define WIDTH 600
@@ -25,9 +23,9 @@
 # define MOVE_Y 0.3
 # define EXPAND 0.3
 # define SHIRNK 0.3
-# define MAX_BOUNCE 50
+# define MAX_BOUNCE 10
 # define LOW_RES_BOUNCE 10
-# define LOW_RES_SPP 3
+# define LOW_RES_SPP 1
 # define SPP 1
 # define PI 3.14159265358979323846
 
@@ -40,6 +38,7 @@ typedef struct s_threadpool	t_threadpool;
 typedef struct s_cam		t_cam;
 typedef struct s_world		t_world;
 typedef struct s_objects	t_objects;
+typedef struct s_rt			t_rt;
 
 /**
  * @brief Mlx data

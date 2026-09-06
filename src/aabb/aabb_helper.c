@@ -17,7 +17,7 @@ void	build_cone(t_aabb *box, t_cone *cone)
 	t_vec3	base;
 	t_vec3	extent;
 
-	base = vec_add(cone->pos, vec_mul(cone->axis, cone->height));
+	base = vec3_add(cone->pos, vec3_mul(cone->axis, cone->height));
 	extent.x = cone->radius * sqrt(fmax(0.0,
 				1.0 - cone->axis.x * cone->axis.x));
 	extent.y = cone->radius * sqrt(fmax(0.0,

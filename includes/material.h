@@ -68,7 +68,7 @@ typedef struct s_dielectric_scatter
 	bool			cannot_refract;
 }					t_dielectric_scatter;
 
-bool		black_emit(const struct s_material *self);
+t_color		black_emit(const struct s_material *self);
 
 bool		lambertian_scatter(t_scatter_args *args);
 t_material	*create_lambertian(t_color cl);

@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "material.h"
+#include "color.h"
 #include "objects.h"
+#include "vec3.h"
+#include <stdbool.h>
 
 bool	material_is_transparent(t_objects *o)
 {
@@ -26,4 +30,28 @@ bool	material_is_transparent(t_objects *o)
 	else if (o->type == OBJ_CONE)
 		mat = o->cone.material;
 	return (mat && mat->scatter == dielectric_scatter);
+}
+
+t_color	black_emit(const struct s_material *self)
+{
+	(void)self;
+	return (create_color(0, 0, 0)); 
+}
+
+void	toggle_checker(t_objects *sel)
+{
+	t_lambertian	*lam;
+
+	if (!sel || sel->type != OBJ_PLANE)
+		return ;
+	lam = (t_lambertian *)sel->plane.material;
+	if (!lam || lam->base.scatter != lambertian_scatter)
+		return ;
+	if (lam->checker_size > 0.0)
+		lam->checker_size = 0.0;
+	else
+	{
+		lam->checker_size = 1.0;
+		lam->checker_color = create_color(1.0, 1.0, 1.0);
+	}
 }

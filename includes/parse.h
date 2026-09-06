@@ -86,7 +86,7 @@ void		parse_free_objects(t_objects *o);
 void		parse_world(t_world *w, t_objects **o);
 
 // helper functions
-int	parse_plane_helper(int id, char **res, t_plane *plane);
+t_objects	*parse_plane_helper(int id, char **res);
 t_material	*parse_mat_switch(char **res, int idx, t_color cl, double ri);
 
 // Dispatch tables - contract v1

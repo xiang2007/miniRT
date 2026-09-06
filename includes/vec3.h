@@ -42,20 +42,20 @@ typedef struct s_rng_state
 	bool			init;
 }				t_rng_state;
 
-t_vec3		vec_add(t_vec3 a, t_vec3 b);
-t_vec3		vec_sub(t_vec3 a, t_vec3 b);
-t_vec3		vec_mul(t_vec3 a, double t);
-t_vec3		vec_div(t_vec3 a, double t);
+t_vec3		vec3_add(t_vec3 a, t_vec3 b);
+t_vec3		vec3_sub(t_vec3 a, t_vec3 b);
+t_vec3		vec3_mul(t_vec3 a, double t);
+t_vec3		vec3_div(t_vec3 a, double t);
 
 t_vec3		create_vec3(double a, double b, double c);
 
-double		vec_len_sq(t_vec3 a);
-double		vec_len(t_vec3 a);
-t_vec3		vec_cross(t_vec3 a, t_vec3 b);
-double		vec_dot(t_vec3 a, t_vec3 b);
-t_vec3		unit_vec(t_vec3 a);
+double		vec3_len_sq(t_vec3 a);
+double		vec3_len(t_vec3 a);
+t_vec3		vec3_cross(t_vec3 a, t_vec3 b);
+double		vec3_dot(t_vec3 a, t_vec3 b);
+t_vec3		unit_vec3(t_vec3 a);
 
-t_vec3		vec_rotate(t_vec3 v, t_vec3 axis, double angle);
+t_vec3		vec3_rotate(t_vec3 v, t_vec3 axis, double angle);
 
 t_point3	sub_point(t_point3 p1, t_point3 p2);
 
@@ -69,5 +69,8 @@ bool		near_zero(t_vec3 *vector);
 
 t_vec3		reflect(const t_vec3 *vec, const t_vec3 *normal);
 t_vec3		refract(const t_vec3 *uv, const t_vec3 *n, double etai_over_etat);
+
+t_vec3	get_object_right(t_vec3 obj_axis);
+t_vec3	get_object_up(t_vec3 obj_axis, t_vec3 obj_right);
 
 #endif

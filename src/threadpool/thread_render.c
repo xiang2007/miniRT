@@ -32,6 +32,8 @@ void	render_tile(t_tile tile, t_rt *rt_dat)
 	spp.pss = 1.0 / rt_dat->samples_per_pixel;
 	while (y < tile.end_y)
 	{
+		if (rt_dat->abort_flag)
+			return ;
 		render_row(tile, spp, y, rt_dat);
 		y++;
 	}

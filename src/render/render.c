@@ -23,12 +23,12 @@ t_color	spp_loop(t_spp spp, int n)
 	cl = create_color(0, 0, 0);
 	spp.offset = vec3_rand(-0.5, 0.5);
 	spp.offset.z = 0.0;
-	spp.px_sample = vec_add(
+	spp.px_sample = vec3_add(
 			spp.c->px00_loc,
-			vec_add(
-				vec_mul(spp.c->px_delta_u, n + spp.offset.x),
-				vec_mul(spp.c->px_delta_v, spp.h + spp.offset.y)));
-	spp.r_dir = vec_sub(spp.px_sample, spp.c->cam_center);
+			vec3_add(
+				vec3_mul(spp.c->px_delta_u, n + spp.offset.x),
+				vec3_mul(spp.c->px_delta_v, spp.h + spp.offset.y)));
+	spp.r_dir = vec3_sub(spp.px_sample, spp.c->cam_center);
 	spp.r = ray(spp.c->cam_center, spp.r_dir);
 	cl = ray_color(&spp.r, spp.max_bounce_depth, spp.w);
 	return (cl);
