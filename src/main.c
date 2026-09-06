@@ -121,11 +121,6 @@ int	mlx_render_loop(void *param)
 				- tp->engine->render_start;
 			printf("Render took %.2f s\n", tp->engine->render_time);
 			draw_controls(tp->engine);
-			if (tp->engine->has_pending)
-			{
-				tp->engine->has_pending = false;
-				handle_key(tp->engine->pending_key, tp->engine);
-			}
 			mlx_put_to_window(tp->engine->mlx_dat);
 		}
 		else

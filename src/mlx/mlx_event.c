@@ -121,15 +121,7 @@ int	handle_key(int key, t_rt *win)
 		exit(0);
 	}
 	else
-	{
-		if (win->is_rendering)
-		{
-			win->pending_key = key;
-			win->has_pending = true;
-			return (0);
-		}
 		dispatch_key(key, win);
-	}
 	return (0);
 }
 

@@ -80,17 +80,6 @@ typedef struct s_recurse_args
 	t_color		tint;
 }				t_recurse_args;
 
-typedef struct s_metal_shade
-{
-	t_metal	*metal;
-	t_vec3	reflected;
-	t_vec3	fuzzy;
-	t_ray	scattered;
-	t_color	bounced;
-	t_color	light_hits;
-	double	fuzz;
-}				t_metal_shade;
-
 // intersect hit global
 bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec);
 
@@ -116,10 +105,8 @@ double	light_attenuation(t_light light, double distance);
 t_color	ambient_light(t_world *w);
 bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
 t_color	recursive_light_hits(t_recurse_args args);
-t_color	metal_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
-t_color	dielectric_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
+t_color	scatter_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 bool	material_is_transparent(t_objects *o);
-bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
 t_color	material_albedo(const t_material *mat, t_color fallback);
 
 

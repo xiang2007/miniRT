@@ -18,7 +18,6 @@
 #include <X11/keysym.h>
 #include <stdio.h>
 #include "color.h"
-#include "threadpool.h"
 
 void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
 {
@@ -139,5 +138,5 @@ void	handle_toggle_checker(t_rt *win)
 		lam->checker_size = 1.0;
 		lam->checker_color = create_color(1.0, 1.0, 1.0);
 	}
-	queue_render(win);
+	win->needs_rerender = true;
 }

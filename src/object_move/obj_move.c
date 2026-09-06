@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "objects.h"
-#include "threadpool.h"
 #include "../../includes/parse.h"
 #include <X11/keysym.h>
 #include <stdio.h>
@@ -63,26 +62,3 @@ void	reset_res(t_rt *rt)
 	rt->max_bounce_depth = MAX_BOUNCE;
 	rt->samples_per_pixel = SPP;
 }
-
-// void	move_obj_switch(int key, t_obj_type type, t_objects *o)
-// {
-// 	if (type == OBJ_SPHERE)
-// 		sphere_translate(o, key);
-// 	else if (type == OBJ_PLANE)
-// 		plane_translate(o, key);
-// 	else if (type == OBJ_LIGHT)
-// 		light_translate(o, key);
-// 	else if (type == OBJ_CYLINDER)
-// 		cylinder_translate(o, key);
-// 	else if (type == OBJ_CONE)
-// 		cone_translate(o, key);
-// 	return ;
-// }
-
-// void	move_objects(int key, t_objects **obj)
-// {
-// 	if ((key >= XK_Left && key <= XK_Down)
-// 		|| (key == XK_minus || key == XK_equal))
-// 		move_obj_switch(key, (*obj)->type, *obj);
-// 	return ;
-// }

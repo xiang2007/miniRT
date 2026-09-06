@@ -23,27 +23,26 @@
 void	handle_key_z(t_rt *win)
 {
 	reset_res(win);
-	queue_render(win);
+	win->needs_rerender = true;
 }
 
 void	handle_camera_move(int key, t_rt *win)
 {
 	camera_move(key, win);
 	lower_res(key, win);
-	queue_render(win);
+	win->needs_rerender = true;
 }
 
 void	handle_move_object(int key, t_rt *win)
 {
 	if (!win->sel_obj)
 		return ;
-	// move_objects(key, &win->sel_obj);
 	if (win->sel_obj->translate)
 		win->sel_obj->translate(win->sel_obj, key);
 	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER || win->sel_obj->type == OBJ_CONE)
-		rebuild_world_bvh(&win->world);
+		win->bvh_dirty = true;
 	lower_res(key, win);
-	queue_render(win);
+	win->needs_rerender = true;
 }
 
 void	handle_rotate_object(int key, t_rt *win)
@@ -55,10 +54,10 @@ void	handle_rotate_object(int key, t_rt *win)
 		o->rotate(o, key);
 	else
 		return ;
-	lower_res(key, win);
 	if (o->type == OBJ_CYLINDER || o->type == OBJ_CONE)
-		rebuild_world_bvh(&win->world);
-	queue_render(win);
+		win->bvh_dirty = true;
+	lower_res(key, win);
+	win->needs_rerender = true;
 }
 
 void	handle_camera_rotate(int key, t_rt *win)
@@ -74,5 +73,5 @@ void	handle_camera_rotate(int key, t_rt *win)
 	setup.fov = win->cam->fov;
 	cam_init(win->cam, win, &setup);
 	lower_res(key, win);
-	queue_render(win);
+	win->needs_rerender = true;
 }

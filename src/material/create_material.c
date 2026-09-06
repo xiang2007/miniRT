@@ -14,6 +14,7 @@
 #include "../../includes/material.h"
 #include <stdlib.h>
 #include "color.h"
+#include "minirt.h"
 
 t_material	*create_lambertian(const t_color cl)
 {
@@ -28,6 +29,8 @@ t_material	*create_lambertian(const t_color cl)
 	lam->checker_size = 0.0;
 	lam->base.emitted = black_emit;
 	lam->base.shininess = 0;
+	lam->base.is_specular = false;
+	lam->base.cone_fuzz = 0.0;
 	return ((t_material *)lam);
 }
 
@@ -43,6 +46,8 @@ t_material	*create_metal(const t_color cl, const double fuzz)
 	metal->fuzziness = fuzz;
 	metal->base.emitted = black_emit;
 	metal->base.shininess = 0;
+	metal->base.is_specular = true;
+	metal->base.cone_fuzz = fuzz;
 	return ((t_material *)metal);
 }
 
@@ -57,5 +62,7 @@ t_material	*create_dielectric(const double refraction_index)
 	die->refractive_index = refraction_index;
 	die->base.emitted = black_emit;
 	die->base.shininess = 0;
+	die->base.is_specular = true;
+	die->base.cone_fuzz = DIELECTRIC_FUZZ;
 	return ((t_material *)die);
 }

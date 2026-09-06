@@ -14,6 +14,8 @@
 #include "../../includes/color.h"
 #include "../../includes/material.h"
 #include "../../includes/aabb.h"
+#include "vec3.h"
+#include <float.h>
 #include <math.h>
 #include <stddef.h>
 
@@ -59,7 +61,7 @@ bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec)
 
 	t = world->objs;
 	hit_anything = false;
-	c = INFINITY;
+	c = DBL_MAX;
 	if (hit_world_bvh(world, r, c, rec))
 	{
 		hit_anything = true;
@@ -90,15 +92,16 @@ bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec)
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world)
 {
 	t_hit_dat	rec;
+	t_color		out;
 
 	rec = (t_hit_dat){0};
 	if (bounce_depth <= 0)
 		return (ambient_light(world));
 	if (!scene_intersect(r, world, &rec))
 		return (ambient_light(world));
-	if (rec.mat && rec.mat->scatter == metal_scatter)
-		return (metal_shade(&rec, world, r, bounce_depth));
-	if (rec.mat && rec.mat->scatter == dielectric_scatter)
-		return (dielectric_shade(&rec, world, r, bounce_depth));
-	return (compute_direct_lighting(&rec, world, r));
+	if (rec.mat && rec.mat->emitted)
+		out = rec.mat->emitted(rec.mat);
+	if (rec.mat && rec.mat->is_specular)
+		return (color_add(out, scatter_shade(&rec, world, r, bounce_depth)));
+	return (color_add(out, compute_direct_lighting(&rec, world, r)));
 }
