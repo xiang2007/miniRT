@@ -12,38 +12,6 @@
 
 #include "../../includes/ray.h"
 
-double	get_ray_vec_n(t_ray *ray, int n)
-{
-	double	res;
-
-	res = 0;
-	if (!ray)
-		return (-1);
-	if (n == 1)
-		res = ray->vec.x;
-	else if (n == 2)
-		res = ray->vec.y;
-	else
-		res = ray->vec.z;
-	return (res);
-}
-
-double	get_ray_point_n(t_ray *ray, int n)
-{
-	double	res;
-
-	res = 0;
-	if (!ray)
-		return (-1);
-	if (n == 1)
-		res = ray->point.x;
-	else if (n == 2)
-		res = ray->point.y;
-	else
-		res = ray->point.z;
-	return (res);
-}
-
 /**
  * @brief Calculates the ray position in terms of distance (t)
  * Hit Point = Origin + (t * Direction)

@@ -72,27 +72,6 @@ static void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
 	l->specular *= light_attenuation(light, l->light_distance);
 }
 
-// t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light)
-// {
-// 	t_lightning	l;
-
-// 	l = (t_lightning){0};
-// 	l.shadow_ori = vec_add(rec->point, vec_mul(rec->normal, 0.001));
-// 	l.light_dir = unit_vec(sub_point(light.cords, rec->point));
-// 	l.light_distance = vec_len(sub_point(light.cords, rec->point));
-// 	l.shadow_ray = ray(l.shadow_ori, l.light_dir);
-// 	if (!shadow_hit(w, &l.shadow_ray, l.light_distance, rec->hit_obj))
-// 	{
-// 		lightning_helper(&l, rec, r, light);
-// 		l.result = color_add(
-// 				color_mul_n(material_albedo(rec->mat, rec->color),
-// 					l.brightness),
-// 				color_mul_n(light.color, l.specular));
-// 		return (l.result);
-// 	}
-// 	return (create_color(0, 0, 0));
-// }
-
 t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r)
 {
 	t_objects	*objs;

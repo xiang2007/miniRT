@@ -14,15 +14,15 @@ CFLAGS := -Wall -Werror -Wextra -std=gnu11 -Ofast
 
 # Thread-sanitizer build:  make tsan   (needs: sudo sysctl vm.mmap_rnd_bits=28)
 ifdef TSAN
-	CFLAGS += -fsanitize=address -g3
-	LDFLAGS += -fsanitize=address
+	CFLAGS += -fsanitize=thread -g3
+	LDFLAGS += -fsanitize=thread
 	# -Ofast obscures TSAN traces; downgrade to -O1
 	CFLAGS := $(filter-out -Ofast,$(CFLAGS))
 endif
 # If TSAN fails, run this: 'sudo sysctl vm.mmap_rnd_bits=28' to run tsan
 
 # Memory leak flags
-ifdef ML
+ifdef ASAN
 	CFLAGS += -ggdb -fsanitize=address -fno-omit-frame-pointer -static-libstdc++ -lrt
 endif
 
@@ -122,7 +122,7 @@ SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(MAT) \
 
 # ----------------------------------------------------------------------------
 # Build rules
-# ----------------------------------------------------------------------------				
+# ----------------------------------------------------------------------------		
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)
 
@@ -144,6 +144,9 @@ libft/libft.a:
 
 tsan: fclean
 	$(MAKE) TSAN=1 re
+
+asan: fclean
+	$(MAKE) ASAN=1 re
 
 clean:
 	$(RM) $(OBJSDIR)

@@ -11,14 +11,12 @@
 /* ************************************************************************** */
 
 #include "objects.h"
-#include "ray.h"
 #include "../../includes/minirt.h"
 #include "../../includes/mlx_dat.h"
 #include "../../includes/camera.h"
 #include "vec3.h"
 #include <X11/keysym.h>
-#include <math.h>
-#include "threadpool.h"
+#include <pthread.h>
 
 void	handle_key_z(t_rt *win)
 {
@@ -38,7 +36,9 @@ void	handle_move_object(int key, t_rt *win)
 	if (!win->sel_obj)
 		return ;
 	if (win->sel_obj->translate)
+	{
 		win->sel_obj->translate(win->sel_obj, key);
+	}
 	if (win->sel_obj->type == OBJ_SPHERE || win->sel_obj->type == OBJ_CYLINDER || win->sel_obj->type == OBJ_CONE)
 		win->bvh_dirty = true;
 	lower_res(key, win);

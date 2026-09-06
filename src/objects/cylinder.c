@@ -14,7 +14,6 @@
 #include "objects.h"
 #include "ray.h"
 #include <X11/keysym.h>
-#include "mlx_dat.h"
 #include "vec3.h"
 
 static bool	gtost(double t_cmp, double gt, double st)

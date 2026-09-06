@@ -13,8 +13,6 @@
 #include "../includes/vec3.h"
 #include "../includes/objects.h"
 #include "../includes/minirt.h"
-#include "../includes/mlx_dat.h"
-#include <stdlib.h>
 
 /**
  * @brief Setup ray tracer config data like aspect ratio, image height & width
@@ -37,17 +35,6 @@ void	rt_dat_init(t_rt *rt_dat)
 		rt_dat->img_h = 1;
 	rt_dat->init = 0;
 	rt_dat->is_rendering = false;
-}
-
-/**
- * @brief Frees the ray tracer data struct
- *
- * @param rt_dat pointer to the data struct
- */
-void	rt_dat_free(t_rt *rt_dat)
-{
-	mlx_dat_free(rt_dat->mlx_dat);
-	free(rt_dat);
 }
 
 void	setup_cam_init(t_setup_cam *s)

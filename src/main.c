@@ -35,29 +35,6 @@ void	get_setup_cam(t_setup_cam *s, t_objects *objs)
 	}
 }
 
-int	reload_scene(t_rt *win)
-{
-	t_objects	*objs;
-	t_setup_cam	s;
-	t_world		world;
-
-	world.objs = NULL;
-	world.bvh_obj = NULL;
-	world.bvh = NULL;
-	setup_cam_init(&s);
-	objs = parse(win->test_file);
-	if (!objs)
-		return (1);
-	get_setup_cam(&s, objs);
-	parse_world(&world, &objs);
-	world_free(&win->world);
-	win->world = world;
-	cam_init(win->cam, win, &s);
-	reset_res(win);
-	win->needs_rerender = true;
-	return (0);
-}
-
 int	parse_and_render(t_rt *rt_dat, t_threadpool *tp)
 {
 	t_cam		*cam;

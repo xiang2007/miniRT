@@ -13,7 +13,6 @@
 #include "minirt.h"
 #include "ray.h"
 #include <X11/keysym.h>
-#include "mlx_dat.h"
 
 double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
 {
@@ -39,7 +38,7 @@ double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
 
 	double discriminant = (B * B) - (4.0 * A * C);
 	if (discriminant < 0.0001)
-	return (-1.0);
+		return (-1.0);
 	double sqrt_d = sqrt(discriminant);
 	double t1 = (-B - sqrt_d) / (2.0 * A);
 	double t2 = (-B + sqrt_d) / (2.0 * A);

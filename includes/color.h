@@ -13,6 +13,8 @@
 #ifndef COLOR_H
 # define COLOR_H
 
+# include "vec3.h"
+
 int		rgb_to_hex(int r, int g, int b);
 
 int		color_get_hex(t_color c);

@@ -63,8 +63,6 @@ void	world_free(t_world *world)
 
 static void	dispatch_key(int key, t_rt *win)
 {
-	if (key == XK_r)
-		reload_scene(win);
 	if (key >= XK_0 && key <= XK_9)
 		win->sel_obj = select_object(key, &win->world);
 	if ((key >= XK_Left && key <= XK_Down && win->sel_obj)

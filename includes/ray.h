@@ -86,9 +86,6 @@ bool	scene_intersect(t_ray *r, t_world *world, t_hit_dat *rec);
 t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world);
 t_vec3	ray_pos(t_ray *r, double t);
-double	get_ray_vec_n(t_ray *ray, int n);
-double	get_ray_point_n(t_ray *ray, int n);
-t_vec3	ray_pos(t_ray *r, double t);
 
 double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec);
 double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec);
@@ -111,7 +108,6 @@ t_color	material_albedo(const t_material *mat, t_color fallback);
 
 
 // lighting
-bool	scene_intersect_shadow(t_world *w, t_ray *ray, double t_max, t_objects *skip);
 t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r);
 
 #endif

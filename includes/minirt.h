@@ -26,7 +26,7 @@
 # define MAX_BOUNCE 100
 # define LOW_RES_BOUNCE 10
 # define LOW_RES_SPP 1
-# define SPP 100
+# define SPP 1
 # define PI 3.14159265358979323846
 
 # define LIGHT_WATTAGE 4300.0
@@ -95,7 +95,6 @@ typedef struct s_rt
 
 int		reload_scene(t_rt *win);
 void	rt_dat_init(t_rt *rt_dat);
-void	rt_dat_free(t_rt *rt_dat);
 void	setup_cam_init(t_setup_cam *s);
 
 #endif
