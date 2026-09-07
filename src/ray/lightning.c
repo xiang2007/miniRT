@@ -6,7 +6,7 @@
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 15:59:54 by wshou-xi          #+#    #+#             */
-/*   Updated: 2026/09/05 20:55:29 by wshou-xi         ###   ########.fr       */
+/*   Updated: 2026/09/07 09:19:47 by wshou-xi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,13 @@ static void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
 	if (rec->mat && rec->mat->scatter == dielectric_scatter)
 		l->specular = pow(fmax(1.0 - vec3_dot(rec->normal, l->view_dir), 0.0),
 				5.0);
+	else if (rec->mat && rec->mat->specular_strength > 0.0
+		&& rec->mat->shininess > 0.0)
+		l->specular = rec->mat->specular_strength * pow(fmax(
+				vec3_dot(l->view_dir, l->reflected), 0.0),
+				rec->mat->shininess);
 	else
-		l->specular = pow(fmax(vec3_dot(l->view_dir, l->reflected), 0.0), 32.0);
+		l->specular = 0.0;
 	l->specular *= light_attenuation(light, l->light_distance);
 }
 
@@ -105,4 +110,3 @@ t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r)
 	}
 	return (total);
 }
-

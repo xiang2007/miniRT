@@ -34,6 +34,7 @@ typedef struct s_material
 	t_scatter_fn	*scatter;
 	t_color			(*emitted)(const struct s_material *self);
 	double			shininess; /* Phong exponent; 0 = matte */
+	double			specular_strength;
 	bool			is_specular; /* metal/dielectric: bounce + recursive light */
 	double			cone_fuzz;   /* recursive-light acceptance cone width    */
 }				t_material;
