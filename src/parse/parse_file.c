@@ -39,7 +39,7 @@ int	read_rt_file(char *filename)
 	return (fd);
 }
 
-t_obj_type	parse_check_type(char *s)
+int	parse_check_type(char *s)
 {
 	if (!s || !s[0])
 		return (-1);
@@ -62,10 +62,11 @@ t_obj_type	parse_check_type(char *s)
 
 int	parse_object_switch(int id, char *s, t_objects **o)
 {
-	t_obj_type	type;
+	int	type;
 
 	type = parse_check_type(s);
-	if (type < 0 || !g_parse_table[type])
+	if (type < 0 || type >= (int)(sizeof(g_parse_table)
+			/ sizeof(g_parse_table[0])) || !g_parse_table[type])
 		return (FALSE);
 	return (g_parse_table[type](id, s, o));
 }
@@ -88,7 +89,16 @@ t_objects	*parse_object(int fd)
 		if (!line)
 			break ;
 		if (parse_object_switch(i, line, &o_res) == FALSE)
-			return (free(line), NULL);
+		{
+			free(line);
+			line = get_next_line(fd);
+			while (line)
+			{
+				free(line);
+				line = get_next_line(fd);
+			}
+			return (parse_error("Invalid scene description", o_res, NULL));
+		}
 		free(line);
 		line = get_next_line(fd);
 		i++;

@@ -21,6 +21,8 @@ t_objects	*parse_plane_helper(int id, char **res)
 	t_objects	*o;
 
 	o = malloc(sizeof(t_objects));
+	if (!o)
+		return (NULL);
 	o->id = id;
 	o->type = OBJ_PLANE;
 	o->plane.center = parse_cords(res[1]);
@@ -35,7 +37,7 @@ t_objects	*parse_plane_helper(int id, char **res)
 	{
 		o->plane.material = parse_mat_switch(res, 4, o->plane.color, 0);
 		if (!o->plane.material)
-			return (FALSE);
+			return (free(o), NULL);
 	}
 	else
 		o->plane.material = create_lambertian(o->plane.color);

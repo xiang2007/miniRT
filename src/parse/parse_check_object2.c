@@ -54,7 +54,7 @@ t_objects	*parse_cylinder_helper(int id, char **res)
 	{
 		o->cylinder.material = parse_mat_switch(res, 6, o->cylinder.color, 0);
 		if (!o->cylinder.material)
-			return (NULL);
+			return (free(o), NULL);
 	}
 	else
 		o->cylinder.material = create_lambertian(o->cylinder.color);

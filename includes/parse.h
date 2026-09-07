@@ -81,6 +81,7 @@ t_color		parse_color(char *s);
 
 // Parsing cleaning function
 void		parse_free_objects(t_objects *o);
+t_objects	*parse_error(char *msg, t_objects *o, char **strarr);
 
 // Main parsing function
 void		parse_world(t_world *w, t_objects **o);
@@ -117,4 +118,3 @@ static const t_parser_fn g_parse_table[] =
 };
 
 #endif
- 

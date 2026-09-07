@@ -28,7 +28,7 @@ int	parse_ambient(int id, char *s, t_objects **obj)
 		return (FALSE);
 	o = malloc(sizeof(t_objects));
 	if (!o)
-		return (FALSE);
+		return (free_str_arr(res), FALSE);
 	o->id = id;
 	o->type = OBJ_AMBIENT;
 	o->ambient.ratio = ft_atof(res[1]);
@@ -85,7 +85,7 @@ int	parse_light(int id, char *s, t_objects **obj)
 		return (FALSE);
 	o = malloc(sizeof(t_objects));
 	if (!o)
-		return (FALSE);
+		return (free_str_arr(res), FALSE);
 	o->id = id;
 	o->light.cords = parse_cords(res[1]);
 	o->light.brightness_ratio = ft_atof(res[2]);

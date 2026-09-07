@@ -29,22 +29,6 @@ void	print_str_arr(char **str_arr)
 	return ;
 }
 
-void	free_str_arr(char **strarr)
-{
-	int	i;
-
-	if (!strarr)
-		return ;
-	i = 0;
-	while (strarr[i])
-	{
-		free(strarr[i]);
-		i++;
-	}
-	free(strarr);
-	return ;
-}
-
 int	check_float(char *s)
 {
 	int	i;

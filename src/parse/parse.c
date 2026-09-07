@@ -121,12 +121,15 @@ t_objects	*parse(char *file)
 	t_objects	*o;
 
 	if (check_rt_file(file) == FALSE)
-		return (NULL);
+		return (parse_error("Expected a .rt scene file", NULL, NULL));
 	fd = read_rt_file(file);
 	if (fd == -1)
-		return (NULL);
+		return (parse_error("Could not open scene file", NULL, NULL));
 	o = parse_object(fd);
+	close(fd);
+	if (!o)
+		return (NULL);
 	if (!parse_check_object_count(o))
-		return (parse_free_objects(o), NULL);
+		return (parse_error("Invalid scene configuration", o, NULL));
 	return (o);
 }
