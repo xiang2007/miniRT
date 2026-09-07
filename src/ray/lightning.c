@@ -99,9 +99,10 @@ t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r)
 						rec->hit_obj))
 			{
 				lightning_helper(&l, rec, r, objs->light);
-				l.result = color_add(
-						color_mul_n(material_albedo(rec->mat, rec->color),
-							l.brightness),
+				l.result = color_mul(material_albedo(rec->mat, rec->color),
+						objs->light.color);
+				l.result = color_mul_n(l.result, l.brightness);
+				l.result = color_add(l.result,
 						color_mul_n(objs->light.color, l.specular));
 				total = color_add(total, l.result);
 			}
