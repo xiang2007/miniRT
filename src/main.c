@@ -16,8 +16,10 @@
 #include "../includes/mlx_dat.h"
 #include "../includes/parse.h"
 #include "../mlx_Linux/mlx.h"
+#include "X11/keysym.h"
 #include <pthread.h>
 #include <stdlib.h>
+#include "libft.h"
 #include "threadpool.h"
 
 void	get_setup_cam(t_setup_cam *s, t_objects *objs)
@@ -63,29 +65,60 @@ int	parse_and_render(t_rt *rt_dat, t_threadpool *tp)
 	return (0);
 }
 
+void	keymap(int key, t_rt *dat)
+{
+	if ((key >= XK_Left && key <= XK_Down)|| key == XK_minus || key == XK_equal)
+	{
+		dat->sel_obj->translate(dat->sel_obj, key);
+		if (dat->sel_obj->type == OBJ_SPHERE || dat->sel_obj->type == OBJ_CYLINDER
+				|| dat->sel_obj->type == OBJ_CONE)
+			rebuild_world_bvh(&dat->world);
+	}
+	else if (key == XK_bracketleft || key == XK_bracketright || key == XK_semicolon || key == XK_apostrophe)
+	{
+		if (dat->sel_obj)
+			handle_rotate_object(key, dat);
+		else
+			handle_camera_rotate(key, dat);
+	}
+	else if (key == XK_w || key == XK_s || key == XK_a || key == XK_d || key == XK_q || key == XK_e)
+		camera_move(key, dat);
+	else if (key == XK_c)
+		toggle_checker(dat->sel_obj);
+	if (key == XK_z)
+	{
+		dat->max_bounce_depth = 50;
+		dat->samples_per_pixel = 100;
+	}
+	else
+		reset_res(dat);
+}
+
 int	mlx_render_loop(void *param)
 {
 	t_threadpool	*tp;
 	
 	tp = param;
-	if (tp->engine->needs_rerender == true)
+	if (tp->engine->key != 0)
 	{
 		pthread_mutex_lock(&tp->queue_mutex);
 		tp->engine->abort_flag = true;
 		tp->tile_next = tp->tile_count;
 		pthread_mutex_unlock(&tp->queue_mutex);
+		
 		pthread_cond_broadcast(&tp->queue_cond);
+		
 		pthread_mutex_lock(&tp->queue_mutex);
 		while (!threads_idle_locked(tp))
 			pthread_cond_wait(&tp->done_cond, &tp->queue_mutex);
 		pthread_mutex_unlock(&tp->queue_mutex);
-		if (tp->engine->bvh_dirty)
-			rebuild_world_bvh(&tp->engine->world);
-		tp->engine->bvh_dirty = false;
+		
+		keymap(tp->engine->key, tp->engine);
+		
 		tp->engine->is_rendering = false;
 		tp->engine->abort_flag = false;
+		tp->engine->key = 0;
 		queue_render(tp->engine);
-		tp->engine->needs_rerender = false;
 	}
 	else if (tp->engine->is_rendering == true)
 	{
@@ -97,6 +130,7 @@ int	mlx_render_loop(void *param)
 			tp->engine->render_time = monotonic_seconds()
 				- tp->engine->render_start;
 			printf("Render took %.2f s\n", tp->engine->render_time);
+			mlx_clear_window(tp->engine->mlx_dat->mlx, tp->engine->mlx_dat->mlx_win);
 			draw_controls(tp->engine);
 			mlx_put_to_window(tp->engine->mlx_dat);
 		}

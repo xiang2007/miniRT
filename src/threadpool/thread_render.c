@@ -15,6 +15,7 @@
 #include "render.h"
 #include "../../includes/mlx_dat.h"
 #include <pthread.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <time.h>
 #include <math.h>
@@ -32,8 +33,13 @@ void	render_tile(t_tile tile, t_rt *rt_dat)
 	spp.pss = 1.0 / rt_dat->samples_per_pixel;
 	while (y < tile.end_y)
 	{
-		if (rt_dat->abort_flag)
+		pthread_mutex_lock(&rt_dat->tp->queue_mutex);
+		if (rt_dat->abort_flag == true)
+		{
+			pthread_mutex_unlock(&rt_dat->tp->queue_mutex);
 			return ;
+		}
+		pthread_mutex_unlock(&rt_dat->tp->queue_mutex);
 		render_row(tile, spp, y, rt_dat);
 		y++;
 	}

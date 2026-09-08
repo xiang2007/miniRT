@@ -23,7 +23,7 @@
 # define MOVE_Y 0.3
 # define EXPAND 0.3
 # define SHIRNK 0.3
-# define MAX_BOUNCE 100
+# define MAX_BOUNCE 10
 # define LOW_RES_BOUNCE 10
 # define LOW_RES_SPP 1
 # define SPP 1
@@ -75,7 +75,6 @@ typedef struct s_rt
 	int				old_max_bounce_depth;
 	int				samples_per_pixel;
 	int				old_sampels_per_pixel;
-	int				show_controls;
 	double			pixel_samples_scale;
 	double			old_pixel_samples_scale;
 	double			aspect_ratio;
@@ -88,6 +87,7 @@ typedef struct s_rt
 	bool			needs_rerender;
 	bool			bvh_dirty;
 	bool			abort_flag;
+	int				key;
 	t_threadpool	*tp;
 	double			render_start;
 	double			render_time;

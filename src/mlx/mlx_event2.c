@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "ray.h"
-#include "../../includes/minirt.h"
-#include "../../includes/mlx_dat.h"
-#include "../../mlx_Linux/mlx.h"
+#include "minirt.h"
+#include "mlx_dat.h"
+#include "mlx.h"
 #include "parse.h"
 #include <X11/keysym.h>
 #include <stdio.h>
@@ -100,8 +100,6 @@ void	draw_controls(t_rt *rt)
 	int		y;
 	int		i;
 
-	if (!rt->show_controls)
-		return ;
 	x = rt->img_w + 14;
 	y = 22;
 	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
@@ -138,5 +136,4 @@ void	handle_toggle_checker(t_rt *win)
 		lam->checker_size = 1.0;
 		lam->checker_color = create_color(1.0, 1.0, 1.0);
 	}
-	win->needs_rerender = true;
 }

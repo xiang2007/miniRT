@@ -63,31 +63,16 @@ void	world_free(t_world *world)
 
 static void	dispatch_key(int key, t_rt *win)
 {
-	if (key >= XK_0 && key <= XK_9)
-		win->sel_obj = select_object(key, &win->world);
-	if ((key >= XK_Left && key <= XK_Down && win->sel_obj)
-		|| ((key == XK_minus || key == XK_equal) && win->sel_obj))
-		handle_move_object(key, win);
-	if (key == XK_w || key == XK_s || key == XK_a
-		|| key == XK_d || key == XK_q || key == XK_e)
-		handle_camera_move(key, win);
+	if ((key >= XK_Left && key <= XK_Down) || key == XK_minus || key == XK_equal)
+		handle_move_object(key, win); // done
+	if (key == XK_w || key == XK_s || key == XK_a || key == XK_d || key == XK_q || key == XK_e)
+		handle_camera_move(key, win); // done
 	if (key == XK_z)
-		handle_key_z(win);
-	if (key == XK_bracketleft || key == XK_bracketright
-		|| key == XK_semicolon || key == XK_apostrophe)
-	{
-		if (win->sel_obj)
-			handle_rotate_object(key, win);
-		else
-			handle_camera_rotate(key, win);
-	}
-	if (key == XK_h)
-	{
-		win->show_controls = !win->show_controls;
-		draw_controls(win);
-	}
+		win->key = key; // done
+	if (key == XK_bracketleft || key == XK_bracketright || key == XK_semicolon || key == XK_apostrophe)
+		win->key = key; // done
 	if (key == XK_c)
-		handle_toggle_checker(win);
+		win->key = key; // done
 }
 
 /**
