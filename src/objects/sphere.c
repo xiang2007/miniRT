@@ -56,14 +56,18 @@ double	sphere_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
 
 void	sphere_translate(t_objects *self, int key)
 {
-	if (key == XK_Up)
+	if (key == XK_w)
 		self->sphere.point.y += MOVE_Y;
-	else if (key == XK_Down)
+	else if (key == XK_s)
 		self->sphere.point.y -= MOVE_Y;
-	else if (key == XK_Left)
+	else if (key == XK_a)
 		self->sphere.point.x -= MOVE_X;
-	else if (key == XK_Right)
+	else if (key == XK_d)
 		self->sphere.point.x += MOVE_X;
+	else if (key == XK_q)
+		self->sphere.point.z -= MOVE_Y;
+	else if (key == XK_e)
+		self->sphere.point.z += MOVE_X;
 	else if (key == XK_equal)
 		self->sphere.radius += EXPAND;
 	else if (key == XK_minus)

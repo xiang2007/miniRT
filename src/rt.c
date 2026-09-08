@@ -32,7 +32,8 @@ void	rt_dat_init(t_rt *rt_dat)
 	rt_dat->old_pixel_samples_scale = 1;
 	if (rt_dat->img_h < 1)
 		rt_dat->img_h = 1;
-	rt_dat->init = 0;
+	rt_dat->sel_light_id = -1;
+	rt_dat->sel_object_id = -1;
 	rt_dat->is_rendering = false;
 }
 

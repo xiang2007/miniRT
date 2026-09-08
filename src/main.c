@@ -67,24 +67,31 @@ int	parse_and_render(t_rt *rt_dat, t_threadpool *tp)
 
 void	keymap(int key, t_rt *dat)
 {
-	if ((key >= XK_Left && key <= XK_Down)|| key == XK_minus || key == XK_equal)
-	{
-		dat->sel_obj->translate(dat->sel_obj, key);
-		if (dat->sel_obj->type == OBJ_SPHERE || dat->sel_obj->type == OBJ_CYLINDER
-				|| dat->sel_obj->type == OBJ_CONE)
-			rebuild_world_bvh(&dat->world);
-	}
-	else if (key == XK_bracketleft || key == XK_bracketright || key == XK_semicolon || key == XK_apostrophe)
+	if (key >= XK_Left && key <= XK_Down)
 	{
 		if (dat->sel_obj)
 			handle_rotate_object(key, dat);
 		else
 			handle_camera_rotate(key, dat);
 	}
-	else if (key == XK_w || key == XK_s || key == XK_a || key == XK_d || key == XK_q || key == XK_e)
-		camera_move(key, dat);
+	else if (key == XK_w || key == XK_s || key == XK_a || key == XK_d || key == XK_q || key == XK_e || key == XK_equal || key == XK_minus)
+	{
+		if (dat->sel_obj)
+		{
+			dat->sel_obj->translate(dat->sel_obj, key);
+			if (dat->sel_obj->type == OBJ_SPHERE || dat->sel_obj->type == OBJ_CYLINDER
+					|| dat->sel_obj->type == OBJ_CONE)
+				rebuild_world_bvh(&dat->world);			
+		}
+		else
+			camera_move(key, dat);
+	}
 	else if (key == XK_c)
 		toggle_checker(dat->sel_obj);
+	else if (key == XK_r)
+		handle_light(dat);
+	else if (key == XK_v)
+		handle_sel_object(dat);
 	if (key == XK_z)
 	{
 		dat->max_bounce_depth = 50;

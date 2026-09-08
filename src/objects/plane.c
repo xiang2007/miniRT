@@ -110,24 +110,28 @@ double	plane_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
 
 void	plane_translate(t_objects *self, int key)
 {
-	if (key == XK_Up)
+	if (key == XK_w)
 		self->plane.center.y += MOVE_Y;
-	else if (key == XK_Down)
+	else if (key == XK_s)
 		self->plane.center.y -= MOVE_Y;
-	else if (key == XK_Left)
+	else if (key == XK_a)
 		self->plane.center.x -= MOVE_X;
-	else if (key == XK_Right)
+	else if (key == XK_d)
 		self->plane.center.x += MOVE_X;
+	else if (key == XK_q)
+		self->plane.center.z -= MOVE_Y;
+	else if (key == XK_e)
+		self->plane.center.z += MOVE_X;
 }
 
 void	plane_rotate(t_objects *self, int key)
 {
-	if (key == XK_bracketleft)
+	if (key == XK_Left)
 		self->plane.axis = unit_vec3(vec3_rotate(self->plane.axis, create_vec3(0.0, 1.0, 0.0), -0.1));
-	else if (key == XK_bracketright)
+	else if (key == XK_Right)
 		self->plane.axis = unit_vec3(vec3_rotate(self->plane.axis, create_vec3(0.0, 1.0, 0.0), 0.1));
-	else if (key == XK_semicolon)
+	else if (key == XK_Up)
 		self->plane.axis = unit_vec3(vec3_rotate(self->plane.axis, create_vec3(1.0, 0.0, 0.0), -0.1));
-	else if (key == XK_apostrophe)
+	else if (key == XK_Down)
 		self->plane.axis = unit_vec3(vec3_rotate(self->plane.axis, create_vec3(1.0, 0.0, 0.0), 0.1));
 }

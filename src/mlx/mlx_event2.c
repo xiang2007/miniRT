@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "objects.h"
 #include "ray.h"
 #include "minirt.h"
 #include "mlx_dat.h"
@@ -23,22 +24,22 @@ void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
 {
 	*axis = create_vec3(0, 0, 0);
 	*angle = 0;
-	if (key == XK_bracketleft)
+	if (key == XK_Left)
 	{
 		*axis = create_vec3(0, 1, 0);
 		*angle = -0.1;
 	}
-	else if (key == XK_bracketright)
+	else if (key == XK_Right)
 	{
 		*axis = create_vec3(0, 1, 0);
 		*angle = 0.1;
 	}
-	else if (key == XK_semicolon)
+	else if (key == XK_Up)
 	{
 		*axis = create_vec3(1, 0, 0);
 		*angle = -0.1;
 	}
-	else if (key == XK_apostrophe)
+	else if (key == XK_Down)
 	{
 		*axis = create_vec3(1, 0, 0);
 		*angle = 0.1;
@@ -69,25 +70,69 @@ int	mouse_select(int button, int x, int y, t_rt *win)
 	if (scene_intersect(&r, &win->world, &rec) && rec.hit_obj)
 	{
 		win->sel_obj = rec.hit_obj;
-		printf("Clicked object selected: ");
-		print_object(rec.hit_obj);
+		// printf("Clicked object selected: id(%i) ", win->sel_obj->id);
+		// print_object(rec.hit_obj);
 	}
+	win->key = 1;
 	return (0);
+}
+
+void	handle_light(t_rt *win)
+{
+	t_objects	*tmp;
+
+	tmp = win->world.objs;
+	while (tmp)
+	{
+		if (tmp->type == OBJ_LIGHT && win->sel_light_id < tmp->id)
+		{
+			win->sel_light_id = tmp->id;
+			win->sel_obj = tmp;
+			return ;
+		}
+		tmp = tmp->next;
+		if (!tmp)
+		{
+			win->sel_light_id = -1;
+			tmp = win->world.objs;
+		}
+	}
+}
+
+void	handle_sel_object(t_rt *win)
+{
+	t_objects	*tmp;
+
+	tmp = win->world.objs;
+	while (tmp)
+	{
+		if (tmp->type != OBJ_LIGHT && tmp->type != OBJ_AMBIENT && tmp->type != OBJ_SETUP_CAM && tmp->type != OBJ_CAMERA && win->sel_object_id < tmp->id)
+		{
+			win->sel_object_id = tmp->id;
+			win->sel_obj = tmp;
+			return ;
+		}
+		tmp = tmp->next;
+		if (!tmp)
+		{
+			win->sel_object_id = -1;
+			tmp = win->world.objs;
+		}
+	}	
 }
 
 static const char	*g_controls[] = {
 	"ESC           quit",
-	"R             reload scene",
-	"0-9           select object by id",
-	"LMB           select under cursor",
+	"LMB           select object under cursor",
+	"F             select camera",
+	"R             select light by loop",
+	"V             select object by loop",
 	"",
-	"ARROWS        move selected object",
+	"ARROWS        rotate camera or object around X & Y",
 	"-  =          shrink / expand sphere",
-	"[  ]          rotate around Y",
-	";  '          rotate around X",
 	"",
-	"W A S D       move camera",
-	"Q E           move camera (down/up)",
+	"W A S D       move camera or object",
+	"Q E           move camera or object (down/up)",
 	"Z             full quality",
 	"C             toggle checker",
 	NULL
@@ -99,7 +144,9 @@ void	draw_controls(t_rt *rt)
 	int		x;
 	int		y;
 	int		i;
-
+	const char	*objs[] = {"Ambient", "Camera", "Sphere", "Plane",
+		"Cylinder", "Light", "Cam_setup", "Cone"};
+	
 	x = rt->img_w + 14;
 	y = 22;
 	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
@@ -116,6 +163,13 @@ void	draw_controls(t_rt *rt)
 	snprintf(buf, sizeof(buf), "Render: %.2f s", rt->render_time);
 	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
 		x, y, 0xFFD700, buf);
+	if (rt->sel_obj)
+	{
+		y += 22;
+		snprintf(buf, sizeof(buf), "Selected: %s (id: %i)", objs[rt->sel_obj->type], rt->sel_obj->id);
+		mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
+			x, y, 0xFFD700, buf);			
+	}
 }
 
 void	handle_toggle_checker(t_rt *win)

@@ -16,12 +16,16 @@
 
 void	light_translate(t_objects *self, int key)
 {
-	if (key == XK_Up)
+	if (key == XK_w)
 		self->light.cords.y += MOVE_Y;
-	else if (key == XK_Down)
+	else if (key == XK_s)
 		self->light.cords.y -= MOVE_Y;
-	else if (key == XK_Left)
-		self->light.cords.x += MOVE_X;
-	else if (key == XK_Right)
+	else if (key == XK_a)
 		self->light.cords.x -= MOVE_X;
+	else if (key == XK_d)
+		self->light.cords.x += MOVE_X;
+	else if (key == XK_q)
+		self->light.cords.z -= MOVE_Y;
+	else if (key == XK_e)
+		self->light.cords.z += MOVE_X;
 }

@@ -107,14 +107,18 @@ double	cone_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
 
 void	cone_translate(t_objects *self, int key)
 {
-	if (key == XK_Up)
+	if (key == XK_w)
 		self->cone.pos.y += MOVE_Y;
-	else if (key == XK_Down)
+	else if (key == XK_s)
 		self->cone.pos.y -= MOVE_Y;
-	else if (key == XK_Left)
+	else if (key == XK_a)
 		self->cone.pos.x -= MOVE_X;
-	else if (key == XK_Right)
+	else if (key == XK_d)
 		self->cone.pos.x += MOVE_X;
+	else if (key == XK_q)
+		self->cone.pos.z -= MOVE_Y;
+	else if (key == XK_e)
+		self->cone.pos.z += MOVE_X;
 	else if (key == XK_equal)
 		self->cone.radius += EXPAND;
 	else if (key == XK_minus)
@@ -123,12 +127,12 @@ void	cone_translate(t_objects *self, int key)
 
 void	cone_rotate(t_objects *self, int key)
 {
-	if (key == XK_bracketleft)
+	if (key == XK_Left)
 		self->cone.axis = unit_vec3(vec3_rotate(self->cone.axis, create_vec3(0.0, 1.0, 0.0), -0.1));
-	else if (key == XK_bracketright)
+	else if (key == XK_Right)
 		self->cone.axis = unit_vec3(vec3_rotate(self->cone.axis, create_vec3(0.0, 1.0, 0.0), 0.1));
-	else if (key == XK_semicolon)
+	else if (key == XK_Up)
 		self->cone.axis = unit_vec3(vec3_rotate(self->cone.axis, create_vec3(1.0, 0.0, 0.0), -0.1));
-	else if (key == XK_apostrophe)
+	else if (key == XK_Down)
 		self->cone.axis = unit_vec3(vec3_rotate(self->cone.axis, create_vec3(1.0, 0.0, 0.0), 0.1));
 }

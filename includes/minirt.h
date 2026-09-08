@@ -68,7 +68,6 @@ typedef struct s_mlx
  */
 typedef struct s_rt
 {
-	int				init;
 	int				img_h;
 	int				img_w;
 	int				max_bounce_depth;
@@ -82,6 +81,8 @@ typedef struct s_rt
 	t_cam			*cam;
 	t_world			world;
 	t_objects		*sel_obj;
+	int				sel_light_id;
+	int				sel_object_id;
 	char			*test_file;
 	bool			is_rendering;
 	bool			needs_rerender;

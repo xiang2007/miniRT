@@ -24,17 +24,17 @@ void	handle_key_z(t_rt *win)
 	win->needs_rerender = true;
 }
 
-void	handle_camera_move(int key, t_rt *win)
-{
-	win->key = key;
-}
+// void	handle_camera_move(int key, t_rt *win)
+// {
+// 	win->key = key;
+// }
 
-void	handle_move_object(int key, t_rt *win)
-{
-	if (!win->sel_obj)
-		return ;
-	win->key = key;
-}
+// void	handle_move_object(int key, t_rt *win)
+// {
+// 	if (!win->sel_obj)
+// 		return ;
+
+// }
 
 void	handle_rotate_object(int key, t_rt *win)
 {

@@ -141,14 +141,18 @@ double	cylinder_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
 
 void	cylinder_translate(t_objects *self, int key)
 {
-	if (key == XK_Up)
+	if (key == XK_w)
 		self->cylinder.center.y += MOVE_Y;
-	else if (key == XK_Down)
+	else if (key == XK_s)
 		self->cylinder.center.y -= MOVE_Y;
-	else if (key == XK_Left)
+	else if (key == XK_a)
 		self->cylinder.center.x -= MOVE_X;
-	else if (key == XK_Right)
+	else if (key == XK_d)
 		self->cylinder.center.x += MOVE_X;
+	else if (key == XK_q)
+		self->cylinder.center.z -= MOVE_Y;
+	else if (key == XK_e)
+		self->cylinder.center.z += MOVE_X;
 	else if (key == XK_equal)
 		self->cylinder.radius += EXPAND;
 	else if (key == XK_minus)
@@ -168,13 +172,13 @@ void	cylinder_rotate(t_objects *self, int key)
 	// 	self->cylinder.axis = unit_vec3(vec3_rotate(self->cylinder.axis, get_object_up(self->cylinder.axis, right), -0.1));
 	// else if (key == XK_apostrophe)
 	// 	self->cylinder.axis = unit_vec3(vec3_rotate(self->cylinder.axis, get_object_up(self->cylinder.axis, right), 0.1));
-	if (key == XK_bracketleft)
+	if (key == XK_Left)
 		self->cylinder.axis = unit_vec3(vec3_rotate(self->cylinder.axis, create_vec3(0.0, 1.0, 0.0), -0.1));
-	else if (key == XK_bracketright)
+	else if (key == XK_Right)
 		self->cylinder.axis = unit_vec3(vec3_rotate(self->cylinder.axis, create_vec3(0.0, 1.0, 0.0), 0.1));
-	else if (key == XK_semicolon)
+	else if (key == XK_Up)
 		self->cylinder.axis = unit_vec3(vec3_rotate(self->cylinder.axis, create_vec3(1.0, 0.0, 0.0), -0.1));
-	else if (key == XK_apostrophe)
+	else if (key == XK_Down)
 		self->cylinder.axis = unit_vec3(vec3_rotate(self->cylinder.axis, create_vec3(1.0, 0.0, 0.0), 0.1));
 }
 

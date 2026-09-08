@@ -41,5 +41,7 @@ void	mlx_swap_buffers(t_mlx *m);
 void	handle_toggle_checker(t_rt * win);
 
 void	rotate_axis_key(int key, t_vec3 *axis, double *angle);
+void	handle_light(t_rt *win);
+void	handle_sel_object(t_rt *win);
 
 #endif
