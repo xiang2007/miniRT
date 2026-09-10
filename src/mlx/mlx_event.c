@@ -65,12 +65,13 @@ static void	dispatch_key(int key, t_rt *win)
 {
 	if (key >= XK_Left && key <= XK_Down)
 		win->key = key;
-	if (key == XK_w || key == XK_s || key == XK_a || key == XK_d || key == XK_q || key == XK_e || key == XK_equal || key == XK_minus)
+	if (key == XK_w || key == XK_s || key == XK_a || key == XK_d
+		|| key == XK_q || key == XK_e || key == XK_equal || key == XK_minus)
 		win->key = key;
 	if (key == XK_z)
-		win->key = key; // done
+		win->key = key;
 	if (key == XK_c)
-		win->key = key; // done
+		win->key = key;
 	if (key == XK_r)
 		win->key = key;
 	if (key == XK_v)

@@ -14,7 +14,7 @@
 # define RAY_H
 
 # include "objects.h"
-#include "vec3.h"
+# include "vec3.h"
 # include <stdbool.h>
 
 typedef struct s_ray
@@ -41,6 +41,24 @@ typedef struct s_cylinder_args
 	double		r_max;
 	t_hit_dat	*rec;
 }				t_cylinder_args;
+
+typedef struct s_cone_hit
+{
+	t_vec3	delta;
+	t_vec3	normal;
+	double	d_dot_v;
+	double	dp_dot_v;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	double	t1;
+	double	t2;
+	double	t3;
+	double	t;
+	double	m;
+	int		type;
+}			t_cone_hit;
 
 typedef struct s_lightning
 {
@@ -106,8 +124,14 @@ t_color	scatter_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
 bool	material_is_transparent(t_objects *o);
 t_color	material_albedo(const t_material *mat, t_color fallback);
 
+bool	cone_roots(t_cone *co, t_ray *r, t_cone_hit *h);
+double	cone_cap(t_cone *co, t_ray *r, double r_max);
+void	cone_side(t_cone *co, t_ray *r, t_cone_hit *h, double t);
 
 // lighting
 t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r);
+
+void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
+			t_light light);
 
 #endif

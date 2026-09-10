@@ -99,40 +99,6 @@ int	parse_light(int id, char *s, t_objects **obj)
 	return (TRUE);
 }
 
-int	parse_sphere(int id, char *s, t_objects **obj)
-{
-	char		**res;
-	t_objects	*o;
-
-	if (!check_sphere(s))
-		return (FALSE);
-	res = ft_split(s, ' ');
-	if (!res)
-		return (FALSE);
-	o = malloc(sizeof(t_objects));
-	if (!o)
-		return (free_str_arr(res), FALSE);
-	o->id = id;
-	o->type = OBJ_SPHERE;
-	o->sphere.point = parse_cords(res[1]);
-	o->sphere.radius = ft_atof(res[2]) / 2.0;
-	o->sphere.color = parse_color(res[3]);
-	if (o->sphere.color.r == -1)
-		return (free(o), free_str_arr(res), FALSE);
-	if (res[4])
-	{
-		o->sphere.material = parse_mat_switch(res, 4, o->sphere.color, 0);
-		if (!o->sphere.material)
-			return (free(o), free_str_arr(res), FALSE);
-	}
-	else
-		o->sphere.material = create_lambertian(o->sphere.color);
-	o->hit = &sphere_hit;
-	o->translate = &sphere_translate;
-	o->rotate = NULL;
-	return (free_str_arr(res), obj_add_back(o, obj), TRUE);
-}
-
 int	parse_plane(int id, char *s, t_objects **obj)
 {
 	char		**res;

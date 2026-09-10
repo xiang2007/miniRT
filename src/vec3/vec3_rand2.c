@@ -27,7 +27,8 @@ t_vec3	refract(const t_vec3 *uv, const t_vec3 *n, double etai_over_etat)
 	cos_theta = vec3_dot(vec3_mul(*uv, -1.0), *n);
 	if (cos_theta > 1.0)
 		cos_theta = 1.0;
-	r_out_perp = vec3_mul(vec3_add(*uv, vec3_mul(*n, cos_theta)), etai_over_etat);
+	r_out_perp = vec3_mul(vec3_add(*uv, vec3_mul(*n, cos_theta)),
+			etai_over_etat);
 	r_out_parallel = vec3_mul(*n,
 			-1.0 * sqrt(fabs(1.0 - vec3_len_sq(r_out_perp))));
 	return (vec3_add(r_out_perp, r_out_parallel));
@@ -54,4 +55,3 @@ t_vec3	rand_in_unit_sphere(void)
 			return (p);
 	}
 }
-

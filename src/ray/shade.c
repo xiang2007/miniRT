@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"objects.h"
+#include "objects.h"
 #include "../../includes/ray.h"
 #include "../../includes/color.h"
 #include "../../includes/material.h"
@@ -35,5 +35,5 @@ t_color	scatter_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth)
 			ray_color(args.scattered, depth - 1, w));
 	light_hits = recursive_light_hits((t_recurse_args){rec, w, args.scattered,
 			rec->mat->cone_fuzz, *args.attenuation});
-	return (color_add(bounced, light_hits));	
+	return (color_add(bounced, light_hits));
 }

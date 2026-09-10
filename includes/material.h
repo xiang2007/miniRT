@@ -13,8 +13,9 @@
 #ifndef MATERIAL_H
 # define MATERIAL_H
 
-#include "vec3.h"
-#include <stdbool.h>
+# include "vec3.h"
+# include <stdbool.h>
+
 typedef struct s_ray		t_ray;
 typedef struct s_hit_dat	t_hit_dat;
 
@@ -28,15 +29,21 @@ typedef struct s_scatter_args
 }							t_scatter_args;
 
 typedef bool				t_scatter_fn(t_scatter_args *args);
+typedef t_color				t_emit_fn(const struct s_material *self);
 
+/*
+ * shininess: Phong exponent; zero means matte.
+ * is_specular: metal/dielectric materials bounce recursive light.
+ * cone_fuzz: acceptance cone width for recursive light.
+ */
 typedef struct s_material
 {
 	t_scatter_fn	*scatter;
-	t_color			(*emitted)(const struct s_material *self);
-	double			shininess; /* Phong exponent; 0 = matte */
+	t_emit_fn		*emitted;
+	double			shininess;
 	double			specular_strength;
-	bool			is_specular; /* metal/dielectric: bounce + recursive light */
-	double			cone_fuzz;   /* recursive-light acceptance cone width    */
+	bool			is_specular;
+	double			cone_fuzz;
 }				t_material;
 
 typedef struct s_lambertian

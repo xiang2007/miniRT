@@ -69,7 +69,7 @@ bool		near_zero(t_vec3 *vector);
 t_vec3		reflect(const t_vec3 *vec, const t_vec3 *normal);
 t_vec3		refract(const t_vec3 *uv, const t_vec3 *n, double etai_over_etat);
 
-t_vec3	get_object_right(t_vec3 obj_axis);
-t_vec3	get_object_up(t_vec3 obj_axis, t_vec3 obj_right);
+t_vec3		get_object_right(t_vec3 obj_axis);
+t_vec3		get_object_up(t_vec3 obj_axis, t_vec3 obj_right);
 
 #endif

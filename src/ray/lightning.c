@@ -46,11 +46,11 @@ t_color	material_albedo(const t_material *mat, t_color fallback)
 		return (create_color(1.0, 1.0, 1.0));
 	lam = (t_lambertian *)mat;
 	if (mat->scatter == lambertian_scatter && lam->checker_size > 0.0)
-		return (fallback);	/* hit_plane set rec->color to the checker cell */
+		return (fallback);
 	return (lam->albedo);
 }
 
-static void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
+void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
 		t_light light)
 {
 	double	fuzz;
@@ -70,44 +70,9 @@ static void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,
 	else if (rec->mat && rec->mat->specular_strength > 0.0
 		&& rec->mat->shininess > 0.0)
 		l->specular = rec->mat->specular_strength * pow(fmax(
-				vec3_dot(l->view_dir, l->reflected), 0.0),
+					vec3_dot(l->view_dir, l->reflected), 0.0),
 				rec->mat->shininess);
 	else
 		l->specular = 0.0;
 	l->specular *= light_attenuation(light, l->light_distance);
-}
-
-t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r)
-{
-	t_objects	*objs;
-	t_color		total;
-	t_lightning	l;
-
-	total = create_color(0, 0, 0);
-	objs = w->objs;
-	while (objs)
-	{
-		if (objs->type == OBJ_LIGHT)
-		{
-			l = (t_lightning){0};
-			l.shadow_ori = vec3_add(rec->point, vec3_mul(rec->normal, 0.001));
-			l.light_dir = unit_vec3(sub_point(objs->light.cords, rec->point));
-			l.light_distance = vec3_len(sub_point(objs->light.cords,
-						rec->point));
-			l.shadow_ray = ray(l.shadow_ori, l.light_dir);
-			if (!shadow_hit(w, &l.shadow_ray, l.light_distance,
-						rec->hit_obj))
-			{
-				lightning_helper(&l, rec, r, objs->light);
-				l.result = color_mul(material_albedo(rec->mat, rec->color),
-						objs->light.color);
-				l.result = color_mul_n(l.result, l.brightness);
-				l.result = color_add(l.result,
-						color_mul_n(objs->light.color, l.specular));
-				total = color_add(total, l.result);
-			}
-		}
-		objs = objs->next;
-	}
-	return (total);
 }

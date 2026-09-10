@@ -70,8 +70,6 @@ int	mouse_select(int button, int x, int y, t_rt *win)
 	if (scene_intersect(&r, &win->world, &rec) && rec.hit_obj)
 	{
 		win->sel_obj = rec.hit_obj;
-		// printf("Clicked object selected: id(%i) ", win->sel_obj->id);
-		// print_object(rec.hit_obj);
 	}
 	win->key = 1;
 	return (0);
@@ -106,7 +104,9 @@ void	handle_sel_object(t_rt *win)
 	tmp = win->world.objs;
 	while (tmp)
 	{
-		if (tmp->type != OBJ_LIGHT && tmp->type != OBJ_AMBIENT && tmp->type != OBJ_SETUP_CAM && tmp->type != OBJ_CAMERA && win->sel_object_id < tmp->id)
+		if (tmp->type != OBJ_LIGHT && tmp->type != OBJ_AMBIENT
+			&& tmp->type != OBJ_SETUP_CAM && tmp->type != OBJ_CAMERA
+			&& win->sel_object_id < tmp->id)
 		{
 			win->sel_object_id = tmp->id;
 			win->sel_obj = tmp;
@@ -118,76 +118,5 @@ void	handle_sel_object(t_rt *win)
 			win->sel_object_id = -1;
 			tmp = win->world.objs;
 		}
-	}	
-}
-
-static const char	*g_controls[] = {
-	"ESC           quit",
-	"LMB           select object under cursor",
-	"F             select camera",
-	"R             select light by loop",
-	"V             select object by loop",
-	"",
-	"ARROWS        rotate camera or object around X & Y",
-	"-  =          shrink / expand sphere",
-	"",
-	"W A S D       move camera or object",
-	"Q E           move camera or object (down/up)",
-	"Z             full quality",
-	"C             toggle checker",
-	NULL
-};
-
-void	draw_controls(t_rt *rt)
-{
-	char	buf[32];
-	int		x;
-	int		y;
-	int		i;
-	const char	*objs[] = {"Ambient", "Camera", "Sphere", "Plane",
-		"Cylinder", "Light", "Cam_setup", "Cone"};
-	
-	x = rt->img_w + 14;
-	y = 22;
-	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
-		x, y, 0xFFFFFF, "CONTROLS");
-	i = 0;
-	while (g_controls[i])
-	{
-		y += 22;
-		mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
-			x, y, 0xBBBBBB, (char *)g_controls[i]);
-		i++;
-	}
-	y += 22;
-	snprintf(buf, sizeof(buf), "Render: %.2f s", rt->render_time);
-	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
-		x, y, 0xFFD700, buf);
-	if (rt->sel_obj)
-	{
-		y += 22;
-		snprintf(buf, sizeof(buf), "Selected: %s (id: %i)", objs[rt->sel_obj->type], rt->sel_obj->id);
-		mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
-			x, y, 0xFFD700, buf);			
-	}
-}
-
-void	handle_toggle_checker(t_rt *win)
-{
-	t_lambertian	*lam;
-	t_objects		*o;
-
-	o = win->sel_obj;
-	if (!o || o->type != OBJ_PLANE)
-		return ;
-	lam = (t_lambertian *)o->plane.material;
-	if (!lam || lam->base.scatter != lambertian_scatter)
-		return ;
-	if (lam->checker_size > 0.0)
-		lam->checker_size = 0.0;
-	else
-	{
-		lam->checker_size = 1.0;
-		lam->checker_color = create_color(1.0, 1.0, 1.0);
 	}
 }

@@ -42,7 +42,7 @@ void	handle_rotate_object(int key, t_rt *win)
 
 	o = win->sel_obj;
 	if (o->type == OBJ_CYLINDER || o->type == OBJ_PLANE
-			|| o->type == OBJ_CONE)
+		|| o->type == OBJ_CONE)
 		o->rotate(o, key);
 	else
 		return ;

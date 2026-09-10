@@ -56,52 +56,19 @@ int	parse_check_type(char *s)
 	else if (!ft_strncmp(s, "cy", 2))
 		return (OBJ_CYLINDER);
 	else if (!ft_strncmp(s, "co", 2))
-		return (OBJ_CONE);	
+		return (OBJ_CONE);
 	return (-1);
 }
 
 int	parse_object_switch(int id, char *s, t_objects **o)
 {
-	int	type;
+	const t_parser_fn	parsers[] = {parse_ambient, parse_cam, parse_sphere,
+		parse_plane, parse_cylinder, parse_light, NULL, parse_cone};
+	int					type;
 
 	type = parse_check_type(s);
-	if (type < 0 || type >= (int)(sizeof(g_parse_table)
-			/ sizeof(g_parse_table[0])) || !g_parse_table[type])
+	if (type < 0 || type >= (int)(sizeof(parsers)
+		/ sizeof(parsers[0])) || !parsers[type])
 		return (FALSE);
-	return (g_parse_table[type](id, s, o));
-}
-
-t_objects	*parse_object(int fd)
-{
-	char		*line;
-	int			i;
-	t_objects	*o_res;
-
-	o_res = NULL;
-	i = 0;
-	if (fd == -1)
-		return (NULL);
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		if (!line)
-			break ;
-		if (parse_object_switch(i, line, &o_res) == FALSE)
-		{
-			free(line);
-			line = get_next_line(fd);
-			while (line)
-			{
-				free(line);
-				line = get_next_line(fd);
-			}
-			return (parse_error("Invalid scene description", o_res, NULL));
-		}
-		free(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	return (free(line), o_res);
+	return (parsers[type](id, s, o));
 }

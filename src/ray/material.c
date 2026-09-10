@@ -35,7 +35,7 @@ bool	material_is_transparent(t_objects *o)
 t_color	black_emit(const struct s_material *self)
 {
 	(void)self;
-	return (create_color(0, 0, 0)); 
+	return (create_color(0, 0, 0));
 }
 
 void	toggle_checker(t_objects *sel)

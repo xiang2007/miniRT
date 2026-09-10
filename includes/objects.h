@@ -24,9 +24,10 @@ typedef struct s_objects	t_objects;
 typedef struct s_ray		t_ray;
 typedef struct s_hit_dat	t_hit_dat;
 
-typedef double	(*t_hit_fn)(struct s_objects *self, struct s_ray *ray, double r_max, struct s_hit_dat *rec);
-typedef void	(*t_translate_fn)(struct s_objects *self, int key);
-typedef void	(*t_rotate_fn)(struct s_objects *self, int key);
+typedef double				(*t_hit_fn)(t_objects *self, t_ray *ray,
+								double r_max, t_hit_dat *rec);
+typedef void				(*t_translate_fn)(struct s_objects *self, int key);
+typedef void				(*t_rotate_fn)(struct s_objects *self, int key);
 
 typedef struct s_aabb
 {
@@ -129,14 +130,19 @@ typedef struct s_cam
 	t_point3	vup;
 }				t_cam;
 
+/*
+ * Hit callbacks are non-NULL for spheres, planes, cylinders, and cones.
+ * These objects and lights also provide translation callbacks.
+ * Planes, cylinders, and cones provide rotation callbacks.
+ */
 struct s_objects
 {
 	int				id;
 	t_obj_type		type;
 	t_aabb			box;
-	t_hit_fn		hit;        /* contract v1: non-NULL for sp/pl/cy/co */
-	t_translate_fn	translate;  /* contract v1: non-NULL for sp/pl/cy/co/L */
-	t_rotate_fn		rotate;     /* contract v1: non-NULL for cy/pl/co */
+	t_hit_fn		hit;
+	t_translate_fn	translate;
+	t_rotate_fn		rotate;
 	union
 	{
 		t_sphere	sphere;
@@ -148,7 +154,7 @@ struct s_objects
 		t_cone		cone;
 		t_setup_cam	cam_setup;
 	};
-	t_objects	*next;
+	t_objects		*next;
 };
 
 typedef struct s_cylinder_hit
@@ -213,15 +219,23 @@ void		reset_res(t_rt *rt);
 // World function
 void		world_add_back(t_world *world, t_objects *obj, t_obj_type type);
 
-void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec);
+void		set_face_normal(const t_ray *r, const t_vec3 *out_norm,
+				t_hit_dat *rec);
 
-double	plane_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
-double	sphere_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
-double	cylinder_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
-double	cone_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec);
+double		plane_hit(t_objects *self, t_ray *ray, double r_max,
+				t_hit_dat *rec);
+double		sphere_hit(t_objects *self, t_ray *ray, double r_max,
+				t_hit_dat *rec);
+double		cylinder_hit(t_objects *self, t_ray *ray, double r_max,
+				t_hit_dat *rec);
+double		cone_hit(t_objects *self, t_ray *ray, double r_max,
+				t_hit_dat *rec);
 
-void	plane_rotate(t_objects *self, int key);
-void	cylinder_rotate(t_objects *self, int key);
-void	cone_rotate(t_objects *self, int key);
+void		plane_rotate(t_objects *self, int key);
+void		cylinder_rotate(t_objects *self, int key);
+void		cone_rotate(t_objects *self, int key);
+
+t_color		plane_color(const t_plane *p, const t_vec3 *point,
+				const t_vec3 *normal);
 
 #endif

@@ -71,6 +71,6 @@ void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 	cam->vp_upper_left = vec3_sub(vec3_sub(vec3_sub(cam->cam_center,
 					vec3_mul(cam->w, cam->foc_len)), vec3_div(cam->vp_u, 2.0)),
 			vec3_div(cam->vp_v, 2.0));
-	cam->px00_loc = vec3_add(cam->vp_upper_left, vec3_mul(vec3_add(cam->px_delta_u,
-					cam->px_delta_v), 0.5));
+	cam->px00_loc = vec3_add(cam->vp_upper_left,
+			vec3_mul(vec3_add(cam->px_delta_u, cam->px_delta_v), 0.5));
 }

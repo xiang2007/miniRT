@@ -49,15 +49,9 @@ t_objects	*parse_cylinder_helper(int id, char **res)
 	o->cylinder.color = parse_color(res[5]);
 	if (o->cylinder.color.r == -1)
 		return (free(o), NULL);
-	o->cylinder.material = NULL;
-	if (res[6])
-	{
-		o->cylinder.material = parse_mat_switch(res, 6, o->cylinder.color, 0);
-		if (!o->cylinder.material)
-			return (free(o), NULL);
-	}
-	else
-		o->cylinder.material = create_lambertian(o->cylinder.color);
+	o->cylinder.material = parse_optional_material(res, 6, o->cylinder.color);
+	if (res[6] && !o->cylinder.material)
+		return (free(o), NULL);
 	o->hit = &cylinder_hit;
 	o->translate = &cylinder_translate;
 	o->rotate = &cylinder_rotate;

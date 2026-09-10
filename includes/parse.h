@@ -63,7 +63,7 @@ bool		parse_material(char **res, t_objects **o, int idx);
 int			check_rt_file(char *file_name);
 int			parse_arg_count(char **arg);
 
-int		read_rt_file(char *filename);
+int			read_rt_file(char *filename);
 
 void		print_str_arr(char **str_arr);
 void		free_str_arr(char **strarr);
@@ -94,27 +94,8 @@ t_material	*parse_mat_switch(char **res, int idx, t_color cl, double ri);
 typedef int	(*t_parser_fn)(int id, char *line, t_objects **o);
 typedef int	(*t_check_fn)(char *line);
 
+t_material	*parse_optional_material(char **res, int idx, t_color color);
 
-static const t_check_fn g_check_table[] =
-{
-	[OBJ_AMBIENT] = check_ambient_lightning,
-	[OBJ_CAMERA] = check_cam,
-	[OBJ_SPHERE] = check_sphere,
-	[OBJ_PLANE] = check_plane,
-	[OBJ_CYLINDER] = check_cylinder,
-	[OBJ_LIGHT] = check_light,
-	[OBJ_CONE] = check_cone,
-};
-
-static const t_parser_fn g_parse_table[] =
-{
-	[OBJ_AMBIENT] = parse_ambient,
-	[OBJ_CAMERA] = parse_cam,
-	[OBJ_SPHERE] = parse_sphere,
-	[OBJ_PLANE] = parse_plane,
-	[OBJ_CYLINDER] = parse_cylinder,
-	[OBJ_LIGHT] = parse_light,
-	[OBJ_CONE] = parse_cone,
-};
+int			parse_object_switch(int id, char *s, t_objects **o);
 
 #endif

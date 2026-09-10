@@ -32,15 +32,9 @@ t_objects	*parse_plane_helper(int id, char **res)
 	o->plane.color = parse_color(res[3]);
 	if (o->plane.color.r == -1)
 		return (free(o), NULL);
-	o->plane.material = NULL;
-	if (res[4])
-	{
-		o->plane.material = parse_mat_switch(res, 4, o->plane.color, 0);
-		if (!o->plane.material)
-			return (free(o), NULL);
-	}
-	else
-		o->plane.material = create_lambertian(o->plane.color);
+	o->plane.material = parse_optional_material(res, 4, o->plane.color);
+	if (res[4] && !o->plane.material)
+		return (free(o), NULL);
 	o->hit = &plane_hit;
 	o->translate = &plane_translate;
 	o->rotate = &plane_rotate;

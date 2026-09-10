@@ -29,7 +29,7 @@ endif
 # ----------------------------------------------------------------------------
 # Preprocessor / linker
 # ----------------------------------------------------------------------------
-CPPFLAGS := -Iincludes -Imlx_linux -Ilibft
+CPPFLAGS := -Iincludes -Imlx_Linux -Ilibft
 
 LDFLAGS := -Llibft -L/usr/lib -Lmlx_Linux
 # Linker library flags. Order matters.
@@ -57,11 +57,12 @@ HEADERS := includes/minirt.h \
 MAIN := src/main.c src/rt.c
 
 TPDIR := src/threadpool
-TPSRC := threadpool.c thread_render.c
+TPSRC := threadpool.c thread_render.c threadpool_create.c
 TP := $(addprefix $(TPDIR)/,$(TPSRC))
 
 MLXDIR := src/mlx
-MLXSRC := mlx_dat.c mlx_util.c mlx_event.c mlx_event2.c mlx_event3.c
+MLXSRC := mlx_dat.c mlx_util.c mlx_event.c mlx_event2.c mlx_event3.c \
+		  mlx_keymap.c mlx_loop.c mlx_controls.c
 MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 
 PARSEDIR := src/parse
@@ -74,7 +75,10 @@ PARSESRC := parse.c \
 			parse_check_helper.c \
 			parse_check_object.c \
 			parse_check_object2.c \
-			parse_cone.c
+			parse_cone.c \
+			parse_material.c \
+			parse_sphere.c \
+			parse_read.c
 PARSE := $(addprefix $(PARSEDIR)/,$(PARSESRC))
 
 RDRDIR := src/render
@@ -90,7 +94,8 @@ COLSRC := color.c color2.c color_util.c
 COL := $(addprefix $(COLDIR)/,$(COLSRC))
 
 RAYDIR := src/ray
-RAYSRC := ray.c ray_utils.c shade.c lightning.c lightning2.c material.c shadow.c
+RAYSRC := ray.c ray_utils.c shade.c lightning.c lightning2.c material.c shadow.c \
+		  direct_lighting.c
 RAY := $(addprefix $(RAYDIR)/,$(RAYSRC))
 
 CAMDIR := src/camera
@@ -98,7 +103,8 @@ CAMSRC := camera.c
 CAM := $(addprefix $(CAMDIR)/,$(CAMSRC))
 
 OBJDIR := src/objects
-OBJSRC := sphere.c plane.c cylinder.c cone.c object_utils.c object_utils2.c
+OBJSRC := sphere.c plane.c cylinder.c cone.c object_utils.c object_utils2.c \
+		  cylinder_hit.c cone_hit.c plane_color.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
 
 MATDIR := src/material
