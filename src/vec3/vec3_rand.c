@@ -10,12 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "vec3.h"
 #include <stdint.h>
-#include "../../libft/libft.h"
 #include <sys/time.h>
-#include "../../includes/vec3.h"
 #include <math.h>
 
+/**
+ * @brief Stores the seed and init flag. Thread local.
+ */
 static t_rng_state	*rng_state(void)
 {
 	static _Thread_local t_rng_state	rng;
@@ -23,6 +26,9 @@ static t_rng_state	*rng_state(void)
 	return (&rng);
 }
 
+/**
+ * @brief Seed the rng with Time * GOLDEN_RATIO & XOR 
+ */
 static void	rng_seed(t_rng_state *rng)
 {
 	struct timeval	time;
@@ -31,7 +37,7 @@ static void	rng_seed(t_rng_state *rng)
 
 	gettimeofday(&time, NULL);
 	base = (uint32_t)(uintptr_t)rng;
-	seed = ((uint32_t)time.tv_sec ^ (base * 2654435761u));
+	seed = ((uint32_t)time.tv_sec ^ (base * GOLDEN_RATIO));
 	if (seed == 0)
 		seed = 1;
 	rng->seed.s = seed;

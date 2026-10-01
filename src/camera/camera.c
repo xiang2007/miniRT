@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/camera.h"
-#include "../../includes/minirt.h"
+#include "camera.h"
+#include "minirt.h"
 #include <X11/keysym.h>
 #include <math.h>
 
@@ -73,4 +73,47 @@ void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s)
 			vec3_div(cam->vp_v, 2.0));
 	cam->px00_loc = vec3_add(cam->vp_upper_left,
 			vec3_mul(vec3_add(cam->px_delta_u, cam->px_delta_v), 0.5));
+}
+
+void	get_setup_cam(t_setup_cam *s, t_objects *objs)
+{
+	while (objs)
+	{
+		if (objs->type == OBJ_SETUP_CAM)
+		{
+			s->center = objs->cam_setup.center;
+			s->norm_vector = objs->cam_setup.norm_vector;
+			s->fov = objs->cam_setup.fov;
+			return ;
+		}
+		objs = objs->next;
+	}
+}
+
+void	camera_rotate(int key, t_rt *win)
+{
+	t_setup_cam	setup;
+	t_vec3		rot_axis;
+	double		angle;
+	t_vec3		cur_look_dir;
+	t_vec3		new_dir;
+
+	if (key == XK_Left || key == XK_Up)
+		angle = -0.1;
+	else if (key == XK_Right || key == XK_Down)
+		angle = 0.1;
+	else
+		return ;
+	cur_look_dir = vec3_mul(win->cam->w, -1.0);
+	if (key == XK_Left || key == XK_Right)
+		rot_axis = create_vec3(0, 1, 0);
+	else
+		rot_axis = win->cam->u;
+	new_dir = unit_vec3(vec3_rotate(cur_look_dir, rot_axis, angle));
+	if ((key == XK_Up || key == XK_Down) && fabs(new_dir.y) > 0.999)
+		return ;
+	setup.center = win->cam->cam_center;
+	setup.norm_vector = new_dir;
+	setup.fov = win->cam->fov;
+	cam_init(win->cam, win, &setup);
 }

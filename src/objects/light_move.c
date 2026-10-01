@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   obj_move_utils.c                                   :+:      :+:    :+:   */
+/*   light_move.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/objects.h"
-#include "../../includes/minirt.h"
+#include "objects.h"
+#include "minirt.h"
 #include <X11/keysym.h>
 
 void	light_translate(t_objects *self, int key)

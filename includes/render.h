@@ -31,8 +31,6 @@ typedef struct s_spp
 	double	pss;
 }				t_spp;
 
-// void	render(t_rt *rt_dat, t_cam *c, t_world *world);
 void	render_row(t_tile tile, t_spp spp, int y, t_rt *rt_dat);
-t_color	spp_loop(t_spp spp, int n);
 
 #endif

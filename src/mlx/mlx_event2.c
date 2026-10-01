@@ -14,37 +14,7 @@
 #include "ray.h"
 #include "minirt.h"
 #include "mlx_dat.h"
-#include "mlx.h"
-#include "parse.h"
 #include <X11/keysym.h>
-#include <stdio.h>
-#include "color.h"
-
-void	rotate_axis_key(int key, t_vec3 *axis, double *angle)
-{
-	*axis = create_vec3(0, 0, 0);
-	*angle = 0;
-	if (key == XK_Left)
-	{
-		*axis = create_vec3(0, 1, 0);
-		*angle = -0.1;
-	}
-	else if (key == XK_Right)
-	{
-		*axis = create_vec3(0, 1, 0);
-		*angle = 0.1;
-	}
-	else if (key == XK_Up)
-	{
-		*axis = create_vec3(1, 0, 0);
-		*angle = -0.1;
-	}
-	else if (key == XK_Down)
-	{
-		*axis = create_vec3(1, 0, 0);
-		*angle = 0.1;
-	}
-}
 
 static t_ray	click_ray(t_rt *win, int x, int y)
 {

@@ -12,6 +12,7 @@
 
 #include "../includes/aabb.h"
 #include "../../includes/ray.h"
+#include <math.h>
 
 void	build_cylinder(t_aabb *box, t_objects *o, t_vec3 half_axis, t_aabbs e)
 {

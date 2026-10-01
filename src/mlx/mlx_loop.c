@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdio.h>
 #include "mlx_dat.h"
 #include "threadpool.h"
 #include "../../mlx_Linux/mlx.h"
+#include <X11/keysym.h>
 
 static void	apply_pending_key(t_threadpool *tp)
 {
@@ -43,17 +43,18 @@ static void	update_render(t_threadpool *tp)
 		pthread_mutex_unlock(&tp->queue_mutex);
 		tp->engine->render_time = monotonic_seconds()
 			- tp->engine->render_start;
-		printf("Render took %.2f s\n", tp->engine->render_time);
 		mlx_clear_window(tp->engine->mlx_dat->mlx,
 			tp->engine->mlx_dat->mlx_win);
 		draw_controls(tp->engine);
 		mlx_put_to_window(tp->engine->mlx_dat);
 	}
-	else
+	else if (tp->engine->samples_per_pixel == HQ_SAMPLING)
 	{
 		pthread_mutex_unlock(&tp->queue_mutex);
 		mlx_put_to_window(tp->engine->mlx_dat);
 	}
+	else
+		pthread_mutex_unlock(&tp->queue_mutex);
 }
 
 int	mlx_render_loop(void *param)
@@ -66,4 +67,12 @@ int	mlx_render_loop(void *param)
 	else if (tp->engine->is_rendering == true)
 		update_render(tp);
 	return (0);
+}
+
+void	mlx_hook_init(t_rt *rt_dat)
+{
+	mlx_loop_hook(rt_dat->mlx_dat->mlx, mlx_render_loop, (void *)rt_dat->tp);
+	mlx_hook(rt_dat->mlx_dat->mlx_win, 2, 1L << 0, handle_key, rt_dat);
+	mlx_hook(rt_dat->mlx_dat->mlx_win, 17, 1L << 17, close_all, rt_dat);
+	mlx_mouse_hook(rt_dat->mlx_dat->mlx_win, mouse_select, rt_dat);
 }

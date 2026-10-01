@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "threadpool.h"
-#include "libft.h"
 #include "minirt.h"
 #include <pthread.h>
 #include <stdbool.h>
@@ -59,6 +58,8 @@ void	threadpool_destroy(t_threadpool *tp)
 
 	i = 0;
 	pthread_mutex_lock(&tp->queue_mutex);
+	tp->engine->abort_flag = true;
+	tp->engine->is_rendering = false;
 	tp->stop = true;
 	pthread_mutex_unlock(&tp->queue_mutex);
 	pthread_cond_broadcast(&tp->queue_cond);

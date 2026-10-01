@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "../../includes/aabb.h"
+#include "aabb.h"
 #include "material.h"
 #include "objects.h"
 #include "ray.h"
@@ -46,42 +46,6 @@ void	obj_add_back(t_objects *src, t_objects **dest)
 		ptr = ptr->next;
 	ptr->next = src;
 	src->next = NULL;
-}
-
-/**
- * @brief Creates object struct and assigns the type with the obj data
- *
- * @param obj the object data
- * @param type the object type
- * @return the node or NULL if malloc fail
- */
-t_objects	*create_object(t_objects *o)
-{
-	t_objects	*res;
-
-	res = malloc(sizeof(t_objects));
-	if (!res)
-		return (NULL);
-	res->id = o->id;
-	res->type = o->type;
-	res->hit = o->hit;
-	res->rotate = o->rotate;
-	res->translate = o->translate;
-	res->next = NULL;
-	if (o->type == OBJ_SPHERE)
-		res->sphere = o->sphere;
-	else if (o->type == OBJ_AMBIENT)
-		res->ambient = o->ambient;
-	else if (o->type == OBJ_CYLINDER)
-		res->cylinder = o->cylinder;
-	else if (o->type == OBJ_PLANE)
-		res->plane = o->plane;
-	else if (o->type == OBJ_LIGHT)
-		res->light = o->light;
-	else if (o->type == OBJ_CONE)
-		res->cone = o->cone;
-	build_box_switch(res);
-	return (res);
 }
 
 t_objects	**obj2arr(t_objects *o)

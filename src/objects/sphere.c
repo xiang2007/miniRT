@@ -15,6 +15,7 @@
 #include "objects.h"
 #include "material.h"
 #include <X11/keysym.h>
+#include <math.h>
 
 /**
  * @brief Calculates whether the ray hits the sphere

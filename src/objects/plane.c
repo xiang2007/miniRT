@@ -11,11 +11,11 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mlx_dat.h"
 #include "objects.h"
 #include "vec3.h"
 #include "ray.h"
 #include <X11/keysym.h>
+#include <math.h>
 
 /**
  * @brief Calculates whether the ray hits the plane
@@ -26,13 +26,15 @@
  * @param rec the record hit struct
  * @return the root value
  */
-double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
+double	plane_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
 {
+	t_plane	*p;
 	double	t;
 	double	d;
 	t_vec3	p0;
 	t_vec3	normal;
 
+	p = &self->plane;
 	normal = unit_vec3(p->axis);
 	d = vec3_dot(normal, ray->vec);
 	if (fabs(d) < __DBL_EPSILON__)
@@ -47,11 +49,6 @@ double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec)
 	rec->mat = p->material;
 	rec->color = plane_color(p, &rec->point, &normal);
 	return (t);
-}
-
-double	plane_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
-{
-	return (hit_plane(&self->plane, ray, r_max, rec));
 }
 
 void	plane_translate(t_objects *self, int key)

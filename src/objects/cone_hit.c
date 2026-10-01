@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
 #include "ray.h"
+#include <math.h>
 
 bool	cone_roots(t_cone *co, t_ray *r, t_cone_hit *h)
 {

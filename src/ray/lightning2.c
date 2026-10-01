@@ -12,6 +12,7 @@
 
 #include "../../includes/ray.h"
 #include "../../includes/color.h"
+#include <math.h>
 
 t_color	ambient_light(t_world *w)
 {

@@ -23,6 +23,8 @@ int	check_rt_file(char *file_name)
 
 	i = 0;
 	f = ".rt";
+	if (file_name[0] == '\0')
+		return (FALSE);
 	while (file_name[i] && file_name[i] != '.')
 		i++;
 	t = file_name + i;

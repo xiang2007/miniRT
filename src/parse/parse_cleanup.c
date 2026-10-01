@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "threadpool.h"
 #include "../../includes/parse.h"
 
 void	free_str_arr(char **strarr)

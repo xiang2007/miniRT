@@ -14,11 +14,10 @@
 # define THREADPOOL_H
 
 # include "minirt.h"
-# include <bits/pthreadtypes.h>
 # include <pthread.h>
 # include <stdbool.h>
 
-# define TILE_SIZE 64
+# define TILE_SIZE 32
 
 typedef struct s_tile
 {

@@ -17,5 +17,7 @@
 
 void	cam_init(t_cam *cam, t_rt *m, t_setup_cam *s);
 void	camera_move(int key, t_rt *rt);
+void	get_setup_cam(t_setup_cam *s, t_objects *objs);
+void	camera_rotate(int key, t_rt *win);
 
 #endif

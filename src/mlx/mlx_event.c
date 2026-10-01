@@ -11,12 +11,8 @@
 /* ************************************************************************** */
 
 #include "threadpool.h"
-#include "../../includes/mlx_dat.h"
-#include "../../includes/aabb.h"
+#include "mlx_dat.h"
 #include <X11/keysym.h>
-#include <pthread.h>
-#include <stdbool.h>
-#include <stdlib.h>
 
 void	rebuild_world_bvh(t_world *world)
 {
@@ -92,16 +88,6 @@ int	handle_key(int key, t_rt *win)
 {
 	if (key == XK_Escape)
 	{
-		pthread_mutex_lock(&win->tp->queue_mutex);
-		win->needs_rerender = false;
-		win->is_rendering = false;
-		win->abort_flag = true;
-		pthread_mutex_unlock(&win->tp->queue_mutex);
-		pthread_cond_broadcast(&win->tp->queue_cond);
-		pthread_mutex_lock(&win->tp->queue_mutex);
-		while (!threads_idle_locked(win->tp))
-			pthread_cond_wait(&win->tp->done_cond, &win->tp->queue_mutex);
-		pthread_mutex_unlock(&win->tp->queue_mutex);
 		threadpool_destroy(win->tp);
 		world_free(&win->world);
 		mlx_dat_free(win->mlx_dat);
@@ -117,12 +103,13 @@ int	handle_key(int key, t_rt *win)
  * @brief Frees all malloced data
  *
  * @param win window data
- * @return returns nothingv
+ * @return returns nothing
  */
 int	close_all(t_rt *win)
 {
 	threadpool_destroy(win->tp);
 	world_free(&win->world);
 	mlx_dat_free(win->mlx_dat);
+	free(win->cam);
 	exit(0);
 }

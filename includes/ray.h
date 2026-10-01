@@ -34,32 +34,6 @@ typedef struct s_hit_dat
 	t_objects	*hit_obj;
 }	t_hit_dat;
 
-typedef struct s_cylinder_args
-{
-	t_cylinder	*cy;
-	t_ray		*ray;
-	double		r_max;
-	t_hit_dat	*rec;
-}				t_cylinder_args;
-
-typedef struct s_cone_hit
-{
-	t_vec3	delta;
-	t_vec3	normal;
-	double	d_dot_v;
-	double	dp_dot_v;
-	double	a;
-	double	b;
-	double	c;
-	double	d;
-	double	t1;
-	double	t2;
-	double	t3;
-	double	t;
-	double	m;
-	int		type;
-}			t_cone_hit;
-
 typedef struct s_lightning
 {
 	t_ray		shadow_ray;
@@ -105,28 +79,12 @@ t_ray	ray(t_point3 cam_center, t_vec3 ray_dir);
 t_color	ray_color(t_ray *r, int bounce_depth, t_world *world);
 t_vec3	ray_pos(t_ray *r, double t);
 
-double	hit_sphere(t_sphere *sp, t_ray *r, double r_max, t_hit_dat *rec);
-double	hit_plane(t_plane *p, t_ray *ray, double r_max, t_hit_dat *rec);
-double	hit_cylinder(t_cylinder *cy, t_ray *ray, double r_max, t_hit_dat *rec);
-double	hit_cap(t_cylinder_args *args, const t_vec3 *center,
-			const t_vec3 *normal);
-void	hit_cylinder_tube(t_cylinder_hit *hit, t_cylinder_args *args);
-void	hit_cylinder_tube2(t_cylinder_hit *hit, t_cylinder_args *args);
-void	hit_cylinder_caps(t_cylinder_hit *hit, t_cylinder_args *args);
-double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec);
-
 t_color	lightning(t_hit_dat *rec, t_world *w, t_ray *r, t_light light);
 double	light_attenuation(t_light light, double distance);
 t_color	ambient_light(t_world *w);
 bool	shadow_hit(t_world *w, t_ray *ray, double t_max, t_objects *skip);
 t_color	recursive_light_hits(t_recurse_args args);
 t_color	scatter_shade(t_hit_dat *rec, t_world *w, t_ray *r, int depth);
-bool	material_is_transparent(t_objects *o);
-t_color	material_albedo(const t_material *mat, t_color fallback);
-
-bool	cone_roots(t_cone *co, t_ray *r, t_cone_hit *h);
-double	cone_cap(t_cone *co, t_ray *r, double r_max);
-void	cone_side(t_cone *co, t_ray *r, t_cone_hit *h, double t);
 
 // lighting
 t_color	compute_direct_lighting(t_hit_dat *rec, t_world *w, t_ray *r);

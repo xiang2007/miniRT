@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdio.h>
 #include "mlx_dat.h"
-#include "color.h"
-#include "../../mlx_Linux/mlx.h"
+#include "mlx.h"
+#include <stdio.h>
 
 static void	draw_selection(t_rt *rt, int x, int y)
 {
@@ -85,24 +84,4 @@ void	draw_controls(t_rt *rt)
 	mlx_string_put(rt->mlx_dat->mlx, rt->mlx_dat->mlx_win,
 		x, y, 0xFFD700, buf);
 	draw_selection(rt, x, y);
-}
-
-void	handle_toggle_checker(t_rt *win)
-{
-	t_lambertian	*lam;
-	t_objects		*o;
-
-	o = win->sel_obj;
-	if (!o || o->type != OBJ_PLANE)
-		return ;
-	lam = (t_lambertian *)o->plane.material;
-	if (!lam || lam->base.scatter != lambertian_scatter)
-		return ;
-	if (lam->checker_size > 0.0)
-		lam->checker_size = 0.0;
-	else
-	{
-		lam->checker_size = 1.0;
-		lam->checker_color = create_color(1.0, 1.0, 1.0);
-	}
 }

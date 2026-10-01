@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "threadpool.h"
-#include "../../mlx_Linux/mlx.h"
+#include "minirt.h"
+#include "mlx.h"
 
 /**
  * @brief Puts colour on pixel in the buffer image

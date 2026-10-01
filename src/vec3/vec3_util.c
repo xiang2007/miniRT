@@ -13,8 +13,6 @@
 #include "../../includes/vec3.h"
 #include <math.h>
 
-// TODO: change name from vec to vec3
-
 /**
  * @brief Calculates the sum of the squares of all three components
  *

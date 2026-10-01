@@ -10,16 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/objects.h"
+#include "objects.h"
 #include <stddef.h>
 
-/**
- * @brief TODO: look into this another time
- *
- * @param world
- * @param obj
- * @param type
- */
 void	world_add_back(t_world *world, t_objects *obj, t_obj_type type)
 {
 	t_objects	*p;

@@ -15,7 +15,7 @@
 void	ft_lstadd_back(t_list *new, t_node *manager)
 {
 	t_list	*node;
-	
+
 	if (!manager || !new)
 		return ;
 	if (!manager->head)

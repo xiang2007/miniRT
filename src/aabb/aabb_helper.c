@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../includes/aabb.h"
+#include "objects.h"
+#include <math.h>
 
 void	build_cone(t_aabb *box, t_cone *cone)
 {

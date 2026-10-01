@@ -18,6 +18,7 @@
 
 typedef struct s_ray		t_ray;
 typedef struct s_hit_dat	t_hit_dat;
+typedef struct s_objects	t_objects;
 
 typedef struct s_scatter_args
 {
@@ -88,5 +89,10 @@ t_material	*create_metal(const t_color cl, const double fuzz);
 
 bool		dielectric_scatter(t_scatter_args *args);
 t_material	*create_dielectric(const double refraction_index);
+
+void		toggle_checker(t_objects *sel);
+
+bool		material_is_transparent(t_objects *o);
+t_color		material_albedo(const t_material *mat, t_color fallback);
 
 #endif

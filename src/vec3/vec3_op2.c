@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
+#include "vec3.h"
+#include <math.h>
 
 /**
  * @brief Creates a vector struct with numbers from the parameter
@@ -49,12 +50,12 @@ t_vec3	vec3_rotate(t_vec3 v, t_vec3 axis, double angle)
 
 t_vec3	get_object_right(t_vec3 obj_axis)
 {
-	t_vec3	world_up;
+	t_vec3	ref_up;
 
-	world_up = create_vec3(0.0, 1.0, 0.0);
+	ref_up = create_vec3(0.0, 1.0, 0.0);
 	if (fabs(obj_axis.y) > 0.99)
-		world_up = create_vec3(1.0, 0.0, 0.0);
-	return (unit_vec3(vec3_cross(world_up, obj_axis)));
+		ref_up = create_vec3(1.0, 0.0, 0.0);
+	return (unit_vec3(vec3_cross(ref_up, obj_axis)));
 }
 
 t_vec3	get_object_up(t_vec3 obj_axis, t_vec3 obj_right)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec3_rand2.c                                       :+:      :+:    :+:   */
+/*   vec3_obj.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshou-xi <wshou-xi@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
+#include "vec3.h"
 #include <math.h>
 
 t_vec3	reflect(const t_vec3 *vec, const t_vec3 *normal)
@@ -40,18 +40,4 @@ bool	near_zero(t_vec3 *vector)
 
 	return ((fabs(vector->x) < s) && (fabs(vector->y) < s)
 		&& (fabs(vector->z) < s));
-}
-
-t_vec3	rand_in_unit_sphere(void)
-{
-	t_vec3	p;
-	double	lensq;
-
-	while (1)
-	{
-		p = vec3_rand(-1.0, 1.0);
-		lensq = vec3_len_sq(p);
-		if (1e-160 < lensq && lensq < 1.0)
-			return (p);
-	}
 }

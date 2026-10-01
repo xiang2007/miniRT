@@ -13,6 +13,7 @@
 #include "../../includes/ray.h"
 #include "../../includes/color.h"
 #include "minirt.h"
+#include <math.h>
 
 double	light_attenuation(t_light light, double distance)
 {
@@ -34,20 +35,6 @@ static double	material_fuzz(const t_material *mat)
 		return (metal->fuzziness);
 	}
 	return (0.0);
-}
-
-t_color	material_albedo(const t_material *mat, t_color fallback)
-{
-	t_lambertian	*lam;
-
-	if (!mat)
-		return (fallback);
-	if (mat->scatter == dielectric_scatter)
-		return (create_color(1.0, 1.0, 1.0));
-	lam = (t_lambertian *)mat;
-	if (mat->scatter == lambertian_scatter && lam->checker_size > 0.0)
-		return (fallback);
-	return (lam->albedo);
 }
 
 void	lightning_helper(t_lightning *l, t_hit_dat *rec, t_ray *r,

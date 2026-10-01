@@ -10,15 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
+#include "vec3.h"
 
-/**
- * @brief TODO
- *
- * @param p1
- * @param p2
- * @return
- */
 t_point3	sub_point(t_point3 p1, t_point3 p2)
 {
 	t_point3	res;

@@ -10,14 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "threadpool.h"
 #include "render.h"
-#include "../../includes/mlx_dat.h"
-#include <pthread.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <time.h>
+#include "mlx_dat.h"
+#include <sys/time.h>
 #include <math.h>
 
 void	render_tile(t_tile tile, t_rt *rt_dat)
@@ -28,9 +24,9 @@ void	render_tile(t_tile tile, t_rt *rt_dat)
 	y = tile.start_y;
 	spp.w = &rt_dat->world;
 	spp.c = rt_dat->cam;
-	spp.max_bounce_depth = rt_dat->max_bounce_depth;
 	spp.spp = rt_dat->samples_per_pixel;
 	spp.pss = 1.0 / rt_dat->samples_per_pixel;
+	spp.max_bounce_depth = rt_dat->max_bounce_depth;
 	while (y < tile.end_y)
 	{
 		pthread_mutex_lock(&rt_dat->tp->queue_mutex);
@@ -82,10 +78,10 @@ void	queue_tiles(t_threadpool *tp)
 
 double	monotonic_seconds(void)
 {
-	struct timespec	ts;
+	struct timeval	tv;
 
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	return (ts.tv_sec + ts.tv_nsec / 1e9);
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec + tv.tv_usec / 1e6);
 }
 
 void	queue_render(t_rt *win)

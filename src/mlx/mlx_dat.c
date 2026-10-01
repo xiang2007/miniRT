@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "threadpool.h"
-#include "../../mlx_Linux/mlx.h"
-#include <stdlib.h>
+#include "minirt.h"
+#include "mlx.h"
 
 /**
  * @brief Initiates the mlx data
@@ -43,7 +42,7 @@ t_mlx	*mlx_dat_init(t_mlx **mlx_dat)
  *
  * @param mlx_dat the pointer to the mlx dat struct
  */
-void	mlx_dat_free(t_mlx *mlx_dat)
+int	mlx_dat_free(t_mlx *mlx_dat)
 {
 	mlx_destroy_image(mlx_dat->mlx, mlx_dat->img);
 	mlx_destroy_image(mlx_dat->mlx, mlx_dat->img2);
@@ -51,4 +50,5 @@ void	mlx_dat_free(t_mlx *mlx_dat)
 	mlx_destroy_display(mlx_dat->mlx);
 	free(mlx_dat->mlx);
 	free(mlx_dat);
+	return (1);
 }

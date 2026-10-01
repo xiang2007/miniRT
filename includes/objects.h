@@ -15,10 +15,12 @@
 
 # include "vec3.h"
 # include "material.h"
+# include "aabb.h"
+
+typedef struct s_objects	t_objects;
 
 typedef struct s_rt			t_rt;
 typedef struct s_bvh		t_bvh;
-typedef struct s_objects	t_objects;
 
 /* vtable types — contract v1 */
 typedef struct s_ray		t_ray;
@@ -28,12 +30,6 @@ typedef double				(*t_hit_fn)(t_objects *self, t_ray *ray,
 								double r_max, t_hit_dat *rec);
 typedef void				(*t_translate_fn)(struct s_objects *self, int key);
 typedef void				(*t_rotate_fn)(struct s_objects *self, int key);
-
-typedef struct s_aabb
-{
-	t_point3	min;
-	t_point3	max;
-}				t_aabb;
 
 typedef enum e_obj_type
 {
@@ -157,6 +153,32 @@ struct s_objects
 	t_objects		*next;
 };
 
+typedef struct s_cone_hit
+{
+	t_vec3	delta;
+	t_vec3	normal;
+	double	d_dot_v;
+	double	dp_dot_v;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	double	t1;
+	double	t2;
+	double	t3;
+	double	t;
+	double	m;
+	int		type;
+}			t_cone_hit;
+
+typedef struct s_cylinder_args
+{
+	t_cylinder	*cy;
+	t_ray		*ray;
+	double		r_max;
+	t_hit_dat	*rec;
+}				t_cylinder_args;
+
 typedef struct s_cylinder_hit
 {
 	t_vec3	x;
@@ -202,10 +224,7 @@ typedef struct s_world
 int			obj_bvh_count(t_objects *o);
 void		free_object_material(t_objects *o);
 void		obj_add_back(t_objects *src, t_objects **dest);
-t_objects	*create_object(t_objects *o);
-t_objects	*select_object(int key, t_world *world);
 t_objects	**obj2arr(t_objects *o);
-void		toggle_checker(t_objects *sel);
 
 // Object move function
 void		cylinder_translate(t_objects *self, int key);
@@ -214,14 +233,8 @@ void		plane_translate(t_objects *self, int key);
 void		light_translate(t_objects *self, int key);
 void		cone_translate(t_objects *self, int key);
 void		move_objects(int key, t_objects **obj);
-void		lower_res(int key, t_rt *rt);
-void		reset_res(t_rt *rt);
-// World function
-void		world_add_back(t_world *world, t_objects *obj, t_obj_type type);
 
-void		set_face_normal(const t_ray *r, const t_vec3 *out_norm,
-				t_hit_dat *rec);
-
+// Object hit function
 double		plane_hit(t_objects *self, t_ray *ray, double r_max,
 				t_hit_dat *rec);
 double		sphere_hit(t_objects *self, t_ray *ray, double r_max,
@@ -230,10 +243,27 @@ double		cylinder_hit(t_objects *self, t_ray *ray, double r_max,
 				t_hit_dat *rec);
 double		cone_hit(t_objects *self, t_ray *ray, double r_max,
 				t_hit_dat *rec);
+void		hit_cylinder_tube(t_cylinder_hit *hit, t_cylinder_args *args);
+void		hit_cylinder_tube2(t_cylinder_hit *hit, t_cylinder_args *args);
+void		hit_cylinder_caps(t_cylinder_hit *hit, t_cylinder_args *args);
+double		hit_cap(t_cylinder_args *args, const t_vec3 *center,
+				const t_vec3 *normal);
 
+// Object rotate function
 void		plane_rotate(t_objects *self, int key);
 void		cylinder_rotate(t_objects *self, int key);
 void		cone_rotate(t_objects *self, int key);
+
+// Cone utils
+bool		cone_roots(t_cone *co, t_ray *r, t_cone_hit *h);
+double		cone_cap(t_cone *co, t_ray *r, double r_max);
+void		cone_side(t_cone *co, t_ray *r, t_cone_hit *h, double t);
+
+// World function
+void		world_add_back(t_world *world, t_objects *obj, t_obj_type type);
+
+void		set_face_normal(const t_ray *r, const t_vec3 *out_norm,
+				t_hit_dat *rec);
 
 t_color		plane_color(const t_plane *p, const t_vec3 *point,
 				const t_vec3 *normal);

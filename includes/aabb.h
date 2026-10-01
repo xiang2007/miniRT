@@ -14,10 +14,17 @@
 # define AABB_H
 
 # include "vec3.h"
-# include "objects.h"
-# include <math.h>
 
 typedef struct s_objects	t_objects;
+typedef struct s_cone		t_cone;
+typedef struct s_ray		t_ray;
+typedef struct s_hit_dat	t_hit_dat;
+
+typedef struct s_aabb
+{
+	t_point3	min;
+	t_point3	max;
+}				t_aabb;
 
 typedef struct s_bvh
 {

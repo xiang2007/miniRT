@@ -55,3 +55,17 @@ void	toggle_checker(t_objects *sel)
 		lam->checker_color = create_color(1.0, 1.0, 1.0);
 	}
 }
+
+t_color	material_albedo(const t_material *mat, t_color fallback)
+{
+	t_lambertian	*lam;
+
+	if (!mat)
+		return (fallback);
+	if (mat->scatter == dielectric_scatter)
+		return (create_color(1.0, 1.0, 1.0));
+	lam = (t_lambertian *)mat;
+	if (mat->scatter == lambertian_scatter && lam->checker_size > 0.0)
+		return (fallback);
+	return (lam->albedo);
+}

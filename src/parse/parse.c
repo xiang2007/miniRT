@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "threadpool.h"
 #include "../../includes/parse.h"
 #include "../../includes/aabb.h"
 

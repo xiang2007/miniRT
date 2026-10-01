@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
 #include "objects.h"
 #include "ray.h"
 #include <X11/keysym.h>
 #include "vec3.h"
+#include <math.h>
 
 static bool	gtost(double t_cmp, double gt, double st)
 {

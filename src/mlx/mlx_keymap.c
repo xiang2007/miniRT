@@ -29,6 +29,26 @@ static void	move_selection(int key, t_rt *dat)
 		camera_move(key, dat);
 }
 
+static void	handle_rotate_object(int key, t_rt *win)
+{
+	t_objects	*o;
+
+	o = win->sel_obj;
+	if (o->type == OBJ_CYLINDER || o->type == OBJ_PLANE
+		|| o->type == OBJ_CONE)
+		o->rotate(o, key);
+	else
+		return ;
+	if (o->type == OBJ_CYLINDER || o->type == OBJ_CONE)
+		rebuild_world_bvh(&win->world);
+}
+
+static void	reset_sampling(t_rt *rt)
+{
+	rt->max_bounce_depth = LQ_BOUNCE_DEPTH;
+	rt->samples_per_pixel = LQ_SAMPLING;
+}
+
 void	keymap(int key, t_rt *dat)
 {
 	if (key >= XK_Left && key <= XK_Down)
@@ -36,7 +56,7 @@ void	keymap(int key, t_rt *dat)
 		if (dat->sel_obj)
 			handle_rotate_object(key, dat);
 		else
-			handle_camera_rotate(key, dat);
+			camera_rotate(key, dat);
 	}
 	else if (key == XK_w || key == XK_s || key == XK_a || key == XK_d
 		|| key == XK_q || key == XK_e || key == XK_equal || key == XK_minus)
@@ -51,9 +71,9 @@ void	keymap(int key, t_rt *dat)
 		handle_sel_object(dat);
 	if (key == XK_z)
 	{
-		dat->max_bounce_depth = 50;
-		dat->samples_per_pixel = 100;
+		dat->max_bounce_depth = HQ_BOUNCE_DEPTH;
+		dat->samples_per_pixel = HQ_SAMPLING;
 	}
 	else
-		reset_res(dat);
+		reset_sampling(dat);
 }

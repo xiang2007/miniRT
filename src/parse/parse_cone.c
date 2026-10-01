@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "threadpool.h"
 #include "../../includes/parse.h"
+#include <math.h>
 
 int	check_cone(char *s)
 {

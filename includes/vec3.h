@@ -15,7 +15,8 @@
 
 # include <stdbool.h>
 # include "libft.h"
-# include <math.h>
+
+# define GOLDEN_RATIO 2654435761u
 
 typedef struct s_vec3
 {
@@ -42,12 +43,12 @@ typedef struct s_rng_state
 	bool			init;
 }				t_rng_state;
 
+t_vec3		create_vec3(double a, double b, double c);
+
 t_vec3		vec3_add(t_vec3 a, t_vec3 b);
 t_vec3		vec3_sub(t_vec3 a, t_vec3 b);
 t_vec3		vec3_mul(t_vec3 a, double t);
 t_vec3		vec3_div(t_vec3 a, double t);
-
-t_vec3		create_vec3(double a, double b, double c);
 
 double		vec3_len_sq(t_vec3 a);
 double		vec3_len(t_vec3 a);

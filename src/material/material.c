@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
-#include "../../includes/material.h"
+#include "vec3.h"
+#include "material.h"
 #include <math.h>
-#include "../../includes/ray.h"
-#include "../../includes/color.h"
+#include "ray.h"
+#include "color.h"
 
 bool	lambertian_scatter(t_scatter_args *args)
 {

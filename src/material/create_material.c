@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
-#include "../../includes/material.h"
+#include "vec3.h"
+#include "material.h"
 #include <stdlib.h>
 #include "color.h"
 #include "minirt.h"
@@ -28,8 +28,8 @@ t_material	*create_lambertian(const t_color cl)
 	lam->checker_color = create_color(0, 0, 0);
 	lam->checker_size = 0.0;
 	lam->base.emitted = black_emit;
-	lam->base.shininess = 0;
-	lam->base.specular_strength = 0.0;
+	lam->base.shininess = 30;
+	lam->base.specular_strength = 0.5;
 	lam->base.is_specular = false;
 	lam->base.cone_fuzz = 0.0;
 	return ((t_material *)lam);

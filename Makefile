@@ -10,7 +10,7 @@ RM := rm -rf
 # Compiler flags
 # -Ofast: equivalent to -O3 -ffast-math; overrides strict IEEE 754 compliance
 # ----------------------------------------------------------------------------
-CFLAGS := -Wall -Werror -Wextra -std=gnu11 -Ofast
+CFLAGS := -Wall -Werror -Wextra -std=gnu11 -g3 -Ofast 
 
 # Thread-sanitizer build:  make tsan   (needs: sudo sysctl vm.mmap_rnd_bits=28)
 ifdef TSAN
@@ -23,7 +23,7 @@ endif
 
 # Memory leak flags
 ifdef ASAN
-	CFLAGS += -ggdb -fsanitize=address -fno-omit-frame-pointer -static-libstdc++ -lrt
+	CFLAGS += -ggdb -fsanitize=address -fno-omit-frame-pointer -lrt
 endif
 
 # ----------------------------------------------------------------------------
@@ -39,30 +39,30 @@ LDLIBS := -lft -lmlx_Linux -lXext -lX11 -lm
 # Headers — listed explicitly so touching one triggers a recompile
 # ----------------------------------------------------------------------------
 HEADERS := includes/minirt.h \
-		   includes/mlx_dat.h \
-		   includes/vec3.h \
-		   includes/color.h \
-		   includes/camera.h \
-		   includes/ray.h \
-		   includes/render.h \
-		   includes/objects.h \
-		   includes/material.h \
-		   includes/threadpool.h \
-		   includes/parse.h \
-		   includes/aabb.h
+	   includes/mlx_dat.h \
+	   includes/vec3.h \
+	   includes/color.h \
+	   includes/camera.h \
+	   includes/ray.h \
+	   includes/render.h \
+	   includes/objects.h \
+	   includes/material.h \
+	   includes/threadpool.h \
+	   includes/parse.h \
+	   includes/aabb.h
 
 # ----------------------------------------------------------------------------
 # Sources, grouped by module. Keep these lists in sync with src/.
 # ----------------------------------------------------------------------------
-MAIN := src/main.c src/rt.c
+MAIN := src/main.c
 
 TPDIR := src/threadpool
 TPSRC := threadpool.c thread_render.c threadpool_create.c
 TP := $(addprefix $(TPDIR)/,$(TPSRC))
 
 MLXDIR := src/mlx
-MLXSRC := mlx_dat.c mlx_util.c mlx_event.c mlx_event2.c mlx_event3.c \
-		  mlx_keymap.c mlx_loop.c mlx_controls.c
+MLXSRC := mlx_dat.c mlx_util.c mlx_event.c mlx_event2.c \
+	  mlx_keymap.c mlx_loop.c mlx_controls.c
 MLX := $(addprefix $(MLXDIR)/,$(MLXSRC))
 
 PARSEDIR := src/parse
@@ -86,16 +86,16 @@ RDRSRC := render.c
 RDR := $(addprefix $(RDRDIR)/,$(RDRSRC))
 
 VECDIR := src/vec3
-VECSRC := vec3_op.c vec3_util.c vec3_op2.c point_op.c vec3_rand.c vec3_rand2.c
+VECSRC := vec3_op.c vec3_util.c vec3_op2.c point_op.c vec3_rand.c vec3_obj.c
 VEC := $(addprefix $(VECDIR)/,$(VECSRC))
 
 COLDIR := src/color
-COLSRC := color.c color2.c color_util.c
+COLSRC := color.c color_util.c
 COL := $(addprefix $(COLDIR)/,$(COLSRC))
 
 RAYDIR := src/ray
-RAYSRC := ray.c ray_utils.c shade.c lightning.c lightning2.c material.c shadow.c \
-		  direct_lighting.c
+RAYSRC := ray.c ray_utils.c shade.c lightning.c lightning2.c shadow.c \
+	  direct_lighting.c
 RAY := $(addprefix $(RAYDIR)/,$(RAYSRC))
 
 CAMDIR := src/camera
@@ -104,16 +104,12 @@ CAM := $(addprefix $(CAMDIR)/,$(CAMSRC))
 
 OBJDIR := src/objects
 OBJSRC := sphere.c plane.c cylinder.c cone.c object_utils.c object_utils2.c \
-		  cylinder_hit.c cone_hit.c plane_color.c
+	  cylinder_hit.c cone_hit.c plane_color.c light_move.c
 OBJ := $(addprefix $(OBJDIR)/,$(OBJSRC))
 
 MATDIR := src/material
-MATSRC := material.c create_material.c
+MATSRC := material.c create_material.c material_utils.c
 MAT := $(addprefix $(MATDIR)/,$(MATSRC))
-
-OBJMVDIR := src/object_move
-OBJMVSRC := obj_move.c obj_move_utils.c
-OBJMV := $(addprefix $(OBJMVDIR)/,$(OBJMVSRC))
 
 WORLDDIR := src/world
 WORLDSRC := world_op.c
@@ -124,45 +120,69 @@ AABBSRC := aabb.c aabb_helper.c bvh.c interval.c
 AABB := $(addprefix $(AABBDIR)/,$(AABBSRC))
 
 SRC := $(MAIN) $(MLX) $(RDR) $(VEC) $(COL) $(RAY) $(OBJ) $(CAM) $(MAT) \
-	   $(OBJMV) $(WORLD) $(AABB) $(PARSE) $(TP)
+       $(OBJMV) $(WORLD) $(AABB) $(PARSE) $(TP)
 
 # ----------------------------------------------------------------------------
-# Build rules
+# Build rules & Progress Bar Configuration
 # ----------------------------------------------------------------------------		
 OBJSDIR := obj
 OBJS := $(SRC:%.c=$(OBJSDIR)/%.o)
 
+TOTAL_FILES := $(words $(SRC))
+BAR_WIDTH   := 25
+
+# ANSI Escape Colors
+GREEN := \033[1;32m
+CYAN  := \033[1;36m
+GRAY  := \033[0;90m
+RESET := \033[0m
+
 all: $(NAME)
 
 $(NAME): mlx_Linux/libmlx_Linux.a libft/libft.a $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
+	@printf "\n$(CYAN)Linking $(NAME)...$(RESET)\n"
+	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
+	@printf "$(GREEN)✓ $(NAME) successfully built!$(RESET)\n"
 
-# Compile one translation unit, creating obj/ mirrors on demand.
+# Compile one translation unit with inline dynamic progress bar
 $(OBJSDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@CURRENT=$$(find $(OBJSDIR) -type f -name "*.o" 2>/dev/null | wc -l); \
+	PERCENT=$$(( CURRENT * 100 / $(TOTAL_FILES) )); \
+	FILLED=$$(( CURRENT * $(BAR_WIDTH) / $(TOTAL_FILES) )); \
+	EMPTY=$$(( $(BAR_WIDTH) - FILLED )); \
+	BAR=""; \
+	for i in $$(seq 1 $$FILLED); do BAR="$${BAR}█"; done; \
+	for i in $$(seq 1 $$EMPTY); do BAR="$${BAR}░"; done; \
+	printf "\r$(CYAN)Compiling [$(GREEN)%s$(GRAY)%s$(CYAN)] %3d%% $(RESET)(%d/%d) %s\033[K" \
+		"$$BAR" "" "$$PERCENT" "$$CURRENT" "$(TOTAL_FILES)" "$(<F)"
 
 mlx_Linux/libmlx_Linux.a:
-	@$(MAKE) -C mlx_Linux
+	@printf "$(CYAN)Compiling MiniLibX...$(RESET)\r"
+	@$(MAKE) -C mlx_Linux > /dev/null 2>&1
 
 libft/libft.a:
-	@$(MAKE) -C libft
+	@printf "$(CYAN)Compiling Libft...$(RESET)\r"
+	@$(MAKE) -C libft > /dev/null 2>&1
 
 tsan: fclean
-	$(MAKE) TSAN=1 re
+	@$(MAKE) TSAN=1 re
 
 asan: fclean
-	$(MAKE) ASAN=1 re
+	@$(MAKE) ASAN=1 re
 
 clean:
-	$(RM) $(OBJSDIR)
-	$(MAKE) -C mlx_Linux clean
-	$(MAKE) -C libft clean
+	@$(RM) $(OBJSDIR)
+	@$(MAKE) -C mlx_Linux clean > /dev/null 2>&1
+	@$(MAKE) -C libft clean > /dev/null 2>&1
+	@printf "$(GRAY)Cleaned object files.$(RESET)\n"
 
 fclean: clean
-	$(RM) $(NAME)
-	$(MAKE) -C libft fclean
+	@$(RM) $(NAME)
+	@$(MAKE) -C libft fclean > /dev/null 2>&1
+	@printf "$(GRAY)Removed $(NAME) binary.$(RESET)\n"
 
 re: fclean all
 
-.PHONY: all clean fclean re tsan
+.PHONY: all clean fclean re tsan asan

@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/objects.h"
-#include "../../includes/minirt.h"
-#include "../../includes/color.h"
-#include "../../includes/mlx_dat.h"
-#include "../../includes/render.h"
+#include "objects.h"
+#include "minirt.h"
+#include "color.h"
+#include "mlx_dat.h"
+#include "render.h"
 
-t_color	spp_loop(t_spp spp, int n)
+static t_color	spp_loop(t_spp spp, int n)
 {
 	t_color	cl;
 
@@ -58,39 +58,3 @@ void	render_row(t_tile tile, t_spp spp, int y, t_rt *rt_dat)
 		x++;
 	}
 }
-
-/**
- * @brief Main component where rendering happens TODO: more info here
- *
- * @param rt_dat the ray tracer struct
- * @param c the camera struct
- * @param world the world struct
- */
-// void	render(t_rt *rt_dat, t_cam *c, t_world *world)
-// {
-// 	clock_t	start;
-// 	clock_t	end;
-// 	int		h;
-// 	t_spp	spp;
-// 	t_tile_job	*tiles;
-
-// 	h = 0;
-// 	spp.w = world;
-// 	spp.c = c;
-// 	spp.max_bounce_depth = rt_dat->max_bounce_depth;
-// 	spp.spp = rt_dat->samples_per_pixel;
-// 	spp.pss = 1.0 / rt_dat->samples_per_pixel;
-// 	start = clock();
-// 	while (h < rt_dat->img_h)
-// 	{
-// 		render_row(rt_dat, spp, h);
-// 		if (h % 100 == 0)
-// 			printf("Render row: %i\n", h);
-// 		h++;
-// 	}
-// 	end = clock();
-// 	printf("Render took %f seconds to execute \n",
-// 		((double)(end - start)) / CLOCKS_PER_SEC);
-// 	mlx_put_to_window(rt_dat->mlx_dat);
-// 	draw_controls(rt_dat);
-// }

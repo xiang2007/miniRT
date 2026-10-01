@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "aabb.h"
 #include "minirt.h"
 #include "ray.h"
 #include <X11/keysym.h>
@@ -34,10 +35,12 @@ static double	cone_record(t_cone *co, t_ray *r, t_cone_hit *h,
 	return (h->t);
 }
 
-double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
+double	cone_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
 {
 	t_cone_hit	h;
+	t_cone		*co;
 
+	co = &self->cone;
 	h = (t_cone_hit){0};
 	if (!cone_roots(co, ray, &h))
 		return (-1.0);
@@ -51,11 +54,6 @@ double	hit_cone(t_cone *co, t_ray *ray, double r_max, t_hit_dat *rec)
 		h.t = h.t3;
 	}
 	return (cone_record(co, ray, &h, rec));
-}
-
-double	cone_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
-{
-	return (hit_cone(&self->cone, ray, r_max, rec));
 }
 
 void	cone_translate(t_objects *self, int key)

@@ -16,11 +16,13 @@
 #include <X11/keysym.h>
 #include "vec3.h"
 
-double	hit_cylinder(t_cylinder *cy, t_ray *ray, double r_max, t_hit_dat *rec)
+double	cylinder_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
 {
+	t_cylinder		*cy;
 	t_cylinder_hit	c;
 	t_cylinder_args	a;
 
+	cy = &self->cylinder;
 	a.cy = cy;
 	a.ray = ray;
 	a.r_max = r_max;
@@ -41,11 +43,6 @@ double	hit_cylinder(t_cylinder *cy, t_ray *ray, double r_max, t_hit_dat *rec)
 	}
 	set_face_normal(ray, &c.outward_normal, rec);
 	return (c.t_best);
-}
-
-double	cylinder_hit(t_objects *self, t_ray *ray, double r_max, t_hit_dat *rec)
-{
-	return (hit_cylinder(&self->cylinder, ray, r_max, rec));
 }
 
 void	cylinder_translate(t_objects *self, int key)

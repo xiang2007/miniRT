@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/objects.h"
+#include "objects.h"
 #include <stdlib.h>
 
 void	free_object_material(t_objects *o)

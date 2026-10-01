@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
+
 /**
  * @brief RGB to Hex
  *
@@ -24,4 +26,16 @@ int	rgb_to_hex(int r, int g, int b)
 	g = g & 0xFF;
 	b = b & 0xFF;
 	return ((r << 16) | (g << 8) | b);
+}
+
+/**
+ *
+ * @param linear_component
+ * @return
+ */
+double	linear_to_gamma(double linear_component)
+{
+	if (linear_component > 0.0)
+		return (sqrt(linear_component));
+	return (0.0);
 }

@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vec3.h"
-#include <math.h>
+#include "vec3.h"
 
 /**
  * @brief Adds both vector

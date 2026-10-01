@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
 #include "objects.h"
+#include <math.h>
 
 static t_color	lerp_colour(t_color base, t_color tint, float strength)
 {
