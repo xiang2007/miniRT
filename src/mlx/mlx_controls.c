@@ -40,13 +40,14 @@ static const char	*control_text(int i)
 		"R             select light by loop",
 		"V             select object by loop",
 		"",
-		"ARROWS        rotate camera or object around X & Y",
+		"ARROWS        rotate camera or object",
 		"-  =          shrink / expand sphere",
 		"",
 		"W A S D       move camera or object",
 		"Q E           move camera or object (down/up)",
 		"Z             full quality",
 		"C             toggle checker",
+		"B             toggle bump map (sphere only)",
 		NULL
 	};
 
