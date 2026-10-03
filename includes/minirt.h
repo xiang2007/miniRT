@@ -43,6 +43,11 @@
 
 // Material
 # define DIELECTRIC_FUZZ 0.02
+# define SHININESS 30
+# define SPECULAR_STRENGTH 0.5
+
+// Bump texture
+# define STRENGTH 0.015
 
 typedef struct s_threadpool	t_threadpool;
 typedef struct s_cam		t_cam;

@@ -13,6 +13,7 @@
 #include "minirt.h"
 #include "mlx_dat.h"
 #include "camera.h"
+#include "material.h"
 #include <X11/keysym.h>
 
 static void	move_selection(int key, t_rt *dat)
@@ -60,15 +61,15 @@ void	keymap(int key, t_rt *dat)
 	}
 	else if (key == XK_w || key == XK_s || key == XK_a || key == XK_d
 		|| key == XK_q || key == XK_e || key == XK_equal || key == XK_minus)
-	{
 		move_selection(key, dat);
-	}
 	else if (key == XK_c)
 		toggle_checker(dat->sel_obj);
 	else if (key == XK_r)
 		handle_light(dat);
 	else if (key == XK_v)
 		handle_sel_object(dat);
+	else if (key == XK_b)
+		toggle_bump(dat->sel_obj);
 	if (key == XK_z)
 	{
 		dat->max_bounce_depth = HQ_BOUNCE_DEPTH;

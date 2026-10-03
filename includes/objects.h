@@ -16,6 +16,9 @@
 # include "vec3.h"
 # include "material.h"
 # include "aabb.h"
+# include <stdbool.h>
+
+# define EPS 0.005
 
 typedef struct s_objects	t_objects;
 
@@ -51,6 +54,7 @@ typedef struct s_sphere
 	t_point3	point;
 	t_color		color;
 	double		radius;
+	bool		has_bump;
 	t_material	*material;
 }				t_sphere;
 
@@ -169,7 +173,7 @@ typedef struct s_cone_hit
 	double	t;
 	double	m;
 	int		type;
-}			t_cone_hit;
+}	t_cone_hit;
 
 typedef struct s_cylinder_args
 {
@@ -177,7 +181,7 @@ typedef struct s_cylinder_args
 	t_ray		*ray;
 	double		r_max;
 	t_hit_dat	*rec;
-}				t_cylinder_args;
+}	t_cylinder_args;
 
 typedef struct s_cylinder_hit
 {
@@ -200,18 +204,25 @@ typedef struct s_cylinder_hit
 	double	t_top;
 	double	t_bot;
 	double	t_best;
-}				t_cylinder_hit;
+}	t_cylinder_hit;
 
 typedef struct s_hit_sphere
 {
 	t_vec3	ori_center;
-	t_vec3	outward_normal;
 	double	a;
 	double	h;
 	double	c;
 	double	d;
 	double	root;
-}			t_sphere_hit;
+}	t_sphere_hit;
+
+typedef struct s_sphere_uv
+{
+	double	u;
+	double	v;
+	double	du;
+	double	dv;
+}	t_sphere_uv;
 
 typedef struct s_world
 {
@@ -267,5 +278,8 @@ void		set_face_normal(const t_ray *r, const t_vec3 *out_norm,
 
 t_color		plane_color(const t_plane *p, const t_vec3 *point,
 				const t_vec3 *normal);
+
+// Bump Texture
+double		bump_height(double u, double v);
 
 #endif

@@ -72,6 +72,8 @@ static void	dispatch_key(int key, t_rt *win)
 		win->key = key;
 	if (key == XK_v)
 		win->key = key;
+	if (key == XK_b)
+		win->key = key;
 	if (key == XK_f)
 		win->sel_obj = NULL;
 }

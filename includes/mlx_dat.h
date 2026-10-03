@@ -30,7 +30,6 @@ int		mouse_select(int button, int x, int y, t_rt *win);
 void	draw_controls(t_rt *rt);
 void	mlx_swap_buffers(t_mlx *m);
 
-void	handle_toggle_checker(t_rt *win);
 void	handle_light(t_rt *win);
 void	handle_sel_object(t_rt *win);
 

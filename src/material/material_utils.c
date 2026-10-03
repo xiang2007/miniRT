@@ -56,6 +56,17 @@ void	toggle_checker(t_objects *sel)
 	}
 }
 
+void	toggle_bump(t_objects *sel)
+{
+	if (sel && sel->type == OBJ_SPHERE)
+	{
+		if (sel->sphere.has_bump == false)
+			sel->sphere.has_bump = true;
+		else
+			sel->sphere.has_bump = false;
+	}
+}
+
 t_color	material_albedo(const t_material *mat, t_color fallback)
 {
 	t_lambertian	*lam;

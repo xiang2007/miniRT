@@ -91,6 +91,7 @@ bool		dielectric_scatter(t_scatter_args *args);
 t_material	*create_dielectric(const double refraction_index);
 
 void		toggle_checker(t_objects *sel);
+void		toggle_bump(t_objects *sel);
 
 bool		material_is_transparent(t_objects *o);
 t_color		material_albedo(const t_material *mat, t_color fallback);

@@ -28,8 +28,8 @@ t_material	*create_lambertian(const t_color cl)
 	lam->checker_color = create_color(0, 0, 0);
 	lam->checker_size = 0.0;
 	lam->base.emitted = black_emit;
-	lam->base.shininess = 30;
-	lam->base.specular_strength = 0.5;
+	lam->base.shininess = SHININESS;
+	lam->base.specular_strength = SPECULAR_STRENGTH;
 	lam->base.is_specular = false;
 	lam->base.cone_fuzz = 0.0;
 	return ((t_material *)lam);
@@ -46,8 +46,8 @@ t_material	*create_metal(const t_color cl, const double fuzz)
 	metal->albedo = cl;
 	metal->fuzziness = fuzz;
 	metal->base.emitted = black_emit;
-	metal->base.shininess = 32.0;
-	metal->base.specular_strength = 1.0;
+	metal->base.shininess = SHININESS;
+	metal->base.specular_strength = SPECULAR_STRENGTH;
 	metal->base.is_specular = true;
 	metal->base.cone_fuzz = fuzz;
 	return ((t_material *)metal);
@@ -64,7 +64,7 @@ t_material	*create_dielectric(const double refraction_index)
 	die->refractive_index = refraction_index;
 	die->base.emitted = black_emit;
 	die->base.shininess = 0;
-	die->base.specular_strength = 1.0;
+	die->base.specular_strength = 0.0;
 	die->base.is_specular = true;
 	die->base.cone_fuzz = DIELECTRIC_FUZZ;
 	return ((t_material *)die);

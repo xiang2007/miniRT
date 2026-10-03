@@ -15,6 +15,7 @@
 #include "material.h"
 #include "objects.h"
 #include "ray.h"
+#include <math.h>
 
 void	build_box_switch(t_objects *o)
 {
@@ -81,4 +82,9 @@ void	set_face_normal(const t_ray *r, const t_vec3 *out_norm, t_hit_dat *rec)
 		rec->normal = *out_norm;
 	else
 		rec->normal = vec3_mul(*out_norm, -1.0);
+}
+
+double	bump_height(double u, double v)
+{
+	return (0.5 * (1.0 + sin(u * 50.0) * cos(v * 50.0)));
 }
